@@ -3,13 +3,12 @@ package packages
 import (
 	"errors"
 	"fmt"
-	"github.com/fdaines/arch-go/common"
 	"go/build"
 	"golang.org/x/tools/go/packages"
 )
 
-func GetBasicPackagesInfo() []*common.PackageInfo {
-	var packagesInfo []*common.PackageInfo
+func GetBasicPackagesInfo() []*PackageInfo {
+	var packagesInfo []*PackageInfo
 	var context = build.Default
 
 	pkgs, err := getPackages()
@@ -23,7 +22,7 @@ func GetBasicPackagesInfo() []*common.PackageInfo {
 			fmt.Printf("Loading package (%d/%d): %s", index+1, len(pkgs), packageName)
 			pkg, err := context.Import(packageName, "", 0)
 			if err == nil {
-				packagesInfo = append(packagesInfo, &common.PackageInfo{
+				packagesInfo = append(packagesInfo, &PackageInfo{
 					PackageData: pkg,
 					Name:        pkg.Name,
 					Path:        pkg.ImportPath,
