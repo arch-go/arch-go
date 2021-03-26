@@ -15,7 +15,7 @@ func GetBasicPackagesInfo() ([]*PackageInfo, error) {
 		return nil, fmt.Errorf("Error: %v\n", err)
 	} else {
 		for index, packageName := range pkgs {
-			fmt.Printf("Loading package (%d/%d): %s", index+1, len(pkgs), packageName)
+			fmt.Printf("Loading package (%d/%d): %s\n", index+1, len(pkgs), packageName)
 			pkg, err := context.Import(packageName, "", 0)
 			if err == nil {
 				packagesInfo = append(packagesInfo, &PackageInfo{
@@ -31,7 +31,7 @@ func GetBasicPackagesInfo() ([]*PackageInfo, error) {
 }
 
 func getPackages() ([]string, error) {
-	fmt.Printf("Looking for packages.")
+	fmt.Printf("Looking for packages.\n")
 	cfg := &packages.Config{}
 	pkgs, err := packages.Load(cfg, "./...")
 	if err != nil {
@@ -41,6 +41,6 @@ func getPackages() ([]string, error) {
 	for _, pkg := range pkgs {
 		packages = append(packages, pkg.PkgPath)
 	}
-	fmt.Printf("%d packages found...", len(packages))
+	fmt.Printf("%d packages found...\n", len(packages))
 	return packages, nil
 }

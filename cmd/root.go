@@ -3,6 +3,8 @@ package cmd
 import (
 	"fmt"
 	"github.com/fdaines/arch-go/common"
+	"github.com/fdaines/arch-go/config"
+	packages "github.com/fdaines/arch-go/utils"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -27,5 +29,16 @@ func init() {
 }
 
 func runCommand(cmd *cobra.Command, args []string) {
-	fmt.Printf("Not Implemented.\n")
+	configuration, err := config.LoadConfig("arch-go.yml")
+	if err != nil {
+		fmt.Printf("Error: %+v\n", err)
+		os.Exit(1)
+	} else {
+		fmt.Printf("Config: %+v\n", configuration)
+		mainPackage, _ := packages.GetMainPackage()
+
+		fmt.Printf("Module to analyze: %s\n", mainPackage)
+		packages.GetBasicPackagesInfo()
+
+	}
 }

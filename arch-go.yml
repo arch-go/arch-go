@@ -1,0 +1,6 @@
+dependenciesRules:
+  - package: "*.source.*"
+    shouldOnlyDependsOn:
+      - "*.foo.*"
+      - "*.bar.*"
+    shouldNotDependsOn: ["*.blablabla.**"]
