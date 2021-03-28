@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"github.com/fdaines/arch-go/common"
 	"github.com/fdaines/arch-go/config"
-	packages "github.com/fdaines/arch-go/utils"
+	"github.com/fdaines/arch-go/impl"
+	"github.com/fdaines/arch-go/utils/packages"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -34,11 +35,8 @@ func runCommand(cmd *cobra.Command, args []string) {
 		fmt.Printf("Error: %+v\n", err)
 		os.Exit(1)
 	} else {
-		fmt.Printf("Config: %+v\n", configuration)
 		mainPackage, _ := packages.GetMainPackage()
-
-		fmt.Printf("Module to analyze: %s\n", mainPackage)
-		packages.GetBasicPackagesInfo()
-
+		pkgs, _ := packages.GetBasicPackagesInfo()
+		impl.CheckArchitecture(configuration, mainPackage, pkgs)
 	}
 }

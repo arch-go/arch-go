@@ -1,6 +1,9 @@
 dependenciesRules:
-  - package: "*.source.*"
+  - package: "**.cmd.*"
     shouldOnlyDependsOn:
-      - "*.foo.*"
+      - "**.arch-go.*"
       - "*.bar.*"
-    shouldNotDependsOn: ["*.blablabla.**"]
+    shouldNotDependsOn: ["**.model.**"]
+  - package: "**.impl.**"
+    shouldOnlyDependsOn:
+      - "**.arch-go.**"
