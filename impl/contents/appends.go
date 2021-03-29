@@ -18,4 +18,3 @@ func appendSuccess(results []*model.ContentsRuleResult, p string, s string) []*m
 		Passes:      true,
 	})
 }
-
