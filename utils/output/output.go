@@ -28,4 +28,3 @@ func PrintStep() {
 		fmt.Print(".")
 	}
 }
-

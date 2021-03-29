@@ -7,10 +7,6 @@ type DependenciesRuleFailureDetail struct {
 
 type DependenciesRuleResult struct {
 	Description string
-	Passes bool
-	Failures []*DependenciesRuleFailureDetail
-}
-
-type Result struct {
-	DependenciesRulesResults []*DependenciesRuleResult
+	Passes      bool
+	Failures    []*DependenciesRuleFailureDetail
 }

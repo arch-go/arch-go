@@ -7,3 +7,14 @@ dependenciesRules:
   - package: "**.impl.**"
     shouldOnlyDependsOn:
       - "**.arch-go.**"
+
+contentsRules:
+  - package: "**.impl.model"
+    shouldNotContainInterfaces: true
+  - package: "**.impl.config"
+    shouldOnlyContainFunctions: true
+  - package: "**.impl.dependencies"
+    shouldNotContainTypes: true
+    shouldNotContainInterfaces: true
+    shouldNotContainMethods: true
+    shouldNotContainFunctions: true
