@@ -23,9 +23,15 @@ type ContentsRule struct {
 	ShouldNotContainMethods     bool   `yaml:"shouldNotContainMethods"`
 }
 
+type CyclesRule struct {
+	Package                string `yaml:"package"`
+	ShouldNotContainCycles bool   `yaml:"shouldNotContainCycles"`
+}
+
 type Config struct {
 	DependenciesRules []DependenciesRule `yaml:"dependenciesRules"`
 	ContentRules      []ContentsRule     `yaml:"contentsRules"`
+	CyclesRules       []CyclesRule       `yaml:"cyclesRules"`
 }
 
 func LoadConfig(configPath string) (*Config, error) {

@@ -18,3 +18,7 @@ contentsRules:
     shouldNotContainInterfaces: true
     shouldNotContainMethods: true
     shouldNotContainFunctions: true
+
+cyclesRules:
+  - package: "**.cmd"
+    shouldNotContainCycles: true
