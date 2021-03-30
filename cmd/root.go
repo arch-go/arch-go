@@ -7,6 +7,7 @@ import (
 	"github.com/fdaines/arch-go/config"
 	"github.com/fdaines/arch-go/impl"
 	"github.com/fdaines/arch-go/impl/model"
+	"github.com/fdaines/arch-go/utils"
 	"github.com/fdaines/arch-go/utils/output"
 	"github.com/fdaines/arch-go/utils/packages"
 	"github.com/spf13/cobra"
@@ -36,19 +37,25 @@ func init() {
 }
 
 func runCommand(cmd *cobra.Command, args []string) {
-	configuration, err := config.LoadConfig("arch-go.yml")
-	if err != nil {
-		fmt.Printf("Error: %+v\n", err)
+	success := true
+	utils.ExecuteWithTimer(func() {
+		configuration, err := config.LoadConfig("arch-go.yml")
+		if err != nil {
+			fmt.Printf("Error: %+v\n", err)
+			os.Exit(1)
+		} else {
+			mainPackage, _ := packages.GetMainPackage()
+			pkgs, _ := packages.GetBasicPackagesInfo()
+			result := impl.CheckArchitecture(configuration, mainPackage, pkgs)
+			success = checkResult(result)
+		}
+	})
+	if !success {
 		os.Exit(1)
-	} else {
-		mainPackage, _ := packages.GetMainPackage()
-		pkgs, _ := packages.GetBasicPackagesInfo()
-		result := impl.CheckArchitecture(configuration, mainPackage, pkgs)
-		checkResult(result)
 	}
 }
 
-func checkResult(result *model.Result) {
+func checkResult(result *model.Result) bool {
 	var rules, success, fails int
 	output.Print("--------------------------------------")
 	for _, dr := range result.DependenciesRulesResults {
@@ -99,8 +106,5 @@ func checkResult(result *model.Result) {
 	output.Printf("Total Rules: \t%d\n", rules)
 	output.Printf("Succeeded: \t%d\n", success)
 	output.Printf("Failed: \t%d\n", fails)
-	output.Printf("Time: \t%.3f s\n", 1.0)
-	if fails > 0 {
-		os.Exit(1)
-	}
+	return fails == 0
 }
