@@ -11,6 +11,7 @@ import (
 	"github.com/fdaines/arch-go/utils/packages"
 	"github.com/spf13/cobra"
 	"os"
+	"strings"
 )
 
 var rootCmd = &cobra.Command{
@@ -18,7 +19,9 @@ var rootCmd = &cobra.Command{
 	Version: common.Version,
 	Short:   "Architecture checks for Go",
 	Long: `Architecture checks for Go:
-* Dependency checks`,
+* Dependencies
+* Package contents
+* Cyclic dependencies`,
 	Run: runCommand,
 }
 
@@ -57,7 +60,7 @@ func checkResult(result *model.Result) {
 			fails++
 			color.Red("[FAIL] - %s\n", dr.Description)
 			for _, fd := range dr.Failures {
-				color.Red("\tPackage '%s'\n", fd.Package)
+				color.Red("\tPackage '%s' fails\n", fd.Package)
 				for _, str := range fd.Details {
 					color.Red("\t\t%s\n", str)
 				}
@@ -74,11 +77,29 @@ func checkResult(result *model.Result) {
 			color.Red("[FAIL] - %s\n", cr.Description)
 		}
 	}
+	for _, cr := range result.CyclesRuleResults {
+		rules++
+		if cr.Passes {
+			success++
+			color.Green("[PASS] - %s\n", cr.Description)
+		} else {
+			fails++
+			color.Red("[FAIL] - %s\n", cr.Description)
+			for _, fd := range cr.Failures {
+				color.Red("\tPackage '%s' fails\n", fd.Package)
+				for idx, str := range fd.Details {
+					spaces := strings.Repeat(" ", idx+1)
+					color.Red("\t%s + imports %s\n", spaces, str)
+				}
+			}
+		}
+	}
 
 	output.Print("--------------------------------------")
-	output.Printf("Total Rules: %d\n", rules)
-	output.Printf("Rules Succeeded: %d\n", success)
-	output.Printf("Rules Failed: %d\n", fails)
+	output.Printf("Total Rules: \t%d\n", rules)
+	output.Printf("Succeeded: \t%d\n", success)
+	output.Printf("Failed: \t%d\n", fails)
+	output.Printf("Time: \t%.3f s\n", 1.0)
 	if fails > 0 {
 		os.Exit(1)
 	}

@@ -3,7 +3,6 @@ package contents
 import (
 	"github.com/fdaines/arch-go/config"
 	"github.com/fdaines/arch-go/impl/model"
-	"github.com/fdaines/arch-go/utils/output"
 	"github.com/fdaines/arch-go/utils/packages"
 	"github.com/fdaines/arch-go/utils/text"
 	"regexp"
@@ -13,7 +12,6 @@ func CheckRule(results []*model.ContentsRuleResult, rule config.ContentsRule, ma
 	packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(rule.Package))
 	for _, p := range pkgs {
 		if packageRegExp.MatchString(p.Path) {
-			output.Printf("Check package2: %s\n", p.Path)
 			contents, _ := retrieveContents(p, mainPackage)
 			results = checkInterfaces(results, contents, rule)
 			results = checkTypes(results, contents, rule)
@@ -26,7 +24,6 @@ func CheckRule(results []*model.ContentsRuleResult, rule config.ContentsRule, ma
 }
 
 func checkInterfaces(results []*model.ContentsRuleResult, contents *PackageContents, rule config.ContentsRule) []*model.ContentsRuleResult {
-	output.Printf("Check Interfaces: %d\n", contents.Interfaces)
 	if contents.Interfaces > 0 {
 		if rule.ShouldNotContainInterfaces {
 			return appendError(results, rule.Package, "should not contain interfaces")
@@ -51,7 +48,6 @@ func checkInterfaces(results []*model.ContentsRuleResult, contents *PackageConte
 }
 
 func checkTypes(results []*model.ContentsRuleResult, contents *PackageContents, rule config.ContentsRule) []*model.ContentsRuleResult {
-	output.Printf("Check Types: %d\n", contents.Types)
 	if contents.Types > 0 {
 		if rule.ShouldNotContainTypes {
 			return appendError(results, rule.Package, "should not contain types")
@@ -76,7 +72,6 @@ func checkTypes(results []*model.ContentsRuleResult, contents *PackageContents, 
 }
 
 func checkMethods(results []*model.ContentsRuleResult, contents *PackageContents, rule config.ContentsRule) []*model.ContentsRuleResult {
-	output.Printf("Check Methods: %d\n", contents.Methods)
 	if contents.Methods > 0 {
 		if rule.ShouldNotContainMethods {
 			return appendError(results, rule.Package, "should not contain methods")
@@ -101,7 +96,6 @@ func checkMethods(results []*model.ContentsRuleResult, contents *PackageContents
 }
 
 func checkFunctions(results []*model.ContentsRuleResult, contents *PackageContents, rule config.ContentsRule) []*model.ContentsRuleResult {
-	output.Printf("Check Functions: %d\n", contents.Functions)
 	if contents.Functions > 0 {
 		if rule.ShouldNotContainFunctions {
 			return appendError(results, rule.Package, "should not contain functions")
