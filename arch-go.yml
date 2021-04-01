@@ -1,9 +1,7 @@
 dependenciesRules:
   - package: "**.cmd.*"
     shouldOnlyDependsOn:
-      - "**.arch-go.*"
-      - "*.bar.*"
-    shouldNotDependsOn: ["**.model.**"]
+      - "**.arch-go.**"
   - package: "**.impl.**"
     shouldOnlyDependsOn:
       - "**.arch-go.**"
@@ -17,7 +15,6 @@ contentsRules:
     shouldNotContainTypes: true
     shouldNotContainInterfaces: true
     shouldNotContainMethods: true
-    shouldNotContainFunctions: true
 
 cyclesRules:
   - package: "**.cmd"
