@@ -72,7 +72,7 @@ cyclesRules:
 The package name can be defined as a fixed value or using _*_ special character, to create a simple pattern.
 
 | Example    | Description                                                                                                                                         |
-| ---------- |:---------------------------------------------------------------------------------------------------------------------------------------------------:|
+| ---------- |:----------------------------------------------------------------------------------------------------------------------------------------------------|
 | *.name     | Package should end with _name_ and anything before, supporting multiple levels (for example either _foo/name_ and _foo/bar/name_)                   |
 | **.name    | Package should end with _name_ and anything before, supporting only one level (for example _foo/name_, but no _foo/bar/name_)                       |
 | name.*     | Package should start with _name_ and anything before, supporting multiple levels (for example either _name/foo_ and _name/foo/bar_)                 |
@@ -99,14 +99,15 @@ $ arch-go [flags]
 ## Supported flags
 
 | Flag      | Description                                                                                     |
-| --------- |:-----------------------------------------------------------------------------------------------:|
-| --verbose | Includes detailed information while the command is running                                      |
+| --------- |:------------------------------------------------------------------------------------------------|
+| --verbose | Includes detailed information while the command is running. The shorthand is _-v_               |
 
 
 ## Examples
 ```bash
 $ arch-go 
 $ arch-go -v
+$ arch-go --verbose
 ```
 
 # Contributions
