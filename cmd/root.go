@@ -101,6 +101,21 @@ func checkResult(result *model.Result) bool {
 			}
 		}
 	}
+	for _, fr := range result.FunctionsRulesResults {
+		rules++
+		if fr.Passes {
+			success++
+			color.Green("[PASS] - %s\n", fr.Description)
+		} else {
+			fails++
+			color.Red("[FAIL] - %s\n", fr.Description)
+			for _, fd := range fr.Failures {
+				for _, str := range fd.Details {
+					color.Red("\t%s\n", str)
+				}
+			}
+		}
+	}
 
 	output.Print("--------------------------------------")
 	output.Printf("Total Rules: \t%d\n", rules)

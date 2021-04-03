@@ -11,6 +11,13 @@ type DependenciesRule struct {
 	ShouldNotDependsOn  []string `yaml:"shouldNotDependsOn"`
 }
 
+type FunctionsRule struct {
+	Package                  string `yaml:"package"`
+	MaxParameters            int    `yaml:"maxParameters"`
+	MaxReturnValues          int    `yaml:"maxReturnValues"`
+	MaxPublicFunctionPerFile int    `yaml:"maxPublicFunctionPerFile"`
+}
+
 type ContentsRule struct {
 	Package                     string `yaml:"package"`
 	ShouldOnlyContainInterfaces bool   `yaml:"shouldOnlyContainInterfaces"`
@@ -32,6 +39,7 @@ type Config struct {
 	DependenciesRules []DependenciesRule `yaml:"dependenciesRules"`
 	ContentRules      []ContentsRule     `yaml:"contentsRules"`
 	CyclesRules       []CyclesRule       `yaml:"cyclesRules"`
+	FunctionsRules    []FunctionsRule    `yaml:"functionsRules"`
 }
 
 func LoadConfig(configPath string) (*Config, error) {

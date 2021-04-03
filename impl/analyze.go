@@ -5,6 +5,7 @@ import (
 	"github.com/fdaines/arch-go/impl/contents"
 	"github.com/fdaines/arch-go/impl/cycles"
 	"github.com/fdaines/arch-go/impl/dependencies"
+	"github.com/fdaines/arch-go/impl/functions"
 	"github.com/fdaines/arch-go/impl/model"
 	"github.com/fdaines/arch-go/utils/output"
 	"github.com/fdaines/arch-go/utils/packages"
@@ -17,6 +18,7 @@ func CheckArchitecture(config *config.Config, mainPackage string, pkgs []*packag
 	result.DependenciesRulesResults = checkDependencies(config.DependenciesRules, mainPackage, pkgs)
 	result.ContentsRuleResults = checkContents(config.ContentRules, mainPackage, pkgs)
 	result.CyclesRuleResults = checkCycles(config.CyclesRules, mainPackage, pkgs)
+	result.FunctionsRulesResults = checkFunctions(config.FunctionsRules, mainPackage, pkgs)
 
 	return result
 }
@@ -25,6 +27,14 @@ func checkCycles(rules []config.CyclesRule, mainPackage string, pkgs []*packages
 	results := []*model.CyclesRuleResult{}
 	for _, rule := range rules {
 		results = cycles.CheckRule(results, rule, mainPackage, pkgs)
+	}
+	return results
+}
+
+func checkFunctions(rules []config.FunctionsRule, mainPackage string, pkgs []*packages.PackageInfo) []*model.FunctionsRuleResult {
+	results := []*model.FunctionsRuleResult{}
+	for _, rule := range rules {
+		results = functions.CheckRule(results, rule, mainPackage, pkgs)
 	}
 	return results
 }

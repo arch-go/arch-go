@@ -16,6 +16,12 @@ contentsRules:
     shouldNotContainInterfaces: true
     shouldNotContainMethods: true
 
+functionsRules:
+  - package: "**.arch-go.**"
+    maxParameters: 4
+    maxReturnValues: 2
+    maxPublicFunctionPerFile: 5
+
 cyclesRules:
   - package: "**.cmd"
     shouldNotContainCycles: true
