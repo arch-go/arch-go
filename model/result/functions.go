@@ -1,4 +1,4 @@
-package model
+package result
 
 type FunctionsRuleResultDetail struct {
 	Package string

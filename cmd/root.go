@@ -6,7 +6,8 @@ import (
 	"github.com/fdaines/arch-go/common"
 	"github.com/fdaines/arch-go/config"
 	"github.com/fdaines/arch-go/impl"
-	"github.com/fdaines/arch-go/impl/model"
+	"github.com/fdaines/arch-go/model"
+	"github.com/fdaines/arch-go/model/result"
 	"github.com/fdaines/arch-go/utils"
 	"github.com/fdaines/arch-go/utils/output"
 	"github.com/fdaines/arch-go/utils/packages"
@@ -22,7 +23,8 @@ var rootCmd = &cobra.Command{
 	Long: `Architecture checks for Go:
 * Dependencies
 * Package contents
-* Cyclic dependencies`,
+* Cyclic dependencies
+* Function rules`,
 	Run: runCommand,
 }
 
@@ -46,7 +48,11 @@ func runCommand(cmd *cobra.Command, args []string) {
 		} else {
 			mainPackage, _ := packages.GetMainPackage()
 			pkgs, _ := packages.GetBasicPackagesInfo()
-			result := impl.CheckArchitecture(configuration, mainPackage, pkgs)
+			moduleInfo := &model.ModuleInfo{
+				MainPackage: mainPackage,
+				Packages: pkgs,
+			}
+			result := impl.CheckArchitecture(configuration, moduleInfo)
 			success = checkResult(result)
 		}
 	})
@@ -55,7 +61,7 @@ func runCommand(cmd *cobra.Command, args []string) {
 	}
 }
 
-func checkResult(result *model.Result) bool {
+func checkResult(result *result.Result) bool {
 	var rules, success, fails int
 	output.Print("--------------------------------------")
 	for _, dr := range result.DependenciesRulesResults {

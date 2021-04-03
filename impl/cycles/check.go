@@ -3,27 +3,27 @@ package cycles
 import (
 	"fmt"
 	"github.com/fdaines/arch-go/config"
-	"github.com/fdaines/arch-go/impl/model"
+	model2 "github.com/fdaines/arch-go/model"
+	result2 "github.com/fdaines/arch-go/model/result"
 	"github.com/fdaines/arch-go/utils/arrays"
-	"github.com/fdaines/arch-go/utils/packages"
 	"github.com/fdaines/arch-go/utils/text"
 	"regexp"
 	"strings"
 )
 
-func CheckRule(results []*model.CyclesRuleResult, rule config.CyclesRule, mainPackage string, pkgs []*packages.PackageInfo) []*model.CyclesRuleResult {
-	result := &model.CyclesRuleResult{
+func CheckRule(results []*result2.CyclesRuleResult, rule config.CyclesRule, module *model2.ModuleInfo) []*result2.CyclesRuleResult {
+	result := &result2.CyclesRuleResult{
 		Description: fmt.Sprintf("Package '%s' should not have cycles", rule.Package),
 		Passes:      true,
 	}
 	packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(rule.Package))
-	pkgsMap := makePackageInfoMap(pkgs)
-	for _, p := range pkgs {
+	pkgsMap := makePackageInfoMap(module.Packages)
+	for _, p := range module.Packages {
 		if packageRegExp.MatchString(p.Path) {
 			if rule.ShouldNotContainCycles {
-				hasCycles, cycle := searchForCycles(p, mainPackage, pkgsMap)
+				hasCycles, cycle := searchForCycles(p, module.MainPackage, pkgsMap)
 				if hasCycles {
-					failure := &model.CyclesRuleResultDetail{
+					failure := &result2.CyclesRuleResultDetail{
 						Package: p.Path,
 						Details: cycle,
 					}
@@ -38,19 +38,19 @@ func CheckRule(results []*model.CyclesRuleResult, rule config.CyclesRule, mainPa
 	return results
 }
 
-func makePackageInfoMap(pkgs []*packages.PackageInfo) map[string]*packages.PackageInfo {
-	pkgsMap := make(map[string]*packages.PackageInfo)
+func makePackageInfoMap(pkgs []*model2.PackageInfo) map[string]*model2.PackageInfo {
+	pkgsMap := make(map[string]*model2.PackageInfo)
 	for _, p := range pkgs {
 		pkgsMap[p.Path] = p
 	}
 	return pkgsMap
 }
 
-func searchForCycles(p *packages.PackageInfo, mainPackage string, pkgsMap map[string]*packages.PackageInfo) (bool, []string) {
+func searchForCycles(p *model2.PackageInfo, mainPackage string, pkgsMap map[string]*model2.PackageInfo) (bool, []string) {
 	return checkDependencies([]string{}, p, mainPackage, pkgsMap)
 }
 
-func checkDependencies(imports []string, p *packages.PackageInfo, mainPackage string, pkgsMap map[string]*packages.PackageInfo) (bool, []string) {
+func checkDependencies(imports []string, p *model2.PackageInfo, mainPackage string, pkgsMap map[string]*model2.PackageInfo) (bool, []string) {
 	for _, pkg := range p.PackageData.Imports {
 		if strings.HasPrefix(pkg, mainPackage) {
 			if arrays.Contains(imports, pkg) {

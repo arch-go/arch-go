@@ -2,13 +2,14 @@ package packages
 
 import (
 	"fmt"
+	"github.com/fdaines/arch-go/model"
 	"github.com/fdaines/arch-go/utils/output"
 	"go/build"
 	"golang.org/x/tools/go/packages"
 )
 
-func GetBasicPackagesInfo() ([]*PackageInfo, error) {
-	var packagesInfo []*PackageInfo
+func GetBasicPackagesInfo() ([]*model.PackageInfo, error) {
+	var packagesInfo []*model.PackageInfo
 	var context = build.Default
 
 	pkgs, err := getPackages()
@@ -19,7 +20,7 @@ func GetBasicPackagesInfo() ([]*PackageInfo, error) {
 			output.PrintVerbose("Loading package (%d/%d): %s\n", index+1, len(pkgs), packageName)
 			pkg, err := context.Import(packageName, "", 0)
 			if err == nil {
-				packagesInfo = append(packagesInfo, &PackageInfo{
+				packagesInfo = append(packagesInfo, &model.PackageInfo{
 					PackageData: pkg,
 					Name:        pkg.Name,
 					Path:        pkg.ImportPath,

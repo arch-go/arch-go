@@ -1,4 +1,4 @@
-package model
+package result
 
 type DependenciesRuleFailureDetail struct {
 	Package string

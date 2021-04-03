@@ -1,7 +1,7 @@
 package contents
 
 import (
-	"github.com/fdaines/arch-go/utils/packages"
+	"github.com/fdaines/arch-go/model"
 	"go/ast"
 	"go/parser"
 	"go/token"
@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-func retrieveContents(pkg *packages.PackageInfo, mainPackage string) (*PackageContents, error) {
+func retrieveContents(pkg *model.PackageInfo, mainPackage string) (*PackageContents, error) {
 	var methods, functions, interfaces, types int
 	path, err := os.Getwd()
 	if err != nil {

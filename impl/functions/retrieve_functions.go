@@ -1,7 +1,7 @@
 package functions
 
 import (
-	"github.com/fdaines/arch-go/utils/packages"
+	"github.com/fdaines/arch-go/model"
 	"go/ast"
 	"go/parser"
 	"go/token"
@@ -12,7 +12,7 @@ import (
 	"unicode"
 )
 
-func retrieveFunctions(pkg *packages.PackageInfo, mainPackage string) ([]*FunctionDetails, error) {
+func retrieveFunctions(pkg *model.PackageInfo, mainPackage string) ([]*FunctionDetails, error) {
 	functionDetailsCollection := []*FunctionDetails{}
 	path, err := os.Getwd()
 	if err != nil {
@@ -21,7 +21,7 @@ func retrieveFunctions(pkg *packages.PackageInfo, mainPackage string) ([]*Functi
 	packageDir := strings.Replace(pkg.PackageData.ImportPath, mainPackage, path, 1)
 
 	for _, srcFile := range pkg.PackageData.GoFiles {
-		srcFilePath := filepath.Join(mainPackage, srcFile)
+		srcFilePath := filepath.Join(pkg.Path, srcFile)
 		data, err := ioutil.ReadFile(filepath.Join(packageDir, srcFile))
 		if err != nil {
 			return nil, err

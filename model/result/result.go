@@ -1,4 +1,4 @@
-package model
+package result
 
 type Result struct {
 	DependenciesRulesResults []*DependenciesRuleResult

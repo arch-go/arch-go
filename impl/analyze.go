@@ -6,51 +6,51 @@ import (
 	"github.com/fdaines/arch-go/impl/cycles"
 	"github.com/fdaines/arch-go/impl/dependencies"
 	"github.com/fdaines/arch-go/impl/functions"
-	"github.com/fdaines/arch-go/impl/model"
+	model2 "github.com/fdaines/arch-go/model"
+	"github.com/fdaines/arch-go/model/result"
 	"github.com/fdaines/arch-go/utils/output"
-	"github.com/fdaines/arch-go/utils/packages"
 )
 
-func CheckArchitecture(config *config.Config, mainPackage string, pkgs []*packages.PackageInfo) *model.Result {
-	result := &model.Result{}
+func CheckArchitecture(config *config.Config, module *model2.ModuleInfo) *result.Result {
+	result := &result.Result{}
 
-	output.Printf("Analyze Module: %s\n", mainPackage)
-	result.DependenciesRulesResults = checkDependencies(config.DependenciesRules, mainPackage, pkgs)
-	result.ContentsRuleResults = checkContents(config.ContentRules, mainPackage, pkgs)
-	result.CyclesRuleResults = checkCycles(config.CyclesRules, mainPackage, pkgs)
-	result.FunctionsRulesResults = checkFunctions(config.FunctionsRules, mainPackage, pkgs)
+	output.Printf("Analyze Module: %s\n", module.MainPackage)
+	result.DependenciesRulesResults = checkDependencies(config.DependenciesRules, module)
+	result.ContentsRuleResults = checkContents(config.ContentRules, module)
+	result.CyclesRuleResults = checkCycles(config.CyclesRules, module)
+	result.FunctionsRulesResults = checkFunctions(config.FunctionsRules, module)
 
 	return result
 }
 
-func checkCycles(rules []config.CyclesRule, mainPackage string, pkgs []*packages.PackageInfo) []*model.CyclesRuleResult {
-	results := []*model.CyclesRuleResult{}
+func checkCycles(rules []config.CyclesRule, module *model2.ModuleInfo) []*result.CyclesRuleResult {
+	results := []*result.CyclesRuleResult{}
 	for _, rule := range rules {
-		results = cycles.CheckRule(results, rule, mainPackage, pkgs)
+		results = cycles.CheckRule(results, rule, module)
 	}
 	return results
 }
 
-func checkFunctions(rules []config.FunctionsRule, mainPackage string, pkgs []*packages.PackageInfo) []*model.FunctionsRuleResult {
-	results := []*model.FunctionsRuleResult{}
+func checkFunctions(rules []config.FunctionsRule, module *model2.ModuleInfo) []*result.FunctionsRuleResult {
+	results := []*result.FunctionsRuleResult{}
 	for _, rule := range rules {
-		results = functions.CheckRule(results, rule, mainPackage, pkgs)
+		results = functions.CheckRule(results, rule, module)
 	}
 	return results
 }
 
-func checkDependencies(rules []config.DependenciesRule, mainPackage string, pkgs []*packages.PackageInfo) []*model.DependenciesRuleResult {
-	results := []*model.DependenciesRuleResult{}
-	for _, r := range rules {
-		results = dependencies.CheckDependenciesRule(results, r, mainPackage, pkgs)
+func checkDependencies(rules []config.DependenciesRule, module *model2.ModuleInfo) []*result.DependenciesRuleResult {
+	results := []*result.DependenciesRuleResult{}
+	for _, rule := range rules {
+		results = dependencies.CheckDependenciesRule(results, rule, module)
 	}
 	return results
 }
 
-func checkContents(rules []config.ContentsRule, mainPackage string, pkgs []*packages.PackageInfo) []*model.ContentsRuleResult {
-	results := []*model.ContentsRuleResult{}
+func checkContents(rules []config.ContentsRule, module *model2.ModuleInfo) []*result.ContentsRuleResult {
+	results := []*result.ContentsRuleResult{}
 	for _, rule := range rules {
-		results = contents.CheckRule(results, rule, mainPackage, pkgs)
+		results = contents.CheckRule(results, rule, module)
 	}
 	return results
 }

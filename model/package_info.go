@@ -1,4 +1,4 @@
-package packages
+package model
 
 import "go/build"
 
