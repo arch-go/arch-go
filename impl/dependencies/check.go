@@ -25,7 +25,7 @@ func CheckDependenciesRule(results []*result2.DependenciesRuleResult, r config.D
 
 func checkShouldOnlyImportRule(rule config.DependenciesRule, module *model2.ModuleInfo) *result2.DependenciesRuleResult {
 	ruleResult := &result2.DependenciesRuleResult{
-		Description: fmt.Sprintf("Package '%s' should only depends on: %v", rule.Package, rule.ShouldOnlyDependsOn),
+		Description: fmt.Sprintf("Packages matching pattern '%s' should only depends on: %v", rule.Package, rule.ShouldOnlyDependsOn),
 		Passes:      true,
 	}
 	output.PrintVerbose("Check rule: package '%s' should only depends on: %v\n", rule.Package, rule.ShouldOnlyDependsOn)
@@ -61,7 +61,7 @@ func checkShouldOnlyImportRule(rule config.DependenciesRule, module *model2.Modu
 
 func checkShouldNotImportRule(rule config.DependenciesRule, module *model2.ModuleInfo) *result2.DependenciesRuleResult {
 	ruleResult := &result2.DependenciesRuleResult{
-		Description: fmt.Sprintf("Package '%s' should not depends on: %v", rule.Package, rule.ShouldNotDependsOn),
+		Description: fmt.Sprintf("Packages matching pattern '%s' should not depends on: %v", rule.Package, rule.ShouldNotDependsOn),
 		Passes:      true,
 	}
 	output.PrintVerbose("Check rule: package '%s' should not depends on: %v\n", rule.Package, rule.ShouldNotDependsOn)

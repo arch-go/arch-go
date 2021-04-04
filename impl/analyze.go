@@ -24,7 +24,7 @@ func CheckArchitecture(config *config.Config, module *model2.ModuleInfo) *result
 }
 
 func checkCycles(rules []config.CyclesRule, module *model2.ModuleInfo) []*result.CyclesRuleResult {
-	results := []*result.CyclesRuleResult{}
+	var results []*result.CyclesRuleResult
 	for _, rule := range rules {
 		results = cycles.CheckRule(results, rule, module)
 	}
@@ -32,7 +32,7 @@ func checkCycles(rules []config.CyclesRule, module *model2.ModuleInfo) []*result
 }
 
 func checkFunctions(rules []config.FunctionsRule, module *model2.ModuleInfo) []*result.FunctionsRuleResult {
-	results := []*result.FunctionsRuleResult{}
+	var results []*result.FunctionsRuleResult
 	for _, rule := range rules {
 		results = functions.CheckRule(results, rule, module)
 	}
@@ -40,7 +40,7 @@ func checkFunctions(rules []config.FunctionsRule, module *model2.ModuleInfo) []*
 }
 
 func checkDependencies(rules []config.DependenciesRule, module *model2.ModuleInfo) []*result.DependenciesRuleResult {
-	results := []*result.DependenciesRuleResult{}
+	var results []*result.DependenciesRuleResult
 	for _, rule := range rules {
 		results = dependencies.CheckDependenciesRule(results, rule, module)
 	}
@@ -48,7 +48,7 @@ func checkDependencies(rules []config.DependenciesRule, module *model2.ModuleInf
 }
 
 func checkContents(rules []config.ContentsRule, module *model2.ModuleInfo) []*result.ContentsRuleResult {
-	results := []*result.ContentsRuleResult{}
+	var results []*result.ContentsRuleResult
 	for _, rule := range rules {
 		results = contents.CheckRule(results, rule, module)
 	}

@@ -7,14 +7,14 @@ import (
 
 func appendError(results []*result.ContentsRuleResult, p string, s string) []*result.ContentsRuleResult {
 	return append(results, &result.ContentsRuleResult{
-		Description: fmt.Sprintf("Package '%s' %s", p, s),
+		Description: fmt.Sprintf("Packages matching pattern '%s' %s", p, s),
 		Passes:      false,
 	})
 }
 
 func appendSuccess(results []*result.ContentsRuleResult, p string, s string) []*result.ContentsRuleResult {
 	return append(results, &result.ContentsRuleResult{
-		Description: fmt.Sprintf("Package '%s' %s", p, s),
+		Description: fmt.Sprintf("Packages matching pattern '%s' %s", p, s),
 		Passes:      true,
 	})
 }

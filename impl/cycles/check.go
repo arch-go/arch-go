@@ -13,7 +13,7 @@ import (
 
 func CheckRule(results []*result2.CyclesRuleResult, rule config.CyclesRule, module *model2.ModuleInfo) []*result2.CyclesRuleResult {
 	result := &result2.CyclesRuleResult{
-		Description: fmt.Sprintf("Package '%s' should not have cycles", rule.Package),
+		Description: fmt.Sprintf("Packages matching pattern '%s' should not have cycles", rule.Package),
 		Passes:      true,
 	}
 	packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(rule.Package))
