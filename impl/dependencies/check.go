@@ -11,35 +11,49 @@ import (
 	"strings"
 )
 
-func CheckDependenciesRule(results []*result2.DependenciesRuleResult, r config.DependenciesRule, module *model2.ModuleInfo) []*result2.DependenciesRuleResult {
-	if len(r.ShouldOnlyDependsOn) > 0 {
-		shouldOnlyImportResult := checkShouldOnlyImportRule(r, module)
-		results = append(results, shouldOnlyImportResult)
-	}
-	if len(r.ShouldNotDependsOn) > 0 {
-		shouldNotImportResult := checkShouldNotImportRule(r, module)
-		results = append(results, shouldNotImportResult)
-	}
-	return results
+type DependencyRule struct {
+	results []*result2.DependenciesRuleResult
+	rule *config.DependenciesRule
+	module *model2.ModuleInfo
 }
 
-func checkShouldOnlyImportRule(rule config.DependenciesRule, module *model2.ModuleInfo) *result2.DependenciesRuleResult {
+func NewDependencyRule(results []*result2.DependenciesRuleResult, rule *config.DependenciesRule, module *model2.ModuleInfo) *DependencyRule {
+	return &DependencyRule{
+		rule: rule,
+		results: results,
+		module: module,
+	}
+}
+
+func (dr *DependencyRule) CheckRule() []*result2.DependenciesRuleResult {
+	if len(dr.rule.ShouldOnlyDependsOn) > 0 {
+		shouldOnlyImportResult := dr.checkShouldOnlyImportRule()
+		dr.results = append(dr.results, shouldOnlyImportResult)
+	}
+	if len(dr.rule.ShouldNotDependsOn) > 0 {
+		shouldNotImportResult := dr.checkShouldNotImportRule()
+		dr.results = append(dr.results, shouldNotImportResult)
+	}
+	return dr.results
+}
+
+func (dr *DependencyRule) checkShouldOnlyImportRule() *result2.DependenciesRuleResult {
 	ruleResult := &result2.DependenciesRuleResult{
-		Description: fmt.Sprintf("Packages matching pattern '%s' should only depends on: %v", rule.Package, rule.ShouldOnlyDependsOn),
+		Description: fmt.Sprintf("Packages matching pattern '%s' should only depends on: %v", dr.rule.Package, dr.rule.ShouldOnlyDependsOn),
 		Passes:      true,
 	}
-	output.PrintVerbose("Check rule: package '%s' should only depends on: %v\n", rule.Package, rule.ShouldOnlyDependsOn)
-	packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(rule.Package))
-	for _, p := range module.Packages {
+	output.PrintVerbose("Check rule: package '%s' should only depends on: %v\n", dr.rule.Package, dr.rule.ShouldOnlyDependsOn)
+	packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(dr.rule.Package))
+	for _, p := range dr.module.Packages {
 		if packageRegExp.MatchString(p.Path) {
 			failureDetails := &result2.DependenciesRuleFailureDetail{Package: p.Path}
 			output.PrintVerbose("Checking rule for package: %s\n", p.Path)
 			result := true
 			for _, pkg := range p.PackageData.Imports {
-				if strings.HasPrefix(pkg, module.MainPackage) {
+				if strings.HasPrefix(pkg, dr.module.MainPackage) {
 					success := false
 					output.PrintVerbose("Check if imported package '%s' complies with allowed imports\n", pkg)
-					for _, allowedImport := range rule.ShouldOnlyDependsOn {
+					for _, allowedImport := range dr.rule.ShouldOnlyDependsOn {
 						allowedImportRegexp, _ := regexp.Compile(text.PreparePackageRegexp(allowedImport))
 						success = success || allowedImportRegexp.MatchString(pkg)
 					}
@@ -59,23 +73,23 @@ func checkShouldOnlyImportRule(rule config.DependenciesRule, module *model2.Modu
 	return ruleResult
 }
 
-func checkShouldNotImportRule(rule config.DependenciesRule, module *model2.ModuleInfo) *result2.DependenciesRuleResult {
+func (dr *DependencyRule) checkShouldNotImportRule() *result2.DependenciesRuleResult {
 	ruleResult := &result2.DependenciesRuleResult{
-		Description: fmt.Sprintf("Packages matching pattern '%s' should not depends on: %v", rule.Package, rule.ShouldNotDependsOn),
+		Description: fmt.Sprintf("Packages matching pattern '%s' should not depends on: %v", dr.rule.Package, dr.rule.ShouldNotDependsOn),
 		Passes:      true,
 	}
-	output.PrintVerbose("Check rule: package '%s' should not depends on: %v\n", rule.Package, rule.ShouldNotDependsOn)
-	packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(rule.Package))
-	for _, p := range module.Packages {
+	output.PrintVerbose("Check rule: package '%s' should not depends on: %v\n", dr.rule.Package, dr.rule.ShouldNotDependsOn)
+	packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(dr.rule.Package))
+	for _, p := range dr.module.Packages {
 		if packageRegExp.MatchString(p.Path) {
 			failureDetails := &result2.DependenciesRuleFailureDetail{Package: p.Path}
 			output.PrintVerbose("Checking rule for package: %s\n", p.Path)
 			result := true
 			for _, pkg := range p.PackageData.Imports {
-				if strings.HasPrefix(pkg, module.MainPackage) {
+				if strings.HasPrefix(pkg, dr.module.MainPackage) {
 					fails := false
 					output.PrintVerbose("Check if imported package '%s' is one of the restricted packages\n", pkg)
-					for _, notAllowedImport := range rule.ShouldNotDependsOn {
+					for _, notAllowedImport := range dr.rule.ShouldNotDependsOn {
 						notAllowedImportRegexp, _ := regexp.Compile(text.PreparePackageRegexp(notAllowedImport))
 						fails = fails || notAllowedImportRegexp.MatchString(pkg)
 					}

@@ -3,54 +3,68 @@ package cycles
 import (
 	"fmt"
 	"github.com/fdaines/arch-go/config"
-	model2 "github.com/fdaines/arch-go/model"
-	result2 "github.com/fdaines/arch-go/model/result"
+	"github.com/fdaines/arch-go/model"
+	"github.com/fdaines/arch-go/model/result"
 	"github.com/fdaines/arch-go/utils/arrays"
 	"github.com/fdaines/arch-go/utils/text"
 	"regexp"
 	"strings"
 )
 
-func CheckRule(results []*result2.CyclesRuleResult, rule config.CyclesRule, module *model2.ModuleInfo) []*result2.CyclesRuleResult {
-	result := &result2.CyclesRuleResult{
-		Description: fmt.Sprintf("Packages matching pattern '%s' should not have cycles", rule.Package),
+type CycleRule struct {
+	results []*result.CyclesRuleResult
+	rule *config.CyclesRule
+	module *model.ModuleInfo
+}
+
+func NewCycleRule(results []*result.CyclesRuleResult, rule *config.CyclesRule, module *model.ModuleInfo) *CycleRule {
+	return &CycleRule{
+		rule: rule,
+		results: results,
+		module: module,
+	}
+}
+
+func (c CycleRule) CheckRule() []*result.CyclesRuleResult {
+	resultInstance := &result.CyclesRuleResult{
+		Description: fmt.Sprintf("Packages matching pattern '%s' should not have cycles", c.rule.Package),
 		Passes:      true,
 	}
-	packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(rule.Package))
-	pkgsMap := makePackageInfoMap(module.Packages)
-	for _, p := range module.Packages {
+	packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(c.rule.Package))
+	pkgsMap := makePackageInfoMap(c.module.Packages)
+	for _, p := range c.module.Packages {
 		if packageRegExp.MatchString(p.Path) {
-			if rule.ShouldNotContainCycles {
-				hasCycles, cycle := searchForCycles(p, module.MainPackage, pkgsMap)
+			if c.rule.ShouldNotContainCycles {
+				hasCycles, cycle := searchForCycles(p, c.module.MainPackage, pkgsMap)
 				if hasCycles {
-					failure := &result2.CyclesRuleResultDetail{
+					failure := &result.CyclesRuleResultDetail{
 						Package: p.Path,
 						Details: cycle,
 					}
-					result.Failures = append(result.Failures, failure)
+					resultInstance.Failures = append(resultInstance.Failures, failure)
 				}
 			}
 		}
 	}
-	result.Passes = len(result.Failures) == 0
-	results = append(results, result)
+	resultInstance.Passes = len(resultInstance.Failures) == 0
+	c.results = append(c.results, resultInstance)
 
-	return results
+	return c.results
 }
 
-func makePackageInfoMap(pkgs []*model2.PackageInfo) map[string]*model2.PackageInfo {
-	pkgsMap := make(map[string]*model2.PackageInfo)
+func makePackageInfoMap(pkgs []*model.PackageInfo) map[string]*model.PackageInfo {
+	pkgsMap := make(map[string]*model.PackageInfo)
 	for _, p := range pkgs {
 		pkgsMap[p.Path] = p
 	}
 	return pkgsMap
 }
 
-func searchForCycles(p *model2.PackageInfo, mainPackage string, pkgsMap map[string]*model2.PackageInfo) (bool, []string) {
+func searchForCycles(p *model.PackageInfo, mainPackage string, pkgsMap map[string]*model.PackageInfo) (bool, []string) {
 	return checkDependencies([]string{}, p, mainPackage, pkgsMap)
 }
 
-func checkDependencies(imports []string, p *model2.PackageInfo, mainPackage string, pkgsMap map[string]*model2.PackageInfo) (bool, []string) {
+func checkDependencies(imports []string, p *model.PackageInfo, mainPackage string, pkgsMap map[string]*model.PackageInfo) (bool, []string) {
 	for _, pkg := range p.PackageData.Imports {
 		if strings.HasPrefix(pkg, mainPackage) {
 			if arrays.Contains(imports, pkg) {

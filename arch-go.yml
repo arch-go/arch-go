@@ -8,13 +8,17 @@ dependenciesRules:
 
 contentsRules:
   - package: "**.impl.model"
-    shouldNotContainInterfaces: true
+    shouldOnlyContainInterfaces: true
   - package: "**.impl.config"
     shouldOnlyContainFunctions: true
   - package: "**.impl.dependencies"
-    shouldNotContainTypes: true
     shouldNotContainInterfaces: true
-    shouldNotContainMethods: true
+  - package: "**.impl.contents"
+    shouldNotContainInterfaces: true
+  - package: "**.impl.cycles"
+    shouldNotContainInterfaces: true
+  - package: "**.impl.functions"
+    shouldNotContainInterfaces: true
 
 functionsRules:
   - package: "**.arch-go.**"

@@ -36,10 +36,10 @@ type CyclesRule struct {
 }
 
 type Config struct {
-	DependenciesRules []DependenciesRule `yaml:"dependenciesRules"`
-	ContentRules      []ContentsRule     `yaml:"contentsRules"`
-	CyclesRules       []CyclesRule       `yaml:"cyclesRules"`
-	FunctionsRules    []FunctionsRule    `yaml:"functionsRules"`
+	DependenciesRules []*DependenciesRule `yaml:"dependenciesRules"`
+	ContentRules      []*ContentsRule     `yaml:"contentsRules"`
+	CyclesRules       []*CyclesRule       `yaml:"cyclesRules"`
+	FunctionsRules    []*FunctionsRule    `yaml:"functionsRules"`
 }
 
 func LoadConfig(configPath string) (*Config, error) {

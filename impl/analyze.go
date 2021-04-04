@@ -23,34 +23,34 @@ func CheckArchitecture(config *config.Config, module *model2.ModuleInfo) *result
 	return result
 }
 
-func checkCycles(rules []config.CyclesRule, module *model2.ModuleInfo) []*result.CyclesRuleResult {
+func checkCycles(rules []*config.CyclesRule, module *model2.ModuleInfo) []*result.CyclesRuleResult {
 	var results []*result.CyclesRuleResult
 	for _, rule := range rules {
-		results = cycles.CheckRule(results, rule, module)
+		results = cycles.NewCycleRule(results, rule, module).CheckRule()
 	}
 	return results
 }
 
-func checkFunctions(rules []config.FunctionsRule, module *model2.ModuleInfo) []*result.FunctionsRuleResult {
+func checkFunctions(rules []*config.FunctionsRule, module *model2.ModuleInfo) []*result.FunctionsRuleResult {
 	var results []*result.FunctionsRuleResult
 	for _, rule := range rules {
-		results = functions.CheckRule(results, rule, module)
+		results = functions.NewFunctionRule(results, rule, module).CheckRule()
 	}
 	return results
 }
 
-func checkDependencies(rules []config.DependenciesRule, module *model2.ModuleInfo) []*result.DependenciesRuleResult {
+func checkDependencies(rules []*config.DependenciesRule, module *model2.ModuleInfo) []*result.DependenciesRuleResult {
 	var results []*result.DependenciesRuleResult
 	for _, rule := range rules {
-		results = dependencies.CheckDependenciesRule(results, rule, module)
+		results = dependencies.NewDependencyRule(results, rule, module).CheckRule()
 	}
 	return results
 }
 
-func checkContents(rules []config.ContentsRule, module *model2.ModuleInfo) []*result.ContentsRuleResult {
+func checkContents(rules []*config.ContentsRule, module *model2.ModuleInfo) []*result.ContentsRuleResult {
 	var results []*result.ContentsRuleResult
 	for _, rule := range rules {
-		results = contents.CheckRule(results, rule, module)
+		results = contents.NewContentsRule(results, rule, module).CheckRule()
 	}
 	return results
 }
