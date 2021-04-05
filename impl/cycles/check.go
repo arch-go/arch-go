@@ -13,15 +13,15 @@ import (
 
 type CycleRule struct {
 	results []*result.CyclesRuleResult
-	rule *config.CyclesRule
-	module *model.ModuleInfo
+	rule    *config.CyclesRule
+	module  *model.ModuleInfo
 }
 
 func NewCycleRule(results []*result.CyclesRuleResult, rule *config.CyclesRule, module *model.ModuleInfo) *CycleRule {
 	return &CycleRule{
-		rule: rule,
+		rule:    rule,
 		results: results,
-		module: module,
+		module:  module,
 	}
 }
 

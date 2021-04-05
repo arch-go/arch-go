@@ -1,14 +1,8 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/fdaines/arch-go/common"
-	"github.com/fdaines/arch-go/config"
 	"github.com/fdaines/arch-go/impl"
-	"github.com/fdaines/arch-go/model"
-	"github.com/fdaines/arch-go/model/result"
-	"github.com/fdaines/arch-go/utils"
-	"github.com/fdaines/arch-go/utils/packages"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -36,30 +30,8 @@ func init() {
 }
 
 func runCommand(cmd *cobra.Command, args []string) {
-	success := true
-	utils.ExecuteWithTimer(func() {
-		configuration, err := config.LoadConfig("arch-go.yml")
-		if err != nil {
-			fmt.Printf("Error: %+v\n", err)
-			os.Exit(1)
-		} else {
-			mainPackage, _ := packages.GetMainPackage()
-			pkgs, _ := packages.GetBasicPackagesInfo()
-			moduleInfo := &model.ModuleInfo{
-				MainPackage: mainPackage,
-				Packages: pkgs,
-			}
-			result := impl.CheckArchitecture(configuration, moduleInfo)
-			success = checkResult(result)
-		}
-	})
+	success := impl.CheckArchitecture()
 	if !success {
 		os.Exit(1)
 	}
-}
-
-func checkResult(result *result.Result) bool {
-	summary := result.Print()
-	summary.Print()
-	return summary.Result
 }

@@ -10,15 +10,15 @@ import (
 
 type ContentsRule struct {
 	results []*result.ContentsRuleResult
-	rule *config.ContentsRule
-	module *model.ModuleInfo
+	rule    *config.ContentsRule
+	module  *model.ModuleInfo
 }
 
 func NewContentsRule(results []*result.ContentsRuleResult, rule *config.ContentsRule, module *model.ModuleInfo) *ContentsRule {
 	return &ContentsRule{
-		rule: rule,
+		rule:    rule,
 		results: results,
-		module: module,
+		module:  module,
 	}
 }
 

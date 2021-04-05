@@ -11,7 +11,7 @@ import (
 	"github.com/fdaines/arch-go/utils/output"
 )
 
-func CheckArchitecture(config *config.Config, module *model2.ModuleInfo) *result.Result {
+func checkArchitectureRules(config *config.Config, module *model2.ModuleInfo) *result.Result {
 	result := &result.Result{}
 
 	output.Printf("Analyze Module: %s\n", module.MainPackage)

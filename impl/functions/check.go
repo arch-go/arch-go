@@ -11,15 +11,15 @@ import (
 
 type FunctionsRule struct {
 	results []*result.FunctionsRuleResult
-	rule *config.FunctionsRule
-	module *model.ModuleInfo
+	rule    *config.FunctionsRule
+	module  *model.ModuleInfo
 }
 
 func NewFunctionRule(results []*result.FunctionsRuleResult, rule *config.FunctionsRule, module *model.ModuleInfo) *FunctionsRule {
 	return &FunctionsRule{
-		rule: rule,
+		rule:    rule,
 		results: results,
-		module: module,
+		module:  module,
 	}
 }
 
@@ -39,7 +39,7 @@ func (f *FunctionsRule) checkMaxPublicFunctions() {
 	ruleResult := &result.FunctionsRuleResult{
 		Description: fmt.Sprintf("Packages matching pattern '%s' should only contain %d public functions per file",
 			f.rule.Package, f.rule.MaxPublicFunctionPerFile),
-		Passes:      true,
+		Passes: true,
 	}
 	for _, p := range f.module.Packages {
 		if packageRegExp.MatchString(p.Path) {
@@ -79,7 +79,7 @@ func (f *FunctionsRule) checkMaxReturnValues() {
 	ruleResult := &result.FunctionsRuleResult{
 		Description: fmt.Sprintf("Functions in packages matching pattern '%s' should not return more than %d values",
 			f.rule.Package, f.rule.MaxReturnValues),
-		Passes:      true,
+		Passes: true,
 	}
 	for _, p := range f.module.Packages {
 		if packageRegExp.MatchString(p.Path) {
@@ -111,7 +111,7 @@ func (f *FunctionsRule) checkMaxParameters() {
 	ruleResult := &result.FunctionsRuleResult{
 		Description: fmt.Sprintf("Functions in packages matching pattern '%s' should not receive more than %d parameters",
 			f.rule.Package, f.rule.MaxParameters),
-		Passes:      true,
+		Passes: true,
 	}
 	for _, p := range f.module.Packages {
 		if packageRegExp.MatchString(p.Path) {

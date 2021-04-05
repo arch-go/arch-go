@@ -11,10 +11,10 @@ type ResultSummary struct {
 
 func newResultSummary(rules int, success int, failed int) *ResultSummary {
 	return &ResultSummary{
-		rules: rules,
+		rules:   rules,
 		success: success,
-		failed: failed,
-		Result: failed == 0,
+		failed:  failed,
+		Result:  failed == 0,
 	}
 }
 

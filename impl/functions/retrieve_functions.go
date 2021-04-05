@@ -2,6 +2,7 @@ package functions
 
 import (
 	"github.com/fdaines/arch-go/model"
+	"github.com/fdaines/arch-go/utils/packages"
 	"go/ast"
 	"go/parser"
 	"go/token"
@@ -9,11 +10,10 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-	"unicode"
 )
 
 func retrieveFunctions(pkg *model.PackageInfo, mainPackage string) ([]*FunctionDetails, error) {
-	functionDetailsCollection := []*FunctionDetails{}
+	var functionDetailsCollection []*FunctionDetails
 	path, err := os.Getwd()
 	if err != nil {
 		panic(err)
@@ -38,7 +38,7 @@ func retrieveFunctions(pkg *model.PackageInfo, mainPackage string) ([]*FunctionD
 					File:     srcFile,
 					FilePath: srcFilePath,
 					Name:     t.Name.Name,
-					IsPublic: unicode.IsUpper([]rune(t.Name.Name)[0]),
+					IsPublic: packages.IsPublic(t.Name.Name),
 				}
 				if t.Type.Params != nil {
 					functionDetails.NumParams = len(t.Type.Params.List)

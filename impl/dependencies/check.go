@@ -13,15 +13,15 @@ import (
 
 type DependencyRule struct {
 	results []*result2.DependenciesRuleResult
-	rule *config.DependenciesRule
-	module *model2.ModuleInfo
+	rule    *config.DependenciesRule
+	module  *model2.ModuleInfo
 }
 
 func NewDependencyRule(results []*result2.DependenciesRuleResult, rule *config.DependenciesRule, module *model2.ModuleInfo) *DependencyRule {
 	return &DependencyRule{
-		rule: rule,
+		rule:    rule,
 		results: results,
-		module: module,
+		module:  module,
 	}
 }
 
