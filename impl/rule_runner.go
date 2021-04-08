@@ -34,5 +34,5 @@ func CheckArchitecture() bool {
 func checkResult(result *result.Result) bool {
 	summary := result.Print()
 	summary.Print()
-	return summary.Result
+	return summary.Status()
 }

@@ -14,7 +14,7 @@ import (
 func checkArchitectureRules(config *config.Config, module *model2.ModuleInfo) *result.Result {
 	result := &result.Result{}
 
-	output.Printf("Analyze Module: %s\n", module.MainPackage)
+	output.Printf("Architecture analysis for module: %s\n", module.MainPackage)
 	result.DependenciesRulesResults = checkDependencies(config.DependenciesRules, module)
 	result.ContentsRuleResults = checkContents(config.ContentRules, module)
 	result.CyclesRuleResults = checkCycles(config.CyclesRules, module)

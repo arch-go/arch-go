@@ -6,16 +6,10 @@ type ResultSummary struct {
 	rules   int
 	success int
 	failed  int
-	Result  bool
 }
 
-func newResultSummary(rules int, success int, failed int) *ResultSummary {
-	return &ResultSummary{
-		rules:   rules,
-		success: success,
-		failed:  failed,
-		Result:  failed == 0,
-	}
+func (r *ResultSummary) Status() bool {
+	return r.failed == 0
 }
 
 func (r *ResultSummary) Print() {
