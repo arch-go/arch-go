@@ -1,26 +1,13 @@
 # Arch-Go
 Architecture checks for Go projects
 
-**Supported rules:**
-- Dependencies checks
-    - Allowed dependencies
-    - Not allowed dependencies
-- Package content checks
-    - Only interfaces
-    - Only structs
-    - Only functions
-    - Only methods
-    - Anything but interfaces
-    - Anything but structs
-    - Anything but functions
-    - Anything but methods
-- Cyclic dependencies
-
-# Description of supported rules
+# Supported rules
 
 ## Dependencies Checks
 Supports defining import rules
-
+- Allowed dependencies
+- Not allowed dependencies
+  
 ## Package Content Checks
 Allows you to define the contents of a set of packages, e.g. you can define that a desired package should only contain interfaces definitions.
 The supported checks are:
@@ -36,7 +23,13 @@ The supported checks are:
 ## Cyclic Dependencies checks
 Checks if a set of packages contains cyclic dependencies.
 
-
+## Function checks
+Checks some functions properties, like the following:
+- Maximum number of parameters
+- Maximum number of return values
+- Maximum number of public functions per file
+- Maximum number of lines in the function body
+  
 # Configuration
 
 ## File arch-go.yml
@@ -62,6 +55,13 @@ contentsRules:
     shouldNotContainMethods: true
     shouldNotContainFunctions: true
 
+functionsRules:
+  - package: "**.impl.**"
+    maxParameters: 3
+    maxReturnValues: 2
+    maxPublicFunctionPerFile: 1
+    maxLines: 50
+
 cyclesRules:
   - package: "**.cmd"
     shouldNotContainCycles: true
@@ -71,13 +71,15 @@ cyclesRules:
 ## Package name patterns
 The package name can be defined as a fixed value or using _*_ special character, to create a simple pattern.
 
-| Example    | Description                                                                                                                                         |
-| ---------- |:----------------------------------------------------------------------------------------------------------------------------------------------------|
-| *.name     | Package should end with _name_ and anything before, supporting multiple levels (for example either _foo/name_ and _foo/bar/name_)                   |
-| **.name    | Package should end with _name_ and anything before, supporting only one level (for example _foo/name_, but no _foo/bar/name_)                       |
-| name.*     | Package should start with _name_ and anything before, supporting multiple levels (for example either _name/foo_ and _name/foo/bar_)                 |
-| name.**    | Package should start with _name_ and anything before, supporting only one level (for example _name/foo_, but no _name/foo/bar_)                     |
-| **.name.** | Package should contain _name_, supporting multiple levels before and after (for example both _foo/name/x/y/z_, _foo/bar/name_ and _foo/bar/name/x_) |
+| Example    | Description                                                                                                                                                          |
+| ---------- |:---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| *.name     | Package should end with _name_ and anything before, supporting multiple levels (for example either _foo/name_ and _foo/bar/name_)                                    |
+| **.name    | Package should end with _name_ and anything before, supporting only one level (for example _foo/name_, but no _foo/bar/name_)                                        |
+| name.*     | Package should start with _name_ and anything before, supporting multiple levels (for example either _name/foo_ and _name/foo/bar_)                                  |
+| name.**    | Package should start with _name_ and anything before, supporting only one level (for example _name/foo_, but no _name/foo/bar_)                                      |
+| **.name.** | Package should contain _name_, supporting multiple levels before and after (for example both _foo/name/x/y/z_, _foo/bar/name_ and _foo/bar/name/x_)                  |
+| foo.**.bar | Package should start with _foo_, and ends with _bar_, and can have anything between them. (for example _foo/bar_, _foo/test/blah/bar_ and _foo/ok/bar_)              |
+| foo.*.bar  | Package should start with _foo_, and ends with _bar_, and can have only one level between them. (for example _foo/bar_ and _foo/ok/bar_, but no _foo/test/blah/bar_) |
 
 
 # Usage
