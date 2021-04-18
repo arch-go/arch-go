@@ -15,6 +15,7 @@ type FunctionsRule struct {
 	Package                  string `yaml:"package"`
 	MaxParameters            int    `yaml:"maxParameters"`
 	MaxReturnValues          int    `yaml:"maxReturnValues"`
+	MaxLines                 int    `yaml:"maxLines"`
 	MaxPublicFunctionPerFile int    `yaml:"maxPublicFunctionPerFile"`
 }
 

@@ -25,6 +25,7 @@ functionsRules:
     maxParameters: 4
     maxReturnValues: 2
     maxPublicFunctionPerFile: 5
+    maxLines: 50
 
 cyclesRules:
   - package: "**.cmd"

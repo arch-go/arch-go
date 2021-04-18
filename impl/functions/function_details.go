@@ -7,4 +7,5 @@ type FunctionDetails struct {
 	IsPublic   bool
 	NumParams  int
 	NumReturns int
+	NumLines   int
 }

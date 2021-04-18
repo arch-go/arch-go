@@ -27,6 +27,7 @@ func (f *FunctionsRule) CheckRule() []*result.FunctionsRuleResult {
 	f.checkMaxParameters()
 	f.checkMaxReturnValues()
 	f.checkMaxPublicFunctions()
+	f.checkMaxLines()
 
 	return f.results
 }
@@ -62,6 +63,38 @@ func (f *FunctionsRule) checkMaxPublicFunctions() {
 					}
 					functionRuleViolation.Details = append(functionRuleViolation.Details,
 						fmt.Sprintf("File %s has too many public functions (%d)", key, value))
+					ruleResult.Failures = append(ruleResult.Failures, functionRuleViolation)
+				}
+			}
+		}
+	}
+	ruleResult.Passes = len(ruleResult.Failures) == 0
+	f.results = append(f.results, ruleResult)
+}
+
+func (f *FunctionsRule) checkMaxLines() {
+	if f.rule.MaxLines <= 0 {
+		return
+	}
+	packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(f.rule.Package))
+	ruleResult := &result.FunctionsRuleResult{
+		Description: fmt.Sprintf("Functions in packages matching pattern '%s' should not have more than %d lines",
+			f.rule.Package, f.rule.MaxLines),
+		Passes: true,
+	}
+	for _, p := range f.module.Packages {
+		if packageRegExp.MatchString(p.Path) {
+			functions, _ := retrieveFunctions(p, f.module.MainPackage)
+			for _, fn := range functions {
+				functionRuleViolation := &result.FunctionsRuleResultDetail{
+					Package: p.Path,
+					Name:    fn.Name,
+					File:    fn.File,
+				}
+				if fn.NumLines > f.rule.MaxLines {
+					functionRuleViolation.Details = append(functionRuleViolation.Details,
+						fmt.Sprintf("Function %s in file %s contains too many lines (%d)",
+							fn.Name, fn.FilePath, fn.NumLines))
 					ruleResult.Failures = append(ruleResult.Failures, functionRuleViolation)
 				}
 			}

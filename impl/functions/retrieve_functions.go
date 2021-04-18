@@ -39,6 +39,7 @@ func retrieveFunctions(pkg *model.PackageInfo, mainPackage string) ([]*FunctionD
 					FilePath: srcFilePath,
 					Name:     t.Name.Name,
 					IsPublic: packages.IsPublic(t.Name.Name),
+					NumLines: fileset.Position(t.End()).Line - fileset.Position(t.Pos()).Line,
 				}
 				if t.Type.Params != nil {
 					functionDetails.NumParams = len(t.Type.Params.List)
