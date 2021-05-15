@@ -9,7 +9,7 @@ import (
 func TestIsPublic(t *testing.T) {
 	var tests = []struct {
 		input string
-		want bool
+		want  bool
 	}{
 		{"foobar", false},
 		{"fooBar", false},
@@ -27,4 +27,3 @@ func TestIsPublic(t *testing.T) {
 		})
 	}
 }
-

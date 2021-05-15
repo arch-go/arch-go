@@ -9,7 +9,7 @@ import (
 func TestPreparePackageRegexp(t *testing.T) {
 	var tests = []struct {
 		input string
-		want string
+		want  string
 	}{
 		{"foobar", "foobar"},
 		{"*.foobar", "^[\\w-\\.]+/foobar"},
@@ -33,4 +33,3 @@ func TestPreparePackageRegexp(t *testing.T) {
 		})
 	}
 }
-

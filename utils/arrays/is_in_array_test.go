@@ -8,9 +8,9 @@ import (
 
 func TestContains(t *testing.T) {
 	var tests = []struct {
-		array []string
+		array     []string
 		searchFor string
-		want bool
+		want      bool
 	}{
 		{[]string{"foo", "foobar", "bar"}, "foobar", true},
 		{[]string{"foo", "foobarX", "bar"}, "foobar", false},
@@ -27,4 +27,3 @@ func TestContains(t *testing.T) {
 	}
 
 }
-

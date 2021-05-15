@@ -34,8 +34,7 @@ func GetBasicPackagesInfo() ([]*model.PackageInfo, error) {
 
 func getPackages() ([]string, error) {
 	output.Print("Looking for packages.")
-	cfg := &packages.Config{}
-	pkgs, err := packages.Load(cfg, "./...")
+	pkgs, err := packages.Load(nil, "./...")
 	if err != nil {
 		return nil, fmt.Errorf("Cannot load module packages: %+v", err)
 	}
