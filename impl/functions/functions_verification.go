@@ -48,6 +48,10 @@ func (d *FunctionsRuleVerification) Verify() {
 		packagePasses = packagePasses && ruleResult
 		d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, ruleDetails...)
 		result = result && packagePasses
+		ruleResult, ruleDetails = check_max_return_values(pd.Package, d.Module, d.Rule.MaxReturnValues)
+		packagePasses = packagePasses && ruleResult
+		d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, ruleDetails...)
+		result = result && packagePasses
 
 		d.PackageDetails[index].Passes = result
 	}
