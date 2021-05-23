@@ -9,11 +9,11 @@ import (
 )
 
 type ContentsRuleVerification struct {
-	Module  	   string
+	Module         string
 	Description    string
-	Rule    	   *config.ContentsRule
+	Rule           *config.ContentsRule
 	PackageDetails []model.PackageVerification
-	Passes		   bool
+	Passes         bool
 }
 
 func NewContentsRuleVerification(module string, rule *config.ContentsRule) *ContentsRuleVerification {
@@ -45,10 +45,10 @@ func NewContentsRuleVerification(module string, rule *config.ContentsRule) *Cont
 	description := fmt.Sprintf("Packages matching pattern '%s' should complies with [%s]", rule.Package, strings.Join(ruleDescriptions, ","))
 
 	return &ContentsRuleVerification{
-		Module: module,
-		Rule: rule,
+		Module:      module,
+		Rule:        rule,
 		Description: description,
-		Passes: true,
+		Passes:      true,
 	}
 }
 
@@ -104,4 +104,3 @@ func (d *ContentsRuleVerification) PrintResults() {
 		}
 	}
 }
-

@@ -9,21 +9,21 @@ import (
 )
 
 type CyclesRuleVerification struct {
-	Module  	   string
+	Module         string
 	ModulePackages []*baseModel.PackageInfo
 	Description    string
-	Rule    	   *config.CyclesRule
+	Rule           *config.CyclesRule
 	PackageDetails []model.PackageVerification
-	Passes		   bool
+	Passes         bool
 }
 
 func NewCyclesRuleVerification(module string, packages []*baseModel.PackageInfo, rule *config.CyclesRule) *CyclesRuleVerification {
 	return &CyclesRuleVerification{
-		Module: module,
+		Module:         module,
 		ModulePackages: packages,
-		Rule: rule,
-		Description: fmt.Sprintf("Packages matching pattern '%s' should not have cycles", rule.Package),
-		Passes: true,
+		Rule:           rule,
+		Description:    fmt.Sprintf("Packages matching pattern '%s' should not have cycles", rule.Package),
+		Passes:         true,
 	}
 }
 

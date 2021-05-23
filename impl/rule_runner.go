@@ -32,10 +32,10 @@ func CheckArchitecture() bool {
 			}
 
 			verifications := resolveVerifications(configuration, moduleInfo)
-			for _,v := range verifications {
+			for _, v := range verifications {
 				v.Verify()
 			}
-			for _,v := range verifications {
+			for _, v := range verifications {
 				v.PrintResults()
 			}
 		}
@@ -45,53 +45,53 @@ func CheckArchitecture() bool {
 
 func resolveVerifications(configuration *config.Config, moduleInfo *baseModel.ModuleInfo) []model.RuleVerification {
 	var verifications []model.RuleVerification
-	for _,dependencyRule := range configuration.DependenciesRules {
+	for _, dependencyRule := range configuration.DependenciesRules {
 		verificationInstance := dependencies.NewDependencyRuleVerification(moduleInfo.MainPackage, dependencyRule)
 		packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(dependencyRule.Package))
 		for _, pkg := range moduleInfo.Packages {
 			if packageRegExp.MatchString(pkg.Path) {
 				verificationInstance.PackageDetails = append(verificationInstance.PackageDetails, model.PackageVerification{
 					Package: pkg,
-					Passes: false,
+					Passes:  false,
 				})
 			}
 		}
 		verifications = append(verifications, verificationInstance)
 	}
-	for _,functionRule := range configuration.FunctionsRules {
+	for _, functionRule := range configuration.FunctionsRules {
 		verificationInstance := functions.NewFunctionsRuleVerification(moduleInfo.MainPackage, functionRule)
 		packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(functionRule.Package))
 		for _, pkg := range moduleInfo.Packages {
 			if packageRegExp.MatchString(pkg.Path) {
 				verificationInstance.PackageDetails = append(verificationInstance.PackageDetails, model.PackageVerification{
 					Package: pkg,
-					Passes: false,
+					Passes:  false,
 				})
 			}
 		}
 		verifications = append(verifications, verificationInstance)
 	}
-	for _,contentRule := range configuration.ContentRules {
+	for _, contentRule := range configuration.ContentRules {
 		verificationInstance := contents.NewContentsRuleVerification(moduleInfo.MainPackage, contentRule)
 		packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(contentRule.Package))
 		for _, pkg := range moduleInfo.Packages {
 			if packageRegExp.MatchString(pkg.Path) {
 				verificationInstance.PackageDetails = append(verificationInstance.PackageDetails, model.PackageVerification{
 					Package: pkg,
-					Passes: false,
+					Passes:  false,
 				})
 			}
 		}
 		verifications = append(verifications, verificationInstance)
 	}
-	for _,cycleRule := range configuration.CyclesRules {
+	for _, cycleRule := range configuration.CyclesRules {
 		verificationInstance := cycles.NewCyclesRuleVerification(moduleInfo.MainPackage, moduleInfo.Packages, cycleRule)
 		packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(cycleRule.Package))
 		for _, pkg := range moduleInfo.Packages {
 			if packageRegExp.MatchString(pkg.Path) {
 				verificationInstance.PackageDetails = append(verificationInstance.PackageDetails, model.PackageVerification{
 					Package: pkg,
-					Passes: false,
+					Passes:  false,
 				})
 			}
 		}

@@ -12,11 +12,11 @@ import (
 )
 
 type DependencyRuleVerification struct {
-	Module  	   string
+	Module         string
 	Description    string
-	Rule    	   *config.DependenciesRule
+	Rule           *config.DependenciesRule
 	PackageDetails []model.PackageVerification
-	Passes		   bool
+	Passes         bool
 }
 
 func NewDependencyRuleVerification(module string, rule *config.DependenciesRule) *DependencyRuleVerification {
@@ -29,10 +29,10 @@ func NewDependencyRuleVerification(module string, rule *config.DependenciesRule)
 	}
 
 	return &DependencyRuleVerification{
-		Module: module,
-		Rule: rule,
+		Module:      module,
+		Rule:        rule,
 		Description: description,
-		Passes: true,
+		Passes:      true,
 	}
 }
 

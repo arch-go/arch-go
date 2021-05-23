@@ -9,11 +9,11 @@ import (
 )
 
 type FunctionsRuleVerification struct {
-	Module  	   string
+	Module         string
 	Description    string
-	Rule    	   *config.FunctionsRule
+	Rule           *config.FunctionsRule
 	PackageDetails []model.PackageVerification
-	Passes		   bool
+	Passes         bool
 }
 
 func NewFunctionsRuleVerification(module string, rule *config.FunctionsRule) *FunctionsRuleVerification {
@@ -33,10 +33,10 @@ func NewFunctionsRuleVerification(module string, rule *config.FunctionsRule) *Fu
 	description := fmt.Sprintf("Functions in packages matching pattern '%s' should have [%s]", rule.Package, strings.Join(ruleDescriptions, ","))
 
 	return &FunctionsRuleVerification{
-		Module: module,
-		Rule: rule,
+		Module:      module,
+		Rule:        rule,
 		Description: description,
-		Passes: true,
+		Passes:      true,
 	}
 }
 
@@ -84,4 +84,3 @@ func (d *FunctionsRuleVerification) PrintResults() {
 		}
 	}
 }
-
