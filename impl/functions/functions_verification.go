@@ -57,6 +57,10 @@ func (d *FunctionsRuleVerification) Verify() {
 		packagePasses = packagePasses && ruleResult
 		d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, ruleDetails...)
 
+		ruleResult, ruleDetails = check_max_public_functions(pd.Package, d.Module, d.Rule.MaxPublicFunctionPerFile)
+		packagePasses = packagePasses && ruleResult
+		d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, ruleDetails...)
+
 		d.PackageDetails[index].Passes = packagePasses
 		result = result && packagePasses
 	}
