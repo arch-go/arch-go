@@ -22,11 +22,11 @@ type FunctionsRule struct {
 type ContentsRule struct {
 	Package                     string `yaml:"package"`
 	ShouldOnlyContainInterfaces bool   `yaml:"shouldOnlyContainInterfaces"`
-	ShouldOnlyContainTypes      bool   `yaml:"shouldOnlyContainTypes"`
+	ShouldOnlyContainStructs    bool   `yaml:"shouldOnlyContainStructs"`
 	ShouldOnlyContainFunctions  bool   `yaml:"shouldOnlyContainFunctions"`
 	ShouldOnlyContainMethods    bool   `yaml:"shouldOnlyContainMethods"`
 	ShouldNotContainInterfaces  bool   `yaml:"shouldNotContainInterfaces"`
-	ShouldNotContainTypes       bool   `yaml:"shouldNotContainTypes"`
+	ShouldNotContainStructs     bool   `yaml:"shouldNotContainStructs"`
 	ShouldNotContainFunctions   bool   `yaml:"shouldNotContainFunctions"`
 	ShouldNotContainMethods     bool   `yaml:"shouldNotContainMethods"`
 }

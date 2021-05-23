@@ -3,6 +3,6 @@ package contents
 type PackageContents struct {
 	Functions  int
 	Methods    int
-	Types      int
+	Structs    int
 	Interfaces int
 }

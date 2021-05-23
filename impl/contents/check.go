@@ -26,16 +26,16 @@ func (c *ContentsRule) CheckRule() []*result.ContentsRuleResult {
 	packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(c.rule.Package))
 	for _, p := range c.module.Packages {
 		if packageRegExp.MatchString(p.Path) {
-			contents, _ := retrieveContents(p, c.module.MainPackage)
-			c.checkInterfaces(contents)
-			c.checkTypes(contents)
-			c.checkMethods(contents)
-			c.checkFunctions(contents)
+//			contents, _ := retrieveContents(p, c.module.MainPackage)
+//			c.checkInterfaces(contents)
+//			c.checkTypes(contents)
+//			c.checkMethods(contents)
+//			c.checkFunctions(contents)
 		}
 	}
 	return c.results
 }
-
+/*
 func (c *ContentsRule) checkInterfaces(contents *PackageContents) {
 	if contents.Interfaces > 0 {
 		if c.rule.ShouldNotContainInterfaces {
@@ -127,3 +127,4 @@ func (c *ContentsRule) checkFunctions(contents *PackageContents) {
 		c.results = appendSuccess(c.results, c.rule.Package, "should not contain functions")
 	}
 }
+*/

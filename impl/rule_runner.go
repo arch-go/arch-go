@@ -3,6 +3,7 @@ package impl
 import (
 	"fmt"
 	"github.com/fdaines/arch-go/config"
+	"github.com/fdaines/arch-go/impl/contents"
 	"github.com/fdaines/arch-go/impl/dependencies"
 	"github.com/fdaines/arch-go/impl/functions"
 	"github.com/fdaines/arch-go/impl/model"
@@ -71,20 +72,22 @@ func resolveVerifications(configuration *config.Config, moduleInfo *baseModel.Mo
 		}
 		verifications = append(verifications, verificationInstance)
 	}
-
-	/*
 	for _,contentRule := range configuration.ContentRules {
+		verificationInstance := contents.NewContentsRuleVerification(moduleInfo.MainPackage, contentRule)
 		packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(contentRule.Package))
 		for _, pkg := range moduleInfo.Packages {
 			if packageRegExp.MatchString(pkg.Path) {
-				verifications = append(verifications, &model.ContentsRuleVerification{
-					Module: moduleInfo.MainPackage,
+				verificationInstance.PackageDetails = append(verificationInstance.PackageDetails, model.PackageVerification{
 					Package: pkg,
-					Rule: contentRule,
+					Passes: false,
 				})
 			}
 		}
+		verifications = append(verifications, verificationInstance)
 	}
+
+
+	/*
 	for _,cycleRule := range configuration.CyclesRules {
 		packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(cycleRule.Package))
 		for _, pkg := range moduleInfo.Packages {

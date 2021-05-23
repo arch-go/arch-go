@@ -12,7 +12,7 @@ import (
 )
 
 func retrieveContents(pkg *model.PackageInfo, mainPackage string) (*PackageContents, error) {
-	var methods, functions, interfaces, types int
+	var methods, functions, interfaces, structs int
 	path, err := os.Getwd()
 	if err != nil {
 		panic(err)
@@ -40,7 +40,7 @@ func retrieveContents(pkg *model.PackageInfo, mainPackage string) (*PackageConte
 			case *ast.InterfaceType:
 				interfaces++
 			case *ast.StructType:
-				types++
+				structs++
 			}
 			return true
 		})
@@ -50,6 +50,6 @@ func retrieveContents(pkg *model.PackageInfo, mainPackage string) (*PackageConte
 		Methods:    methods,
 		Functions:  functions,
 		Interfaces: interfaces,
-		Types:      types,
+		Structs:    structs,
 	}, nil
 }
