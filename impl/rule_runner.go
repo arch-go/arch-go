@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/fdaines/arch-go/config"
 	"github.com/fdaines/arch-go/impl/contents"
+	"github.com/fdaines/arch-go/impl/cycles"
 	"github.com/fdaines/arch-go/impl/dependencies"
 	"github.com/fdaines/arch-go/impl/functions"
 	"github.com/fdaines/arch-go/impl/model"
@@ -37,8 +38,6 @@ func CheckArchitecture() bool {
 			for _,v := range verifications {
 				v.PrintResults()
 			}
-//			result := checkArchitectureRules(configuration, moduleInfo)
-//			returnValue = checkResult(result)
 		}
 	})
 	return returnValue
@@ -85,21 +84,19 @@ func resolveVerifications(configuration *config.Config, moduleInfo *baseModel.Mo
 		}
 		verifications = append(verifications, verificationInstance)
 	}
-
-
-	/*
 	for _,cycleRule := range configuration.CyclesRules {
+		verificationInstance := cycles.NewCyclesRuleVerification(moduleInfo.MainPackage, moduleInfo.Packages, cycleRule)
 		packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(cycleRule.Package))
 		for _, pkg := range moduleInfo.Packages {
 			if packageRegExp.MatchString(pkg.Path) {
-				verifications = append(verifications, &model.CyclesRuleVerification{
-					Module: moduleInfo.MainPackage,
+				verificationInstance.PackageDetails = append(verificationInstance.PackageDetails, model.PackageVerification{
 					Package: pkg,
-					Rule: cycleRule,
+					Passes: false,
 				})
 			}
 		}
+		verifications = append(verifications, verificationInstance)
 	}
-	*/
+
 	return verifications
 }

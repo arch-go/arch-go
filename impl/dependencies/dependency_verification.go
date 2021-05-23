@@ -80,14 +80,14 @@ func (d *DependencyRuleVerification) PrintResults() {
 		color.Green("[PASS] - %s\n", d.Description)
 	} else {
 		color.Red("[FAIL] - %s\n", d.Description)
-		for _, p := range d.PackageDetails {
-			if p.Passes {
-				color.Green("\tPackage '%s' passes\n", p.Package.Path)
-			} else {
-				color.Red("\tPackage '%s' fails\n", p.Package.Path)
-				for _, str := range p.Details {
-					color.Red("\t\t%s\n", str)
-				}
+	}
+	for _, p := range d.PackageDetails {
+		if p.Passes {
+			color.Green("\tPackage '%s' passes\n", p.Package.Path)
+		} else {
+			color.Red("\tPackage '%s' fails\n", p.Package.Path)
+			for _, str := range p.Details {
+				color.Red("\t\t%s\n", str)
 			}
 		}
 	}
