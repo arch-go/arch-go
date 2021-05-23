@@ -19,17 +19,24 @@ type DependencyRuleVerification struct {
 	Passes		   bool
 }
 
-func (d *DependencyRuleVerification) Verify() {
-	if len(d.Rule.ShouldOnlyDependsOn) > 0 && len(d.Rule.ShouldNotDependsOn) > 0 {
-		d.Description = fmt.Sprintf("Packages matching pattern '%s' should only depends on: %v and should not depends on: %v", d.Rule.Package, d.Rule.ShouldOnlyDependsOn, d.Rule.ShouldNotDependsOn)
-	} else {
-		if len(d.Rule.ShouldOnlyDependsOn) > 0 {
-			d.Description = fmt.Sprintf("Packages matching pattern '%s' should only depends on: %v", d.Rule.Package, d.Rule.ShouldOnlyDependsOn)
-		}
-		if len(d.Rule.ShouldNotDependsOn) > 0 {
-			d.Description = fmt.Sprintf("Packages matching pattern '%s' should not depends on: %v", d.Rule.Package, d.Rule.ShouldNotDependsOn)
-		}
+func NewDependencyRuleVerification(module string, rule *config.DependenciesRule) *DependencyRuleVerification {
+	description := fmt.Sprintf("Packages matching pattern '%s' should only depends on: %v and should not depends on: %v", rule.Package, rule.ShouldOnlyDependsOn, rule.ShouldNotDependsOn)
+	if len(rule.ShouldOnlyDependsOn) > 0 && len(rule.ShouldNotDependsOn) == 0 {
+		description = fmt.Sprintf("Packages matching pattern '%s' should only depends on: %v", rule.Package, rule.ShouldOnlyDependsOn)
 	}
+	if len(rule.ShouldNotDependsOn) > 0 && len(rule.ShouldOnlyDependsOn) == 0 {
+		description = fmt.Sprintf("Packages matching pattern '%s' should not depends on: %v", rule.Package, rule.ShouldNotDependsOn)
+	}
+
+	return &DependencyRuleVerification{
+		Module: module,
+		Rule: rule,
+		Description: description,
+		Passes: true,
+	}
+}
+
+func (d *DependencyRuleVerification) Verify() {
 	result := true
 	for index, pd := range d.PackageDetails {
 		d.PackageDetails[index].Passes = true

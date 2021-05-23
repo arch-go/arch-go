@@ -46,11 +46,7 @@ func CheckArchitecture() bool {
 func resolveVerifications(configuration *config.Config, moduleInfo *baseModel.ModuleInfo) []model.RuleVerification {
 	var verifications []model.RuleVerification
 	for _,dependencyRule := range configuration.DependenciesRules {
-		verificationInstance := &dependencies.DependencyRuleVerification{
-			Module: moduleInfo.MainPackage,
-			Rule: dependencyRule,
-			Passes: true,
-		}
+		verificationInstance := dependencies.NewDependencyRuleVerification(moduleInfo.MainPackage, dependencyRule)
 		packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(dependencyRule.Package))
 		for _, pkg := range moduleInfo.Packages {
 			if packageRegExp.MatchString(pkg.Path) {
