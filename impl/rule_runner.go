@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/fdaines/arch-go/config"
 	"github.com/fdaines/arch-go/impl/dependencies"
+	"github.com/fdaines/arch-go/impl/functions"
 	"github.com/fdaines/arch-go/impl/model"
 	baseModel "github.com/fdaines/arch-go/model"
 	"github.com/fdaines/arch-go/utils"
@@ -29,7 +30,6 @@ func CheckArchitecture() bool {
 			}
 
 			verifications := resolveVerifications(configuration, moduleInfo)
-			fmt.Printf("%+v\n", verifications)
 			for _,v := range verifications {
 				v.Verify()
 			}
@@ -58,6 +58,20 @@ func resolveVerifications(configuration *config.Config, moduleInfo *baseModel.Mo
 		}
 		verifications = append(verifications, verificationInstance)
 	}
+	for _,functionRule := range configuration.FunctionsRules {
+		verificationInstance := functions.NewFunctionsRuleVerification(moduleInfo.MainPackage, functionRule)
+		packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(functionRule.Package))
+		for _, pkg := range moduleInfo.Packages {
+			if packageRegExp.MatchString(pkg.Path) {
+				verificationInstance.PackageDetails = append(verificationInstance.PackageDetails, model.PackageVerification{
+					Package: pkg,
+					Passes: false,
+				})
+			}
+		}
+		verifications = append(verifications, verificationInstance)
+	}
+
 	/*
 	for _,contentRule := range configuration.ContentRules {
 		packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(contentRule.Package))
@@ -79,18 +93,6 @@ func resolveVerifications(configuration *config.Config, moduleInfo *baseModel.Mo
 					Module: moduleInfo.MainPackage,
 					Package: pkg,
 					Rule: cycleRule,
-				})
-			}
-		}
-	}
-	for _,functionRule := range configuration.FunctionsRules {
-		packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(functionRule.Package))
-		for _, pkg := range moduleInfo.Packages {
-			if packageRegExp.MatchString(pkg.Path) {
-				verifications = append(verifications, &model.FunctionsRuleVerification{
-					Module: moduleInfo.MainPackage,
-					Package: pkg,
-					Rule: functionRule,
 				})
 			}
 		}
