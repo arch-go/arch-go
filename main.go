@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/fdaines/arch-go/cmd"
+	"github.com/fdaines/arch-go/internal/cmd"
 )
 
 func main() {
