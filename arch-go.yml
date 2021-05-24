@@ -5,6 +5,11 @@ dependenciesRules:
   - package: "**.impl.**"
     shouldOnlyDependsOn:
       - "**.arch-go.**"
+  - package: "**.arch-go.**"
+    shouldOnlyDependsOnExternal:
+      - "github.com/fatih/color"
+      - "github.com/spf13/cobra"
+      - "gopkg.in/yaml.v2"
 
 contentsRules:
   - package: "**.impl.model"

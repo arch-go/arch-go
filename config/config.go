@@ -6,9 +6,10 @@ import (
 )
 
 type DependenciesRule struct {
-	Package             string   `yaml:"package"`
-	ShouldOnlyDependsOn []string `yaml:"shouldOnlyDependsOn"`
-	ShouldNotDependsOn  []string `yaml:"shouldNotDependsOn"`
+	Package                     string   `yaml:"package"`
+	ShouldOnlyDependsOn         []string `yaml:"shouldOnlyDependsOn"`
+	ShouldNotDependsOn          []string `yaml:"shouldNotDependsOn"`
+	ShouldOnlyDependsOnExternal []string `yaml:"shouldOnlyDependsOnExternal"`
 }
 
 type FunctionsRule struct {
