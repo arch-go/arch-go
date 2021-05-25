@@ -35,3 +35,9 @@ functionsRules:
 cyclesRules:
   - package: "**.cmd"
     shouldNotContainCycles: true
+
+namingRules:
+  - package: "**.arch_go.**"
+    interfaceImplementationNamingRule:
+      structsThatImplement: "PackageVerification"
+      shouldHaveSimpleNameEndingWith: "Verification"
