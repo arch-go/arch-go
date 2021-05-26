@@ -15,7 +15,8 @@ var rootCmd = &cobra.Command{
 * Dependencies
 * Package contents
 * Cyclic dependencies
-* Function rules`,
+* Function rules
+* Naming rules`,
 	Run: runCommand,
 }
 
