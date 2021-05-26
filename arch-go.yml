@@ -13,7 +13,8 @@ dependenciesRules:
 
 contentsRules:
   - package: "**.impl.model"
-    shouldOnlyContainInterfaces: true
+    shouldNotContainFunctions: true
+    shouldNotContainMethods: true
   - package: "**.impl.config"
     shouldOnlyContainFunctions: true
   - package: "**.impl.dependencies"
