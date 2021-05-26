@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"fmt"
+	"github.com/fdaines/arch-go/internal/impl"
 	"github.com/spf13/cobra"
 )
 
@@ -18,5 +18,5 @@ func init() {
 }
 
 func describeRules(cmd *cobra.Command, args []string) {
-	fmt.Printf("Describe architecture rules\n")
+	impl.DescribeArchitectureGuidelines()
 }
