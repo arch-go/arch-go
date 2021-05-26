@@ -46,10 +46,10 @@ func CheckArchitecture() bool {
 
 func resolveVerifications(configuration *config.Config, moduleInfo *baseModel.ModuleInfo) []model.RuleVerification {
 	var verifications []model.RuleVerification
-//	verifications = resolveDependencyRules(configuration, moduleInfo, verifications)
-//	verifications = resolveFunctionRules(configuration, moduleInfo, verifications)
-//	verifications = resolveContentRules(configuration, moduleInfo, verifications)
-//	verifications = resolveCycleRules(configuration, moduleInfo, verifications)
+	verifications = resolveDependencyRules(configuration, moduleInfo, verifications)
+	verifications = resolveFunctionRules(configuration, moduleInfo, verifications)
+	verifications = resolveContentRules(configuration, moduleInfo, verifications)
+	verifications = resolveCycleRules(configuration, moduleInfo, verifications)
 	verifications = resolveNamingRules(configuration, moduleInfo, verifications)
 
 	return verifications

@@ -57,29 +57,22 @@ func (d *ContentsRuleVerification) Verify() {
 	for index, pd := range d.PackageDetails {
 		packagePasses := true
 		contents, _ := retrieveContents(pd.Package, d.Module)
-		fmt.Printf("Package: %+v\n", pd.Package.Path)
-		fmt.Printf("Contents: %+v\n", contents)
-		fmt.Printf("Rule: %+v\n", d.Rule)
 
 		ruleResult, ruleDetails := check_interfaces(contents, d.Rule)
 		packagePasses = packagePasses && ruleResult
 		d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, ruleDetails...)
-		fmt.Printf("packagePasses1: %+v\n", packagePasses)
 
 		ruleResult, ruleDetails = check_structs(contents, d.Rule)
 		packagePasses = packagePasses && ruleResult
 		d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, ruleDetails...)
-		fmt.Printf("packagePasses2: %+v\n", packagePasses)
 
 		ruleResult, ruleDetails = check_functions(contents, d.Rule)
 		packagePasses = packagePasses && ruleResult
 		d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, ruleDetails...)
-		fmt.Printf("packagePasses3: %+v\n", packagePasses)
 
 		ruleResult, ruleDetails = check_methods(contents, d.Rule)
 		packagePasses = packagePasses && ruleResult
 		d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, ruleDetails...)
-		fmt.Printf("packagePasses4: %+v\n", packagePasses)
 
 		d.PackageDetails[index].Passes = packagePasses
 		result = result && packagePasses

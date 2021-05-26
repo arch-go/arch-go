@@ -37,7 +37,7 @@ cyclesRules:
     shouldNotContainCycles: true
 
 namingRules:
-  - package: "**.arch_go.**"
+  - package: "**.arch-go.**"
     interfaceImplementationNamingRule:
-      structsThatImplement: "PackageVerification"
+      structsThatImplement: "*Verification"
       shouldHaveSimpleNameEndingWith: "Verification"

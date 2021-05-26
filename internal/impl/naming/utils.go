@@ -1,0 +1,183 @@
+package naming
+
+import (
+	"fmt"
+	"github.com/fdaines/arch-go/internal/impl/model"
+	"github.com/fdaines/arch-go/internal/utils/packages"
+	"go/ast"
+	"go/parser"
+	"go/token"
+	"io/ioutil"
+	"os"
+	"path/filepath"
+	"strings"
+)
+
+func getInterfacesMatching(module string, pattern string) ([]InterfaceDescription, error) {
+	var interfaces []InterfaceDescription
+
+	path, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+	pkgs, _ := packages.GetBasicPackagesInfo()
+	comparator, patternValue := getPatternComparator(pattern)
+	for _, pkg := range pkgs {
+		packageDir := strings.Replace(pkg.PackageData.ImportPath, module, path, 1)
+		for _, srcFile := range pkg.PackageData.GoFiles {
+			data, err := ioutil.ReadFile(filepath.Join(packageDir, srcFile))
+			if err != nil {
+				return nil, err
+			}
+			fileset := token.NewFileSet()
+			node, err := parser.ParseFile(fileset, srcFile, data, 0)
+			if err != nil {
+				return nil, err
+			}
+			ast.Inspect(node, func(n ast.Node) bool {
+				switch t := n.(type) {
+				case *ast.GenDecl:
+					if t.Tok.String() == "type" {
+						ts := t.Specs[0].(*ast.TypeSpec)
+						it, ok := ts.Type.(*ast.InterfaceType)
+						if ok && comparator(ts.Name.String(), patternValue) {
+							currentInterface := InterfaceDescription{
+								Name: ts.Name.String(),
+							}
+							for _,m := range it.Methods.List {
+								method := m.Type.(*ast.FuncType)
+								currentInterface.Methods = append(currentInterface.Methods, MethodDescription{
+									Name: m.Names[0].String(),
+									Parameters: getParameters(method.Params),
+									ReturnValues: getReturnValues(method.Results),
+								})
+							}
+							interfaces = append(interfaces, currentInterface)
+						}
+					}
+				}
+				return true
+			})
+		}
+	}
+
+	return interfaces, nil
+}
+
+func getStructsWithMethods(module string, pkg model.PackageVerification) ([]StructDescription, error) {
+	var structs []StructDescription
+	structsMap := make(map[string][]*ast.FuncDecl)
+
+	path, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+	packageDir := strings.Replace(pkg.Package.PackageData.ImportPath, module, path, 1)
+	for _, srcFile := range pkg.Package.PackageData.GoFiles {
+		data, err := ioutil.ReadFile(filepath.Join(packageDir, srcFile))
+		if err != nil {
+			return nil, err
+		}
+		fileset := token.NewFileSet()
+		node, err := parser.ParseFile(fileset, srcFile, data, 0)
+		if err != nil {
+			return nil, err
+		}
+		ast.Inspect(node, func(n ast.Node) bool {
+			ft, ok := n.(*ast.FuncDecl)
+			if ok && ft.Recv != nil {
+				structName := fmt.Sprintf("%v", ft.Recv.List[0].Type.(*ast.StarExpr).X)
+				structsMap[structName] = append(structsMap[structName], ft)
+			}
+			return true
+		})
+	}
+
+	if len(structsMap) > 0 {
+		for k, v := range structsMap {
+			currentStruct := StructDescription{
+				Name: k,
+			}
+			for _,vx := range v {
+				md := MethodDescription{
+					Name: vx.Name.String(),
+					Parameters: getParameters(vx.Type.Params),
+					ReturnValues: getReturnValues(vx.Type.Results),
+				}
+				currentStruct.Methods = append(currentStruct.Methods, md)
+			}
+			structs = append(structs, currentStruct)
+		}
+	}
+	return structs, nil
+}
+
+func getPatternComparator(pattern string) (func(s string, prefix string) bool, string) {
+	if strings.HasPrefix(pattern, "*") {
+		return strings.HasSuffix, pattern[1:]
+	}
+	if strings.HasSuffix(pattern, "*") {
+		return strings.HasPrefix, pattern[:len(pattern)-1]
+	}
+	return strings.EqualFold, pattern
+}
+
+func getReturnValues(results *ast.FieldList) []string {
+	if results == nil || results.List == nil {
+		return []string{}
+	}
+	returnValues := make([]string, results.NumFields(), results.NumFields())
+	for index, p := range results.List {
+		returnValues[index] = fmt.Sprintf("%v", p.Type)
+	}
+	return returnValues
+}
+
+func getParameters(params *ast.FieldList) []string {
+	if params == nil || params.List == nil {
+		return []string{}
+	}
+	parameters := make([]string, params.NumFields(), params.NumFields())
+	for index, p := range params.List {
+		parameters[index] = fmt.Sprintf("%v", p.Type)
+	}
+	return parameters
+}
+
+func implementsInterface(s StructDescription, i InterfaceDescription) bool {
+	methodsLeft := len(i.Methods)
+	if len(s.Methods) < methodsLeft {
+		return false
+	}
+
+	for _, sm := range s.Methods {
+		for _, im := range i.Methods {
+			if sm.Name == im.Name {
+				paramsComplies := areEquals(sm.Parameters, im.Parameters)
+				returnValuesComplies := areEquals(sm.ReturnValues, im.ReturnValues)
+
+				if paramsComplies && returnValuesComplies {
+					methodsLeft--
+				}
+			}
+		}
+	}
+
+	return methodsLeft == 0
+}
+
+func areEquals(a, b []string) bool {
+	if (a == nil) != (b == nil) {
+		return false;
+	}
+	if len(a) != len(b) {
+		return false
+	}
+	for i := range a {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+
+	return true
+}
