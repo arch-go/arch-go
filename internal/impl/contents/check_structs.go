@@ -2,7 +2,7 @@ package contents
 
 import "github.com/fdaines/arch-go/internal/config"
 
-func check_structs(pkg *PackageContents, rule *config.ContentsRule) (bool, []string) {
+func checkStructs(pkg *PackageContents, rule *config.ContentsRule) (bool, []string) {
 	var details []string
 	if pkg.Structs > 0 {
 		if rule.ShouldNotContainStructs {

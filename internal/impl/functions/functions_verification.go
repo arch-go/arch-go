@@ -45,19 +45,19 @@ func (d *FunctionsRuleVerification) Verify() {
 	for index, pd := range d.PackageDetails {
 		packagePasses := true
 
-		ruleResult, ruleDetails := check_max_parameters(pd.Package, d.Module, d.Rule.MaxParameters)
+		ruleResult, ruleDetails := checkMaxParameters(pd.Package, d.Module, d.Rule.MaxParameters)
 		packagePasses = packagePasses && ruleResult
 		d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, ruleDetails...)
 
-		ruleResult, ruleDetails = check_max_return_values(pd.Package, d.Module, d.Rule.MaxReturnValues)
+		ruleResult, ruleDetails = checkMaxReturnValues(pd.Package, d.Module, d.Rule.MaxReturnValues)
 		packagePasses = packagePasses && ruleResult
 		d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, ruleDetails...)
 
-		ruleResult, ruleDetails = check_max_lines(pd.Package, d.Module, d.Rule.MaxLines)
+		ruleResult, ruleDetails = checkMaxLines(pd.Package, d.Module, d.Rule.MaxLines)
 		packagePasses = packagePasses && ruleResult
 		d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, ruleDetails...)
 
-		ruleResult, ruleDetails = check_max_public_functions(pd.Package, d.Module, d.Rule.MaxPublicFunctionPerFile)
+		ruleResult, ruleDetails = checkMaxPublicFunctions(pd.Package, d.Module, d.Rule.MaxPublicFunctionPerFile)
 		packagePasses = packagePasses && ruleResult
 		d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, ruleDetails...)
 

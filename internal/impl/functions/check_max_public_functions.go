@@ -5,7 +5,7 @@ import (
 	"github.com/fdaines/arch-go/internal/model"
 )
 
-func check_max_public_functions(pkg *model.PackageInfo, mainPackage string, maxPublicFunctions int) (bool, []string) {
+func checkMaxPublicFunctions(pkg *model.PackageInfo, mainPackage string, maxPublicFunctions int) (bool, []string) {
 	var details []string
 	passes := true
 	functions, _ := retrieveFunctions(pkg, mainPackage)

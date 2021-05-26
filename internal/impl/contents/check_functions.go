@@ -2,7 +2,7 @@ package contents
 
 import "github.com/fdaines/arch-go/internal/config"
 
-func check_functions(pkg *PackageContents, rule *config.ContentsRule) (bool, []string) {
+func checkFunctions(pkg *PackageContents, rule *config.ContentsRule) (bool, []string) {
 	var details []string
 	if pkg.Functions > 0 {
 		if rule.ShouldNotContainFunctions {

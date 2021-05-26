@@ -5,7 +5,7 @@ import (
 	"github.com/fdaines/arch-go/internal/model"
 )
 
-func check_max_lines(pkg *model.PackageInfo, mainPackage string, maxLines int) (bool, []string) {
+func checkMaxLines(pkg *model.PackageInfo, mainPackage string, maxLines int) (bool, []string) {
 	var details []string
 	passes := true
 	functions, _ := retrieveFunctions(pkg, mainPackage)
@@ -13,7 +13,7 @@ func check_max_lines(pkg *model.PackageInfo, mainPackage string, maxLines int) (
 		if fn.NumLines > maxLines {
 			passes = false
 			details = append(details,
-				fmt.Sprintf("Function %s in file %s receive too many lines (%d)",
+				fmt.Sprintf("Function %s in file %s has too many lines (%d)",
 					fn.Name, fn.FilePath, fn.NumLines))
 		}
 	}

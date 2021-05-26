@@ -5,7 +5,7 @@ import (
 	"github.com/fdaines/arch-go/internal/model"
 )
 
-func check_max_return_values(pkg *model.PackageInfo, mainPackage string, maxReturnValues int) (bool, []string) {
+func checkMaxReturnValues(pkg *model.PackageInfo, mainPackage string, maxReturnValues int) (bool, []string) {
 	var details []string
 	passes := true
 	functions, _ := retrieveFunctions(pkg, mainPackage)

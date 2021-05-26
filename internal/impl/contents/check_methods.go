@@ -2,7 +2,7 @@ package contents
 
 import "github.com/fdaines/arch-go/internal/config"
 
-func check_methods(pkg *PackageContents, rule *config.ContentsRule) (bool, []string) {
+func checkMethods(pkg *PackageContents, rule *config.ContentsRule) (bool, []string) {
 	var details []string
 	if pkg.Methods > 0 {
 		if rule.ShouldNotContainMethods {

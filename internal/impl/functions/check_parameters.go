@@ -5,7 +5,7 @@ import (
 	"github.com/fdaines/arch-go/internal/model"
 )
 
-func check_max_parameters(pkg *model.PackageInfo, mainPackage string, maxParameters int) (bool, []string) {
+func checkMaxParameters(pkg *model.PackageInfo, mainPackage string, maxParameters int) (bool, []string) {
 	var details []string
 	passes := true
 	functions, _ := retrieveFunctions(pkg, mainPackage)

@@ -58,19 +58,19 @@ func (d *ContentsRuleVerification) Verify() {
 		packagePasses := true
 		contents, _ := retrieveContents(pd.Package, d.Module)
 
-		ruleResult, ruleDetails := check_interfaces(contents, d.Rule)
+		ruleResult, ruleDetails := checkInterfaces(contents, d.Rule)
 		packagePasses = packagePasses && ruleResult
 		d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, ruleDetails...)
 
-		ruleResult, ruleDetails = check_structs(contents, d.Rule)
+		ruleResult, ruleDetails = checkStructs(contents, d.Rule)
 		packagePasses = packagePasses && ruleResult
 		d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, ruleDetails...)
 
-		ruleResult, ruleDetails = check_functions(contents, d.Rule)
+		ruleResult, ruleDetails = checkFunctions(contents, d.Rule)
 		packagePasses = packagePasses && ruleResult
 		d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, ruleDetails...)
 
-		ruleResult, ruleDetails = check_methods(contents, d.Rule)
+		ruleResult, ruleDetails = checkMethods(contents, d.Rule)
 		packagePasses = packagePasses && ruleResult
 		d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, ruleDetails...)
 
