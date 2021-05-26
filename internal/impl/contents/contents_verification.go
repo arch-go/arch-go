@@ -52,7 +52,7 @@ func NewContentsRuleVerification(module string, rule *config.ContentsRule) *Cont
 	}
 }
 
-func (d *ContentsRuleVerification) Verify() {
+func (d *ContentsRuleVerification) Verify() bool {
 	result := true
 	for index, pd := range d.PackageDetails {
 		packagePasses := true
@@ -78,6 +78,7 @@ func (d *ContentsRuleVerification) Verify() {
 		result = result && packagePasses
 	}
 	d.Passes = result
+	return d.Passes
 }
 
 func (d *ContentsRuleVerification) PrintResults() {

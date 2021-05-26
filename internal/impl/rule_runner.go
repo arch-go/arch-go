@@ -10,6 +10,7 @@ import (
 	"github.com/fdaines/arch-go/internal/impl/model"
 	"github.com/fdaines/arch-go/internal/impl/naming"
 	baseModel "github.com/fdaines/arch-go/internal/model"
+	"github.com/fdaines/arch-go/internal/model/result"
 	"github.com/fdaines/arch-go/internal/utils"
 	"github.com/fdaines/arch-go/internal/utils/packages"
 	"github.com/fdaines/arch-go/internal/utils/text"
@@ -33,12 +34,22 @@ func CheckArchitecture() bool {
 			}
 
 			verifications := resolveVerifications(configuration, moduleInfo)
+			summary := result.ResultSummary{
+				Rules: len(verifications),
+			}
 			for _, v := range verifications {
-				v.Verify()
+				result := v.Verify()
+				if result {
+					summary.Succeeded++
+				} else {
+					summary.Failed++
+				}
 			}
 			for _, v := range verifications {
 				v.PrintResults()
 			}
+			summary.Print()
+			returnValue = summary.Status()
 		}
 	})
 	return returnValue

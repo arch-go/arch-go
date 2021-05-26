@@ -27,7 +27,7 @@ func NewCyclesRuleVerification(module string, packages []*baseModel.PackageInfo,
 	}
 }
 
-func (d *CyclesRuleVerification) Verify() {
+func (d *CyclesRuleVerification) Verify() bool {
 	pkgsMap := makePackageInfoMap(d.ModulePackages)
 	result := true
 	for index, pd := range d.PackageDetails {
@@ -41,6 +41,7 @@ func (d *CyclesRuleVerification) Verify() {
 		result = result && packagePasses
 	}
 	d.Passes = result
+	return d.Passes
 }
 
 func (d *CyclesRuleVerification) PrintResults() {

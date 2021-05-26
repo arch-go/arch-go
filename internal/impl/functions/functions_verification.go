@@ -40,7 +40,7 @@ func NewFunctionsRuleVerification(module string, rule *config.FunctionsRule) *Fu
 	}
 }
 
-func (d *FunctionsRuleVerification) Verify() {
+func (d *FunctionsRuleVerification) Verify() bool {
 	result := true
 	for index, pd := range d.PackageDetails {
 		packagePasses := true
@@ -65,6 +65,7 @@ func (d *FunctionsRuleVerification) Verify() {
 		result = result && packagePasses
 	}
 	d.Passes = result
+	return d.Passes
 }
 
 func (d *FunctionsRuleVerification) PrintResults() {

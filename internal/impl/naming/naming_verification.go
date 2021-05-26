@@ -27,7 +27,7 @@ func NewNamingRuleVerification(module string, rule *config.NamingRule) *NamingRu
 	}
 }
 
-func (d *NamingRuleVerification) Verify() {
+func (d *NamingRuleVerification) Verify() bool {
 	d.Passes = true
 
 	if d.Rule.InterfaceImplementationNamingRule != nil {
@@ -70,6 +70,7 @@ func (d *NamingRuleVerification) Verify() {
 			d.Passes = d.Passes && packagePasses
 		}
 	}
+	return d.Passes
 }
 
 func (d *NamingRuleVerification) PrintResults() {

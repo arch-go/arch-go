@@ -41,7 +41,7 @@ func NewDependencyRuleVerification(module string, rule *config.DependenciesRule)
 	}
 }
 
-func (d *DependencyRuleVerification) Verify() {
+func (d *DependencyRuleVerification) Verify() bool {
 	result := true
 	for index, pd := range d.PackageDetails {
 		d.PackageDetails[index].Passes = true
@@ -64,6 +64,7 @@ func (d *DependencyRuleVerification) Verify() {
 
 		d.Passes = result
 	}
+	return d.Passes
 }
 
 func (d *DependencyRuleVerification) checkComplianceWithAllowedExternalImports(pkg string, index int, result bool) bool {
