@@ -5,8 +5,9 @@ Architecture checks for Go projects
 
 ## Dependencies Checks
 Supports defining import rules
-- Allowed dependencies
-- Not allowed dependencies
+- Allowed dependencies (same module)
+- Not allowed dependencies (same module)
+- Allowed external dependencies (different module and not part of standard library)
   
 ## Package Content Checks
 Allows you to define the contents of a set of packages, e.g. you can define that a desired package should only contain interfaces definitions.
@@ -29,6 +30,10 @@ Checks some functions properties, like the following:
 - Maximum number of return values
 - Maximum number of public functions per file
 - Maximum number of lines in the function body
+
+## Naming rules checks
+Checks some naming rules, like the following:
+- If a struct implements an interface that match some name pattern, then it's name should starts or ends with a specific pattern. For example, all structs that implements 'Verificator' interface, should have a name that ends with 'Verificator'
   
 # Configuration
 
@@ -66,6 +71,11 @@ cyclesRules:
   - package: "**.cmd"
     shouldNotContainCycles: true
 
+namingRules:
+  - package: "**.arch-go.**"
+    interfaceImplementationNamingRule:
+      structsThatImplement: "*Connection"
+      shouldHaveSimpleNameEndingWith: "Connection"
 ```
 
 ## Package name patterns
