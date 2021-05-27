@@ -27,7 +27,7 @@ func CheckArchitecture() bool {
 			os.Exit(1)
 		} else {
 			mainPackage, _ := packages.GetMainPackage()
-			pkgs, _ := packages.GetBasicPackagesInfo()
+			pkgs, _ := packages.GetBasicPackagesInfo(true)
 			moduleInfo := &baseModel.ModuleInfo{
 				MainPackage: mainPackage,
 				Packages:    pkgs,

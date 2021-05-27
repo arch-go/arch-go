@@ -20,7 +20,7 @@ func getInterfacesMatching(module string, pattern string) ([]InterfaceDescriptio
 	if err != nil {
 		panic(err)
 	}
-	pkgs, _ := packages.GetBasicPackagesInfo()
+	pkgs, _ := packages.GetBasicPackagesInfo(false)
 	comparator, patternValue := getPatternComparator(pattern)
 	for _, pkg := range pkgs {
 		packageDir := strings.Replace(pkg.PackageData.ImportPath, module, path, 1)
