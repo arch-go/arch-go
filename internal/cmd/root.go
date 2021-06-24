@@ -28,6 +28,7 @@ func Execute() {
 
 func init() {
 	rootCmd.PersistentFlags().BoolVarP(&common.Verbose, "verbose", "v", false, "Verbose Output")
+	rootCmd.PersistentFlags().BoolVar(&common.Html, "html",false, "Generate HTML Report")
 }
 
 func runCommand(cmd *cobra.Command, args []string) {

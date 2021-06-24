@@ -81,6 +81,18 @@ func (d *ContentsRuleVerification) Verify() bool {
 	return d.Passes
 }
 
+func (d *ContentsRuleVerification) Type() string {
+	return "ContentRule"
+}
+
+func (d *ContentsRuleVerification) Name() string {
+	return d.Description
+}
+
+func (d *ContentsRuleVerification) Status() bool {
+	return d.Passes
+}
+
 func (d *ContentsRuleVerification) PrintResults() {
 	if d.Passes {
 		color.Green("[PASS] - %s\n", d.Description)

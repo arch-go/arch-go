@@ -6,6 +6,7 @@
 *.dylib
 arch-go
 main
+.arch-go
 
 # Test binary, built with `go test -c`
 *.test

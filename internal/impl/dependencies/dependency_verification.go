@@ -118,6 +118,18 @@ func (d *DependencyRuleVerification) checkComplianceWithAllowedInternalImports(p
 	return result
 }
 
+func (d *DependencyRuleVerification) Type() string {
+	return "DependenciesRule"
+}
+
+func (d *DependencyRuleVerification) Name() string {
+	return d.Description
+}
+
+func (d *DependencyRuleVerification) Status() bool {
+	return d.Passes
+}
+
 func (d *DependencyRuleVerification) PrintResults() {
 	if d.Passes {
 		color.Green("[PASS] - %s\n", d.Description)

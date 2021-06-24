@@ -73,6 +73,18 @@ func (d *NamingRuleVerification) Verify() bool {
 	return d.Passes
 }
 
+func (d *NamingRuleVerification) Type() string {
+	return "NamingRule"
+}
+
+func (d *NamingRuleVerification) Name() string {
+	return d.Description
+}
+
+func (d *NamingRuleVerification) Status() bool {
+	return d.Passes
+}
+
 func (d *NamingRuleVerification) PrintResults() {
 	if d.Passes {
 		color.Green("[PASS] - %s\n", d.Description)

@@ -68,6 +68,18 @@ func (d *FunctionsRuleVerification) Verify() bool {
 	return d.Passes
 }
 
+func (d *FunctionsRuleVerification) Type() string {
+	return "FunctionsRule"
+}
+
+func (d *FunctionsRuleVerification) Name() string {
+	return d.Description
+}
+
+func (d *FunctionsRuleVerification) Status() bool {
+	return d.Passes
+}
+
 func (d *FunctionsRuleVerification) PrintResults() {
 	if d.Passes {
 		color.Green("[PASS] - %s\n", d.Description)

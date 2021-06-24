@@ -44,6 +44,18 @@ func (d *CyclesRuleVerification) Verify() bool {
 	return d.Passes
 }
 
+func (d *CyclesRuleVerification) Type() string {
+	return "CycleRule"
+}
+
+func (d *CyclesRuleVerification) Status() bool {
+	return d.Passes
+}
+
+func (d *CyclesRuleVerification) Name() string {
+	return d.Description
+}
+
 func (d *CyclesRuleVerification) PrintResults() {
 	if d.Passes {
 		color.Green("[PASS] - %s\n", d.Description)
