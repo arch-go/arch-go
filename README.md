@@ -143,6 +143,7 @@ Naming Rules
 | Flag      | Description                                                                                     |
 | --------- |:------------------------------------------------------------------------------------------------|
 | --verbose | Includes detailed information while the command is running. The shorthand is _-v_               |
+| --html    | Generates a simple HTL report with the evaluation result.                                       |
 
 
 ## Examples
@@ -150,6 +151,7 @@ Naming Rules
 $ arch-go 
 $ arch-go -v
 $ arch-go --verbose
+$ arch-go --html
 $ arch-go describe
 ```
 
