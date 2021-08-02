@@ -12,6 +12,7 @@ import (
 	"github.com/fdaines/arch-go/internal/impl/naming"
 	baseModel "github.com/fdaines/arch-go/internal/model"
 	"github.com/fdaines/arch-go/internal/model/result"
+	"github.com/fdaines/arch-go/internal/report/console"
 	"github.com/fdaines/arch-go/internal/report/html"
 	"github.com/fdaines/arch-go/internal/utils"
 	"github.com/fdaines/arch-go/internal/utils/packages"
@@ -43,13 +44,15 @@ func CheckArchitecture() bool {
 
 			summary := result.ResolveRulesSummary(verifications)
 			returnValue = summary.Failed == 0
+			summary.Print()
 
 			if common.Html {
 				fmt.Println("Generate HTML Report")
 				html.GenerateHtmlReport(verifications, summary)
+			} else {
+				fmt.Println("Generate Console Report")
+				console.GenerateConsoleReport(summary)
 			}
-
-			summary.Print()
 		}
 	})
 	return returnValue

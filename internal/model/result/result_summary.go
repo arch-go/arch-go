@@ -55,9 +55,5 @@ func (s RulesSummary) Print() {
 	output.Printf("Total Rules: \t%d\n", s.Total)
 	output.Printf("Succeeded: \t%d\n", s.Succeeded)
 	output.Printf("Failed: \t%d\n", s.Failed)
-	output.Printf("Results by RuleType\n")
-	for k, v := range s.Details {
-		output.Printf("\t%s: \tSucceeded: %d, Failed: %d\n", k, v.Succeeded, v.Failed)
-	}
 	output.Print("--------------------------------------")
 }

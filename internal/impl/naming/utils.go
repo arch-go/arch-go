@@ -87,15 +87,7 @@ func getStructsWithMethods(module string, pkg model.PackageVerification) ([]Stru
 		ast.Inspect(node, func(n ast.Node) bool {
 			ft, ok := n.(*ast.FuncDecl)
 			if ok && ft.Recv != nil {
-				var structName string
-				se, ok := ft.Recv.List[0].Type.(*ast.StarExpr)
-				if ok {
-					structName = fmt.Sprintf("*%v", se.X)
-				}
-				ie, ok := ft.Recv.List[0].Type.(*ast.Ident)
-				if ok {
-					structName = fmt.Sprintf("%v", ie.Name)
-				}
+				structName := resolveStructName(ft)
 				structsMap[structName] = append(structsMap[structName], ft)
 				fileStructsMap[ft] = string(data)
 			}
@@ -108,10 +100,10 @@ func getStructsWithMethods(module string, pkg model.PackageVerification) ([]Stru
 			currentStruct := StructDescription{
 				Name: k,
 			}
-			for _,vx := range v {
+			for _, vx := range v {
 				md := MethodDescription{
-					Name: vx.Name.String(),
-					Parameters: getParameters(fileStructsMap[vx], vx.Type.Params),
+					Name:         vx.Name.String(),
+					Parameters:   getParameters(fileStructsMap[vx], vx.Type.Params),
 					ReturnValues: getReturnValues(fileStructsMap[vx], vx.Type.Results),
 				}
 				currentStruct.Methods = append(currentStruct.Methods, md)
@@ -120,6 +112,18 @@ func getStructsWithMethods(module string, pkg model.PackageVerification) ([]Stru
 		}
 	}
 	return structs, nil
+}
+
+func resolveStructName(ft *ast.FuncDecl) string {
+	se, ok := ft.Recv.List[0].Type.(*ast.StarExpr)
+	if ok {
+		return fmt.Sprintf("*%v", se.X)
+	}
+	ie, ok := ft.Recv.List[0].Type.(*ast.Ident)
+	if ok {
+		return fmt.Sprintf("%v", ie.Name)
+	}
+	return ""
 }
 
 func getPatternComparator(pattern string) (func(s string, prefix string) bool, string) {
