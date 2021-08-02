@@ -48,6 +48,8 @@ func CheckArchitecture() bool {
 				fmt.Println("Generate HTML Report")
 				html.GenerateHtmlReport(verifications, summary)
 			}
+
+			summary.Print()
 		}
 	})
 	return returnValue

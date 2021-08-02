@@ -35,7 +35,6 @@ func (d *NamingRuleVerification) Verify() bool {
 		for index, pd := range d.PackageDetails {
 			packagePasses := true
 			structs, _ := getStructsWithMethods(d.Module, pd)
-
 			if len(structs) == 0 {
 				d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, "Package has no structs type definitions")
 				d.PackageDetails[index].Passes = packagePasses

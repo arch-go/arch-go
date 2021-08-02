@@ -5,25 +5,6 @@ import (
 	"github.com/fdaines/arch-go/internal/utils/output"
 )
 
-type ResultSummary struct {
-	Rules     int
-	Succeeded int
-	Failed    int
-}
-
-func (r *ResultSummary) Status() bool {
-	return r.Failed == 0
-}
-
-func (r *ResultSummary) Print() {
-	output.Print("--------------------------------------")
-	output.Printf("Total Rules: \t%d\n", r.Rules)
-	output.Printf("Succeeded: \t%d\n", r.Succeeded)
-	output.Printf("Failed: \t%d\n", r.Failed)
-	output.Print("--------------------------------------")
-}
-
-
 func ResolveRulesSummary(verifications []model.RuleVerification) RulesSummary {
 	summary := NewRulesSummary()
 	for _, v := range verifications {
@@ -67,4 +48,16 @@ type RulesSummaryDetail struct {
 	Total int32
 	Succeeded int32
 	Failed int32
+}
+
+func (s RulesSummary) Print() {
+	output.Print("--------------------------------------")
+	output.Printf("Total Rules: \t%d\n", s.Total)
+	output.Printf("Succeeded: \t%d\n", s.Succeeded)
+	output.Printf("Failed: \t%d\n", s.Failed)
+	output.Printf("Results by RuleType\n")
+	for k, v := range s.Details {
+		output.Printf("\t%s: \tSucceeded: %d, Failed: %d\n", k, v.Succeeded, v.Failed)
+	}
+	output.Print("--------------------------------------")
 }

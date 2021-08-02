@@ -48,8 +48,8 @@ func getInterfacesMatching(module string, pattern string) ([]InterfaceDescriptio
 								method := m.Type.(*ast.FuncType)
 								currentInterface.Methods = append(currentInterface.Methods, MethodDescription{
 									Name: m.Names[0].String(),
-									Parameters: getParameters(method.Params),
-									ReturnValues: getReturnValues(method.Results),
+									Parameters: getParameters(string(data), method.Params),
+									ReturnValues: getReturnValues(string(data), method.Results),
 								})
 							}
 							interfaces = append(interfaces, currentInterface)
@@ -67,6 +67,7 @@ func getInterfacesMatching(module string, pattern string) ([]InterfaceDescriptio
 func getStructsWithMethods(module string, pkg model.PackageVerification) ([]StructDescription, error) {
 	var structs []StructDescription
 	structsMap := make(map[string][]*ast.FuncDecl)
+	fileStructsMap := make(map[*ast.FuncDecl]string)
 
 	path, err := os.Getwd()
 	if err != nil {
@@ -86,8 +87,17 @@ func getStructsWithMethods(module string, pkg model.PackageVerification) ([]Stru
 		ast.Inspect(node, func(n ast.Node) bool {
 			ft, ok := n.(*ast.FuncDecl)
 			if ok && ft.Recv != nil {
-				structName := fmt.Sprintf("%v", ft.Recv.List[0].Type.(*ast.StarExpr).X)
+				var structName string
+				se, ok := ft.Recv.List[0].Type.(*ast.StarExpr)
+				if ok {
+					structName = fmt.Sprintf("*%v", se.X)
+				}
+				ie, ok := ft.Recv.List[0].Type.(*ast.Ident)
+				if ok {
+					structName = fmt.Sprintf("%v", ie.Name)
+				}
 				structsMap[structName] = append(structsMap[structName], ft)
+				fileStructsMap[ft] = string(data)
 			}
 			return true
 		})
@@ -101,8 +111,8 @@ func getStructsWithMethods(module string, pkg model.PackageVerification) ([]Stru
 			for _,vx := range v {
 				md := MethodDescription{
 					Name: vx.Name.String(),
-					Parameters: getParameters(vx.Type.Params),
-					ReturnValues: getReturnValues(vx.Type.Results),
+					Parameters: getParameters(fileStructsMap[vx], vx.Type.Params),
+					ReturnValues: getReturnValues(fileStructsMap[vx], vx.Type.Results),
 				}
 				currentStruct.Methods = append(currentStruct.Methods, md)
 			}
@@ -122,24 +132,25 @@ func getPatternComparator(pattern string) (func(s string, prefix string) bool, s
 	return strings.EqualFold, pattern
 }
 
-func getReturnValues(results *ast.FieldList) []string {
+func getReturnValues(fileContent string, results *ast.FieldList) []string {
 	if results == nil || results.List == nil {
 		return []string{}
 	}
 	returnValues := make([]string, results.NumFields(), results.NumFields())
 	for index, p := range results.List {
-		returnValues[index] = fmt.Sprintf("%v", p.Type)
+		returnValues[index] = fmt.Sprintf("%s", fileContent[p.Type.Pos()-1:p.Type.End()-1])
 	}
+
 	return returnValues
 }
 
-func getParameters(params *ast.FieldList) []string {
+func getParameters(fileContent string, params *ast.FieldList) []string {
 	if params == nil || params.List == nil {
 		return []string{}
 	}
 	parameters := make([]string, params.NumFields(), params.NumFields())
 	for index, p := range params.List {
-		parameters[index] = fmt.Sprintf("%v", p.Type)
+		parameters[index] = fmt.Sprintf("%s", fileContent[p.Type.Pos()-1:p.Type.End()-1])
 	}
 	return parameters
 }
