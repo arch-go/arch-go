@@ -89,7 +89,12 @@ func (d *DependencyRuleVerification) checkComplianceWithRestrictedInternalImport
 		fails := false
 		output.PrintVerbose("Check if imported package '%s' is one of the restricted packages\n", pkg)
 		for _, notAllowedImport := range d.Rule.ShouldNotDependsOn {
-			notAllowedImportRegexp, _ := regexp.Compile(text.PreparePackageRegexp(notAllowedImport))
+			fmt.Printf("Regexp1: %s\n", notAllowedImport)
+			fmt.Printf("Regexp2: %s\n", text.PreparePackageRegexp(notAllowedImport))
+			notAllowedImportRegexp, err := regexp.Compile(text.PreparePackageRegexp(notAllowedImport))
+			if err != nil {
+				fmt.Printf("Error al compilar expresion: %+v\n", err)
+			}
 			fails = fails || notAllowedImportRegexp.MatchString(pkg)
 		}
 		if fails {
@@ -128,6 +133,37 @@ func (d *DependencyRuleVerification) Name() string {
 
 func (d *DependencyRuleVerification) Status() bool {
 	return d.Passes
+}
+
+func (d *DependencyRuleVerification) ValidatePatterns() bool {
+	isValid := true
+	_, err := regexp.Compile(text.PreparePackageRegexp(d.Rule.Package))
+	if err != nil {
+		color.Red("[%s] - Invalid Package Pattern: %s\n", d.Description, d.Rule.Package)
+		isValid = false
+	}
+	for _, sodo := range d.Rule.ShouldOnlyDependsOn {
+		_, err := regexp.Compile(text.PreparePackageRegexp(sodo))
+		if err != nil {
+			color.Red("[%s] - Invalid pattern in ShouldOnlyDependsOn: %s\n", d.Description, sodo)
+			isValid = false
+		}
+	}
+	for _, sndo := range d.Rule.ShouldNotDependsOn {
+		_, err := regexp.Compile(text.PreparePackageRegexp(sndo))
+		if err != nil {
+			color.Red("[%s] - Invalid pattern in ShouldNotDependsOn: %s\n", d.Description, sndo)
+			isValid = false
+		}
+	}
+	for _, sodoe := range d.Rule.ShouldOnlyDependsOnExternal {
+		_, err := regexp.Compile(text.PreparePackageRegexp(sodoe))
+		if err != nil {
+			color.Red("[%s] - Invalid pattern in ShouldOnlyDependsOnExternal: %s\n", d.Description, sodoe)
+			isValid = false
+		}
+	}
+	return isValid
 }
 
 func (d *DependencyRuleVerification) PrintResults() {

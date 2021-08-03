@@ -2,6 +2,7 @@ package impl
 
 import (
 	"fmt"
+	"github.com/fatih/color"
 	"github.com/fdaines/arch-go/internal/common"
 	"github.com/fdaines/arch-go/internal/config"
 	"github.com/fdaines/arch-go/internal/impl/contents"
@@ -37,6 +38,8 @@ func CheckArchitecture() bool {
 			}
 
 			verifications := resolveVerifications(configuration, moduleInfo)
+			validateVerifications(verifications)
+
 			for _, v := range verifications {
 				v.Verify()
 				v.PrintResults()
@@ -56,6 +59,17 @@ func CheckArchitecture() bool {
 		}
 	})
 	return returnValue
+}
+
+func validateVerifications(verifications []model.RuleVerification) {
+	ok := true
+	for _, v := range verifications {
+		ok = ok && v.ValidatePatterns()
+	}
+	if !ok {
+		color.Red("Some package patterns are invalid, please check documentation: https://github.com/fdaines/arch-go\n")
+		os.Exit(1)
+	}
 }
 
 func resolveVerifications(configuration *config.Config, moduleInfo *baseModel.ModuleInfo) []model.RuleVerification {

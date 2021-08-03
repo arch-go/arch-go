@@ -6,4 +6,5 @@ type RuleVerification interface {
 	Name() string
 	PrintResults()
 	Verify() bool
+	ValidatePatterns() bool
 }

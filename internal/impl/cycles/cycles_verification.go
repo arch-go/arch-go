@@ -6,6 +6,8 @@ import (
 	"github.com/fdaines/arch-go/internal/config"
 	"github.com/fdaines/arch-go/internal/impl/model"
 	baseModel "github.com/fdaines/arch-go/internal/model"
+	"github.com/fdaines/arch-go/internal/utils/text"
+	"regexp"
 )
 
 type CyclesRuleVerification struct {
@@ -50,6 +52,15 @@ func (d *CyclesRuleVerification) Type() string {
 
 func (d *CyclesRuleVerification) Status() bool {
 	return d.Passes
+}
+
+func (d *CyclesRuleVerification) ValidatePatterns() bool {
+	_, err := regexp.Compile(text.PreparePackageRegexp(d.Rule.Package))
+	if err != nil {
+		color.Red("[%s] - Invalid Package Pattern: %s\n", d.Description, d.Rule.Package)
+		return false
+	}
+	return true
 }
 
 func (d *CyclesRuleVerification) Name() string {

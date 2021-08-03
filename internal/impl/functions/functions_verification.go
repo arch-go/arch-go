@@ -5,6 +5,8 @@ import (
 	"github.com/fatih/color"
 	"github.com/fdaines/arch-go/internal/config"
 	"github.com/fdaines/arch-go/internal/impl/model"
+	"github.com/fdaines/arch-go/internal/utils/text"
+	"regexp"
 	"strings"
 )
 
@@ -78,6 +80,15 @@ func (d *FunctionsRuleVerification) Name() string {
 
 func (d *FunctionsRuleVerification) Status() bool {
 	return d.Passes
+}
+
+func (d *FunctionsRuleVerification) ValidatePatterns() bool {
+	_, err := regexp.Compile(text.PreparePackageRegexp(d.Rule.Package))
+	if err != nil {
+		color.Red("[%s] - Invalid Package Pattern: %s\n", d.Description, d.Rule.Package)
+		return false
+	}
+	return true
 }
 
 func (d *FunctionsRuleVerification) PrintResults() {
