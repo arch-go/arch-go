@@ -81,15 +81,16 @@ namingRules:
 ## Package name patterns
 The package name can be defined as a fixed value or using _*_ special character, to create a simple pattern.
 
-| Example    | Description                                                                                                                                                          |
-| ---------- |:---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| *.name     | Package should end with _name_ and anything before, supporting multiple levels (for example either _foo/name_ and _foo/bar/name_)                                    |
-| **.name    | Package should end with _name_ and anything before, supporting only one level (for example _foo/name_, but no _foo/bar/name_)                                        |
-| name.*     | Package should start with _name_ and anything before, supporting multiple levels (for example either _name/foo_ and _name/foo/bar_)                                  |
-| name.**    | Package should start with _name_ and anything before, supporting only one level (for example _name/foo_, but no _name/foo/bar_)                                      |
-| **.name.** | Package should contain _name_, supporting multiple levels before and after (for example both _foo/name/x/y/z_, _foo/bar/name_ and _foo/bar/name/x_)                  |
-| foo.**.bar | Package should start with _foo_, and ends with _bar_, and can have anything between them. (for example _foo/bar_, _foo/test/blah/bar_ and _foo/ok/bar_)              |
-| foo.*.bar  | Package should start with _foo_, and ends with _bar_, and can have only one level between them. (for example _foo/bar_ and _foo/ok/bar_, but no _foo/test/blah/bar_) |
+| Example         | Description                                                                                                                                                          |
+| --------------- |:---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| *.name          | Package should end with _name_ and anything before, supporting multiple levels (for example either _foo/name_ and _foo/bar/name_)                                    |
+| **.name         | Package should end with _name_ and anything before, supporting only one level (for example _foo/name_, but no _foo/bar/name_)                                        |
+| name.*          | Package should start with _name_ and anything before, supporting multiple levels (for example either _name/foo_ and _name/foo/bar_)                                  |
+| name.**         | Package should start with _name_ and anything before, supporting only one level (for example _name/foo_, but no _name/foo/bar_)                                      |
+| \*\*.name.**    | Package should contain _name_, supporting multiple levels before and after (for example both _foo/name/x/y/z_, _foo/bar/name_ and _foo/bar/name/x_)                  |
+| \*\*.foo/bar.** | Package should contain _foo/bar_, supporting multiple levels before and after (for example both _x/y/foo/bar/w/z_, _foo/bar/name_ and _x/y/foo/bar_)                  |
+| foo.**.bar      | Package should start with _foo_, and ends with _bar_, and can have anything between them. (for example _foo/bar_, _foo/test/blah/bar_ and _foo/ok/bar_)              |
+| foo.*.bar       | Package should start with _foo_, and ends with _bar_, and can have only one level between them. (for example _foo/bar_ and _foo/ok/bar_, but no _foo/test/blah/bar_) |
 
 
 # Usage

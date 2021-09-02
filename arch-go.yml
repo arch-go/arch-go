@@ -1,5 +1,5 @@
 dependenciesRules:
-  - package: "**.cmd.*"
+  - package: "**.cmd"
     shouldOnlyDependsOn:
       - "**.arch-go.**"
   - package: "**.impl.**"

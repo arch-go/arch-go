@@ -89,8 +89,6 @@ func (d *DependencyRuleVerification) checkComplianceWithRestrictedInternalImport
 		fails := false
 		output.PrintVerbose("Check if imported package '%s' is one of the restricted packages\n", pkg)
 		for _, notAllowedImport := range d.Rule.ShouldNotDependsOn {
-			fmt.Printf("Regexp1: %s\n", notAllowedImport)
-			fmt.Printf("Regexp2: %s\n", text.PreparePackageRegexp(notAllowedImport))
 			notAllowedImportRegexp, err := regexp.Compile(text.PreparePackageRegexp(notAllowedImport))
 			if err != nil {
 				fmt.Printf("Error al compilar expresion: %+v\n", err)

@@ -38,7 +38,9 @@ func retrieveContents(pkg *model.PackageInfo, mainPackage string) (*PackageConte
 					functions++
 				}
 			case *ast.InterfaceType:
-				interfaces++
+				if t.Methods != nil && len(t.Methods.List) > 0 {
+					interfaces++
+				}
 			case *ast.StructType:
 				structs++
 			}
