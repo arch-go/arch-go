@@ -10,6 +10,7 @@ type DependenciesRule struct {
 	ShouldOnlyDependsOn         []string `yaml:"shouldOnlyDependsOn"`
 	ShouldNotDependsOn          []string `yaml:"shouldNotDependsOn"`
 	ShouldOnlyDependsOnExternal []string `yaml:"shouldOnlyDependsOnExternal"`
+	ShouldNotDependsOnExternal  []string `yaml:"shouldNotDependsOnExternal"`
 }
 
 type FunctionsRule struct {

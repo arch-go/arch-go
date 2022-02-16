@@ -31,6 +31,9 @@ func NewDependencyRuleVerification(module string, rule *config.DependenciesRule)
 	if len(rule.ShouldOnlyDependsOnExternal) > 0 {
 		ruleDescriptions = append(ruleDescriptions, fmt.Sprintf("'only depends on the following external dependencies [%v]'", rule.ShouldOnlyDependsOnExternal))
 	}
+	if len(rule.ShouldNotDependsOnExternal) > 0 {
+		ruleDescriptions = append(ruleDescriptions, fmt.Sprintf("'not depends on the following external dependencies [%v]'", rule.ShouldNotDependsOnExternal))
+	}
 	description := fmt.Sprintf("Packages matching pattern '%s' should [%s]", rule.Package, strings.Join(ruleDescriptions, ","))
 
 	return &DependencyRuleVerification{
@@ -61,6 +64,11 @@ func (d *DependencyRuleVerification) Verify() bool {
 				result = d.checkComplianceWithAllowedExternalImports(pkg, index, result)
 			}
 		}
+		if len(d.Rule.ShouldNotDependsOnExternal) > 0 {
+			for _, pkg := range pd.Package.PackageData.Imports {
+				result = d.checkComplianceWithRestrictedExternalImports(pkg, index, result)
+			}
+		}
 
 		d.Passes = result
 	}
@@ -84,6 +92,26 @@ func (d *DependencyRuleVerification) checkComplianceWithAllowedExternalImports(p
 	return result
 }
 
+func (d *DependencyRuleVerification) checkComplianceWithRestrictedExternalImports(pkg string, index int, result bool) bool {
+	if !strings.HasPrefix(pkg, d.Module) && packages.IsExternalPackage(pkg) {
+		fails := false
+		output.PrintVerbose("Check if imported package '%s' complies with restricted imports\n", pkg)
+		for _, restrictedImport := range d.Rule.ShouldNotDependsOnExternal {
+			restrictedImportRegexp, err := regexp.Compile(text.PreparePackageRegexp(restrictedImport))
+			if err != nil {
+				output.Printf("Error compiling restricted imports expresion: %+v\n", err)
+			}
+			fails = fails || restrictedImportRegexp.MatchString(pkg)
+		}
+		if fails {
+			d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, fmt.Sprintf("ShouldNotDependsOnExternal rule contains imported package '%s'", pkg))
+			d.PackageDetails[index].Passes = false
+		}
+		result = result && !fails
+	}
+	return result
+}
+
 func (d *DependencyRuleVerification) checkComplianceWithRestrictedInternalImports(pkg string, index int, result bool) bool {
 	if strings.HasPrefix(pkg, d.Module) {
 		fails := false
@@ -91,7 +119,7 @@ func (d *DependencyRuleVerification) checkComplianceWithRestrictedInternalImport
 		for _, notAllowedImport := range d.Rule.ShouldNotDependsOn {
 			notAllowedImportRegexp, err := regexp.Compile(text.PreparePackageRegexp(notAllowedImport))
 			if err != nil {
-				fmt.Printf("Error al compilar expresion: %+v\n", err)
+				output.Printf("Error compiling allowed imports expresion: %+v\n", err)
 			}
 			fails = fails || notAllowedImportRegexp.MatchString(pkg)
 		}
@@ -158,6 +186,13 @@ func (d *DependencyRuleVerification) ValidatePatterns() bool {
 		_, err := regexp.Compile(text.PreparePackageRegexp(sodoe))
 		if err != nil {
 			color.Red("[%s] - Invalid pattern in ShouldOnlyDependsOnExternal: %s\n", d.Description, sodoe)
+			isValid = false
+		}
+	}
+	for _, sndoe := range d.Rule.ShouldNotDependsOnExternal {
+		_, err := regexp.Compile(text.PreparePackageRegexp(sndoe))
+		if err != nil {
+			color.Red("[%s] - Invalid pattern in ShouldNotDependsOnExternal: %s\n", d.Description, sndoe)
 			isValid = false
 		}
 	}
