@@ -46,6 +46,12 @@ func describeDependencyRules(rules []*config.DependenciesRule) {
 				fmt.Printf("\t\t\t- '%s'\n", p)
 			}
 		}
+		if r.ShouldNotDependsOnExternal != nil {
+			fmt.Printf("\t\t* Should not depends on external packages that matches\n")
+			for _,p := range r.ShouldNotDependsOnExternal {
+				fmt.Printf("\t\t\t- '%s'\n", p)
+			}
+		}
 	}
 	fmt.Println()
 }
