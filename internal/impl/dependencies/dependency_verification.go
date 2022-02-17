@@ -216,3 +216,7 @@ func (d *DependencyRuleVerification) PrintResults() {
 		}
 	}
 }
+
+func (d *DependencyRuleVerification) GetVerifications() []model.PackageVerification {
+	return d.PackageDetails
+}
