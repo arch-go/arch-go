@@ -121,3 +121,7 @@ func (d *ContentsRuleVerification) PrintResults() {
 		}
 	}
 }
+
+func (d *ContentsRuleVerification) GetVerifications() []model.PackageVerification {
+	return d.PackageDetails
+}

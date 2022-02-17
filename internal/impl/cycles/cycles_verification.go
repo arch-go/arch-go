@@ -84,3 +84,7 @@ func (d *CyclesRuleVerification) PrintResults() {
 		}
 	}
 }
+
+func (d *CyclesRuleVerification) GetVerifications() []model.PackageVerification {
+	return d.PackageDetails
+}

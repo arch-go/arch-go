@@ -115,3 +115,7 @@ func (d *NamingRuleVerification) PrintResults() {
 		}
 	}
 }
+
+func (d *NamingRuleVerification) GetVerifications() []model.PackageVerification {
+	return d.PackageDetails
+}

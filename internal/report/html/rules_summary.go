@@ -8,7 +8,7 @@ import (
 )
 
 const breakdownTemplate = `
-<h3>Breakdown by Rule</h3>
+<h3>Rules Summary</h3>
 <table>
     <thead>
         <tr>
@@ -25,7 +25,7 @@ const breakdownTemplate = `
 </table>
 `
 
-const ruleDetailTemplate = `<tr>
+const ruleSummaryTemplate = `<tr>
 	<td>%s</td>
 	<td>
 		<div class="result_bar">
@@ -48,8 +48,7 @@ func ruleList(summary result.RulesSummary) string {
 			ratio = 100 * summary.Details[r].Succeeded / summary.Details[r].Total
 		}
 		d := summary.Details[r]
-		buffer.WriteString(fmt.Sprintf(ruleDetailTemplate, r, ratio, d.Succeeded, d.Total, d.Total, d.Succeeded, d.Failed))
+		buffer.WriteString(fmt.Sprintf(ruleSummaryTemplate, r, ratio, d.Succeeded, d.Total, d.Total, d.Succeeded, d.Failed))
 	}
 	return strings.Replace(breakdownTemplate, "[RULES]", buffer.String(), 1)
 }
-

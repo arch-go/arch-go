@@ -5,6 +5,7 @@ type RuleVerification interface {
 	Status() bool
 	Name() string
 	PrintResults()
+	GetVerifications() []PackageVerification
 	Verify() bool
 	ValidatePatterns() bool
 }

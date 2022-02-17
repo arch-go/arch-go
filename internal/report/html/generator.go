@@ -10,9 +10,16 @@ import (
 )
 
 func GenerateHtmlReport(verifications []model.RuleVerification, summary result.RulesSummary) {
+	html := generateHtml(summary, verifications)
+	writeReport(html)
+}
+
+func generateHtml(summary result.RulesSummary, verifications []model.RuleVerification) string {
 	rules := ruleList(summary)
 	html := strings.Replace(htmlTemplate(), "[RULE_LIST]", rules, 1)
-	writeReport(html)
+	details := ruleDetails(verifications)
+	html = strings.Replace(html, "[RULE_DETAILS]", details, 1)
+	return html
 }
 
 func writeReport(content string) {

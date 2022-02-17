@@ -108,3 +108,7 @@ func (d *FunctionsRuleVerification) PrintResults() {
 		}
 	}
 }
+
+func (d *FunctionsRuleVerification) GetVerifications() []model.PackageVerification {
+	return d.PackageDetails
+}

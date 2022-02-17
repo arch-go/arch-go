@@ -31,7 +31,7 @@ functionsRules:
   - package: "**.arch-go.**"
     maxParameters: 4
     maxReturnValues: 2
-    maxPublicFunctionPerFile: 6
+    maxPublicFunctionPerFile: 8
     maxLines: 50
 
 cyclesRules:
