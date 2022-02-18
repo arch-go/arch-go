@@ -4,84 +4,97 @@ import (
 	"fmt"
 	"github.com/fdaines/arch-go/internal/config"
 	"github.com/fdaines/arch-go/internal/utils"
+	"io"
 	"os"
 	"strings"
 )
 
-func DescribeArchitectureGuidelines() {
+func DescribeArchitectureGuidelines(out io.Writer) {
 	utils.ExecuteWithTimer(func() {
 		configuration, err := config.LoadConfig("arch-go.yml")
 		if err != nil {
-			fmt.Printf("Error: %+v\n", err)
+			fmt.Fprintf(out, "Error: %+v\n", err)
 			os.Exit(1)
 		} else {
-			describeDependencyRules(configuration.DependenciesRules)
-			describeFunctionRules(configuration.FunctionsRules)
-			describeContentRules(configuration.ContentRules)
-			describeCyclesRules(configuration.CyclesRules)
-			describeNamingRules(configuration.NamingRules)
+			describeDependencyRules(configuration.DependenciesRules, out)
+			describeFunctionRules(configuration.FunctionsRules, out)
+			describeContentRules(configuration.ContentRules, out)
+			describeCyclesRules(configuration.CyclesRules, out)
+			describeNamingRules(configuration.NamingRules, out)
 		}
 	})
 }
 
-func describeDependencyRules(rules []*config.DependenciesRule) {
-	fmt.Printf("Dependency Rules\n")
+func describeDependencyRules(rules []*config.DependenciesRule, out io.Writer) {
+	fmt.Fprintf(out, "Dependency Rules\n")
+	if len(rules) == 0 {
+		fmt.Fprintf(out, "\t* No rules defined\n")
+		return
+	}
 	for _,r := range rules {
-		fmt.Printf("\t* Packages that match pattern '%s',\n", r.Package)
+		fmt.Fprintf(out, "\t* Packages that match pattern '%s',\n", r.Package)
 		if r.ShouldOnlyDependsOn != nil {
-			fmt.Printf("\t\t* Should only depends on packages that matches:\n")
+			fmt.Fprintf(out, "\t\t* Should only depends on packages that matches:\n")
 			for _,p := range r.ShouldOnlyDependsOn {
-				fmt.Printf("\t\t\t- '%s'\n", p)
+				fmt.Fprintf(out, "\t\t\t- '%s'\n", p)
 			}
 		}
 		if r.ShouldNotDependsOn != nil {
-			fmt.Printf("\t\t* Should not depends on packages that matches:\n")
+			fmt.Fprintf(out, "\t\t* Should not depends on packages that matches:\n")
 			for _,p := range r.ShouldNotDependsOn {
-				fmt.Printf("\t\t\t- '%s'\n", p)
+				fmt.Fprintf(out, "\t\t\t- '%s'\n", p)
 			}
 		}
 		if r.ShouldOnlyDependsOnExternal != nil {
-			fmt.Printf("\t\t* Should only depends on external packages that matches\n")
+			fmt.Fprintf(out, "\t\t* Should only depends on external packages that matches\n")
 			for _,p := range r.ShouldOnlyDependsOnExternal {
-				fmt.Printf("\t\t\t- '%s'\n", p)
+				fmt.Fprintf(out, "\t\t\t- '%s'\n", p)
 			}
 		}
 		if r.ShouldNotDependsOnExternal != nil {
-			fmt.Printf("\t\t* Should not depends on external packages that matches\n")
+			fmt.Fprintf(out, "\t\t* Should not depends on external packages that matches\n")
 			for _,p := range r.ShouldNotDependsOnExternal {
-				fmt.Printf("\t\t\t- '%s'\n", p)
+				fmt.Fprintf(out, "\t\t\t- '%s'\n", p)
 			}
 		}
 	}
 	fmt.Println()
 }
 
-func describeFunctionRules(rules []*config.FunctionsRule) {
-	fmt.Printf("Function Rules\n")
+func describeFunctionRules(rules []*config.FunctionsRule, out io.Writer) {
+	fmt.Fprintf(out, "Function Rules\n")
+	if len(rules) == 0 {
+		fmt.Fprintf(out, "\t* No rules defined\n")
+		return
+	}
 	for _,r := range rules {
-		fmt.Printf("\t* Packages that match pattern '%s' should comply with the following rules:\n", r.Package)
+		fmt.Fprintf(out, "\t* Packages that match pattern '%s' should comply with the following rules:\n", r.Package)
 		if r.MaxLines > 0 {
-			fmt.Printf("\t\t* Functions should not have more than %d lines\n", r.MaxLines)
+			fmt.Fprintf(out, "\t\t* Functions should not have more than %d lines\n", r.MaxLines)
 		}
 		if r.MaxParameters > 0 {
-			fmt.Printf("\t\t* Functions should not have more than %d parameters\n", r.MaxParameters)
+			fmt.Fprintf(out, "\t\t* Functions should not have more than %d parameters\n", r.MaxParameters)
 		}
 		if r.MaxReturnValues > 0 {
-			fmt.Printf("\t\t* Functions should not have more than %d return values\n", r.MaxReturnValues)
+			fmt.Fprintf(out, "\t\t* Functions should not have more than %d return values\n", r.MaxReturnValues)
 		}
 		if r.MaxPublicFunctionPerFile > 0 {
-			fmt.Printf("\t\t* Files should not have more than %d public functions\n", r.MaxPublicFunctionPerFile)
+			fmt.Fprintf(out, "\t\t* Files should not have more than %d public functions\n", r.MaxPublicFunctionPerFile)
 		}
 	}
 	fmt.Println()
 }
 
-func describeContentRules(rules []*config.ContentsRule) {
-	fmt.Printf("Content Rules\n")
-	for _,r := range rules {
-		fmt.Printf("\t* Packages that match pattern '%s' %s\n", r.Package, resolveContentRule(r))
+func describeContentRules(rules []*config.ContentsRule, out io.Writer) {
+	fmt.Fprintf(out, "Content Rules\n")
+	if len(rules) == 0 {
+		fmt.Fprintf(out, "\t* No rules defined\n")
+		return
 	}
-	fmt.Println()
+	for _,r := range rules {
+		fmt.Fprintf(out, "\t* Packages that match pattern '%s' %s\n", r.Package, resolveContentRule(r))
+	}
+	fmt.Fprintln(out)
 }
 
 func resolveContentRule(r *config.ContentsRule) string {
@@ -113,23 +126,28 @@ func resolveContentRule(r *config.ContentsRule) string {
 	return fmt.Sprintf("should not contain %s", strings.Join(shouldNotContain, " or "))
 }
 
-func describeCyclesRules(rules []*config.CyclesRule) {
-	fmt.Printf("Cycles Rules\n")
+func describeCyclesRules(rules []*config.CyclesRule, out io.Writer) {
+	fmt.Fprintf(out, "Cycles Rules\n")
 	if len(rules) == 0 {
-		fmt.Printf("\t* No rules defined\n")
+		fmt.Fprintf(out, "\t* No rules defined\n")
+		return
 	}
 	for _,r := range rules {
 		if r.ShouldNotContainCycles {
-			fmt.Printf("\t* Packages that match pattern '%s' should not contain cycles\n", r.Package)
+			fmt.Fprintf(out, "\t* Packages that match pattern '%s' should not contain cycles\n", r.Package)
 		}
 	}
-	fmt.Println()
+	fmt.Fprintln(out)
 }
 
-func describeNamingRules(rules []*config.NamingRule) {
-	fmt.Printf("Naming Rules\n")
+func describeNamingRules(rules []*config.NamingRule, out io.Writer) {
+	fmt.Fprintf(out, "Naming Rules\n")
+	if len(rules) == 0 {
+		fmt.Fprintf(out, "\t* No rules defined\n")
+		return
+	}
 	for _,r := range rules {
-		fmt.Printf("\t* Packages that match pattern '%s' should comply with:\n", r.Package)
+		fmt.Fprintf(out, "\t* Packages that match pattern '%s' should comply with:\n", r.Package)
 		if r.InterfaceImplementationNamingRule != nil {
 			namingRule := ""
 			if r.InterfaceImplementationNamingRule.ShouldHaveSimpleNameEndingWith != "" {
@@ -140,10 +158,10 @@ func describeNamingRules(rules []*config.NamingRule) {
 				namingRule = fmt.Sprintf("should have simple name starting with '%s'",
 					r.InterfaceImplementationNamingRule.ShouldHaveSimpleNameStartingWith)
 			}
-			fmt.Printf("\t\t* Structs that implement interfaces matching name '%s' %s\n",
+			fmt.Fprintf(out, "\t\t* Structs that implement interfaces matching name '%s' %s\n",
 				r.InterfaceImplementationNamingRule.StructsThatImplement, namingRule)
 
 		}
 	}
-	fmt.Println()
+	fmt.Fprintln(out)
 }

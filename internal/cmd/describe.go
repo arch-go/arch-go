@@ -5,18 +5,19 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var (
-	describeCmd = &cobra.Command{
+func NewDescribeCommand() *cobra.Command {
+	return &cobra.Command{
 		Use:   "describe",
 		Short: "Describe architecture rules",
 		Run:   describeRules,
 	}
-)
+}
 
 func init() {
+	describeCmd := NewDescribeCommand()
 	rootCmd.AddCommand(describeCmd)
 }
 
 func describeRules(cmd *cobra.Command, args []string) {
-	impl.DescribeArchitectureGuidelines()
+	impl.DescribeArchitectureGuidelines(cmd.OutOrStdout())
 }
