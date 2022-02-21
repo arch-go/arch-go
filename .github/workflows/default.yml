@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -22,7 +22,9 @@ jobs:
         run: go build -v ./...
 
       - name: Test
-        run: go test -v ./...
+        run: |
+          go test ./... -json > report.json
+          go test ./... -coverprofile=coverage.out
 
       - name: Arch-Go
         run: go run main.go -v --html
