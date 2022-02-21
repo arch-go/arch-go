@@ -25,4 +25,9 @@ jobs:
         run: go test -v ./...
 
       - name: Arch-Go
-        run: go run main.go -v
+        run: go run main.go -v --html
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Arch-Go Report
+          path: .arch-go/report.html
