@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func Test_Contains(t *testing.T) {
+func TestContains(t *testing.T) {
 	var tests = []struct {
 		array     []string
 		searchFor string

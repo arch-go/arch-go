@@ -12,7 +12,7 @@ import (
 	"github.com/fdaines/arch-go/internal/utils/output"
 )
 
-func Test_Output(t *testing.T) {
+func TestOutput(t *testing.T) {
 	t.Parallel()
 
 	t.Run("test for Print", func(t *testing.T) {

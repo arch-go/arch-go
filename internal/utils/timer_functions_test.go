@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_ExecuteWithTimer(t *testing.T) {
+func TestExecuteWithTimer(t *testing.T) {
 	t.Run("Calls ExecuteWithTimer function", func(t *testing.T) {
 		var out string
 		printPatch := monkey.Patch(fmt.Fprintf, func(w io.Writer, f string, a ...interface{}) (int, error) {

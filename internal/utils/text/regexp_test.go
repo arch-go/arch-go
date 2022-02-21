@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func Test_PreparePackageRegexp(t *testing.T) {
+func TestPreparePackageRegexp(t *testing.T) {
 	var tests = []struct {
 		input string
 		want  string

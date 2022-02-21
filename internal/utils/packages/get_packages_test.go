@@ -10,7 +10,7 @@ import (
 	"github.com/fdaines/arch-go/internal/utils/packages"
 )
 
-func Test_GetPackages(t *testing.T) {
+func TestGetPackages(t *testing.T) {
 	t.Run("Calls GetPackages function", func(t *testing.T) {
 		loadPatch := monkey.Patch(gopkg.Load, func (cfg *gopkg.Config, patterns ...string) ([]*gopkg.Package, error) {
 			return []*gopkg.Package{

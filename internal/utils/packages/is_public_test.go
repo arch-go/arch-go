@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func Test_IsPublic(t *testing.T) {
+func TestIsPublic(t *testing.T) {
 	var tests = []struct {
 		input string
 		want  bool

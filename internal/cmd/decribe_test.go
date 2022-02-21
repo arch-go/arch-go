@@ -13,7 +13,7 @@ import (
 	"github.com/fdaines/arch-go/internal/config"
 )
 
-func Test_DescribeCommand(t *testing.T) {
+func TestDescribeCommand(t *testing.T) {
 	t.Parallel()
 
 	t.Run("when arch-go.yaml has no rules", func(t *testing.T) {

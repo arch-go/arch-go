@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func Test_IsExternal(t *testing.T) {
+func TestIsExternal(t *testing.T) {
 	var tests = []struct {
 		input string
 		want  bool

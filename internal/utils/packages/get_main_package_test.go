@@ -12,7 +12,7 @@ import (
 	"github.com/fdaines/arch-go/internal/utils/packages"
 )
 
-func Test_GetMainPackage(t *testing.T) {
+func TestGetMainPackage(t *testing.T) {
 	t.Run("Calls GetMainPackage function", func(t *testing.T) {
 		gomodFile := `module github.com/fdaines/my-golang-module
 
