@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/fatih/color"
 	"github.com/fdaines/arch-go/internal/config"
-	"github.com/fdaines/arch-go/internal/impl/model"
+	"github.com/fdaines/arch-go/internal/model"
 	"github.com/fdaines/arch-go/internal/utils/output"
 	"github.com/fdaines/arch-go/internal/utils/packages"
 	"github.com/fdaines/arch-go/internal/utils/text"
@@ -49,30 +49,50 @@ func (d *DependencyRuleVerification) Verify() bool {
 	for index, pd := range d.PackageDetails {
 		d.PackageDetails[index].Passes = true
 		output.PrintVerbose("Checking dependency rules for package: %s\n", pd.Package.Path)
-		if len(d.Rule.ShouldOnlyDependsOn) > 0 {
-			for _, pkg := range pd.Package.PackageData.Imports {
-				result = d.checkComplianceWithAllowedInternalImports(pkg, index, result)
-			}
-		}
-		if len(d.Rule.ShouldNotDependsOn) > 0 {
-			for _, pkg := range pd.Package.PackageData.Imports {
-				result = d.checkComplianceWithRestrictedInternalImports(pkg, index, result)
-			}
-		}
-		if len(d.Rule.ShouldOnlyDependsOnExternal) > 0 {
-			for _, pkg := range pd.Package.PackageData.Imports {
-				result = d.checkComplianceWithAllowedExternalImports(pkg, index, result)
-			}
-		}
-		if len(d.Rule.ShouldNotDependsOnExternal) > 0 {
-			for _, pkg := range pd.Package.PackageData.Imports {
-				result = d.checkComplianceWithRestrictedExternalImports(pkg, index, result)
-			}
-		}
+		result = d.checksShouldOnlyDependsOn(pd, result, index)
+		result = d.checksShouldNotDependsOn(pd, result, index)
+		result = d.checksShouldOnlyDependsOnExternal(pd, result, index)
+		result = d.checksShouldNotDependsOnExternal(pd, result, index)
 
 		d.Passes = result
 	}
 	return d.Passes
+}
+
+func (d *DependencyRuleVerification) checksShouldNotDependsOnExternal(pd model.PackageVerification, result bool, index int) bool {
+	if len(d.Rule.ShouldNotDependsOnExternal) > 0 {
+		for _, pkg := range pd.Package.PackageData.Imports {
+			result = d.checkComplianceWithRestrictedExternalImports(pkg, index, result)
+		}
+	}
+	return result
+}
+
+func (d *DependencyRuleVerification) checksShouldOnlyDependsOnExternal(pd model.PackageVerification, result bool, index int) bool {
+	if len(d.Rule.ShouldOnlyDependsOnExternal) > 0 {
+		for _, pkg := range pd.Package.PackageData.Imports {
+			result = d.checkComplianceWithAllowedExternalImports(pkg, index, result)
+		}
+	}
+	return result
+}
+
+func (d *DependencyRuleVerification) checksShouldNotDependsOn(pd model.PackageVerification, result bool, index int) bool {
+	if len(d.Rule.ShouldNotDependsOn) > 0 {
+		for _, pkg := range pd.Package.PackageData.Imports {
+			result = d.checkComplianceWithRestrictedInternalImports(pkg, index, result)
+		}
+	}
+	return result
+}
+
+func (d *DependencyRuleVerification) checksShouldOnlyDependsOn(pd model.PackageVerification, result bool, index int) bool {
+	if len(d.Rule.ShouldOnlyDependsOn) > 0 {
+		for _, pkg := range pd.Package.PackageData.Imports {
+			result = d.checkComplianceWithAllowedInternalImports(pkg, index, result)
+		}
+	}
+	return result
 }
 
 func (d *DependencyRuleVerification) checkComplianceWithAllowedExternalImports(pkg string, index int, result bool) bool {

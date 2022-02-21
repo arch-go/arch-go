@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/fatih/color"
 	"github.com/fdaines/arch-go/internal/config"
-	"github.com/fdaines/arch-go/internal/impl/model"
 	baseModel "github.com/fdaines/arch-go/internal/model"
 	"github.com/fdaines/arch-go/internal/utils/text"
 	"regexp"
@@ -15,7 +14,7 @@ type CyclesRuleVerification struct {
 	ModulePackages []*baseModel.PackageInfo
 	Description    string
 	Rule           *config.CyclesRule
-	PackageDetails []model.PackageVerification
+	PackageDetails []baseModel.PackageVerification
 	Passes         bool
 }
 
@@ -85,6 +84,6 @@ func (d *CyclesRuleVerification) PrintResults() {
 	}
 }
 
-func (d *CyclesRuleVerification) GetVerifications() []model.PackageVerification {
+func (d *CyclesRuleVerification) GetVerifications() []baseModel.PackageVerification {
 	return d.PackageDetails
 }

@@ -2,7 +2,7 @@ package naming
 
 import (
 	"fmt"
-	"github.com/fdaines/arch-go/internal/impl/model"
+	"github.com/fdaines/arch-go/internal/model"
 	"github.com/fdaines/arch-go/internal/utils/packages"
 	"go/ast"
 	"go/parser"
@@ -34,34 +34,39 @@ func getInterfacesMatching(module string, pattern string) ([]InterfaceDescriptio
 			if err != nil {
 				return nil, err
 			}
-			ast.Inspect(node, func(n ast.Node) bool {
-				switch t := n.(type) {
-				case *ast.GenDecl:
-					if t.Tok.String() == "type" {
-						ts := t.Specs[0].(*ast.TypeSpec)
-						it, ok := ts.Type.(*ast.InterfaceType)
-						if ok && comparator(ts.Name.String(), patternValue) {
-							currentInterface := InterfaceDescription{
-								Name: ts.Name.String(),
-							}
-							for _,m := range it.Methods.List {
-								method := m.Type.(*ast.FuncType)
-								currentInterface.Methods = append(currentInterface.Methods, MethodDescription{
-									Name: m.Names[0].String(),
-									Parameters: getParameters(string(data), method.Params),
-									ReturnValues: getReturnValues(string(data), method.Results),
-								})
-							}
-							interfaces = append(interfaces, currentInterface)
-						}
-					}
-				}
-				return true
-			})
+			interfaces = retrieveMatchingInterfaces(node, comparator, patternValue, data, interfaces)
 		}
 	}
 
 	return interfaces, nil
+}
+
+func retrieveMatchingInterfaces(node *ast.File, comparator func(s string, prefix string) bool, patternValue string, data []byte, interfaces []InterfaceDescription) []InterfaceDescription {
+	ast.Inspect(node, func(n ast.Node) bool {
+		switch t := n.(type) {
+		case *ast.GenDecl:
+			if t.Tok.String() == "type" {
+				ts := t.Specs[0].(*ast.TypeSpec)
+				it, ok := ts.Type.(*ast.InterfaceType)
+				if ok && comparator(ts.Name.String(), patternValue) {
+					currentInterface := InterfaceDescription{
+						Name: ts.Name.String(),
+					}
+					for _, m := range it.Methods.List {
+						method := m.Type.(*ast.FuncType)
+						currentInterface.Methods = append(currentInterface.Methods, MethodDescription{
+							Name:         m.Names[0].String(),
+							Parameters:   getParameters(string(data), method.Params),
+							ReturnValues: getReturnValues(string(data), method.Results),
+						})
+					}
+					interfaces = append(interfaces, currentInterface)
+				}
+			}
+		}
+		return true
+	})
+	return interfaces
 }
 
 func getStructsWithMethods(module string, pkg model.PackageVerification) ([]StructDescription, error) {
@@ -95,6 +100,11 @@ func getStructsWithMethods(module string, pkg model.PackageVerification) ([]Stru
 		})
 	}
 
+	structs = resolveStructsDescription(structsMap, fileStructsMap, structs)
+	return structs, nil
+}
+
+func resolveStructsDescription(structsMap map[string][]*ast.FuncDecl, fileStructsMap map[*ast.FuncDecl]string, structs []StructDescription) []StructDescription {
 	if len(structsMap) > 0 {
 		for k, v := range structsMap {
 			currentStruct := StructDescription{
@@ -111,7 +121,7 @@ func getStructsWithMethods(module string, pkg model.PackageVerification) ([]Stru
 			structs = append(structs, currentStruct)
 		}
 	}
-	return structs, nil
+	return structs
 }
 
 func resolveStructName(ft *ast.FuncDecl) string {
