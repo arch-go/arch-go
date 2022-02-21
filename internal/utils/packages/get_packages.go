@@ -20,8 +20,8 @@ func GetBasicPackagesInfo(printInfo bool) ([]*model.PackageInfo, error) {
 			if printInfo {
 				output.PrintVerbose("Loading package (%d/%d): %s\n", index+1, len(pkgs), packageName)
 			}
-			pkg, err := context.Import(packageName, "", 0)
-			if err == nil {
+			pkg, errX := context.Import(packageName, "", 0)
+			if errX == nil {
 				packagesInfo = append(packagesInfo, &model.PackageInfo{
 					PackageData: pkg,
 					Name:        pkg.Name,
