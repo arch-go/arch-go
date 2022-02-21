@@ -65,15 +65,12 @@ func TestOutput(t *testing.T) {
 			return 0, nil
 		})
 		defer printPatch.Unpatch()
-		expected := "Hello [World]"
+		expected := "Foo [Bar]"
 
 		common.Verbose = true
-		output.PrintVerbose("Hello %s", "World")
+		output.PrintVerbose("Foo %s", "Bar")
 
 		assert.Equal(t, expected, out)
 	})
 
 }
-
-/*
-*/
