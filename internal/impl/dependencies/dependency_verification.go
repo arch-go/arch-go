@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/fatih/color"
 	"github.com/fdaines/arch-go/internal/config"
-	"github.com/fdaines/arch-go/internal/impl/model"
+	"github.com/fdaines/arch-go/internal/model"
 	"github.com/fdaines/arch-go/internal/utils/output"
 	"github.com/fdaines/arch-go/internal/utils/packages"
 	"github.com/fdaines/arch-go/internal/utils/text"

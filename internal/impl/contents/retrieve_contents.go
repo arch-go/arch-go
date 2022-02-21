@@ -19,6 +19,7 @@ func retrieveContents(pkg *model.PackageInfo, mainPackage string) (*PackageConte
 	}
 	packageDir := strings.Replace(pkg.PackageData.ImportPath, mainPackage, path, 1)
 
+	packageContents := &PackageContents{}
 	for _, srcFile := range pkg.PackageData.GoFiles {
 		data, err := ioutil.ReadFile(filepath.Join(packageDir, srcFile))
 		if err != nil {
@@ -29,23 +30,7 @@ func retrieveContents(pkg *model.PackageInfo, mainPackage string) (*PackageConte
 		if err != nil {
 			return nil, err
 		}
-		ast.Inspect(node, func(n ast.Node) bool {
-			switch t := n.(type) {
-			case *ast.FuncDecl:
-				if t.Recv != nil {
-					methods++
-				} else {
-					functions++
-				}
-			case *ast.InterfaceType:
-				if t.Methods != nil && len(t.Methods.List) > 0 {
-					interfaces++
-				}
-			case *ast.StructType:
-				structs++
-			}
-			return true
-		})
+		packageContents = inspectFile(node, packageContents)
 	}
 
 	return &PackageContents{
@@ -54,4 +39,25 @@ func retrieveContents(pkg *model.PackageInfo, mainPackage string) (*PackageConte
 		Interfaces: interfaces,
 		Structs:    structs,
 	}, nil
+}
+
+func inspectFile(node *ast.File, contents *PackageContents) *PackageContents {
+	ast.Inspect(node, func(n ast.Node) bool {
+		switch t := n.(type) {
+		case *ast.FuncDecl:
+			if t.Recv != nil {
+				contents.Methods++
+			} else {
+				contents.Functions++
+			}
+		case *ast.InterfaceType:
+			if t.Methods != nil && len(t.Methods.List) > 0 {
+				contents.Interfaces++
+			}
+		case *ast.StructType:
+			contents.Structs++
+		}
+		return true
+	})
+	return contents
 }

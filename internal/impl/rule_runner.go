@@ -89,7 +89,7 @@ func resolveCycleRules(configuration *config.Config, moduleInfo *baseModel.Modul
 		packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(cycleRule.Package))
 		for _, pkg := range moduleInfo.Packages {
 			if packageRegExp.MatchString(pkg.Path) {
-				verificationInstance.PackageDetails = append(verificationInstance.PackageDetails, model.PackageVerification{
+				verificationInstance.PackageDetails = append(verificationInstance.PackageDetails, baseModel.PackageVerification{
 					Package: pkg,
 					Passes:  false,
 				})
@@ -106,7 +106,7 @@ func resolveContentRules(configuration *config.Config, moduleInfo *baseModel.Mod
 		packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(contentRule.Package))
 		for _, pkg := range moduleInfo.Packages {
 			if packageRegExp.MatchString(pkg.Path) {
-				verificationInstance.PackageDetails = append(verificationInstance.PackageDetails, model.PackageVerification{
+				verificationInstance.PackageDetails = append(verificationInstance.PackageDetails, baseModel.PackageVerification{
 					Package: pkg,
 					Passes:  false,
 				})
@@ -123,7 +123,7 @@ func resolveFunctionRules(configuration *config.Config, moduleInfo *baseModel.Mo
 		packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(functionRule.Package))
 		for _, pkg := range moduleInfo.Packages {
 			if packageRegExp.MatchString(pkg.Path) {
-				verificationInstance.PackageDetails = append(verificationInstance.PackageDetails, model.PackageVerification{
+				verificationInstance.PackageDetails = append(verificationInstance.PackageDetails, baseModel.PackageVerification{
 					Package: pkg,
 					Passes:  false,
 				})
@@ -140,7 +140,7 @@ func resolveDependencyRules(configuration *config.Config, moduleInfo *baseModel.
 		packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(dependencyRule.Package))
 		for _, pkg := range moduleInfo.Packages {
 			if packageRegExp.MatchString(pkg.Path) {
-				verificationInstance.PackageDetails = append(verificationInstance.PackageDetails, model.PackageVerification{
+				verificationInstance.PackageDetails = append(verificationInstance.PackageDetails, baseModel.PackageVerification{
 					Package: pkg,
 					Passes:  false,
 				})
@@ -157,7 +157,7 @@ func resolveNamingRules(configuration *config.Config, moduleInfo *baseModel.Modu
 		packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(namingRule.Package))
 		for _, pkg := range moduleInfo.Packages {
 			if packageRegExp.MatchString(pkg.Path) {
-				verificationInstance.PackageDetails = append(verificationInstance.PackageDetails, model.PackageVerification{
+				verificationInstance.PackageDetails = append(verificationInstance.PackageDetails, baseModel.PackageVerification{
 					Package: pkg,
 					Passes:  false,
 				})

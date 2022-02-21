@@ -31,26 +31,30 @@ func retrieveFunctions(pkg *model.PackageInfo, mainPackage string) ([]*FunctionD
 		if err != nil {
 			return nil, err
 		}
-		ast.Inspect(node, func(n ast.Node) bool {
-			switch t := n.(type) {
-			case *ast.FuncDecl:
-				functionDetails := &FunctionDetails{
-					File:     srcFile,
-					FilePath: srcFilePath,
-					Name:     t.Name.Name,
-					IsPublic: packages.IsPublic(t.Name.Name),
-					NumLines: fileset.Position(t.End()).Line - fileset.Position(t.Pos()).Line,
-				}
-				if t.Type.Params != nil {
-					functionDetails.NumParams = len(t.Type.Params.List)
-				}
-				if t.Type.Results != nil {
-					functionDetails.NumReturns = len(t.Type.Results.List)
-				}
-				functionDetailsCollection = append(functionDetailsCollection, functionDetails)
-			}
-			return true
-		})
+		resolveFunctionDetails(node, srcFile, srcFilePath, fileset, functionDetailsCollection)
 	}
 	return functionDetailsCollection, nil
+}
+
+func resolveFunctionDetails(node *ast.File, srcFile string, srcFilePath string, fileset *token.FileSet, functionDetailsCollection []*FunctionDetails)  {
+	ast.Inspect(node, func(n ast.Node) bool {
+		switch t := n.(type) {
+		case *ast.FuncDecl:
+			functionDetails := &FunctionDetails{
+				File:     srcFile,
+				FilePath: srcFilePath,
+				Name:     t.Name.Name,
+				IsPublic: packages.IsPublic(t.Name.Name),
+				NumLines: fileset.Position(t.End()).Line - fileset.Position(t.Pos()).Line,
+			}
+			if t.Type.Params != nil {
+				functionDetails.NumParams = len(t.Type.Params.List)
+			}
+			if t.Type.Results != nil {
+				functionDetails.NumReturns = len(t.Type.Results.List)
+			}
+			functionDetailsCollection = append(functionDetailsCollection, functionDetails)
+		}
+		return true
+	})
 }
