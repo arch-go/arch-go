@@ -3,28 +3,23 @@ package output
 import (
 	"fmt"
 	"github.com/fdaines/arch-go/internal/common"
+	"io"
+	"os"
 )
 
-func PrintError(message string, err error) {
-	fmt.Printf("Error: %s - %s\n", message, err.Error())
-}
+var out io.Writer = os.Stdout
 
 func Print(message string) {
-	fmt.Println(message)
+	fmt.Fprintf(out,message)
 }
 
 func Printf(format string, a ...interface{}) {
-	fmt.Printf(format, a...)
+	fmt.Fprintf(out, format, a...)
 }
 
 func PrintVerbose(format string, a ...interface{}) {
 	if common.Verbose {
-		fmt.Printf(format, a...)
+		fmt.Fprintf(out, format, a...)
 	}
 }
 
-func PrintStep() {
-	if common.Verbose {
-		fmt.Print(".")
-	}
-}

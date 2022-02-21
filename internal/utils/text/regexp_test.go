@@ -20,7 +20,7 @@ func TestPreparePackageRegexp(t *testing.T) {
 		{"**.foobar.**", "^([\\w-\\.]+/)+foobar(/[\\w-\\.]+)*$"},
 		{"foo.*.bar", "foo/[\\w-\\.]+/bar"},
 		{"foo.**.bar", "foo(/[\\w-\\.]+/)+bar"},
-		{"*.foo.**.bar.**", "^[\\w-\\.]+/foo(/[\\w-\\.]+)*$.bar.**"},
+		{"*.foo.**.bar.**", "^[\\w-\\.]+/foo(/[\\w-\\.]+/)+bar(/[\\w-\\.]+)*$"},
 	}
 
 	for _, tt := range tests {

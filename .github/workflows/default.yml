@@ -1,0 +1,33 @@
+name: Default Workflow
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.15
+
+      - name: Build
+        run: go build -v ./...
+
+      - name: Test
+        run: go test -v ./...
+
+      - name: Arch-Go
+        run: go run main.go -v --html
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Arch-Go Report
+          path: .arch-go/report.html
