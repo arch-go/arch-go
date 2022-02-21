@@ -2,6 +2,7 @@ package impl
 
 import (
 	"fmt"
+	"github.com/fdaines/arch-go/internal/common"
 	"github.com/fdaines/arch-go/internal/config"
 	"github.com/fdaines/arch-go/internal/utils"
 	"io"
@@ -28,33 +29,34 @@ func DescribeArchitectureGuidelines(out io.Writer) {
 func describeDependencyRules(rules []*config.DependenciesRule, out io.Writer) {
 	fmt.Fprintf(out, "Dependency Rules\n")
 	if len(rules) == 0 {
-		fmt.Fprintf(out, "\t* No rules defined\n")
+		fmt.Fprintf(out, common.NoRulesDefined)
 		return
 	}
 	for _,r := range rules {
+		dependencyListPattern := "\t\t\t- '%s'\n"
 		fmt.Fprintf(out, "\t* Packages that match pattern '%s',\n", r.Package)
 		if r.ShouldOnlyDependsOn != nil {
 			fmt.Fprintf(out, "\t\t* Should only depends on packages that matches:\n")
 			for _,p := range r.ShouldOnlyDependsOn {
-				fmt.Fprintf(out, "\t\t\t- '%s'\n", p)
+				fmt.Fprintf(out, dependencyListPattern, p)
 			}
 		}
 		if r.ShouldNotDependsOn != nil {
 			fmt.Fprintf(out, "\t\t* Should not depends on packages that matches:\n")
 			for _,p := range r.ShouldNotDependsOn {
-				fmt.Fprintf(out, "\t\t\t- '%s'\n", p)
+				fmt.Fprintf(out, dependencyListPattern, p)
 			}
 		}
 		if r.ShouldOnlyDependsOnExternal != nil {
 			fmt.Fprintf(out, "\t\t* Should only depends on external packages that matches\n")
 			for _,p := range r.ShouldOnlyDependsOnExternal {
-				fmt.Fprintf(out, "\t\t\t- '%s'\n", p)
+				fmt.Fprintf(out, dependencyListPattern, p)
 			}
 		}
 		if r.ShouldNotDependsOnExternal != nil {
 			fmt.Fprintf(out, "\t\t* Should not depends on external packages that matches\n")
 			for _,p := range r.ShouldNotDependsOnExternal {
-				fmt.Fprintf(out, "\t\t\t- '%s'\n", p)
+				fmt.Fprintf(out, dependencyListPattern, p)
 			}
 		}
 	}
@@ -64,7 +66,7 @@ func describeDependencyRules(rules []*config.DependenciesRule, out io.Writer) {
 func describeFunctionRules(rules []*config.FunctionsRule, out io.Writer) {
 	fmt.Fprintf(out, "Function Rules\n")
 	if len(rules) == 0 {
-		fmt.Fprintf(out, "\t* No rules defined\n")
+		fmt.Fprintf(out, common.NoRulesDefined)
 		return
 	}
 	for _,r := range rules {
@@ -88,7 +90,7 @@ func describeFunctionRules(rules []*config.FunctionsRule, out io.Writer) {
 func describeContentRules(rules []*config.ContentsRule, out io.Writer) {
 	fmt.Fprintf(out, "Content Rules\n")
 	if len(rules) == 0 {
-		fmt.Fprintf(out, "\t* No rules defined\n")
+		fmt.Fprintf(out, common.NoRulesDefined)
 		return
 	}
 	for _,r := range rules {
@@ -129,7 +131,7 @@ func resolveContentRule(r *config.ContentsRule) string {
 func describeCyclesRules(rules []*config.CyclesRule, out io.Writer) {
 	fmt.Fprintf(out, "Cycles Rules\n")
 	if len(rules) == 0 {
-		fmt.Fprintf(out, "\t* No rules defined\n")
+		fmt.Fprintf(out, common.NoRulesDefined)
 		return
 	}
 	for _,r := range rules {
@@ -143,7 +145,7 @@ func describeCyclesRules(rules []*config.CyclesRule, out io.Writer) {
 func describeNamingRules(rules []*config.NamingRule, out io.Writer) {
 	fmt.Fprintf(out, "Naming Rules\n")
 	if len(rules) == 0 {
-		fmt.Fprintf(out, "\t* No rules defined\n")
+		fmt.Fprintf(out, common.NoRulesDefined)
 		return
 	}
 	for _,r := range rules {
