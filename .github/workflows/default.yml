@@ -45,9 +45,7 @@ jobs:
           go-version: 1.15
 
       - name: Unit Tests
-        run: |
-          go test ./... -json > report.json
-          go test ./... -coverprofile=coverage.out
+        run: go test -covermode=atomic -coverprofile=coverage.out ./...
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
