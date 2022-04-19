@@ -29,7 +29,7 @@ contentsRules:
 
 functionsRules:
   - package: "**.arch-go.**"
-    maxParameters: 4
+    maxParameters: 5
     maxReturnValues: 2
     maxPublicFunctionPerFile: 8
     maxLines: 50

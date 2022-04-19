@@ -36,7 +36,7 @@ func GetBasicPackagesInfo(printInfo bool) ([]*model.PackageInfo, error) {
 
 func getPackages(printInfo bool) ([]string, error) {
 	if printInfo {
-		output.Print("Looking for packages.")
+		output.Print("Looking for packages.\n")
 	}
 	pkgs, err := packages.Load(nil, "./...")
 	if err != nil {

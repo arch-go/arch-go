@@ -51,9 +51,9 @@ type RulesSummaryDetail struct {
 }
 
 func (s RulesSummary) Print() {
-	output.Print("--------------------------------------")
+	output.Print("--------------------------------------\n")
 	output.Printf("Total Rules: \t%d\n", s.Total)
 	output.Printf("Succeeded: \t%d\n", s.Succeeded)
 	output.Printf("Failed: \t%d\n", s.Failed)
-	output.Print("--------------------------------------")
+	output.Print("--------------------------------------\n")
 }
