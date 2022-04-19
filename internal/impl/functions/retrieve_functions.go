@@ -31,12 +31,13 @@ func retrieveFunctions(pkg *model.PackageInfo, mainPackage string) ([]*FunctionD
 		if err != nil {
 			return nil, err
 		}
-		resolveFunctionDetails(node, srcFile, srcFilePath, fileset, functionDetailsCollection)
+		functionDetailsCollection = resolveFunctionDetails(node, srcFile, srcFilePath, fileset, functionDetailsCollection)
 	}
+
 	return functionDetailsCollection, nil
 }
 
-func resolveFunctionDetails(node *ast.File, srcFile string, srcFilePath string, fileset *token.FileSet, functionDetailsCollection []*FunctionDetails)  {
+func resolveFunctionDetails(node *ast.File, srcFile string, srcFilePath string, fileset *token.FileSet, functionDetailsCollection []*FunctionDetails) []*FunctionDetails {
 	ast.Inspect(node, func(n ast.Node) bool {
 		switch t := n.(type) {
 		case *ast.FuncDecl:
@@ -57,4 +58,5 @@ func resolveFunctionDetails(node *ast.File, srcFile string, srcFilePath string, 
 		}
 		return true
 	})
+	return functionDetailsCollection
 }
