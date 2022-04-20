@@ -49,10 +49,10 @@ func resolveFunctionDetails(node *ast.File, srcFile string, srcFilePath string, 
 				NumLines: fileset.Position(t.End()).Line - fileset.Position(t.Pos()).Line,
 			}
 			if t.Type.Params != nil {
-				functionDetails.NumParams = len(t.Type.Params.List)
+				functionDetails.NumParams = t.Type.Params.NumFields()
 			}
 			if t.Type.Results != nil {
-				functionDetails.NumReturns = len(t.Type.Results.List)
+				functionDetails.NumReturns = t.Type.Results.NumFields()
 			}
 			functionDetailsCollection = append(functionDetailsCollection, functionDetails)
 		}
