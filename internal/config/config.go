@@ -1,7 +1,7 @@
 package config
 
 type DependenciesRule struct {
-	Package                     string   `yaml:"package"`
+	Package                     string   `yaml:"packageX"`
 	ShouldOnlyDependsOn         []string `yaml:"shouldOnlyDependsOn"`
 	ShouldNotDependsOn          []string `yaml:"shouldNotDependsOn"`
 	ShouldOnlyDependsOnExternal []string `yaml:"shouldOnlyDependsOnExternal"`
@@ -34,10 +34,10 @@ type CyclesRule struct {
 }
 
 type Config struct {
+	Version           *int8               `yaml:"version"`
 	DependenciesRules []*DependenciesRule `yaml:"dependenciesRules"`
 	ContentRules      []*ContentsRule     `yaml:"contentsRules"`
 	CyclesRules       []*CyclesRule       `yaml:"cyclesRules"`
 	FunctionsRules    []*FunctionsRule    `yaml:"functionsRules"`
 	NamingRules       []*NamingRule       `yaml:"namingRules"`
 }
-

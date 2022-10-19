@@ -40,7 +40,6 @@ Naming Rules
 		assert.Equal(t, expected, string(out))
 	})
 
-
 	t.Run("when arch-go.yaml has rules", func(t *testing.T) {
 		cmd := NewDescribeCommand()
 		patch := monkey.Patch(config.LoadConfig, configLoaderMockWithRules)
@@ -94,7 +93,6 @@ Naming Rules
 		assert.Equal(t, expected, string(out))
 	})
 
-
 	t.Run("when arch-go.yaml does not exist", func(t *testing.T) {
 		exitCalls := 0
 		fakeExit := func(int) {
@@ -121,7 +119,6 @@ Naming Rules
 	})
 }
 
-
 func configLoaderMockEmptyRules(path string) (*config.Config, error) {
 	return &config.Config{}, nil
 }
@@ -130,59 +127,59 @@ func configLoaderMockWithRules(path string) (*config.Config, error) {
 	return &config.Config{
 		DependenciesRules: []*config.DependenciesRule{
 			&config.DependenciesRule{
-				Package: "foobar",
-				ShouldOnlyDependsOn: []string{"dep1","dep2"},
-				ShouldNotDependsOn: []string{"dep3","dep4"},
-				ShouldOnlyDependsOnExternal: []string{"dep5","dep6"},
-				ShouldNotDependsOnExternal: []string{"dep7","dep8"},
+				Package:                     "foobar",
+				ShouldOnlyDependsOn:         []string{"dep1", "dep2"},
+				ShouldNotDependsOn:          []string{"dep3", "dep4"},
+				ShouldOnlyDependsOnExternal: []string{"dep5", "dep6"},
+				ShouldNotDependsOnExternal:  []string{"dep7", "dep8"},
 			},
 		},
 		ContentRules: []*config.ContentsRule{
 			&config.ContentsRule{
-				Package: "package1",
+				Package:                     "package1",
 				ShouldOnlyContainInterfaces: true,
 			},
 			&config.ContentsRule{
-				Package: "package2",
+				Package:                  "package2",
 				ShouldOnlyContainStructs: true,
 			},
 			&config.ContentsRule{
-				Package: "package3",
+				Package:                    "package3",
 				ShouldOnlyContainFunctions: true,
 			},
 			&config.ContentsRule{
-				Package: "package4",
+				Package:                  "package4",
 				ShouldOnlyContainMethods: true,
 			},
 			&config.ContentsRule{
-				Package: "package5",
+				Package:                    "package5",
 				ShouldNotContainInterfaces: true,
 			},
 			&config.ContentsRule{
-				Package: "package6",
+				Package:                 "package6",
 				ShouldNotContainStructs: true,
 			},
 			&config.ContentsRule{
-				Package: "package7",
+				Package:                   "package7",
 				ShouldNotContainFunctions: true,
 			},
 			&config.ContentsRule{
-				Package: "package8",
+				Package:                 "package8",
 				ShouldNotContainMethods: true,
 			},
 		},
 		FunctionsRules: []*config.FunctionsRule{
 			&config.FunctionsRule{
-				Package: "funcion-package",
-				MaxParameters: 1,
-				MaxReturnValues: 2,
-				MaxLines: 3,
+				Package:                  "funcion-package",
+				MaxParameters:            1,
+				MaxReturnValues:          2,
+				MaxLines:                 3,
 				MaxPublicFunctionPerFile: 4,
 			},
 		},
 		CyclesRules: []*config.CyclesRule{
 			&config.CyclesRule{
-				Package: "foobar",
+				Package:                "foobar",
 				ShouldNotContainCycles: true,
 			},
 		},
@@ -190,14 +187,14 @@ func configLoaderMockWithRules(path string) (*config.Config, error) {
 			&config.NamingRule{
 				Package: "foobar",
 				InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
-					StructsThatImplement: "foo",
+					StructsThatImplement:             "foo",
 					ShouldHaveSimpleNameStartingWith: "bla",
 				},
 			},
 			&config.NamingRule{
 				Package: "barfoo",
 				InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
-					StructsThatImplement: "foo",
+					StructsThatImplement:           "foo",
 					ShouldHaveSimpleNameEndingWith: "anything",
 				},
 			},
