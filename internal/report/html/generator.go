@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/fdaines/arch-go/internal/impl/model"
 	"github.com/fdaines/arch-go/internal/model/result"
-	"io/ioutil"
 	"os"
 	"strings"
 )
@@ -27,7 +26,7 @@ func writeReport(content string) {
 		os.Mkdir(".arch-go", 0755)
 	}
 	htmlByteArray := []byte(content)
-	err := ioutil.WriteFile(".arch-go/report.html", htmlByteArray, 0644)
+	err := os.WriteFile(".arch-go/report.html", htmlByteArray, 0644)
 	if err == nil {
 		fmt.Println("HTML report generated at: .arch-go/report.html")
 	} else {

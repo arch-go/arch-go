@@ -1,43 +1,47 @@
 package config
 
+type Dependencies struct {
+	Internal []string `yaml:"internal,omitempty"`
+	External []string `yaml:"external,omitempty"`
+	Standard []string `yaml:"standard,omitempty"`
+}
+
 type DependenciesRule struct {
-	Package                     string   `yaml:"packageX"`
-	ShouldOnlyDependsOn         []string `yaml:"shouldOnlyDependsOn"`
-	ShouldNotDependsOn          []string `yaml:"shouldNotDependsOn"`
-	ShouldOnlyDependsOnExternal []string `yaml:"shouldOnlyDependsOnExternal"`
-	ShouldNotDependsOnExternal  []string `yaml:"shouldNotDependsOnExternal"`
+	Package             string        `yaml:"package,omitempty"`
+	ShouldOnlyDependsOn *Dependencies `yaml:"shouldOnlyDependsOn,omitempty"`
+	ShouldNotDependsOn  *Dependencies `yaml:"shouldNotDependsOn,omitempty"`
 }
 
 type FunctionsRule struct {
-	Package                  string `yaml:"package"`
-	MaxParameters            int    `yaml:"maxParameters"`
-	MaxReturnValues          int    `yaml:"maxReturnValues"`
-	MaxLines                 int    `yaml:"maxLines"`
-	MaxPublicFunctionPerFile int    `yaml:"maxPublicFunctionPerFile"`
+	Package                  string `yaml:"package,omitempty"`
+	MaxParameters            int    `yaml:"maxParameters,omitempty"`
+	MaxReturnValues          int    `yaml:"maxReturnValues,omitempty"`
+	MaxLines                 int    `yaml:"maxLines,omitempty"`
+	MaxPublicFunctionPerFile int    `yaml:"maxPublicFunctionPerFile,omitempty"`
 }
 
 type ContentsRule struct {
-	Package                     string `yaml:"package"`
-	ShouldOnlyContainInterfaces bool   `yaml:"shouldOnlyContainInterfaces"`
-	ShouldOnlyContainStructs    bool   `yaml:"shouldOnlyContainStructs"`
-	ShouldOnlyContainFunctions  bool   `yaml:"shouldOnlyContainFunctions"`
-	ShouldOnlyContainMethods    bool   `yaml:"shouldOnlyContainMethods"`
-	ShouldNotContainInterfaces  bool   `yaml:"shouldNotContainInterfaces"`
-	ShouldNotContainStructs     bool   `yaml:"shouldNotContainStructs"`
-	ShouldNotContainFunctions   bool   `yaml:"shouldNotContainFunctions"`
-	ShouldNotContainMethods     bool   `yaml:"shouldNotContainMethods"`
+	Package                     string `yaml:"package,omitempty"`
+	ShouldOnlyContainInterfaces bool   `yaml:"shouldOnlyContainInterfaces,omitempty"`
+	ShouldOnlyContainStructs    bool   `yaml:"shouldOnlyContainStructs,omitempty"`
+	ShouldOnlyContainFunctions  bool   `yaml:"shouldOnlyContainFunctions,omitempty"`
+	ShouldOnlyContainMethods    bool   `yaml:"shouldOnlyContainMethods,omitempty"`
+	ShouldNotContainInterfaces  bool   `yaml:"shouldNotContainInterfaces,omitempty"`
+	ShouldNotContainStructs     bool   `yaml:"shouldNotContainStructs,omitempty"`
+	ShouldNotContainFunctions   bool   `yaml:"shouldNotContainFunctions,omitempty"`
+	ShouldNotContainMethods     bool   `yaml:"shouldNotContainMethods,omitempty"`
 }
 
 type CyclesRule struct {
-	Package                string `yaml:"package"`
-	ShouldNotContainCycles bool   `yaml:"shouldNotContainCycles"`
+	Package                string `yaml:"package,omitempty"`
+	ShouldNotContainCycles bool   `yaml:"shouldNotContainCycles,omitempty"`
 }
 
 type Config struct {
-	Version           *int8               `yaml:"version"`
-	DependenciesRules []*DependenciesRule `yaml:"dependenciesRules"`
-	ContentRules      []*ContentsRule     `yaml:"contentsRules"`
-	CyclesRules       []*CyclesRule       `yaml:"cyclesRules"`
-	FunctionsRules    []*FunctionsRule    `yaml:"functionsRules"`
-	NamingRules       []*NamingRule       `yaml:"namingRules"`
+	Version           int                 `yaml:"version,omitempty"`
+	DependenciesRules []*DependenciesRule `yaml:"dependenciesRules,omitempty"`
+	ContentRules      []*ContentsRule     `yaml:"contentsRules,omitempty"`
+	CyclesRules       []*CyclesRule       `yaml:"cyclesRules,omitempty"`
+	FunctionsRules    []*FunctionsRule    `yaml:"functionsRules,omitempty"`
+	NamingRules       []*NamingRule       `yaml:"namingRules,omitempty"`
 }

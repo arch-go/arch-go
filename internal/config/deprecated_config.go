@@ -1,17 +1,17 @@
 package config
 
 type DeprecatedDependenciesRule struct {
-	Package                     string   `yaml:"package"`
-	ShouldOnlyDependsOn         []string `yaml:"shouldOnlyDependsOn"`
-	ShouldNotDependsOn          []string `yaml:"shouldNotDependsOn"`
-	ShouldOnlyDependsOnExternal []string `yaml:"shouldOnlyDependsOnExternal"`
-	ShouldNotDependsOnExternal  []string `yaml:"shouldNotDependsOnExternal"`
+	Package                     string   `yaml:"package,omitempty"`
+	ShouldOnlyDependsOn         []string `yaml:"shouldOnlyDependsOn,omitempty"`
+	ShouldNotDependsOn          []string `yaml:"shouldNotDependsOn,omitempty"`
+	ShouldOnlyDependsOnExternal []string `yaml:"shouldOnlyDependsOnExternal,omitempty"`
+	ShouldNotDependsOnExternal  []string `yaml:"shouldNotDependsOnExternal,omitempty"`
 }
 
 type DeprecatedConfig struct {
-	DependenciesRules []*DeprecatedDependenciesRule `yaml:"dependenciesRules"`
-	ContentRules      []*ContentsRule               `yaml:"contentsRules"`
-	CyclesRules       []*CyclesRule                 `yaml:"cyclesRules"`
-	FunctionsRules    []*FunctionsRule              `yaml:"functionsRules"`
-	NamingRules       []*NamingRule                 `yaml:"namingRules"`
+	DependenciesRules []*DeprecatedDependenciesRule `yaml:"dependenciesRules,omitempty"`
+	ContentRules      []*ContentsRule               `yaml:"contentsRules,omitempty"`
+	CyclesRules       []*CyclesRule                 `yaml:"cyclesRules,omitempty"`
+	FunctionsRules    []*FunctionsRule              `yaml:"functionsRules,omitempty"`
+	NamingRules       []*NamingRule                 `yaml:"namingRules,omitempty"`
 }

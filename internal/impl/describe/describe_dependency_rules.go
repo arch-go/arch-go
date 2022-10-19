@@ -14,48 +14,45 @@ func describeDependencyRules(rules []*config.DependenciesRule, out io.Writer) {
 		fmt.Fprintf(out, common.NoRulesDefined)
 		return
 	}
-	for _,r := range rules {
-		dependencyListPattern := "\t\t\t- '%s'\n"
+	for _, r := range rules {
+		dependencyListPattern := "\t\t\t\t- '%s'\n"
 		fmt.Fprintf(out, "\t* Packages that match pattern '%s',\n", r.Package)
 		describeShouldOnlyDependsOn(r, out, dependencyListPattern)
 		describeShouldNotDependsOn(r, out, dependencyListPattern)
-		describeShouldOnlyDependsOnExternal(r, out, dependencyListPattern)
-		describeShouldNotDependsOnExternal(r, out, dependencyListPattern)
 	}
 	fmt.Println()
 }
 
-func describeShouldNotDependsOnExternal(r *config.DependenciesRule, out io.Writer, dependencyListPattern string) {
-	if r.ShouldNotDependsOnExternal != nil {
-		fmt.Fprintf(out, "\t\t* Should not depends on external packages that matches\n")
-		for _, p := range r.ShouldNotDependsOnExternal {
-			fmt.Fprintf(out, dependencyListPattern, p)
-		}
-	}
-}
-
-func describeShouldOnlyDependsOnExternal(r *config.DependenciesRule, out io.Writer, dependencyListPattern string) {
-	if r.ShouldOnlyDependsOnExternal != nil {
-		fmt.Fprintf(out, "\t\t* Should only depends on external packages that matches\n")
-		for _, p := range r.ShouldOnlyDependsOnExternal {
-			fmt.Fprintf(out, dependencyListPattern, p)
-		}
-	}
-}
-
 func describeShouldNotDependsOn(r *config.DependenciesRule, out io.Writer, dependencyListPattern string) {
 	if r.ShouldNotDependsOn != nil {
-		fmt.Fprintf(out, "\t\t* Should not depends on packages that matches:\n")
-		for _, p := range r.ShouldNotDependsOn {
-			fmt.Fprintf(out, dependencyListPattern, p)
-		}
+		fmt.Fprintf(out, "\t\t* Should not depends on:\n")
+		describeDependencies(r.ShouldOnlyDependsOn, out, dependencyListPattern)
 	}
 }
 
 func describeShouldOnlyDependsOn(r *config.DependenciesRule, out io.Writer, dependencyListPattern string) {
 	if r.ShouldOnlyDependsOn != nil {
-		fmt.Fprintf(out, "\t\t* Should only depends on packages that matches:\n")
-		for _, p := range r.ShouldOnlyDependsOn {
+		fmt.Fprintf(out, "\t\t* Should only depends on:\n")
+		describeDependencies(r.ShouldOnlyDependsOn, out, dependencyListPattern)
+	}
+}
+
+func describeDependencies(d *config.Dependencies, out io.Writer, dependencyListPattern string) {
+	if len(d.Internal) > 0 {
+		fmt.Fprintf(out, "\t\t\t* Internal Packages that matches:\n")
+		for _, p := range d.Internal {
+			fmt.Fprintf(out, dependencyListPattern, p)
+		}
+	}
+	if len(d.External) > 0 {
+		fmt.Fprintf(out, "\t\t\t* External Packages that matches:\n")
+		for _, p := range d.External {
+			fmt.Fprintf(out, dependencyListPattern, p)
+		}
+	}
+	if len(d.Standard) > 0 {
+		fmt.Fprintf(out, "\t\t\t* StandardLib Packages that matches:\n")
+		for _, p := range d.Standard {
 			fmt.Fprintf(out, dependencyListPattern, p)
 		}
 	}

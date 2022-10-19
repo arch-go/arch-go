@@ -3,7 +3,6 @@ package packages
 import (
 	"fmt"
 	"golang.org/x/mod/modfile"
-	"io/ioutil"
 	"os"
 )
 
@@ -11,7 +10,7 @@ const goModFile = "go.mod"
 
 func GetMainPackage() (string, error) {
 	if _, err := os.Stat(goModFile); err == nil {
-		content, _ := ioutil.ReadFile(goModFile)
+		content, _ := os.ReadFile(goModFile)
 		modulePath := modfile.ModulePath(content)
 		return modulePath, nil
 	} else {

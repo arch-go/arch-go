@@ -52,20 +52,22 @@ Naming Rules
 
 		expected := `Dependency Rules
 	* Packages that match pattern 'foobar',
-		* Should only depends on packages that matches:
-			- 'dep1'
-			- 'dep2'
-		* Should not depends on packages that matches:
-			- 'dep3'
-			- 'dep4'
-		* Should only depends on external packages that matches
-			- 'dep5'
-			- 'dep6'
-		* Should not depends on external packages that matches
-			- 'dep7'
-			- 'dep8'
+		* Should only depends on:
+			* Internal Packages that matches:
+				- 'foo'
+			* External Packages that matches:
+				- 'bar'
+			* StandardLib Packages that matches:
+				- 'foobar'
+		* Should not depends on:
+			* Internal Packages that matches:
+				- 'foo'
+			* External Packages that matches:
+				- 'bar'
+			* StandardLib Packages that matches:
+				- 'foobar'
 Function Rules
-	* Packages that match pattern 'funcion-package' should comply with the following rules:
+	* Packages that match pattern 'function-package' should comply with the following rules:
 		* Functions should not have more than 3 lines
 		* Functions should not have more than 1 parameters
 		* Functions should not have more than 2 return values
@@ -127,11 +129,17 @@ func configLoaderMockWithRules(path string) (*config.Config, error) {
 	return &config.Config{
 		DependenciesRules: []*config.DependenciesRule{
 			&config.DependenciesRule{
-				Package:                     "foobar",
-				ShouldOnlyDependsOn:         []string{"dep1", "dep2"},
-				ShouldNotDependsOn:          []string{"dep3", "dep4"},
-				ShouldOnlyDependsOnExternal: []string{"dep5", "dep6"},
-				ShouldNotDependsOnExternal:  []string{"dep7", "dep8"},
+				Package: "foobar",
+				ShouldOnlyDependsOn: &config.Dependencies{
+					Internal: []string{"foo"},
+					External: []string{"bar"},
+					Standard: []string{"foobar"},
+				},
+				ShouldNotDependsOn: &config.Dependencies{
+					Internal: []string{"oof"},
+					External: []string{"rab"},
+					Standard: []string{"raboof"},
+				},
 			},
 		},
 		ContentRules: []*config.ContentsRule{
@@ -170,7 +178,7 @@ func configLoaderMockWithRules(path string) (*config.Config, error) {
 		},
 		FunctionsRules: []*config.FunctionsRule{
 			&config.FunctionsRule{
-				Package:                  "funcion-package",
+				Package:                  "function-package",
 				MaxParameters:            1,
 				MaxReturnValues:          2,
 				MaxLines:                 3,
