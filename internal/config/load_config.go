@@ -19,7 +19,7 @@ func LoadConfig(configPath string) (*Config, error) {
 	if err := d.Decode(&config); err != nil {
 		_, err := LoadDeprecatedConfig(configPath)
 		if err == nil {
-			return nil, fmt.Errorf("A deprecated architecture description was provided. To update the arch-go.yml file please run './arch-go migrate-config'")
+			return nil, fmt.Errorf("A deprecated architecture description was provided. To update the arch-go.yml file please run 'arch-go migrate-config'")
 		}
 		return nil, err
 	}

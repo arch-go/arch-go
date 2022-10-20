@@ -18,7 +18,6 @@ func MigrateConfiguration(out io.Writer) {
 		} else {
 			fmt.Fprintf(out, "Migrating deprecated configuration to current schema.\n")
 			configuration := migrateRules(deprecatedConfiguration)
-			fmt.Printf("Config: %+v\n", configuration)
 			yamlData, err := yaml.Marshal(&deprecatedConfiguration)
 			if err != nil {
 				fmt.Fprintf(out, "Error while Marshaling. %+v\n", err)
