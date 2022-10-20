@@ -112,7 +112,7 @@ The package name can be defined as a fixed value or using _*_ special character,
 # Usage
 To install Arch-Go, run
 ```bash
-$ go get -u github.com/fdaines/arch-go
+$ go install -v github.com/fdaines/arch-go@latest
 ```
 
 To execute this tool you have to be in the module path

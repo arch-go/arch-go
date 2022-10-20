@@ -1,6 +1,6 @@
 module github.com/fdaines/arch-go
 
-go 1.17
+go 1.18
 
 require (
 	bou.ke/monkey v1.0.2
