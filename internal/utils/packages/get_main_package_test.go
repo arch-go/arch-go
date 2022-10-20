@@ -15,7 +15,7 @@ func TestGetMainPackage(t *testing.T) {
 	t.Run("Calls GetMainPackage function", func(t *testing.T) {
 		gomodFile := `module github.com/fdaines/my-golang-module
 
-go 1.15
+go 1.17
 
 require (
 	foobar 0.0.1
