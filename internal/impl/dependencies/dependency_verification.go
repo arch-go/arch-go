@@ -91,124 +91,130 @@ func (d *DependencyRuleVerification) checksShouldOnlyDependsOn(pd model.PackageV
 }
 
 func (d *DependencyRuleVerification) checkComplianceWithAllowedStandardImports(pkg string, index int, result bool) bool {
-	if len(d.Rule.ShouldOnlyDependsOn.Standard) > 0 {
-		if !strings.HasPrefix(pkg, d.Module) && packages.IsStandardPackage(pkg) {
-			success := false
-			output.PrintVerbose("Check if imported package '%s' complies with allowed imports\n", pkg)
-			for _, allowedImport := range d.Rule.ShouldOnlyDependsOn.Standard {
-				allowedImportRegexp, _ := regexp.Compile(text.PreparePackageRegexp(allowedImport))
-				success = success || allowedImportRegexp.MatchString(pkg)
-			}
-			if !success {
-				d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, fmt.Sprintf("ShouldOnlyDependsOn.Standard rule doesn't contains imported package '%s'", pkg))
-				d.PackageDetails[index].Passes = false
-			}
-			result = result && success
+	if len(d.Rule.ShouldOnlyDependsOn.Standard) == 0 {
+		return result
+	}
+	if !strings.HasPrefix(pkg, d.Module) && packages.IsStandardPackage(pkg) {
+		success := false
+		output.PrintVerbose("Check if imported package '%s' complies with allowed standard imports\n", pkg)
+		for _, allowedImport := range d.Rule.ShouldOnlyDependsOn.Standard {
+			allowedImportRegexp, _ := regexp.Compile(text.PreparePackageRegexp(allowedImport))
+			success = success || allowedImportRegexp.MatchString(pkg)
 		}
+		if !success {
+			d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, fmt.Sprintf("ShouldOnlyDependsOn.Standard rule doesn't contains imported package '%s'", pkg))
+			d.PackageDetails[index].Passes = false
+		}
+		result = result && success
 	}
 	return result
 }
 
 func (d *DependencyRuleVerification) checkComplianceWithRestrictedStandardImports(pkg string, index int, result bool) bool {
-	if len(d.Rule.ShouldNotDependsOn.Standard) > 0 {
-		if !strings.HasPrefix(pkg, d.Module) && packages.IsStandardPackage(pkg) {
-			fails := false
-			output.PrintVerbose("Check if imported package '%s' complies with restricted imports\n", pkg)
-			for _, restrictedImport := range d.Rule.ShouldNotDependsOn.Standard {
-				restrictedImportRegexp, err := regexp.Compile(text.PreparePackageRegexp(restrictedImport))
-				if err != nil {
-					output.Printf("Error compiling restricted imports expresion: %+v\n", err)
-				}
-				fails = fails || restrictedImportRegexp.MatchString(pkg)
+	if len(d.Rule.ShouldNotDependsOn.Standard) == 0 {
+		return result
+	}
+	if !strings.HasPrefix(pkg, d.Module) && packages.IsStandardPackage(pkg) {
+		fails := false
+		output.PrintVerbose("Check if imported package '%s' complies with restricted standard imports\n", pkg)
+		for _, restrictedImport := range d.Rule.ShouldNotDependsOn.Standard {
+			restrictedImportRegexp, err := regexp.Compile(text.PreparePackageRegexp(restrictedImport))
+			if err != nil {
+				output.Printf("Error compiling restricted imports expresion: %+v\n", err)
 			}
-			if fails {
-				d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, fmt.Sprintf("ShouldNotDependsOn.Standard rule contains imported package '%s'", pkg))
-				d.PackageDetails[index].Passes = false
-			}
-			result = result && !fails
+			fails = fails || restrictedImportRegexp.MatchString(pkg)
 		}
+		if fails {
+			d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, fmt.Sprintf("ShouldNotDependsOn.Standard rule contains imported package '%s'", pkg))
+			d.PackageDetails[index].Passes = false
+		}
+		result = result && !fails
 	}
 	return result
 }
 
 func (d *DependencyRuleVerification) checkComplianceWithAllowedExternalImports(pkg string, index int, result bool) bool {
-	if len(d.Rule.ShouldOnlyDependsOn.External) > 0 {
-		if !strings.HasPrefix(pkg, d.Module) && packages.IsExternalPackage(pkg) {
-			success := false
-			output.PrintVerbose("Check if imported package '%s' complies with allowed imports\n", pkg)
-			for _, allowedImport := range d.Rule.ShouldOnlyDependsOn.External {
-				allowedImportRegexp, _ := regexp.Compile(text.PreparePackageRegexp(allowedImport))
-				success = success || allowedImportRegexp.MatchString(pkg)
-			}
-			if !success {
-				d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, fmt.Sprintf("ShouldOnlyDependsOn.External rule doesn't contains imported package '%s'", pkg))
-				d.PackageDetails[index].Passes = false
-			}
-			result = result && success
+	if len(d.Rule.ShouldOnlyDependsOn.External) == 0 {
+		return result
+	}
+	if !strings.HasPrefix(pkg, d.Module) && packages.IsExternalPackage(pkg) {
+		success := false
+		output.PrintVerbose("Check if imported package '%s' complies with allowed external imports\n", pkg)
+		for _, allowedImport := range d.Rule.ShouldOnlyDependsOn.External {
+			allowedImportRegexp, _ := regexp.Compile(text.PreparePackageRegexp(allowedImport))
+			success = success || allowedImportRegexp.MatchString(pkg)
 		}
+		if !success {
+			d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, fmt.Sprintf("ShouldOnlyDependsOn.External rule doesn't contains imported package '%s'", pkg))
+			d.PackageDetails[index].Passes = false
+		}
+		result = result && success
 	}
 	return result
 }
 
 func (d *DependencyRuleVerification) checkComplianceWithRestrictedExternalImports(pkg string, index int, result bool) bool {
-	if len(d.Rule.ShouldNotDependsOn.External) > 0 {
-		if !strings.HasPrefix(pkg, d.Module) && packages.IsExternalPackage(pkg) {
-			fails := false
-			output.PrintVerbose("Check if imported package '%s' complies with restricted imports\n", pkg)
-			for _, restrictedImport := range d.Rule.ShouldNotDependsOn.External {
-				restrictedImportRegexp, err := regexp.Compile(text.PreparePackageRegexp(restrictedImport))
-				if err != nil {
-					output.Printf("Error compiling restricted imports expresion: %+v\n", err)
-				}
-				fails = fails || restrictedImportRegexp.MatchString(pkg)
+	if len(d.Rule.ShouldNotDependsOn.External) == 0 {
+		return result
+	}
+	if !strings.HasPrefix(pkg, d.Module) && packages.IsExternalPackage(pkg) {
+		fails := false
+		output.PrintVerbose("Check if imported package '%s' complies with restricted external imports\n", pkg)
+		for _, restrictedImport := range d.Rule.ShouldNotDependsOn.External {
+			restrictedImportRegexp, err := regexp.Compile(text.PreparePackageRegexp(restrictedImport))
+			if err != nil {
+				output.Printf("Error compiling restricted imports expresion: %+v\n", err)
 			}
-			if fails {
-				d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, fmt.Sprintf("ShouldNotDependsOn.External rule contains imported package '%s'", pkg))
-				d.PackageDetails[index].Passes = false
-			}
-			result = result && !fails
+			fails = fails || restrictedImportRegexp.MatchString(pkg)
 		}
+		if fails {
+			d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, fmt.Sprintf("ShouldNotDependsOn.External rule contains imported package '%s'", pkg))
+			d.PackageDetails[index].Passes = false
+		}
+		result = result && !fails
 	}
 	return result
 }
 
 func (d *DependencyRuleVerification) checkComplianceWithRestrictedInternalImports(pkg string, index int, result bool) bool {
-	if len(d.Rule.ShouldNotDependsOn.Internal) > 0 {
-		if strings.HasPrefix(pkg, d.Module) {
-			fails := false
-			output.PrintVerbose("Check if imported package '%s' is one of the restricted packages\n", pkg)
-			for _, notAllowedImport := range d.Rule.ShouldNotDependsOn.Internal {
-				notAllowedImportRegexp, err := regexp.Compile(text.PreparePackageRegexp(notAllowedImport))
-				if err != nil {
-					output.Printf("Error compiling allowed imports expresion: %+v\n", err)
-				}
-				fails = fails || notAllowedImportRegexp.MatchString(pkg)
+	if len(d.Rule.ShouldNotDependsOn.Internal) == 0 {
+		return result
+	}
+	if strings.HasPrefix(pkg, d.Module) {
+		fails := false
+		output.PrintVerbose("Check if imported package '%s' is one of the restricted internal packages\n", pkg)
+		for _, notAllowedImport := range d.Rule.ShouldNotDependsOn.Internal {
+			notAllowedImportRegexp, err := regexp.Compile(text.PreparePackageRegexp(notAllowedImport))
+			if err != nil {
+				output.Printf("Error compiling allowed imports expresion: %+v\n", err)
 			}
-			if fails {
-				d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, fmt.Sprintf("ShouldNotDependsOn.Internal rule contains imported package '%s'", pkg))
-				d.PackageDetails[index].Passes = false
-			}
-			result = result && !fails
+			fails = fails || notAllowedImportRegexp.MatchString(pkg)
 		}
+		if fails {
+			d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, fmt.Sprintf("ShouldNotDependsOn.Internal rule contains imported package '%s'", pkg))
+			d.PackageDetails[index].Passes = false
+		}
+		result = result && !fails
 	}
 	return result
 }
 
 func (d *DependencyRuleVerification) checkComplianceWithAllowedInternalImports(pkg string, index int, result bool) bool {
-	if len(d.Rule.ShouldOnlyDependsOn.Internal) > 0 {
-		if strings.HasPrefix(pkg, d.Module) {
-			success := false
-			output.PrintVerbose("Check if imported package '%s' complies with allowed imports\n", pkg)
-			for _, allowedImport := range d.Rule.ShouldOnlyDependsOn.Internal {
-				allowedImportRegexp, _ := regexp.Compile(text.PreparePackageRegexp(allowedImport))
-				success = success || allowedImportRegexp.MatchString(pkg)
-			}
-			if !success {
-				d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, fmt.Sprintf("ShouldOnlyDependsOn.Internal rule doesn't contains imported package '%s'", pkg))
-				d.PackageDetails[index].Passes = false
-			}
-			result = result && success
+	if len(d.Rule.ShouldOnlyDependsOn.Internal) == 0 {
+		return result
+	}
+	if strings.HasPrefix(pkg, d.Module) {
+		success := false
+		output.PrintVerbose("Check if imported package '%s' complies with allowed internal imports\n", pkg)
+		for _, allowedImport := range d.Rule.ShouldOnlyDependsOn.Internal {
+			allowedImportRegexp, _ := regexp.Compile(text.PreparePackageRegexp(allowedImport))
+			success = success || allowedImportRegexp.MatchString(pkg)
 		}
+		if !success {
+			d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, fmt.Sprintf("ShouldOnlyDependsOn.Internal rule doesn't contains imported package '%s'", pkg))
+			d.PackageDetails[index].Passes = false
+		}
+		result = result && success
 	}
 	return result
 }
@@ -239,27 +245,28 @@ func (d *DependencyRuleVerification) ValidatePatterns() bool {
 }
 
 func (d *DependencyRuleVerification) validateDependencies(dependencies *config.Dependencies, baseRule string, isValid bool) bool {
-	if dependencies != nil {
-		for _, sodo := range dependencies.Internal {
-			_, err := regexp.Compile(text.PreparePackageRegexp(sodo))
-			if err != nil {
-				color.Red("[%s] - Invalid pattern in %s.Internal: %s\n", d.Description, baseRule, sodo)
-				isValid = false
-			}
+	if dependencies == nil {
+		return isValid
+	}
+	for _, sodo := range dependencies.Internal {
+		_, err := regexp.Compile(text.PreparePackageRegexp(sodo))
+		if err != nil {
+			color.Red("[%s] - Invalid pattern in %s.Internal: %s\n", d.Description, baseRule, sodo)
+			isValid = false
 		}
-		for _, sodoe := range dependencies.External {
-			_, err := regexp.Compile(text.PreparePackageRegexp(sodoe))
-			if err != nil {
-				color.Red("[%s] - Invalid pattern in %s.External: %s\n", d.Description, baseRule, sodoe)
-				isValid = false
-			}
+	}
+	for _, sodoe := range dependencies.External {
+		_, err := regexp.Compile(text.PreparePackageRegexp(sodoe))
+		if err != nil {
+			color.Red("[%s] - Invalid pattern in %s.External: %s\n", d.Description, baseRule, sodoe)
+			isValid = false
 		}
-		for _, sodos := range dependencies.Standard {
-			_, err := regexp.Compile(text.PreparePackageRegexp(sodos))
-			if err != nil {
-				color.Red("[%s] - Invalid pattern in %s.Standard: %s\n", d.Description, baseRule, sodos)
-				isValid = false
-			}
+	}
+	for _, sodos := range dependencies.Standard {
+		_, err := regexp.Compile(text.PreparePackageRegexp(sodos))
+		if err != nil {
+			color.Red("[%s] - Invalid pattern in %s.Standard: %s\n", d.Description, baseRule, sodos)
+			isValid = false
 		}
 	}
 	return isValid
