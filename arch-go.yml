@@ -1,45 +1,46 @@
+version: 1
 dependenciesRules:
-  - package: "**.cmd"
-    shouldOnlyDependsOn:
-      - "**.arch-go.**"
-  - package: "**.impl.**"
-    shouldOnlyDependsOn:
-      - "**.arch-go.**"
-  - package: "**.arch-go.**"
-    shouldOnlyDependsOnExternal:
-      - "github.com/fatih/color"
-      - "github.com/spf13/cobra"
-      - "gopkg.in/yaml.v2"
-      - "github.com/jedib0t/go-pretty/v6/table"
-
+- package: '**.cmd'
+  shouldOnlyDependsOn:
+    internal:
+    - '**.arch-go.**'
+- package: '**.impl.**'
+  shouldOnlyDependsOn:
+    internal:
+    - '**.arch-go.**'
+- package: '**.arch-go.**'
+  shouldOnlyDependsOn:
+    external:
+    - github.com/fatih/color
+    - github.com/spf13/cobra
+    - gopkg.in/yaml.v2
+    - github.com/jedib0t/go-pretty/v6/table
 contentsRules:
-  - package: "**.impl.model"
-    shouldNotContainFunctions: true
-    shouldNotContainMethods: true
-  - package: "**.impl.config"
-    shouldOnlyContainFunctions: true
-  - package: "**.impl.dependencies"
-    shouldNotContainInterfaces: true
-  - package: "**.impl.contents"
-    shouldNotContainInterfaces: true
-  - package: "**.impl.cycles"
-    shouldNotContainInterfaces: true
-  - package: "**.impl.functions"
-    shouldNotContainInterfaces: true
-
-functionsRules:
-  - package: "**.arch-go.**"
-    maxParameters: 5
-    maxReturnValues: 2
-    maxPublicFunctionPerFile: 8
-    maxLines: 50
-
+- package: '**.impl.model'
+  shouldNotContainFunctions: true
+  shouldNotContainMethods: true
+- package: '**.impl.config'
+  shouldOnlyContainFunctions: true
+- package: '**.impl.dependencies'
+  shouldNotContainInterfaces: true
+- package: '**.impl.contents'
+  shouldNotContainInterfaces: true
+- package: '**.impl.cycles'
+  shouldNotContainInterfaces: true
+- package: '**.impl.functions'
+  shouldNotContainInterfaces: true
 cyclesRules:
-  - package: "**.cmd"
-    shouldNotContainCycles: true
-
+- package: '**.cmd'
+  shouldNotContainCycles: true
+functionsRules:
+- package: '**.arch-go.**'
+  maxParameters: 5
+  maxReturnValues: 2
+  maxLines: 50
+  maxPublicFunctionPerFile: 8
 namingRules:
-  - package: "**.arch-go.**"
-    interfaceImplementationNamingRule:
-      structsThatImplement: "*Verification"
-      shouldHaveSimpleNameEndingWith: "Verification"
+- package: '**.arch-go.**'
+  interfaceImplementationNamingRule:
+    structsThatImplement: '*Verification'
+    shouldHaveSimpleNameStartingWith: ""
+    shouldHaveSimpleNameEndingWith: Verification

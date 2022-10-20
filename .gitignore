@@ -19,3 +19,6 @@ main
 
 # IDE configurations
 .idea/
+
+#backup files
+old-arch-go.yml

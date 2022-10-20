@@ -2,7 +2,6 @@ package packages_test
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -16,12 +15,12 @@ func TestGetMainPackage(t *testing.T) {
 	t.Run("Calls GetMainPackage function", func(t *testing.T) {
 		gomodFile := `module github.com/fdaines/my-golang-module
 
-go 1.15
+go 1.17
 
 require (
 	foobar 0.0.1
 )`
-		readFilePatch := monkey.Patch(ioutil.ReadFile, func (fn string) ([]byte, error) {
+		readFilePatch := monkey.Patch(os.ReadFile, func(fn string) ([]byte, error) {
 			return []byte(gomodFile), nil
 		})
 		defer readFilePatch.Unpatch()
@@ -31,9 +30,9 @@ require (
 		defer statPatch.Unpatch()
 
 		expected := "github.com/fdaines/my-golang-module"
-		modulepath, _ := packages.GetMainPackage()
+		modulePath, _ := packages.GetMainPackage()
 
-		assert.Equal(t, expected, modulepath)
+		assert.Equal(t, expected, modulePath)
 	})
 
 	t.Run("Calls GetMainPackage function and go.mod file doesnt exists", func(t *testing.T) {

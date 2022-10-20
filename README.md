@@ -5,10 +5,14 @@ Architecture checks for Go projects
 
 ## Dependencies Checks
 Supports defining import rules
-- Allowed dependencies (same module)
-- Not allowed dependencies (same module)
-- Allowed external dependencies (different module and not part of standard library)
-- Not Allowed external dependencies (different module and not part of standard library)
+- Allowed dependencies
+  - internal dependencies (same module)
+  - standard library dependencies
+  - external dependencies (3rd party packages)
+- Not allowed dependencies
+    - internal dependencies (same module)
+    - standard library dependencies
+    - external dependencies (3rd party packages)
   
 ## Package Content Checks
 Allows you to define the contents of a set of packages, e.g. you can define that a desired package should only contain interfaces definitions.
@@ -40,21 +44,26 @@ Checks some naming rules, like the following:
 
 ## File arch-go.yml
 ```yaml
+version: 1
 dependenciesRules:
   - package: "**.impl.*"
     shouldOnlyDependsOn:
-      - "**.foo.*"
-      - "*.bar.*"
-    shouldNotDependsOn: ["**.model.**"]
+      internal:
+          - "**.foo.*"
+          - "*.bar.*"
+    shouldNotDependsOn: 
+      internal: ["**.model.**"]
   - package: "**.utils.**"
     shouldOnlyDependsOn:
       - "**.model.**"
   - package: "**.foobar.**"
-    shouldOnlyDependsOnExternal:
-      - "gopkg.in/yaml.v2"
+    shouldOnlyDependsOn:
+      external:
+        - "gopkg.in/yaml.v2"
   - package: "**.example.**"
-    shouldNotDependsOnExternal:
-      - "github.com/foobar/example-module"
+    shouldNotDependsOn:
+      external:
+        - "github.com/foobar/example-module"
 
 contentsRules:
   - package: "**.impl.model"
