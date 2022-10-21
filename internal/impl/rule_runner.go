@@ -27,7 +27,7 @@ func CheckArchitecture() bool {
 	utils.ExecuteWithTimer(func() {
 		configuration, err := config.LoadConfig("arch-go.yml")
 		if err != nil {
-			fmt.Printf("Error: %+v\n", err)
+			color.Red("Error: %+v\n", err)
 			os.Exit(1)
 		} else {
 			mainPackage, _ := packages.GetMainPackage()
