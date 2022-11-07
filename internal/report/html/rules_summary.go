@@ -23,23 +23,7 @@ const breakdownTemplate = `
 		[RULES]
 	</tbody>
 </table>
-<br/>
-<table>
-    <thead>
-        <tr>
-            <th colspan="4">Threshold Verification</th>
-        </tr>
-        <tr>
-            <th style="width:200px;">Type</th>
-            <th style="width:100px;">Current Rate</th>
-            <th style="width:100px;">Threshold</th>
-            <th style="width:100px;">Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        [THRESHOLD_SUMMARY]
-    </tbody>
-</table>
+[THRESHOLD_SUMMARY]
 `
 
 const ruleSummaryTemplate = `<tr>
@@ -55,7 +39,25 @@ const ruleSummaryTemplate = `<tr>
 	<td style="text-align:center;">%d</td>
 </tr>`
 
-const thresholdTemplate = `<tr style="color:%s">
+const thresholdTemplate = `<br/>
+<table>
+    <thead>
+        <tr>
+            <th colspan="4">Threshold Verification</th>
+        </tr>
+        <tr>
+            <th style="width:200px;">Type</th>
+            <th style="width:100px;">Current Rate</th>
+            <th style="width:100px;">Threshold</th>
+            <th style="width:100px;">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        [COMPLIANCE_THRESHOLD]
+    </tbody>
+</table>`
+
+const thresholdRowTemplate = `<tr style="color:%s">
     <td>%s</td>
     <td style="text-align:center;">%d</td>
     <td style="text-align:center;">%d</td>
@@ -80,18 +82,25 @@ func ruleList(summary result.RulesSummary) string {
 }
 
 func thresholdVerification(template string, summary result.RulesSummary) string {
+	if summary.ComplianceThreshold == nil {
+		return strings.Replace(template, "[THRESHOLD_SUMMARY]", "", 1)
+	}
+
 	var buffer bytes.Buffer
 	statusColor := "red"
 	if summary.ComplianceThreshold.Status == "Pass" {
 		statusColor = "green"
 	}
 
-	buffer.WriteString(fmt.Sprintf(thresholdTemplate,
+	buffer.WriteString(fmt.Sprintf(thresholdRowTemplate,
 		statusColor,
 		"Compliance",
 		summary.ComplianceThreshold.Rate,
 		summary.ComplianceThreshold.Threshold,
 		summary.ComplianceThreshold.Status,
 	))
-	return strings.Replace(template, "[THRESHOLD_SUMMARY]", buffer.String(), 1)
+
+	thresholdDetails := strings.Replace(thresholdTemplate, "[COMPLIANCE_THRESHOLD]", buffer.String(), 1)
+
+	return strings.Replace(template, "[THRESHOLD_SUMMARY]", thresholdDetails, 1)
 }
