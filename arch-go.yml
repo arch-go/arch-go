@@ -1,4 +1,6 @@
 version: 1
+threshold:
+  compliance: 100
 dependenciesRules:
 - package: '**.cmd'
   shouldOnlyDependsOn:
@@ -15,6 +17,7 @@ dependenciesRules:
     - github.com/spf13/cobra
     - gopkg.in/yaml.v2
     - github.com/jedib0t/go-pretty/v6/table
+    - github.com/jedib0t/go-pretty/v6/text
 contentsRules:
 - package: '**.impl.model'
   shouldNotContainFunctions: true

@@ -23,8 +23,20 @@ func LoadConfig(configPath string) (*Config, error) {
 		}
 		return nil, err
 	}
+	checkThreshold(config)
 
 	return config, nil
+}
+
+func checkThreshold(config *Config) {
+	if config.Threshold == nil {
+		config.Threshold = &Threshold{}
+	}
+
+	maxThreshold := 100
+	if config.Threshold.Compliance == nil {
+		config.Threshold.Compliance = &maxThreshold
+	}
 }
 
 func LoadDeprecatedConfig(configPath string) (*DeprecatedConfig, error) {
