@@ -45,8 +45,8 @@ func CheckArchitecture() bool {
 				v.PrintResults()
 			}
 
-			summary := result.ResolveRulesSummary(verifications)
-			returnValue = summary.Failed == 0
+			summary := result.ResolveRulesSummary(verifications, configuration)
+			returnValue = summary.Status
 			summary.Print()
 
 			if common.Html {

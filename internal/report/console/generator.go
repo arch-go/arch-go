@@ -1,8 +1,10 @@
 package console
 
 import (
+	"fmt"
 	"github.com/fdaines/arch-go/internal/model/result"
 	"github.com/jedib0t/go-pretty/v6/table"
+	"github.com/jedib0t/go-pretty/v6/text"
 	"os"
 	"sort"
 )
@@ -24,5 +26,17 @@ func GenerateConsoleReport(summary result.RulesSummary) {
 		t.AppendRow(row)
 		idx++
 	}
+
+	if summary.ComplianceThreshold != nil {
+		rowConfig := table.RowConfig{
+			AutoMerge:      true,
+			AutoMergeAlign: text.AlignLeft,
+		}
+		complianceDetails := fmt.Sprintf("%v%% [%s]",
+			summary.ComplianceThreshold.Rate,
+			summary.ComplianceThreshold.Status)
+		t.AppendFooter(table.Row{"", "Compliance Rate", complianceDetails, complianceDetails, complianceDetails}, rowConfig)
+	}
+
 	t.Render()
 }

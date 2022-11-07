@@ -37,8 +37,13 @@ type CyclesRule struct {
 	ShouldNotContainCycles bool   `yaml:"shouldNotContainCycles,omitempty"`
 }
 
+type Threshold struct {
+	Compliance *int `yaml:"compliance,omitempty"`
+}
+
 type Config struct {
 	Version           int                 `yaml:"version,omitempty"`
+	Threshold         *Threshold          `yaml:"threshold,omitempty"`
 	DependenciesRules []*DependenciesRule `yaml:"dependenciesRules,omitempty"`
 	ContentRules      []*ContentsRule     `yaml:"contentsRules,omitempty"`
 	CyclesRules       []*CyclesRule       `yaml:"cyclesRules,omitempty"`
