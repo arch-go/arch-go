@@ -21,8 +21,23 @@ func DescribeArchitectureGuidelines(out io.Writer) {
 			describeContentRules(configuration.ContentRules, out)
 			describeCyclesRules(configuration.CyclesRules, out)
 			describeNamingRules(configuration.NamingRules, out)
+			describeThresholdRules(configuration.Threshold, out)
 		}
 	})
+}
+
+func describeThresholdRules(threshold *config.Threshold, out io.Writer) {
+	if threshold == nil {
+		return
+	}
+
+	fmt.Fprintf(out, "\nThreshold Rules\n")
+	if threshold.Compliance != nil {
+		fmt.Fprintf(out,
+			"\t* The module must comply with at least %d%% of the rules described above.\n",
+			*threshold.Compliance,
+		)
+	}
 }
 
 func describeCyclesRules(rules []*config.CyclesRule, out io.Writer) {
@@ -31,7 +46,7 @@ func describeCyclesRules(rules []*config.CyclesRule, out io.Writer) {
 		fmt.Fprintf(out, common.NoRulesDefined)
 		return
 	}
-	for _,r := range rules {
+	for _, r := range rules {
 		if r.ShouldNotContainCycles {
 			fmt.Fprintf(out, "\t* Packages that match pattern '%s' should not contain cycles\n", r.Package)
 		}
