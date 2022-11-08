@@ -45,6 +45,8 @@ Checks some naming rules, like the following:
 ## File arch-go.yml
 ```yaml
 version: 1
+threshold:
+  compliance: 100
 dependenciesRules:
   - package: "**.impl.*"
     shouldOnlyDependsOn:
@@ -107,6 +109,14 @@ The package name can be defined as a fixed value or using _*_ special character,
 | \*\*.foo/bar.** | Package should contain _foo/bar_, supporting multiple levels before and after (for example both _x/y/foo/bar/w/z_, _foo/bar/name_ and _x/y/foo/bar_)                  |
 | foo.**.bar      | Package should start with _foo_, and ends with _bar_, and can have anything between them. (for example _foo/bar_, _foo/test/blah/bar_ and _foo/ok/bar_)              |
 | foo.*.bar       | Package should start with _foo_, and ends with _bar_, and can have only one level between them. (for example _foo/bar_ and _foo/ok/bar_, but no _foo/test/blah/bar_) |
+
+## Threshold configuration
+Current version supports threshold configuration for compliance rate.
+
+### Compliance rate threshold
+Represents how much the compliance level of the module is considering all the rules defined in the `arch-go.yml` file. For example, if there are 4 rules and the module meets 3 of them, then its compliance level will be 75%.
+
+Arch-Go will check that the compliance level of your module must be equals or greater than the compliance threshold defined in your `arch-go.yml` file, if not then the verification will fail.
 
 
 # Usage
