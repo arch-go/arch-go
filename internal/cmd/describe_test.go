@@ -61,11 +61,11 @@ Naming Rules
 				- 'foobar'
 		* Should not depends on:
 			* Internal Packages that matches:
-				- 'foo'
+				- 'oof'
 			* External Packages that matches:
-				- 'bar'
+				- 'rab'
 			* StandardLib Packages that matches:
-				- 'foobar'
+				- 'raboof'
 Function Rules
 	* Packages that match pattern 'function-package' should comply with the following rules:
 		* Functions should not have more than 3 lines
