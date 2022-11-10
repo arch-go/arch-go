@@ -3,7 +3,7 @@ package cmd
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 	"testing"
 
@@ -24,7 +24,7 @@ func TestDescribeCommand(t *testing.T) {
 		b := bytes.NewBufferString("")
 		cmd.SetOut(b)
 		cmd.Execute()
-		out, _ := ioutil.ReadAll(b)
+		out, _ := io.ReadAll(b)
 
 		expected := `Dependency Rules
 	* No rules defined
@@ -48,7 +48,7 @@ Naming Rules
 		b := bytes.NewBufferString("")
 		cmd.SetOut(b)
 		cmd.Execute()
-		out, _ := ioutil.ReadAll(b)
+		out, _ := io.ReadAll(b)
 
 		expected := `Dependency Rules
 	* Packages that match pattern 'foobar',
@@ -61,11 +61,11 @@ Naming Rules
 				- 'foobar'
 		* Should not depends on:
 			* Internal Packages that matches:
-				- 'foo'
+				- 'oof'
 			* External Packages that matches:
-				- 'bar'
+				- 'rab'
 			* StandardLib Packages that matches:
-				- 'foobar'
+				- 'raboof'
 Function Rules
 	* Packages that match pattern 'function-package' should comply with the following rules:
 		* Functions should not have more than 3 lines
@@ -112,7 +112,7 @@ Naming Rules
 		b := bytes.NewBufferString("")
 		cmd.SetOut(b)
 		cmd.Execute()
-		out, _ := ioutil.ReadAll(b)
+		out, _ := io.ReadAll(b)
 
 		expected := `Error: Error details
 `

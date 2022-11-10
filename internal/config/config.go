@@ -39,6 +39,7 @@ type CyclesRule struct {
 
 type Threshold struct {
 	Compliance *int `yaml:"compliance,omitempty"`
+	Coverage   *int `yaml:"coverage,omitempty"`
 }
 
 type Config struct {

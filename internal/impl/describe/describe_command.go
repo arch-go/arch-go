@@ -31,11 +31,17 @@ func describeThresholdRules(threshold *config.Threshold, out io.Writer) {
 		return
 	}
 
-	fmt.Fprintf(out, "\nThreshold Rules\n")
+	fmt.Fprintf(out, "Threshold Rules\n")
 	if threshold.Compliance != nil {
 		fmt.Fprintf(out,
 			"\t* The module must comply with at least %d%% of the rules described above.\n",
 			*threshold.Compliance,
+		)
+	}
+	if threshold.Coverage != nil {
+		fmt.Fprintf(out,
+			"\t* The rules described above must cover at least %d%% of the packages in this module.\n",
+			*threshold.Coverage,
 		)
 	}
 }

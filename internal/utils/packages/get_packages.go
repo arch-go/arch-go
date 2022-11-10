@@ -26,6 +26,7 @@ func GetBasicPackagesInfo(printInfo bool) ([]*model.PackageInfo, error) {
 					PackageData: pkg,
 					Name:        pkg.Name,
 					Path:        pkg.ImportPath,
+					Covered:     false,
 				})
 			}
 		}

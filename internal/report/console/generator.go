@@ -32,10 +32,14 @@ func GenerateConsoleReport(summary result.RulesSummary) {
 			AutoMerge:      true,
 			AutoMergeAlign: text.AlignLeft,
 		}
-		complianceDetails := fmt.Sprintf("%v%% [%s]",
+		complianceDetails := fmt.Sprintf("%3v%% [%s]",
 			summary.ComplianceThreshold.Rate,
 			summary.ComplianceThreshold.Status)
 		t.AppendFooter(table.Row{"", "Compliance Rate", complianceDetails, complianceDetails, complianceDetails}, rowConfig)
+		coverageDetails := fmt.Sprintf("%3v%% [%s]",
+			summary.CoverageThreshold.Rate,
+			summary.CoverageThreshold.Status)
+		t.AppendFooter(table.Row{"", "Coverage Rate", coverageDetails, coverageDetails, coverageDetails}, rowConfig)
 	}
 
 	t.Render()

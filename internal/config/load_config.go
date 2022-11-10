@@ -37,6 +37,9 @@ func checkThreshold(config *Config) {
 	if config.Threshold.Compliance == nil {
 		config.Threshold.Compliance = &maxThreshold
 	}
+	if config.Threshold.Coverage == nil {
+		config.Threshold.Coverage = &maxThreshold
+	}
 }
 
 func LoadDeprecatedConfig(configPath string) (*DeprecatedConfig, error) {

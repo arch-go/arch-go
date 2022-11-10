@@ -45,9 +45,8 @@ func CheckArchitecture() bool {
 				v.PrintResults()
 			}
 
-			summary := result.ResolveRulesSummary(verifications, configuration)
+			summary := result.ResolveRulesSummary(pkgs, verifications, configuration)
 			returnValue = summary.Status
-			summary.Print()
 
 			if common.Html {
 				fmt.Println("Generate HTML Report")
@@ -56,6 +55,8 @@ func CheckArchitecture() bool {
 				fmt.Println("Generate Console Report")
 				console.GenerateConsoleReport(summary)
 			}
+			summary.Print()
+
 		}
 	})
 	return returnValue

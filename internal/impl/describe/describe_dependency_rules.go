@@ -26,7 +26,7 @@ func describeDependencyRules(rules []*config.DependenciesRule, out io.Writer) {
 func describeShouldNotDependsOn(r *config.DependenciesRule, out io.Writer, dependencyListPattern string) {
 	if r.ShouldNotDependsOn != nil {
 		fmt.Fprintf(out, "\t\t* Should not depends on:\n")
-		describeDependencies(r.ShouldOnlyDependsOn, out, dependencyListPattern)
+		describeDependencies(r.ShouldNotDependsOn, out, dependencyListPattern)
 	}
 }
 

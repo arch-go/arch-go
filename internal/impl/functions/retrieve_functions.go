@@ -6,7 +6,6 @@ import (
 	"go/ast"
 	"go/parser"
 	"go/token"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -22,7 +21,7 @@ func retrieveFunctions(pkg *model.PackageInfo, mainPackage string) ([]*FunctionD
 
 	for _, srcFile := range pkg.PackageData.GoFiles {
 		srcFilePath := filepath.Join(pkg.Path, srcFile)
-		data, err := ioutil.ReadFile(filepath.Join(packageDir, srcFile))
+		data, err := os.ReadFile(filepath.Join(packageDir, srcFile))
 		if err != nil {
 			return nil, err
 		}
