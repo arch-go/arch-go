@@ -108,13 +108,14 @@ type RulesSummaryDetail struct {
 }
 
 func (s RulesSummary) Print() {
-	output.Print("--------------------------------------\n")
+	const lineSeparator = "--------------------------------------\n"
+	output.Print(lineSeparator)
 	output.Print("\tExecution Summary\n")
-	output.Print("--------------------------------------\n")
+	output.Print(lineSeparator)
 	output.Printf("Total Rules: \t%d\n", s.Total)
 	output.Printf("Succeeded: \t%d\n", s.Succeeded)
 	output.Printf("Failed: \t%d\n", s.Failed)
-	output.Print("--------------------------------------\n")
+	output.Print(lineSeparator)
 	if s.ComplianceThreshold != nil {
 		complianceSummary := fmt.Sprintf("Compliance: %8d%% (%s)\n", s.ComplianceThreshold.Rate, s.ComplianceThreshold.Status)
 		if s.ComplianceThreshold.Status == "Pass" {

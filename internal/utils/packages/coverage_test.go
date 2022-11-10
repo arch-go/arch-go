@@ -61,7 +61,7 @@ func (d DummyVerification) Type() string           { return "" }
 func (d DummyVerification) Status() bool           { return true }
 func (d DummyVerification) Name() string           { return "" }
 func (d DummyVerification) Verify() bool           { return true }
-func (d DummyVerification) PrintResults()          {}
+func (d DummyVerification) PrintResults()          { return }
 func (d DummyVerification) ValidatePatterns() bool { return true }
 func (d DummyVerification) GetVerifications() []baseModel.PackageVerification {
 	return []baseModel.PackageVerification{
