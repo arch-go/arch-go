@@ -7,7 +7,6 @@ import (
 	"go/ast"
 	"go/parser"
 	"go/token"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -25,7 +24,7 @@ func getInterfacesMatching(module string, pattern string) ([]InterfaceDescriptio
 	for _, pkg := range pkgs {
 		packageDir := strings.Replace(pkg.PackageData.ImportPath, module, path, 1)
 		for _, srcFile := range pkg.PackageData.GoFiles {
-			data, err := ioutil.ReadFile(filepath.Join(packageDir, srcFile))
+			data, err := os.ReadFile(filepath.Join(packageDir, srcFile))
 			if err != nil {
 				return nil, err
 			}
@@ -80,7 +79,7 @@ func getStructsWithMethods(module string, pkg model.PackageVerification) ([]Stru
 	}
 	packageDir := strings.Replace(pkg.Package.PackageData.ImportPath, module, path, 1)
 	for _, srcFile := range pkg.Package.PackageData.GoFiles {
-		data, err := ioutil.ReadFile(filepath.Join(packageDir, srcFile))
+		data, err := os.ReadFile(filepath.Join(packageDir, srcFile))
 		if err != nil {
 			return nil, err
 		}
@@ -193,7 +192,7 @@ func implementsInterface(s StructDescription, i InterfaceDescription) bool {
 
 func areEquals(a, b []string) bool {
 	if (a == nil) != (b == nil) {
-		return false;
+		return false
 	}
 	if len(a) != len(b) {
 		return false
