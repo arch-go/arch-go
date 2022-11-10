@@ -6,4 +6,5 @@ type PackageInfo struct {
 	PackageData *build.Package
 	Name        string
 	Path        string
+	Covered     bool
 }
