@@ -18,6 +18,8 @@ func generateHtml(summary result.RulesSummary, verifications []model.RuleVerific
 	html := strings.Replace(htmlTemplate(), "[RULE_LIST]", rules, 1)
 	details := ruleDetails(verifications)
 	html = strings.Replace(html, "[RULE_DETAILS]", details, 1)
+	uncoveredPackages := uncoveredPackages(summary)
+	html = strings.Replace(html, "[UNCOVERED_PACKAGES]", uncoveredPackages, 1)
 	return html
 }
 

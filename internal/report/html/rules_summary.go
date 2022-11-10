@@ -59,8 +59,8 @@ const thresholdTemplate = `<br/>
 
 const thresholdRowTemplate = `<tr style="color:%s">
     <td>%s</td>
-    <td style="text-align:center;">%d</td>
-    <td style="text-align:center;">%d</td>
+    <td style="text-align:center;">%d%%</td>
+    <td style="text-align:center;">%d%%</td>
     <td style="text-align:center;font-weight:bold">%s</td>
 </tr>`
 
@@ -82,23 +82,40 @@ func ruleList(summary result.RulesSummary) string {
 }
 
 func thresholdVerification(template string, summary result.RulesSummary) string {
-	if summary.ComplianceThreshold == nil {
+	if summary.ComplianceThreshold == nil && summary.CoverageThreshold == nil {
 		return strings.Replace(template, "[THRESHOLD_SUMMARY]", "", 1)
 	}
 
 	var buffer bytes.Buffer
 	statusColor := "red"
-	if summary.ComplianceThreshold.Status == "Pass" {
-		statusColor = "green"
-	}
+	if summary.ComplianceThreshold != nil {
+		if summary.ComplianceThreshold.Status == "Pass" {
+			statusColor = "green"
+		}
 
-	buffer.WriteString(fmt.Sprintf(thresholdRowTemplate,
-		statusColor,
-		"Compliance",
-		summary.ComplianceThreshold.Rate,
-		summary.ComplianceThreshold.Threshold,
-		summary.ComplianceThreshold.Status,
-	))
+		buffer.WriteString(fmt.Sprintf(thresholdRowTemplate,
+			statusColor,
+			"Compliance",
+			summary.ComplianceThreshold.Rate,
+			summary.ComplianceThreshold.Threshold,
+			summary.ComplianceThreshold.Status,
+		))
+	}
+	if summary.CoverageThreshold != nil {
+		if summary.CoverageThreshold.Status == "Pass" {
+			statusColor = "green"
+		} else {
+			statusColor = "red"
+		}
+
+		buffer.WriteString(fmt.Sprintf(thresholdRowTemplate,
+			statusColor,
+			"Coverage",
+			summary.CoverageThreshold.Rate,
+			summary.CoverageThreshold.Threshold,
+			summary.CoverageThreshold.Status,
+		))
+	}
 
 	thresholdDetails := strings.Replace(thresholdTemplate, "[COMPLIANCE_THRESHOLD]", buffer.String(), 1)
 
