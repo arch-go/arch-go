@@ -24,7 +24,7 @@ func TestPackageCoverage(t *testing.T) {
 
 		totalPackages := packages.ResolveTotalPackages(packageList)
 
-		assert.Equal(t, 4, len(totalPackages))
+		assert.Equal(t, 5, len(totalPackages))
 	})
 
 	t.Run("Calls ResolveUncoveredPackages function", func(t *testing.T) {
@@ -36,7 +36,7 @@ func TestPackageCoverage(t *testing.T) {
 
 		uncovered := packages.ResolveUncoveredPackages(totalPackages, coveredPackages)
 
-		assert.Equal(t, 1, len(uncovered))
+		assert.Equal(t, 2, len(uncovered))
 	})
 }
 
@@ -46,6 +46,7 @@ func generatePackageList() []*baseModel.PackageInfo {
 		{Path: "foo"},
 		{Path: "bar"},
 		{Path: "foobar/barfoo"},
+		{Path: "blablabla/dummy/package"},
 	}
 }
 

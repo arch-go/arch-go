@@ -12,7 +12,7 @@ import (
 
 func TestGetPackages(t *testing.T) {
 	t.Run("Calls GetPackages function", func(t *testing.T) {
-		loadPatch := monkey.Patch(gopkg.Load, func (cfg *gopkg.Config, patterns ...string) ([]*gopkg.Package, error) {
+		loadPatch := monkey.Patch(gopkg.Load, func(cfg *gopkg.Config, patterns ...string) ([]*gopkg.Package, error) {
 			return []*gopkg.Package{
 				&gopkg.Package{
 					PkgPath: "fmt",
@@ -27,7 +27,7 @@ func TestGetPackages(t *testing.T) {
 		})
 		defer loadPatch.Unpatch()
 
-		pkgs, _ := packages.GetBasicPackagesInfo(false)
+		pkgs, _ := packages.GetBasicPackagesInfo(true)
 
 		assert.Equal(t, 3, len(pkgs))
 		assert.Equal(t, "fmt", pkgs[0].Name)

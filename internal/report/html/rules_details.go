@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/fdaines/arch-go/internal/impl/model"
-	model2 "github.com/fdaines/arch-go/internal/model"
+	baseModel "github.com/fdaines/arch-go/internal/model"
 	"strings"
 )
 
@@ -58,7 +58,7 @@ func resolveFontColor(passes bool) string {
 	return "red"
 }
 
-func resolveNameAndDetails(verification model2.PackageVerification) string {
+func resolveNameAndDetails(verification baseModel.PackageVerification) string {
 	var details bytes.Buffer
 	for _, d := range verification.Details {
 		details.WriteString(fmt.Sprintf("<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%s", d))
