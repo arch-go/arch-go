@@ -11,7 +11,7 @@ dependenciesRules:
   shouldOnlyDependsOn:
     internal:
     - '**.arch-go.**'
-- package: '**.arch-gox.**'
+- package: '**.arch-go.**'
   shouldOnlyDependsOn:
     external:
     - github.com/fatih/color
@@ -37,14 +37,14 @@ cyclesRules:
 - package: '**.cmd'
   shouldNotContainCycles: true
 functionsRules:
-- package: '**.arch-gox.**'
+- package: '**.arch-go.**'
   maxParameters: 5
   maxReturnValues: 2
   maxLines: 50
   maxPublicFunctionPerFile: 8
 namingRules:
-- package: '**.arch-go.internal.**'
+- package: '**.arch-go.**'
   interfaceImplementationNamingRule:
     structsThatImplement: '*Verification'
     shouldHaveSimpleNameStartingWith: ""
-    shouldHaveSimpleNameEndingWith: VerificationX
+    shouldHaveSimpleNameEndingWith: Verification
