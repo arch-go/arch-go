@@ -1,0 +1,467 @@
+blockquote,body,div,html,p,pre,span {
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+    font-weight:inherit;
+    font-style:inherit;
+    font-size:100%;
+    font-family:inherit;
+    vertical-align:baseline;
+}
+body {
+    line-height:1;
+    color:#000;
+    background:#fff;
+    margin-left:20px;
+    margin-right:20px;
+}
+.result_bar{
+    display:inline-block;
+    height:1.1em;
+    width:130px;
+    background:#faa;
+    margin:0 5px;
+    vertical-align:middle;
+    border:1px solid #aaa;
+    position:relative;
+}
+.result_succeeded{
+    display:inline-block;
+    height:100%;
+    background:#dfd;
+    float:left
+}
+.result_legend{
+    position:absolute;
+    height:100%;
+    width:100%;
+    left:0;
+    top:0;
+    text-align:center
+}
+.width-1{
+    width:1%
+}
+.width-2{
+    width:2%
+}
+.width-3{
+    width:3%
+}
+.width-4{
+    width:4%
+}
+.width-5{
+    width:5%
+}
+.width-6{
+    width:6%
+}
+.width-7{
+    width:7%
+}
+.width-8{
+    width:8%
+}
+.width-9{
+    width:9%
+}
+.width-10{
+    width:10%
+}
+.width-11{
+    width:11%
+}
+.width-12{
+    width:12%
+}
+.width-13{
+    width:13%
+}
+.width-14{
+    width:14%
+}
+.width-15{
+    width:15%
+}
+.width-16{
+    width:16%
+}
+.width-17{
+    width:17%
+}
+.width-18{
+    width:18%
+}
+.width-19{
+    width:19%
+}
+.width-20{
+    width:20%
+}
+.width-21{
+    width:21%
+}
+.width-22{
+    width:22%
+}
+.width-23{
+    width:23%
+}
+.width-24{
+    width:24%
+}
+.width-25{
+    width:25%
+}
+.width-26{
+    width:26%
+}
+.width-27{
+    width:27%
+}
+.width-28{
+    width:28%
+}
+.width-29{
+    width:29%
+}
+.width-30{
+    width:30%
+}
+.width-31{
+    width:31%
+}
+.width-32{
+    width:32%
+}
+.width-33{
+    width:33%
+}
+.width-34{
+    width:34%
+}
+.width-35{
+    width:35%
+}
+.width-36{
+    width:36%
+}
+.width-37{
+    width:37%
+}
+.width-38{
+    width:38%
+}
+.width-39{
+    width:39%
+}
+.width-40{
+    width:40%
+}
+.width-41{
+    width:41%
+}
+.width-42{
+    width:42%
+}
+.width-43{
+    width:43%
+}
+.width-44{
+    width:44%
+}
+.width-45{
+    width:45%
+}
+.width-46{
+    width:46%
+}
+.width-47{
+    width:47%
+}
+.width-48{
+    width:48%
+}
+.width-49{
+    width:49%
+}
+.width-50{
+    width:50%
+}
+.width-51{
+    width:51%
+}
+.width-52{
+    width:52%
+}
+.width-53{
+    width:53%
+}
+.width-54{
+    width:54%
+}
+.width-55{
+    width:55%
+}
+.width-56{
+    width:56%
+}
+.width-57{
+    width:57%
+}
+.width-58{
+    width:58%
+}
+.width-59{
+    width:59%
+}
+.width-60{
+    width:60%
+}
+.width-61{
+    width:61%
+}
+.width-62{
+    width:62%
+}
+.width-63{
+    width:63%
+}
+.width-64{
+    width:64%
+}
+.width-65{
+    width:65%
+}
+.width-66{
+    width:66%
+}
+.width-67{
+    width:67%
+}
+.width-68{
+    width:68%
+}
+.width-69{
+    width:69%
+}
+.width-70{
+    width:70%
+}
+.width-71{
+    width:71%
+}
+.width-72{
+    width:72%
+}
+.width-73{
+    width:73%
+}
+.width-74{
+    width:74%
+}
+.width-75{
+    width:75%
+}
+.width-76{
+    width:76%
+}
+.width-77{
+    width:77%
+}
+.width-78{
+    width:78%
+}
+.width-79{
+    width:79%
+}
+.width-80{
+    width:80%
+}
+.width-81{
+    width:81%
+}
+.width-82{
+    width:82%
+}
+.width-83{
+    width:83%
+}
+.width-84{
+    width:84%
+}
+.width-85{
+    width:85%
+}
+.width-86{
+    width:86%
+}
+.width-87{
+    width:87%
+}
+.width-88{
+    width:88%
+}
+.width-89{
+    width:89%
+}
+.width-90{
+    width:90%
+}
+.width-91{
+    width:91%
+}
+.width-92{
+    width:92%
+}
+.width-93{
+    width:93%
+}
+.width-94{
+    width:94%
+}
+.width-95{
+    width:95%
+}
+.width-96{
+    width:96%
+}
+.width-97{
+    width:97%
+}
+.width-98{
+    width:98%
+}
+.width-99{
+    width:99%
+}
+.width-100{
+    width:100%
+}
+
+.container {
+    max-width: 2400px;
+}
+
+.summary {
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: #eeeeee;
+    padding: 10px;
+}
+
+.rules-summary {
+    border: 1px solid #cccccc;
+    background-color: white;
+    padding: 5px;
+}
+.rules-summary th {
+    border-bottom: 1px solid black;
+    padding: 10px;
+    text-align: center;
+}
+.rules-summary td {
+    padding: 8px;
+}
+
+.tab-content {
+    padding-top: 20px;
+}
+
+.tab-pane ul {
+    margin-top: 10px;
+}
+
+.tab-pane ul li {
+    margin-top: 5px;
+}
+
+.threshold-badges {
+    margin-top: 40px;
+}
+
+.badge-progress {
+    background: #00a65b;
+    color: #fff;
+    margin-bottom: 20px;
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+.badge-progress .badge-header {
+    padding: 15px 20px 40px;
+    height: 100px;
+}
+.badge-progress .badge-header .rate {
+    font-size: 5em;
+    width: 230px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.badge-progress .badge-progressbar {
+    height: 10px;
+    background: rgba(0,0,0,0.18);
+    margin: 0;
+}
+.badge-progress .badge-progressbar span {
+    display: block;
+    background: #fff;
+    width: 0;
+    height: 100%;
+    -webkit-transition: all 1.5s cubic-bezier(0.230,1.000,0.320,1.000);
+    -moz-transition: all 1.5s cubic-bezier(0.230,1.000,0.320,1.000);
+    -o-transition: all 1.5s cubic-bezier(0.230,1.000,0.320,1.000);
+    transition: all 1.5s cubic-bezier(0.230,1.000,0.320,1.000);
+}
+.badge-progress .badge-footer {
+    padding: 10px;
+    height: 100px;
+    text-align: center;
+    background: rgba(0,0,0,0.1);
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
+    -webkit-border-radius: 0 0 3px 3px;
+    -moz-border-radius: 0 0 3px 3px;
+    border-radius: 0 0 3px 3px;
+}
+.badge-progress .badge-footer span {
+    display: block;
+    padding-bottom: 5px;
+    font-size: 90%;
+}
+.badge-progress.badge-red {
+    background-color: #ff0000;
+    color: #fff;
+}
+.badge-progress.badge-green {
+    background-color: green;
+    color: #fff;
+}
+
+.rule-details th {
+    text-align: center;
+    font-size: 1.2em;
+    padding-top: 3px;
+    padding-bottom: 8px;
+}
+.rule-details ul {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.rule-details ul li {
+    margin-top: 0;
+}
+.rule-verification td {
+    font-weight: bold;
+    vertical-align:top;
+}
+.rule-verification > .status {
+    text-align:center
+}

@@ -9,36 +9,36 @@ import (
 	"sort"
 )
 
-func GenerateConsoleReport(summary result.RulesSummary) {
+func GenerateConsoleReport(report result.Report) {
 	t := table.NewWriter()
 	t.SetOutputMirror(os.Stdout)
 	header := table.Row{"#", "Rule Type", "Total", "Succeeded", "Failed"}
 	t.AppendHeader(header)
 	idx := 1
-	keys := make([]string, 0, len(summary.Details))
-	for k := range summary.Details {
+	keys := make([]string, 0, len(report.Summary.Details))
+	for k := range report.Summary.Details {
 		keys = append(keys, k)
 	}
 	sort.Strings(keys)
 
 	for _, k := range keys {
-		row := table.Row{idx, k, summary.Details[k].Total, summary.Details[k].Succeeded, summary.Details[k].Failed}
+		row := table.Row{idx, k, report.Summary.Details[k].Total, report.Summary.Details[k].Succeeded, report.Summary.Details[k].Failed}
 		t.AppendRow(row)
 		idx++
 	}
 
-	if summary.ComplianceThreshold != nil {
+	if report.Summary.ComplianceThreshold != nil {
 		rowConfig := table.RowConfig{
 			AutoMerge:      true,
 			AutoMergeAlign: text.AlignLeft,
 		}
 		complianceDetails := fmt.Sprintf("%3v%% [%s]",
-			summary.ComplianceThreshold.Rate,
-			summary.ComplianceThreshold.Status)
+			report.Summary.ComplianceThreshold.Rate,
+			report.Summary.ComplianceThreshold.Status)
 		t.AppendFooter(table.Row{"", "Compliance Rate", complianceDetails, complianceDetails, complianceDetails}, rowConfig)
 		coverageDetails := fmt.Sprintf("%3v%% [%s]",
-			summary.CoverageThreshold.Rate,
-			summary.CoverageThreshold.Status)
+			report.Summary.CoverageThreshold.Rate,
+			report.Summary.CoverageThreshold.Status)
 		t.AppendFooter(table.Row{"", "Coverage Rate", coverageDetails, coverageDetails, coverageDetails}, rowConfig)
 	}
 

@@ -15,13 +15,16 @@ import (
 func TestGenerateConsoleReport(t *testing.T) {
 	t.Run("Calls GenerateConsoleReport function", func(t *testing.T) {
 		summary := result.NewRulesSummary()
+		reportData := result.Report{
+			Summary: summary,
+		}
 		bak := os.Stdout
 		r, w, _ := os.Pipe()
 		os.Stdout = w
 
-		defer func () { os.Stdout = bak }()
+		defer func() { os.Stdout = bak }()
 
-		console.GenerateConsoleReport(summary)
+		console.GenerateConsoleReport(reportData)
 
 		w.Close()
 		var buf bytes.Buffer

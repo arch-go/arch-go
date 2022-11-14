@@ -42,7 +42,7 @@ func resolveComplianceThreshold(summary *RulesSummary, configuration *config.Con
 	}
 
 	summary.ComplianceThreshold = &ThresholdSummary{
-		Rate:      int(100 * summary.Succeeded / summary.Total),
+		Rate:      100 * summary.Succeeded / summary.Total,
 		Threshold: *configuration.Threshold.Compliance,
 		Status:    "Fail",
 	}
@@ -92,9 +92,9 @@ type ThresholdSummary struct {
 }
 
 type RulesSummary struct {
-	Total               int32
-	Succeeded           int32
-	Failed              int32
+	Total               int
+	Succeeded           int
+	Failed              int
 	Status              bool
 	Details             map[string]RulesSummaryDetail
 	ComplianceThreshold *ThresholdSummary
@@ -102,9 +102,9 @@ type RulesSummary struct {
 }
 
 type RulesSummaryDetail struct {
-	Total     int32
-	Succeeded int32
-	Failed    int32
+	Total     int
+	Succeeded int
+	Failed    int
 }
 
 func (s RulesSummary) Print() {
