@@ -45,7 +45,6 @@ func CheckArchitecture() bool {
 			}
 
 			resultData := result.ResolveReport(pkgs, verifications, configuration)
-			//			summary := result.ResolveRulesSummary(pkgs, verifications, configuration)
 			returnValue = resultData.Summary.Status
 
 			if common.Html {
