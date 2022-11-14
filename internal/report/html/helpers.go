@@ -17,6 +17,9 @@ func writeReport(content string) {
 }
 
 func copyAssets() {
+	if isTestRun() {
+		return
+	}
 	if _, err := os.Stat(".arch-go/"); os.IsNotExist(err) {
 		os.Mkdir(".arch-go", 0755)
 	}
