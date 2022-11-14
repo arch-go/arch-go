@@ -1,7 +1,6 @@
 package impl
 
 import (
-	"fmt"
 	"github.com/fatih/color"
 	"github.com/fdaines/arch-go/internal/common"
 	"github.com/fdaines/arch-go/internal/config"
@@ -50,10 +49,8 @@ func CheckArchitecture() bool {
 			returnValue = resultData.Summary.Status
 
 			if common.Html {
-				fmt.Println("Generate HTML Report")
 				html.GenerateHtmlReport(resultData)
 			} else {
-				fmt.Println("Generate Console Report")
 				console.GenerateConsoleReport(resultData)
 			}
 			resultData.Print()

@@ -6,7 +6,7 @@ import (
 	"github.com/fdaines/arch-go/internal/common"
 	"github.com/fdaines/arch-go/internal/model/result"
 	"html/template"
-	"os"
+	"path/filepath"
 )
 
 func GenerateHtmlReport(resultData result.Report) {
@@ -20,8 +20,11 @@ func generateHtml(report result.Report) string {
 
 	var processed bytes.Buffer
 	templates := resolveTemplates()
-	templates.ExecuteTemplate(&processed, "report", htmlReport)
 
+	err := templates.ExecuteTemplate(&processed, "report", htmlReport)
+	if err != nil {
+		fmt.Printf("Error: %+v\n", err)
+	}
 	return string(processed.Bytes())
 }
 
@@ -39,10 +42,12 @@ func resolveTemplates() *template.Template {
 	}
 
 	var allTemplatePaths []string
-	for _, tmpl := range allTemplateFiles {
-		allTemplatePaths = append(allTemplatePaths, "./internal/report/html/templates/"+tmpl)
-	}
 
+	for _, tmpl := range allTemplateFiles {
+		absolutePath, _ := filepath.Abs(resolveTemplateRelativePath(tmpl))
+
+		allTemplatePaths = append(allTemplatePaths, absolutePath)
+	}
 	templates, _ := template.New("").Funcs(
 		template.FuncMap{
 			"inc": func(number int) int {
@@ -145,22 +150,4 @@ func resolveCoverageResults(report result.Report, htmlReport *HtmlReport) {
 		}
 		htmlReport.UncoveredPackages = report.Summary.CoverageThreshold.Violations
 	}
-}
-
-func writeReport(content string) {
-	htmlByteArray := []byte(content)
-	err := os.WriteFile(".arch-go/report.html", htmlByteArray, 0644)
-	if err == nil {
-		fmt.Println("HTML report generated at: .arch-go/report.html")
-	} else {
-		panic(err)
-	}
-}
-func copyAssets() {
-	if _, err := os.Stat(".arch-go/"); os.IsNotExist(err) {
-		os.Mkdir(".arch-go", 0755)
-	}
-	css, _ := os.ReadFile("./internal/report/html/templates/report.css")
-	cssByteArray := []byte(css)
-	os.WriteFile(".arch-go/report.css", cssByteArray, 0644)
 }
