@@ -69,7 +69,7 @@ func ruleList(summary result.RulesSummary) string {
 	rules := []string{"DependenciesRule", "FunctionsRule", "ContentRule", "CycleRule", "NamingRule"}
 
 	for _, r := range rules {
-		var ratio int32
+		var ratio int
 		if summary.Details[r].Total > 0 {
 			ratio = 100 * summary.Details[r].Succeeded / summary.Details[r].Total
 		}

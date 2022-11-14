@@ -1,0 +1,17 @@
+{{define "coverage-rate" -}}
+<div class="col-sm-3 threshold-badges">
+    <div class="badge-progress badge-{{.Color}}">
+        <div class="badge-header">
+            <div class="rate">{{.Rate}}%</div>
+        </div>
+        <div class="badge-progressbar">
+            <span data-fill="{{.Rate}}%" style="width: {{.Rate}}%;"></span>
+        </div>
+        <div class="badge-footer">
+            <h3>Coverage Rate</h3>
+            <span>{{.Uncovered}}/{{.Total}} packages were not considered by any rule.</span>
+            <span>[Threshold: {{.Threshold}}%]</span>
+        </div>
+    </div>
+</div>
+{{end}}
