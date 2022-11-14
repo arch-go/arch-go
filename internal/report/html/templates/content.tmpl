@@ -20,13 +20,17 @@
                 </div>
                 <div class="tab-pane fade" id="nav-coverage" role="tabpanel" aria-labelledby="nav-coverage-tab">
                     <div class="container">
-                        <h4>Uncovered Packages</h4>
+                        <h4>Uncovered Packages: {{ len .UncoveredPackages }}</h4>
+                        {{ if (gt (len .UncoveredPackages) 0) }}
                         <p>The following packages were not considered by any rule.</p>
                         <ul>
                             {{ range .UncoveredPackages }}
                             <li>{{ . }}</li>
                             {{ end }}
                         </ul>
+                        {{ else }}
+                        <span>All the packages were considered by at least one rule.</span>
+                        {{ end }}
                     </div>
                 </div>
             </div>

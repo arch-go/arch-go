@@ -9,7 +9,11 @@
         </div>
         <div class="badge-footer">
             <h3>Coverage Rate</h3>
-            <span>{{.Uncovered}}/{{.Total}} packages were not considered by any rule.</span>
+            {{ if (gt .Uncovered 0) }}
+                <span>{{.Uncovered}}/{{.Total}} packages were not considered by any rule.</span>
+            {{ else }}
+                <span>All the packages were considered by at least one rule.</span>
+            {{ end }}
             <span>[Threshold: {{.Threshold}}%]</span>
         </div>
     </div>
