@@ -386,9 +386,6 @@ body {
     background: #00a65b;
     color: #fff;
     margin-bottom: 20px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
     -webkit-background-clip: padding-box;
     -moz-background-clip: padding;
     background-clip: padding-box;
@@ -413,9 +410,6 @@ body {
     margin: 0;
 }
 .badge-progress .badge-progressbar span {
-    background: #fff;
-}
-.badge-progress .badge-progressbar span {
     display: block;
     background: #fff;
     width: 0;
@@ -430,11 +424,8 @@ body {
     height: 100px;
     text-align: center;
     background: rgba(0,0,0,0.1);
-    -webkit-border-radius: 0 0 3px 3px;
     -webkit-background-clip: padding-box;
-    -moz-border-radius: 0 0 3px 3px;
     -moz-background-clip: padding;
-    border-radius: 0 0 3px 3px;
     background-clip: padding-box;
     -webkit-border-radius: 0 0 3px 3px;
     -moz-border-radius: 0 0 3px 3px;
@@ -461,11 +452,11 @@ body {
     padding-bottom: 8px;
 }
 .rule-details ul {
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 .rule-details ul li {
-    margin-top: 0px;
+    margin-top: 0;
 }
 .rule-verification td {
     font-weight: bold;
