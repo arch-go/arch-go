@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"github.com/fatih/color"
 	"github.com/fdaines/arch-go/internal/config"
-	"github.com/fdaines/arch-go/internal/model"
+	"github.com/fdaines/arch-go/internal/impl/model"
+	baseModel "github.com/fdaines/arch-go/internal/model"
 	"github.com/fdaines/arch-go/internal/utils/output"
 	"github.com/fdaines/arch-go/internal/utils/packages"
 	"github.com/fdaines/arch-go/internal/utils/text"
@@ -16,7 +17,7 @@ type DependencyRuleVerification struct {
 	Module         string
 	Description    string
 	Rule           *config.DependenciesRule
-	PackageDetails []model.PackageVerification
+	PackageDetails []baseModel.PackageVerification
 	Passes         bool
 }
 
@@ -68,7 +69,7 @@ func (d *DependencyRuleVerification) Verify() bool {
 	return d.Passes
 }
 
-func (d *DependencyRuleVerification) checksShouldNotDependsOn(pd model.PackageVerification, result bool, index int) bool {
+func (d *DependencyRuleVerification) checksShouldNotDependsOn(pd baseModel.PackageVerification, result bool, index int) bool {
 	if d.Rule.ShouldNotDependsOn != nil {
 		for _, pkg := range pd.Package.PackageData.Imports {
 			result = d.checkComplianceWithRestrictedInternalImports(pkg, index, result)
@@ -79,7 +80,7 @@ func (d *DependencyRuleVerification) checksShouldNotDependsOn(pd model.PackageVe
 	return result
 }
 
-func (d *DependencyRuleVerification) checksShouldOnlyDependsOn(pd model.PackageVerification, result bool, index int) bool {
+func (d *DependencyRuleVerification) checksShouldOnlyDependsOn(pd baseModel.PackageVerification, result bool, index int) bool {
 	if d.Rule.ShouldOnlyDependsOn != nil {
 		for _, pkg := range pd.Package.PackageData.Imports {
 			result = d.checkComplianceWithAllowedInternalImports(pkg, index, result)
@@ -220,7 +221,7 @@ func (d *DependencyRuleVerification) checkComplianceWithAllowedInternalImports(p
 }
 
 func (d *DependencyRuleVerification) Type() string {
-	return "DependenciesRule"
+	return model.DependencyRule
 }
 
 func (d *DependencyRuleVerification) Name() string {
@@ -290,6 +291,6 @@ func (d *DependencyRuleVerification) PrintResults() {
 	}
 }
 
-func (d *DependencyRuleVerification) GetVerifications() []model.PackageVerification {
+func (d *DependencyRuleVerification) GetVerifications() []baseModel.PackageVerification {
 	return d.PackageDetails
 }

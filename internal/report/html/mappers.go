@@ -2,6 +2,7 @@ package html
 
 import (
 	"github.com/fdaines/arch-go/internal/common"
+	"github.com/fdaines/arch-go/internal/impl/model"
 	"github.com/fdaines/arch-go/internal/model/result"
 )
 
@@ -51,7 +52,7 @@ func resolveRulesDetails(report result.Report, htmlReport *HtmlReport) {
 func resolveRulesSummary(report result.Report, htmlReport *HtmlReport) {
 	var rules []RuleSummary
 
-	ruleTypes := []string{"DependenciesRule", "FunctionsRule", "ContentRule", "CycleRule", "NamingRule"}
+	ruleTypes := []string{model.ContentRule, model.DependencyRule, model.FunctionRule, model.NamingRule}
 	for _, rt := range ruleTypes {
 		var ratio int
 		ruleSummary := report.Summary.Details[rt]

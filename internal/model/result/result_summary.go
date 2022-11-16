@@ -75,11 +75,10 @@ func resolveCoverageThreshold(summary *RulesSummary, configuration *config.Confi
 func NewRulesSummary() RulesSummary {
 	summary := RulesSummary{}
 	summary.Details = make(map[string]RulesSummaryDetail)
-	summary.Details["DependenciesRule"] = RulesSummaryDetail{}
-	summary.Details["FunctionsRule"] = RulesSummaryDetail{}
-	summary.Details["ContentRule"] = RulesSummaryDetail{}
-	summary.Details["CycleRule"] = RulesSummaryDetail{}
-	summary.Details["NamingRule"] = RulesSummaryDetail{}
+	summary.Details[model.ContentRule] = RulesSummaryDetail{}
+	summary.Details[model.DependencyRule] = RulesSummaryDetail{}
+	summary.Details[model.FunctionRule] = RulesSummaryDetail{}
+	summary.Details[model.NamingRule] = RulesSummaryDetail{}
 
 	return summary
 }

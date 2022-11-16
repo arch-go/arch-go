@@ -13,11 +13,14 @@ func TestMappers(t *testing.T) {
 
 		resolveRulesSummary(report, htmlReport)
 
-		assert.Equal(t, 5, len(htmlReport.RulesSummary))
-		assert.Equal(t, "DependenciesRule", htmlReport.RulesSummary[0].Type)
-		assert.Equal(t, 2, htmlReport.RulesSummary[0].Succeeded)
-		assert.Equal(t, 1, htmlReport.RulesSummary[0].Failed)
-		assert.Equal(t, 3, htmlReport.RulesSummary[0].Total)
+		assert.Equal(t, 4, len(htmlReport.RulesSummary))
+		assert.Equal(t, "Content Rule", htmlReport.RulesSummary[0].Type)
+		assert.Equal(t, "Dependency Rule", htmlReport.RulesSummary[1].Type)
+		assert.Equal(t, "Function Rule", htmlReport.RulesSummary[2].Type)
+		assert.Equal(t, "Naming Rule", htmlReport.RulesSummary[3].Type)
+		assert.Equal(t, 2, htmlReport.RulesSummary[1].Succeeded)
+		assert.Equal(t, 1, htmlReport.RulesSummary[1].Failed)
+		assert.Equal(t, 3, htmlReport.RulesSummary[1].Total)
 
 	})
 
@@ -57,7 +60,7 @@ func sampleReport() result.Report {
 			Failed:    2,
 			Status:    true,
 			Details: map[string]result.RulesSummaryDetail{
-				"DependenciesRule": result.RulesSummaryDetail{
+				"Dependency Rule": result.RulesSummaryDetail{
 					Total:     3,
 					Succeeded: 2,
 					Failed:    1,
