@@ -23,8 +23,10 @@ func copyAssets() {
 	if _, err := os.Stat(".arch-go/"); os.IsNotExist(err) {
 		os.Mkdir(".arch-go", 0755)
 	}
-	cssByteArray, _ := styles.ReadFile("templates/report.css")
+	cssByteArray, _ := styles.ReadFile("assets/report.css")
 	os.WriteFile(".arch-go/report.css", cssByteArray, 0644)
+	logoPng, _ := images.ReadFile("assets/logo.png")
+	os.WriteFile(".arch-go/logo.png", logoPng, 0644)
 }
 
 func isTestRun() bool {
