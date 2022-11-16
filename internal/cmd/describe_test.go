@@ -32,8 +32,6 @@ Function Rules
 	* No rules defined
 Content Rules
 	* No rules defined
-Cycles Rules
-	* No rules defined
 Naming Rules
 	* No rules defined
 `
@@ -81,9 +79,6 @@ Content Rules
 	* Packages that match pattern 'package6' should not contain structs
 	* Packages that match pattern 'package7' should not contain functions
 	* Packages that match pattern 'package8' should not contain methods
-
-Cycles Rules
-	* Packages that match pattern 'foobar' should not contain cycles
 
 Naming Rules
 	* Packages that match pattern 'foobar' should comply with:
