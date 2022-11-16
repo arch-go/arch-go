@@ -5,7 +5,6 @@ import (
 	"github.com/fdaines/arch-go/internal/common"
 	"github.com/fdaines/arch-go/internal/config"
 	"github.com/fdaines/arch-go/internal/impl/contents"
-	"github.com/fdaines/arch-go/internal/impl/cycles"
 	"github.com/fdaines/arch-go/internal/impl/dependencies"
 	"github.com/fdaines/arch-go/internal/impl/functions"
 	"github.com/fdaines/arch-go/internal/impl/model"
@@ -75,26 +74,8 @@ func resolveVerifications(configuration *config.Config, moduleInfo *baseModel.Mo
 	verifications = resolveDependencyRules(configuration, moduleInfo, verifications)
 	verifications = resolveFunctionRules(configuration, moduleInfo, verifications)
 	verifications = resolveContentRules(configuration, moduleInfo, verifications)
-	verifications = resolveCycleRules(configuration, moduleInfo, verifications)
 	verifications = resolveNamingRules(configuration, moduleInfo, verifications)
 
-	return verifications
-}
-
-func resolveCycleRules(configuration *config.Config, moduleInfo *baseModel.ModuleInfo, verifications []model.RuleVerification) []model.RuleVerification {
-	for _, cycleRule := range configuration.CyclesRules {
-		verificationInstance := cycles.NewCyclesRuleVerification(moduleInfo.MainPackage, moduleInfo.Packages, cycleRule)
-		packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(cycleRule.Package))
-		for _, pkg := range moduleInfo.Packages {
-			if packageRegExp.MatchString(pkg.Path) {
-				verificationInstance.PackageDetails = append(verificationInstance.PackageDetails, baseModel.PackageVerification{
-					Package: pkg,
-					Passes:  false,
-				})
-			}
-		}
-		verifications = append(verifications, verificationInstance)
-	}
 	return verifications
 }
 

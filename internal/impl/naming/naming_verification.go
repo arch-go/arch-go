@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"github.com/fatih/color"
 	"github.com/fdaines/arch-go/internal/config"
-	"github.com/fdaines/arch-go/internal/model"
+	"github.com/fdaines/arch-go/internal/impl/model"
+	baseModel "github.com/fdaines/arch-go/internal/model"
 	"github.com/fdaines/arch-go/internal/utils/text"
 	"regexp"
 	"strings"
@@ -14,7 +15,7 @@ type NamingRuleVerification struct {
 	Module         string
 	Description    string
 	Rule           *config.NamingRule
-	PackageDetails []model.PackageVerification
+	PackageDetails []baseModel.PackageVerification
 	Passes         bool
 }
 
@@ -84,7 +85,7 @@ func (d *NamingRuleVerification) checkNamingRule(s StructDescription, i Interfac
 }
 
 func (d *NamingRuleVerification) Type() string {
-	return "NamingRule"
+	return model.NamingRule
 }
 
 func (d *NamingRuleVerification) Name() string {
@@ -125,6 +126,6 @@ func (d *NamingRuleVerification) PrintResults() {
 	}
 }
 
-func (d *NamingRuleVerification) GetVerifications() []model.PackageVerification {
+func (d *NamingRuleVerification) GetVerifications() []baseModel.PackageVerification {
 	return d.PackageDetails
 }

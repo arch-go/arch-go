@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"github.com/fatih/color"
 	"github.com/fdaines/arch-go/internal/config"
-	"github.com/fdaines/arch-go/internal/model"
+	"github.com/fdaines/arch-go/internal/impl/model"
+	baseModel "github.com/fdaines/arch-go/internal/model"
 	"github.com/fdaines/arch-go/internal/utils/text"
 	"regexp"
 	"strings"
@@ -14,7 +15,7 @@ type FunctionsRuleVerification struct {
 	Module         string
 	Description    string
 	Rule           *config.FunctionsRule
-	PackageDetails []model.PackageVerification
+	PackageDetails []baseModel.PackageVerification
 	Passes         bool
 }
 
@@ -71,7 +72,7 @@ func (d *FunctionsRuleVerification) Verify() bool {
 }
 
 func (d *FunctionsRuleVerification) Type() string {
-	return "FunctionsRule"
+	return model.FunctionRule
 }
 
 func (d *FunctionsRuleVerification) Name() string {
@@ -109,6 +110,6 @@ func (d *FunctionsRuleVerification) PrintResults() {
 	}
 }
 
-func (d *FunctionsRuleVerification) GetVerifications() []model.PackageVerification {
+func (d *FunctionsRuleVerification) GetVerifications() []baseModel.PackageVerification {
 	return d.PackageDetails
 }

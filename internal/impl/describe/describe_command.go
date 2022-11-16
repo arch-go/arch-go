@@ -2,7 +2,6 @@ package describe
 
 import (
 	"fmt"
-	"github.com/fdaines/arch-go/internal/common"
 	"github.com/fdaines/arch-go/internal/config"
 	"github.com/fdaines/arch-go/internal/utils"
 	"io"
@@ -19,7 +18,6 @@ func DescribeArchitectureGuidelines(out io.Writer) {
 			describeDependencyRules(configuration.DependenciesRules, out)
 			describeFunctionRules(configuration.FunctionsRules, out)
 			describeContentRules(configuration.ContentRules, out)
-			describeCyclesRules(configuration.CyclesRules, out)
 			describeNamingRules(configuration.NamingRules, out)
 			describeThresholdRules(configuration.Threshold, out)
 		}
@@ -44,18 +42,4 @@ func describeThresholdRules(threshold *config.Threshold, out io.Writer) {
 			*threshold.Coverage,
 		)
 	}
-}
-
-func describeCyclesRules(rules []*config.CyclesRule, out io.Writer) {
-	fmt.Fprintf(out, "Cycles Rules\n")
-	if len(rules) == 0 {
-		fmt.Fprintf(out, common.NoRulesDefined)
-		return
-	}
-	for _, r := range rules {
-		if r.ShouldNotContainCycles {
-			fmt.Fprintf(out, "\t* Packages that match pattern '%s' should not contain cycles\n", r.Package)
-		}
-	}
-	fmt.Fprintln(out)
 }

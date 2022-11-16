@@ -30,15 +30,14 @@ func TestGenerateConsoleReport(t *testing.T) {
 		var buf bytes.Buffer
 		io.Copy(&buf, r)
 
-		expected := `+---+------------------+-------+-----------+--------+
-| # | RULE TYPE        | TOTAL | SUCCEEDED | FAILED |
-+---+------------------+-------+-----------+--------+
-| 1 | ContentRule      |     0 |         0 |      0 |
-| 2 | CycleRule        |     0 |         0 |      0 |
-| 3 | DependenciesRule |     0 |         0 |      0 |
-| 4 | FunctionsRule    |     0 |         0 |      0 |
-| 5 | NamingRule       |     0 |         0 |      0 |
-+---+------------------+-------+-----------+--------+
+		expected := `+---+-----------------+-------+-----------+--------+
+| # | RULE TYPE       | TOTAL | SUCCEEDED | FAILED |
++---+-----------------+-------+-----------+--------+
+| 1 | Content Rule    |     0 |         0 |      0 |
+| 2 | Dependency Rule |     0 |         0 |      0 |
+| 3 | Function Rule   |     0 |         0 |      0 |
+| 4 | Naming Rule     |     0 |         0 |      0 |
++---+-----------------+-------+-----------+--------+
 `
 
 		assert.Equal(t, expected, buf.String())

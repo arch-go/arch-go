@@ -24,6 +24,7 @@ func LoadConfig(configPath string) (*Config, error) {
 		return nil, err
 	}
 	checkThreshold(config)
+	checkForDeprecatedConfiguration(config)
 
 	return config, nil
 }
