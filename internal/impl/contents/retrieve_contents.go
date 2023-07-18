@@ -1,17 +1,17 @@
 package contents
 
 import (
-	"github.com/fdaines/arch-go/internal/model"
 	"go/ast"
 	"go/parser"
 	"go/token"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/fdaines/arch-go/internal/model"
 )
 
 func retrieveContents(pkg *model.PackageInfo, mainPackage string) (*PackageContents, error) {
-	var methods, functions, interfaces, structs int
 	path, err := os.Getwd()
 	if err != nil {
 		panic(err)
@@ -32,12 +32,7 @@ func retrieveContents(pkg *model.PackageInfo, mainPackage string) (*PackageConte
 		packageContents = inspectFile(node, packageContents)
 	}
 
-	return &PackageContents{
-		Methods:    methods,
-		Functions:  functions,
-		Interfaces: interfaces,
-		Structs:    structs,
-	}, nil
+	return packageContents, nil
 }
 
 func inspectFile(node *ast.File, contents *PackageContents) *PackageContents {
