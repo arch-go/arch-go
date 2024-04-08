@@ -12,7 +12,6 @@ import (
 
 func TestRootCommand(t *testing.T) {
 	viper.AddConfigPath("../test/")
-	t.Parallel()
 
 	t.Run("when command ends with an error", func(t *testing.T) {
 		exitCalled := false
@@ -56,6 +55,7 @@ func TestRootCommand(t *testing.T) {
 			t.Fatal(err)
 		}
 		cmdOutput := string(out)
+		//		fmt.Printf(cmdOutput)
 		if !strings.Contains(cmdOutput, "Running arch-go command") {
 			t.Fatal("Expects a log containing the running command.")
 		}
