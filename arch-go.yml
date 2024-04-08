@@ -3,48 +3,12 @@ threshold:
   compliance: 100
   coverage: 100
 dependenciesRules:
-- package: '**.cmd'
+- package: 'main'
   shouldOnlyDependsOn:
     internal:
-    - '**.arch-go.**'
-- package: '**.impl.**'
-  shouldOnlyDependsOn:
-    internal:
-    - '**.arch-go.**'
-- package: '**.arch-go.**'
+    - '**.arch-go.cmd'
+- package: '**.arch-go.cmd'
   shouldOnlyDependsOn:
     external:
-    - github.com/fatih/color
     - github.com/spf13/cobra
-    - gopkg.in/yaml.v2
-    - github.com/jedib0t/go-pretty/v6/table
-    - github.com/jedib0t/go-pretty/v6/text
-contentsRules:
-- package: '**.impl.model'
-  shouldNotContainFunctions: true
-  shouldNotContainMethods: true
-- package: '**.impl.config'
-  shouldOnlyContainFunctions: true
-- package: '**.impl.dependencies'
-  shouldNotContainInterfaces: true
-- package: '**.impl.contents'
-  shouldNotContainInterfaces: true
-- package: '**.impl.cycles'
-  shouldNotContainInterfaces: true
-- package: '**.impl.functions'
-  shouldNotContainInterfaces: true
-cyclesRules:
-- package: '**.cmd'
-  shouldNotContainCycles: true
-functionsRules:
-- package: '**.arch-go.**'
-  maxParameters: 5
-  maxReturnValues: 2
-  maxLines: 50
-  maxPublicFunctionPerFile: 8
-namingRules:
-- package: '**.arch-go.**'
-  interfaceImplementationNamingRule:
-    structsThatImplement: '*Verification'
-    shouldHaveSimpleNameStartingWith: ""
-    shouldHaveSimpleNameEndingWith: Verification
+    - github.com/spf13/viper

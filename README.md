@@ -26,9 +26,6 @@ The supported checks are:
 * shouldOnlyContainFunctions
 * shouldOnlyContainMethods
 
-## Cyclic Dependencies checks
-Checks if a set of packages contains cyclic dependencies.
-
 ## Function checks
 Checks some functions properties, like the following:
 - Maximum number of parameters
@@ -67,7 +64,6 @@ dependenciesRules:
     shouldNotDependsOn:
       external:
         - "github.com/foobar/example-module"
-
 contentsRules:
   - package: "**.impl.model"
     shouldNotContainInterfaces: true
@@ -78,18 +74,12 @@ contentsRules:
     shouldNotContainInterfaces: true
     shouldNotContainMethods: true
     shouldNotContainFunctions: true
-
 functionsRules:
   - package: "**.impl.**"
     maxParameters: 3
     maxReturnValues: 2
     maxPublicFunctionPerFile: 1
     maxLines: 50
-
-cyclesRules:
-  - package: "**.cmd"
-    shouldNotContainCycles: true
-
 namingRules:
   - package: "**.arch-go.**"
     interfaceImplementationNamingRule:

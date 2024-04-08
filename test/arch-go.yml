@@ -1,0 +1,31 @@
+version: 1
+threshold:
+  compliance: 85
+  coverage: 98
+dependenciesRules:
+- package: '**.arch-go.**'
+  shouldOnlyDependsOn:
+    internal:
+    - '**.arch-go.**'
+    external:
+    - github.com/fatih/color
+    - github.com/spf13/cobra
+    - gopkg.in/yaml.v2
+    - github.com/jedib0t/go-pretty/v6/table
+    - github.com/jedib0t/go-pretty/v6/text
+contentsRules:
+- package: '**.impl.model'
+  shouldNotContainFunctions: true
+  shouldNotContainMethods: true
+functionsRules:
+- package: '**.arch-go.**'
+  maxParameters: 5
+  maxReturnValues: 2
+  maxLines: 50
+  maxPublicFunctionPerFile: 8
+namingRules:
+- package: '**.arch-go.**'
+  interfaceImplementationNamingRule:
+    structsThatImplement: '*Verification'
+    shouldHaveSimpleNameStartingWith: ""
+    shouldHaveSimpleNameEndingWith: Verification
