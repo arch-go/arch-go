@@ -3,23 +3,25 @@ package cmd
 import (
 	"bytes"
 	"fmt"
+	"github.com/spf13/viper"
 	"io"
 	"os"
 	"testing"
 
-	"bou.ke/monkey"
+	monkey "github.com/agiledragon/gomonkey/v2"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/fdaines/arch-go/internal/config"
 )
 
 func TestDescribeCommand(t *testing.T) {
+	viper.AddConfigPath("../test/")
 	t.Parallel()
 
 	t.Run("when arch-go.yaml has no rules", func(t *testing.T) {
 		cmd := NewDescribeCommand()
-		patch := monkey.Patch(config.LoadConfig, configLoaderMockEmptyRules)
-		defer patch.Unpatch()
+		patch := monkey.ApplyFuncReturn(config.LoadConfig, &config.Config{}, nil)
+		defer patch.Reset()
 
 		b := bytes.NewBufferString("")
 		cmd.SetOut(b)
@@ -40,8 +42,8 @@ Naming Rules
 
 	t.Run("when arch-go.yaml has rules", func(t *testing.T) {
 		cmd := NewDescribeCommand()
-		patch := monkey.Patch(config.LoadConfig, configLoaderMockWithRules)
-		defer patch.Unpatch()
+		patch := monkey.ApplyFuncReturn(config.LoadConfig, configLoaderMockWithRules, nil)
+		defer patch.Reset()
 
 		b := bytes.NewBufferString("")
 		cmd.SetOut(b)
@@ -95,12 +97,10 @@ Naming Rules
 		fakeExit := func(int) {
 			exitCalls++
 		}
-		patch := monkey.Patch(os.Exit, fakeExit)
-		defer patch.Unpatch()
-		configLoaderPatch := monkey.Patch(config.LoadConfig, func(configPath string) (*config.Config, error) {
-			return nil, fmt.Errorf("Error details")
-		})
-		defer configLoaderPatch.Unpatch()
+		patch := monkey.ApplyFunc(os.Exit, fakeExit)
+		defer patch.Reset()
+		configLoaderPatch := monkey.ApplyFuncReturn(config.LoadConfig, nil, fmt.Errorf("Error details"))
+		defer configLoaderPatch.Reset()
 
 		cmd := NewDescribeCommand()
 
@@ -116,91 +116,85 @@ Naming Rules
 	})
 }
 
-func configLoaderMockEmptyRules(path string) (*config.Config, error) {
-	return &config.Config{}, nil
-}
-
-func configLoaderMockWithRules(path string) (*config.Config, error) {
-	return &config.Config{
-		DependenciesRules: []*config.DependenciesRule{
-			&config.DependenciesRule{
-				Package: "foobar",
-				ShouldOnlyDependsOn: &config.Dependencies{
-					Internal: []string{"foo"},
-					External: []string{"bar"},
-					Standard: []string{"foobar"},
-				},
-				ShouldNotDependsOn: &config.Dependencies{
-					Internal: []string{"oof"},
-					External: []string{"rab"},
-					Standard: []string{"raboof"},
-				},
+var configLoaderMockWithRules = &config.Config{
+	DependenciesRules: []*config.DependenciesRule{
+		&config.DependenciesRule{
+			Package: "foobar",
+			ShouldOnlyDependsOn: &config.Dependencies{
+				Internal: []string{"foo"},
+				External: []string{"bar"},
+				Standard: []string{"foobar"},
+			},
+			ShouldNotDependsOn: &config.Dependencies{
+				Internal: []string{"oof"},
+				External: []string{"rab"},
+				Standard: []string{"raboof"},
 			},
 		},
-		ContentRules: []*config.ContentsRule{
-			&config.ContentsRule{
-				Package:                     "package1",
-				ShouldOnlyContainInterfaces: true,
-			},
-			&config.ContentsRule{
-				Package:                  "package2",
-				ShouldOnlyContainStructs: true,
-			},
-			&config.ContentsRule{
-				Package:                    "package3",
-				ShouldOnlyContainFunctions: true,
-			},
-			&config.ContentsRule{
-				Package:                  "package4",
-				ShouldOnlyContainMethods: true,
-			},
-			&config.ContentsRule{
-				Package:                    "package5",
-				ShouldNotContainInterfaces: true,
-			},
-			&config.ContentsRule{
-				Package:                 "package6",
-				ShouldNotContainStructs: true,
-			},
-			&config.ContentsRule{
-				Package:                   "package7",
-				ShouldNotContainFunctions: true,
-			},
-			&config.ContentsRule{
-				Package:                 "package8",
-				ShouldNotContainMethods: true,
+	},
+	ContentRules: []*config.ContentsRule{
+		&config.ContentsRule{
+			Package:                     "package1",
+			ShouldOnlyContainInterfaces: true,
+		},
+		&config.ContentsRule{
+			Package:                  "package2",
+			ShouldOnlyContainStructs: true,
+		},
+		&config.ContentsRule{
+			Package:                    "package3",
+			ShouldOnlyContainFunctions: true,
+		},
+		&config.ContentsRule{
+			Package:                  "package4",
+			ShouldOnlyContainMethods: true,
+		},
+		&config.ContentsRule{
+			Package:                    "package5",
+			ShouldNotContainInterfaces: true,
+		},
+		&config.ContentsRule{
+			Package:                 "package6",
+			ShouldNotContainStructs: true,
+		},
+		&config.ContentsRule{
+			Package:                   "package7",
+			ShouldNotContainFunctions: true,
+		},
+		&config.ContentsRule{
+			Package:                 "package8",
+			ShouldNotContainMethods: true,
+		},
+	},
+	FunctionsRules: []*config.FunctionsRule{
+		&config.FunctionsRule{
+			Package:                  "function-package",
+			MaxParameters:            1,
+			MaxReturnValues:          2,
+			MaxLines:                 3,
+			MaxPublicFunctionPerFile: 4,
+		},
+	},
+	CyclesRules: []*config.CyclesRule{
+		&config.CyclesRule{
+			Package:                "foobar",
+			ShouldNotContainCycles: true,
+		},
+	},
+	NamingRules: []*config.NamingRule{
+		&config.NamingRule{
+			Package: "foobar",
+			InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
+				StructsThatImplement:             "foo",
+				ShouldHaveSimpleNameStartingWith: "bla",
 			},
 		},
-		FunctionsRules: []*config.FunctionsRule{
-			&config.FunctionsRule{
-				Package:                  "function-package",
-				MaxParameters:            1,
-				MaxReturnValues:          2,
-				MaxLines:                 3,
-				MaxPublicFunctionPerFile: 4,
+		&config.NamingRule{
+			Package: "barfoo",
+			InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
+				StructsThatImplement:           "foo",
+				ShouldHaveSimpleNameEndingWith: "anything",
 			},
 		},
-		CyclesRules: []*config.CyclesRule{
-			&config.CyclesRule{
-				Package:                "foobar",
-				ShouldNotContainCycles: true,
-			},
-		},
-		NamingRules: []*config.NamingRule{
-			&config.NamingRule{
-				Package: "foobar",
-				InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
-					StructsThatImplement:             "foo",
-					ShouldHaveSimpleNameStartingWith: "bla",
-				},
-			},
-			&config.NamingRule{
-				Package: "barfoo",
-				InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
-					StructsThatImplement:           "foo",
-					ShouldHaveSimpleNameEndingWith: "anything",
-				},
-			},
-		},
-	}, nil
+	},
 }
