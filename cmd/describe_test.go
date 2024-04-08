@@ -3,10 +3,11 @@ package cmd
 import (
 	"bytes"
 	"fmt"
-	"github.com/spf13/viper"
 	"io"
 	"os"
 	"testing"
+
+	"github.com/spf13/viper"
 
 	monkey "github.com/agiledragon/gomonkey/v2"
 	"github.com/stretchr/testify/assert"
@@ -117,7 +118,7 @@ Naming Rules
 
 var configLoaderMockWithRules = &config.Config{
 	DependenciesRules: []*config.DependenciesRule{
-		&config.DependenciesRule{
+		{
 			Package: "foobar",
 			ShouldOnlyDependsOn: &config.Dependencies{
 				Internal: []string{"foo"},
@@ -132,41 +133,41 @@ var configLoaderMockWithRules = &config.Config{
 		},
 	},
 	ContentRules: []*config.ContentsRule{
-		&config.ContentsRule{
+		{
 			Package:                     "package1",
 			ShouldOnlyContainInterfaces: true,
 		},
-		&config.ContentsRule{
+		{
 			Package:                  "package2",
 			ShouldOnlyContainStructs: true,
 		},
-		&config.ContentsRule{
+		{
 			Package:                    "package3",
 			ShouldOnlyContainFunctions: true,
 		},
-		&config.ContentsRule{
+		{
 			Package:                  "package4",
 			ShouldOnlyContainMethods: true,
 		},
-		&config.ContentsRule{
+		{
 			Package:                    "package5",
 			ShouldNotContainInterfaces: true,
 		},
-		&config.ContentsRule{
+		{
 			Package:                 "package6",
 			ShouldNotContainStructs: true,
 		},
-		&config.ContentsRule{
+		{
 			Package:                   "package7",
 			ShouldNotContainFunctions: true,
 		},
-		&config.ContentsRule{
+		{
 			Package:                 "package8",
 			ShouldNotContainMethods: true,
 		},
 	},
 	FunctionsRules: []*config.FunctionsRule{
-		&config.FunctionsRule{
+		{
 			Package:                  "function-package",
 			MaxParameters:            1,
 			MaxReturnValues:          2,
@@ -175,20 +176,20 @@ var configLoaderMockWithRules = &config.Config{
 		},
 	},
 	CyclesRules: []*config.CyclesRule{
-		&config.CyclesRule{
+		{
 			Package:                "foobar",
 			ShouldNotContainCycles: true,
 		},
 	},
 	NamingRules: []*config.NamingRule{
-		&config.NamingRule{
+		{
 			Package: "foobar",
 			InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
 				StructsThatImplement:             "foo",
 				ShouldHaveSimpleNameStartingWith: "bla",
 			},
 		},
-		&config.NamingRule{
+		{
 			Package: "barfoo",
 			InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
 				StructsThatImplement:           "foo",

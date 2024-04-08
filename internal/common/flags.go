@@ -1,4 +1,6 @@
 package common
 
-var Verbose bool
-var Html    bool
+var (
+	Verbose bool
+	Html    bool
+)

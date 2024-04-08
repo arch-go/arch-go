@@ -2,8 +2,9 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/fdaines/arch-go/internal/common"
 	"os"
+
+	"github.com/fdaines/arch-go/internal/common"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
