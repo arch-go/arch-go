@@ -25,26 +25,29 @@ func NewCommand(output io.Writer) command {
 func (dc command) Run() {
 	var exitCode int
 	utils.ExecuteWithTimer(func() {
-		configuration, err := config.LoadConfig(viper.ConfigFileUsed())
-		if err != nil {
-			fmt.Fprintf(dc.Output, "Error: %+v\n", err)
-			exitCode = 1
-			return
-		}
-		err = validators.ValidateConfiguration(configuration)
-		if err != nil {
-			fmt.Fprintf(dc.Output, "Invalid Configuration: %+v\n", err)
-			exitCode = 1
-			return
-		} else {
-			describeDependencyRules(configuration.DependenciesRules, dc.Output)
-			describeFunctionRules(configuration.FunctionsRules, dc.Output)
-			describeContentRules(configuration.ContentRules, dc.Output)
-			describeNamingRules(configuration.NamingRules, dc.Output)
-			describeThresholdRules(configuration.Threshold, dc.Output)
-		}
+		exitCode = runDescribeCommand(dc)
 	})
 	os.Exit(exitCode)
+}
+
+func runDescribeCommand(dc command) int {
+	configuration, err := config.LoadConfig(viper.ConfigFileUsed())
+	if err != nil {
+		fmt.Fprintf(dc.Output, "Error: %+v\n", err)
+		return 1
+	}
+	err = validators.ValidateConfiguration(configuration)
+	if err != nil {
+		fmt.Fprintf(dc.Output, "Invalid Configuration: %+v\n", err)
+		return 1
+	}
+	describeDependencyRules(configuration.DependenciesRules, dc.Output)
+	describeFunctionRules(configuration.FunctionsRules, dc.Output)
+	describeContentRules(configuration.ContentRules, dc.Output)
+	describeNamingRules(configuration.NamingRules, dc.Output)
+	describeThresholdRules(configuration.Threshold, dc.Output)
+
+	return 0
 }
 
 func describeThresholdRules(threshold *config.Threshold, out io.Writer) {
