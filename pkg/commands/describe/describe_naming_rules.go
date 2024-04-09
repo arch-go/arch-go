@@ -18,7 +18,6 @@ func describeNamingRules(rules []*config.NamingRule, out io.Writer) {
 		fmt.Fprintf(out, "\t* Packages that match pattern '%s' should comply with:\n", r.Package)
 		describeInterfaceImplementationNamingRule(r, out)
 	}
-	fmt.Fprintln(out)
 }
 
 func describeInterfaceImplementationNamingRule(r *config.NamingRule, out io.Writer) {

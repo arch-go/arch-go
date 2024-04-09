@@ -11,7 +11,6 @@ import (
 )
 
 var (
-	osExit       = os.Exit
 	commandToRun = func() bool { return true }
 )
 
@@ -44,7 +43,7 @@ func runCommand(cmd *cobra.Command, args []string) {
 	fmt.Fprintf(cmd.OutOrStdout(), "Using config file: %s\n", viper.ConfigFileUsed())
 	success := commandToRun()
 	if !success {
-		osExit(1)
+		os.Exit(1)
 	}
 }
 
@@ -54,7 +53,7 @@ func initConfig() {
 	pwd, err := os.Getwd()
 	cobra.CheckErr(err)
 
-	// Search config in home directory with name ".arch-go" (without extension).
+	// Search config in running directory with name "arch-go.yml".
 	viper.AddConfigPath(pwd)
 	viper.SetConfigType("yaml")
 	viper.SetConfigName("arch-go")

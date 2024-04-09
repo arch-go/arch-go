@@ -1,7 +1,7 @@
 package config
 
 type Dependencies struct {
-	Internal []string `yaml:"old,omitempty"`
+	Internal []string `yaml:"internal,omitempty"`
 	External []string `yaml:"external,omitempty"`
 	Standard []string `yaml:"standard,omitempty"`
 }

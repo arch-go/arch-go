@@ -19,31 +19,31 @@ func TestDescribeCommand(t *testing.T) {
 	viper.AddConfigPath("../test/")
 
 	t.Run("when arch-go.yaml has no rules", func(t *testing.T) {
+		var exitCode int
 		cmd := NewDescribeCommand()
 		patch := monkey.ApplyFuncReturn(config.LoadConfig, &config.Config{}, nil)
 		defer patch.Reset()
+		patchExit := monkey.ApplyFunc(os.Exit, func(c int) { exitCode = c })
+		defer patchExit.Reset()
 
 		b := bytes.NewBufferString("")
 		cmd.SetOut(b)
 		cmd.Execute()
 		out, _ := io.ReadAll(b)
 
-		expected := `Dependency Rules
-	* No rules defined
-Function Rules
-	* No rules defined
-Content Rules
-	* No rules defined
-Naming Rules
-	* No rules defined
+		expected := `Invalid Configuration: configuration file should have at least one rule
 `
 		assert.Equal(t, expected, string(out))
+		assert.Equal(t, 1, exitCode)
 	})
 
 	t.Run("when arch-go.yaml has rules", func(t *testing.T) {
+		var exitCode int
 		cmd := NewDescribeCommand()
-		patch := monkey.ApplyFuncReturn(config.LoadConfig, configLoaderMockWithRules, nil)
+		patch := monkey.ApplyFuncReturn(config.LoadConfig, configLoaderMockWithRules(), nil)
 		defer patch.Reset()
+		patchExit := monkey.ApplyFunc(os.Exit, func(c int) { exitCode = c })
+		defer patchExit.Reset()
 
 		b := bytes.NewBufferString("")
 		cmd.SetOut(b)
@@ -59,6 +59,7 @@ Naming Rules
 				- 'bar'
 			* StandardLib Packages that matches:
 				- 'foobar'
+	* Packages that match pattern 'barfoo',
 		* Should not depends on:
 			* Internal Packages that matches:
 				- 'oof'
@@ -81,26 +82,26 @@ Content Rules
 	* Packages that match pattern 'package6' should not contain structs
 	* Packages that match pattern 'package7' should not contain functions
 	* Packages that match pattern 'package8' should not contain methods
-
 Naming Rules
 	* Packages that match pattern 'foobar' should comply with:
 		* Structs that implement interfaces matching name 'foo' should have simple name starting with 'bla'
 	* Packages that match pattern 'barfoo' should comply with:
 		* Structs that implement interfaces matching name 'foo' should have simple name ending with 'anything'
+Threshold Rules
+	* The module must comply with at least 98% of the rules described above.
+	* The rules described above must cover at least 80% of the packages in this module.
 
 `
 		assert.Equal(t, expected, string(out))
+		assert.Equal(t, 0, exitCode)
 	})
 
 	t.Run("when arch-go.yaml does not exist", func(t *testing.T) {
-		exitCalls := 0
-		fakeExit := func(int) {
-			exitCalls++
-		}
-		patch := monkey.ApplyFunc(os.Exit, fakeExit)
-		defer patch.Reset()
-		configLoaderPatch := monkey.ApplyFuncReturn(config.LoadConfig, nil, fmt.Errorf("Error details"))
+		var exitCode int
+		configLoaderPatch := monkey.ApplyFuncReturn(config.LoadConfig, nil, fmt.Errorf("dummy error"))
 		defer configLoaderPatch.Reset()
+		patchExit := monkey.ApplyFunc(os.Exit, func(c int) { exitCode = c })
+		defer patchExit.Reset()
 
 		cmd := NewDescribeCommand()
 
@@ -109,92 +110,97 @@ Naming Rules
 		cmd.Execute()
 		out, _ := io.ReadAll(b)
 
-		expected := `Error: Error details
+		expected := `Error: dummy error
 `
 		assert.Equal(t, expected, string(out))
-		assert.Equal(t, 1, exitCalls)
+		assert.Equal(t, 1, exitCode)
 	})
 }
 
-var configLoaderMockWithRules = &config.Config{
-	DependenciesRules: []*config.DependenciesRule{
-		{
-			Package: "foobar",
-			ShouldOnlyDependsOn: &config.Dependencies{
-				Internal: []string{"foo"},
-				External: []string{"bar"},
-				Standard: []string{"foobar"},
+func configLoaderMockWithRules() *config.Config {
+	cp := 98
+	cv := 80
+	return &config.Config{
+		Threshold: &config.Threshold{
+			Compliance: &cp,
+			Coverage:   &cv,
+		},
+		DependenciesRules: []*config.DependenciesRule{
+			{
+				Package: "foobar",
+				ShouldOnlyDependsOn: &config.Dependencies{
+					Internal: []string{"foo"},
+					External: []string{"bar"},
+					Standard: []string{"foobar"},
+				},
 			},
-			ShouldNotDependsOn: &config.Dependencies{
-				Internal: []string{"oof"},
-				External: []string{"rab"},
-				Standard: []string{"raboof"},
-			},
-		},
-	},
-	ContentRules: []*config.ContentsRule{
-		{
-			Package:                     "package1",
-			ShouldOnlyContainInterfaces: true,
-		},
-		{
-			Package:                  "package2",
-			ShouldOnlyContainStructs: true,
-		},
-		{
-			Package:                    "package3",
-			ShouldOnlyContainFunctions: true,
-		},
-		{
-			Package:                  "package4",
-			ShouldOnlyContainMethods: true,
-		},
-		{
-			Package:                    "package5",
-			ShouldNotContainInterfaces: true,
-		},
-		{
-			Package:                 "package6",
-			ShouldNotContainStructs: true,
-		},
-		{
-			Package:                   "package7",
-			ShouldNotContainFunctions: true,
-		},
-		{
-			Package:                 "package8",
-			ShouldNotContainMethods: true,
-		},
-	},
-	FunctionsRules: []*config.FunctionsRule{
-		{
-			Package:                  "function-package",
-			MaxParameters:            1,
-			MaxReturnValues:          2,
-			MaxLines:                 3,
-			MaxPublicFunctionPerFile: 4,
-		},
-	},
-	CyclesRules: []*config.CyclesRule{
-		{
-			Package:                "foobar",
-			ShouldNotContainCycles: true,
-		},
-	},
-	NamingRules: []*config.NamingRule{
-		{
-			Package: "foobar",
-			InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
-				StructsThatImplement:             "foo",
-				ShouldHaveSimpleNameStartingWith: "bla",
+			{
+				Package: "barfoo",
+				ShouldNotDependsOn: &config.Dependencies{
+					Internal: []string{"oof"},
+					External: []string{"rab"},
+					Standard: []string{"raboof"},
+				},
 			},
 		},
-		{
-			Package: "barfoo",
-			InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
-				StructsThatImplement:           "foo",
-				ShouldHaveSimpleNameEndingWith: "anything",
+		ContentRules: []*config.ContentsRule{
+			{
+				Package:                     "package1",
+				ShouldOnlyContainInterfaces: true,
+			},
+			{
+				Package:                  "package2",
+				ShouldOnlyContainStructs: true,
+			},
+			{
+				Package:                    "package3",
+				ShouldOnlyContainFunctions: true,
+			},
+			{
+				Package:                  "package4",
+				ShouldOnlyContainMethods: true,
+			},
+			{
+				Package:                    "package5",
+				ShouldNotContainInterfaces: true,
+			},
+			{
+				Package:                 "package6",
+				ShouldNotContainStructs: true,
+			},
+			{
+				Package:                   "package7",
+				ShouldNotContainFunctions: true,
+			},
+			{
+				Package:                 "package8",
+				ShouldNotContainMethods: true,
 			},
 		},
-	},
+		FunctionsRules: []*config.FunctionsRule{
+			{
+				Package:                  "function-package",
+				MaxParameters:            1,
+				MaxReturnValues:          2,
+				MaxLines:                 3,
+				MaxPublicFunctionPerFile: 4,
+			},
+		},
+		NamingRules: []*config.NamingRule{
+			{
+				Package: "foobar",
+				InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
+					StructsThatImplement:             "foo",
+					ShouldHaveSimpleNameStartingWith: "bla",
+				},
+			},
+			{
+				Package: "barfoo",
+				InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
+					StructsThatImplement:           "foo",
+					ShouldHaveSimpleNameEndingWith: "anything",
+				},
+			},
+		},
+	}
 }

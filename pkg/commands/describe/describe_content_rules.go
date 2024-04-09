@@ -18,7 +18,6 @@ func describeContentRules(rules []*config.ContentsRule, out io.Writer) {
 	for _, r := range rules {
 		fmt.Fprintf(out, "\t* Packages that match pattern '%s' %s\n", r.Package, resolveContentRule(r))
 	}
-	fmt.Fprintln(out)
 }
 
 func resolveContentRule(r *config.ContentsRule) string {

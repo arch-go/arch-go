@@ -2,6 +2,7 @@ package describe
 
 import (
 	"fmt"
+	"github.com/fdaines/arch-go/internal/validators"
 	"io"
 	"os"
 
@@ -22,11 +23,19 @@ func NewCommand(output io.Writer) command {
 }
 
 func (dc command) Run() {
+	var exitCode int
 	utils.ExecuteWithTimer(func() {
 		configuration, err := config.LoadConfig(viper.ConfigFileUsed())
 		if err != nil {
 			fmt.Fprintf(dc.Output, "Error: %+v\n", err)
-			os.Exit(1)
+			exitCode = 1
+			return
+		}
+		err = validators.ValidateConfiguration(configuration)
+		if err != nil {
+			fmt.Fprintf(dc.Output, "Invalid Configuration: %+v\n", err)
+			exitCode = 1
+			return
 		} else {
 			describeDependencyRules(configuration.DependenciesRules, dc.Output)
 			describeFunctionRules(configuration.FunctionsRules, dc.Output)
@@ -35,6 +44,7 @@ func (dc command) Run() {
 			describeThresholdRules(configuration.Threshold, dc.Output)
 		}
 	})
+	os.Exit(exitCode)
 }
 
 func describeThresholdRules(threshold *config.Threshold, out io.Writer) {
@@ -55,4 +65,5 @@ func describeThresholdRules(threshold *config.Threshold, out io.Writer) {
 			*threshold.Coverage,
 		)
 	}
+	fmt.Fprintln(out)
 }

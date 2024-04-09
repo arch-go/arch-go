@@ -6,7 +6,8 @@ dependenciesRules:
 - package: 'main'
   shouldOnlyDependsOn:
     internal:
-    - '**.arch-go.cmd'
+      - '**.arch-go.cmd'
+- package: ''
 - package: '**.arch-go.cmd'
   shouldOnlyDependsOn:
     external:

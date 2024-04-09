@@ -29,5 +29,4 @@ func describeFunctionRules(rules []*config.FunctionsRule, out io.Writer) {
 			fmt.Fprintf(out, "\t\t* Files should not have more than %d public functions\n", r.MaxPublicFunctionPerFile)
 		}
 	}
-	fmt.Println()
 }

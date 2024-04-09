@@ -2,7 +2,10 @@ package cmd
 
 import (
 	"bytes"
+	"fmt"
+	monkey "github.com/agiledragon/gomonkey/v2"
 	"io"
+	"os"
 	"strings"
 	"testing"
 
@@ -15,52 +18,95 @@ func TestRootCommand(t *testing.T) {
 
 	t.Run("when command ends with an error", func(t *testing.T) {
 		exitCalled := false
-		osExit = func(code int) {
+		osExit := func(code int) {
 			if code != 1 {
 				t.Fatalf("Expects an error")
 			}
 			exitCalled = true
 		}
+		patch := monkey.ApplyFunc(os.Exit, osExit)
+		defer patch.Reset()
+
 		commandToRun = func() bool {
 			return false
 		}
 
-		Execute()
+		rootCmd.Execute()
 		assert.True(t, exitCalled, "Expects a call to exit")
 	})
 
 	t.Run("when command ends without an error", func(t *testing.T) {
 		exitCalled := false
-		osExit = func(code int) {
+		osExit := func(code int) {
 			if code != 1 {
 				t.Fatalf("Expects an error")
 			}
 			exitCalled = true
 		}
+		patch := monkey.ApplyFunc(os.Exit, osExit)
+		defer patch.Reset()
 		commandToRun = func() bool {
 			return true
 		}
 
-		Execute()
+		rootCmd.Execute()
 		assert.False(t, exitCalled, "Expects to finish")
 	})
 
 	t.Run("checks configuration file", func(t *testing.T) {
 		b := bytes.NewBufferString("")
 		rootCmd.SetOut(b)
-		Execute()
+		rootCmd.Execute()
 
 		out, err := io.ReadAll(b)
 		if err != nil {
 			t.Fatal(err)
 		}
 		cmdOutput := string(out)
-		//		fmt.Printf(cmdOutput)
 		if !strings.Contains(cmdOutput, "Running arch-go command") {
 			t.Fatal("Expects a log containing the running command.")
 		}
 		if !strings.Contains(cmdOutput, "Using config file:") || !strings.Contains(cmdOutput, "/test/arch-go.yml") {
 			t.Fatal("Expects a log containing the configuration file.")
 		}
+	})
+
+	t.Run("Force an error trying to get current directory", func(t *testing.T) {
+		exitCalled := false
+		osExit := func(code int) {
+			if code != 1 {
+				t.Fatalf("Expects an error")
+			}
+			exitCalled = true
+		}
+
+		patch := monkey.ApplyFuncReturn(os.Getwd, nil, fmt.Errorf("foobar"))
+		defer patch.Reset()
+		patchExit := monkey.ApplyFunc(os.Exit, osExit)
+		defer patchExit.Reset()
+
+		rootCmd.Execute()
+
+		if !exitCalled {
+			t.Fatal("Expects to call os.Exit when arch-go is not able to get current directory.")
+		}
+	})
+
+	t.Run("Force an error trying to read configuration", func(t *testing.T) {
+		exitCalled := false
+		osExit := func(code int) {
+			if code != 1 {
+				t.Fatalf("Expects an error")
+			}
+			exitCalled = true
+		}
+
+		patch := monkey.ApplyFuncReturn(viper.ReadInConfig, fmt.Errorf("foobar"))
+		defer patch.Reset()
+		patchExit := monkey.ApplyFunc(os.Exit, osExit)
+		defer patchExit.Reset()
+
+		rootCmd.Execute()
+		assert.True(t, exitCalled, "Expects to call os.Exit when arch-go is not able to get current directory")
 	})
 }
