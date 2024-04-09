@@ -2,6 +2,7 @@ package validators
 
 import (
 	"fmt"
+
 	"github.com/fdaines/arch-go/old/config"
 )
 

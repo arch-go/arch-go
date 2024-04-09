@@ -2,14 +2,14 @@ package describe
 
 import (
 	"bytes"
-	"github.com/fdaines/arch-go/old/config"
-	"github.com/stretchr/testify/assert"
 	"io"
 	"testing"
+
+	"github.com/fdaines/arch-go/old/config"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestDescribeContentRules(t *testing.T) {
-
 	t.Run("content rules", func(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
 		rules := []*config.ContentsRule{

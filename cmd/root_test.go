@@ -3,11 +3,12 @@ package cmd
 import (
 	"bytes"
 	"fmt"
-	monkey "github.com/agiledragon/gomonkey/v2"
 	"io"
 	"os"
 	"strings"
 	"testing"
+
+	monkey "github.com/agiledragon/gomonkey/v2"
 
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"

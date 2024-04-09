@@ -1,13 +1,13 @@
 package validators
 
 import (
+	"testing"
+
 	"github.com/fdaines/arch-go/old/config"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestValidateConfiguration(t *testing.T) {
-
 	t.Run("valid configuration", func(t *testing.T) {
 		configuration := &config.Config{
 			Version:           1,
@@ -390,5 +390,4 @@ func TestValidateConfiguration(t *testing.T) {
 		result := ValidateConfiguration(configuration)
 		assert.Equal(t, result.Error(), "dependencies rule - ShouldOnlyDependsOn needs at least one of 'External', 'Internal' or 'Standard'", "Invalid configuration should return an error")
 	})
-
 }

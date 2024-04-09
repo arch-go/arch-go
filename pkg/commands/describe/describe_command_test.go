@@ -2,16 +2,16 @@ package describe
 
 import (
 	"bytes"
-	monkey "github.com/agiledragon/gomonkey/v2"
-	"github.com/fdaines/arch-go/old/config"
-	"github.com/stretchr/testify/assert"
 	"io"
 	"os"
 	"testing"
+
+	monkey "github.com/agiledragon/gomonkey/v2"
+	"github.com/fdaines/arch-go/old/config"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestDescribeCommand(t *testing.T) {
-
 	t.Run("describe threshold", func(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
 		cp := 87

@@ -2,9 +2,10 @@ package describe
 
 import (
 	"fmt"
-	"github.com/fdaines/arch-go/internal/validators"
 	"io"
 	"os"
+
+	"github.com/fdaines/arch-go/internal/validators"
 
 	"github.com/fdaines/arch-go/old/config"
 	"github.com/fdaines/arch-go/old/utils"
