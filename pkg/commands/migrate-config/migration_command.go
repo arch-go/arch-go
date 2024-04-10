@@ -2,9 +2,9 @@ package migrate_config
 
 import (
 	"fmt"
+	"github.com/fdaines/arch-go/internal/utils/timer"
 	"github.com/fdaines/arch-go/internal/validators"
 	"github.com/fdaines/arch-go/old/config"
-	"github.com/fdaines/arch-go/old/utils"
 	"github.com/fdaines/arch-go/pkg/commands"
 	"gopkg.in/yaml.v2"
 	"io"
@@ -26,7 +26,7 @@ func NewCommand(output io.Writer, path string) command {
 
 func (dc command) Run() {
 	var exitCode int
-	utils.ExecuteWithTimer(func() {
+	timer.ExecuteWithTimer(func() {
 		configuration := MigrateConfigurationCommand(dc.Output, dc.path)
 		if configuration == nil {
 			exitCode = 1

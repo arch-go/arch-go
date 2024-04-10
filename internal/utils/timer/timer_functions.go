@@ -1,4 +1,4 @@
-package utils
+package timer
 
 import (
 	"github.com/fdaines/arch-go/old/utils/output"

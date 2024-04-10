@@ -2,13 +2,13 @@ package describe
 
 import (
 	"fmt"
+	"github.com/fdaines/arch-go/internal/utils/timer"
 	"io"
 	"os"
 
 	"github.com/fdaines/arch-go/internal/validators"
 
 	"github.com/fdaines/arch-go/old/config"
-	"github.com/fdaines/arch-go/old/utils"
 	"github.com/fdaines/arch-go/pkg/commands"
 	"github.com/spf13/viper"
 )
@@ -25,7 +25,7 @@ func NewCommand(output io.Writer) command {
 
 func (dc command) Run() {
 	var exitCode int
-	utils.ExecuteWithTimer(func() {
+	timer.ExecuteWithTimer(func() {
 		exitCode = runDescribeCommand(dc)
 	})
 	os.Exit(exitCode)
