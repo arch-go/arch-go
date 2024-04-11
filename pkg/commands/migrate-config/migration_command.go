@@ -2,14 +2,15 @@ package migrate_config
 
 import (
 	"fmt"
+	"io"
+	"os"
+	"path/filepath"
+
 	"github.com/fdaines/arch-go/internal/utils/timer"
 	"github.com/fdaines/arch-go/internal/validators"
 	"github.com/fdaines/arch-go/old/config"
 	"github.com/fdaines/arch-go/pkg/commands"
 	"gopkg.in/yaml.v2"
-	"io"
-	"os"
-	"path/filepath"
 )
 
 type command struct {

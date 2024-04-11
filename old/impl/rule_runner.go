@@ -3,17 +3,16 @@ package impl
 import (
 	"github.com/fatih/color"
 	"github.com/fdaines/arch-go/internal/common"
+	"github.com/fdaines/arch-go/internal/utils/timer"
 	"github.com/fdaines/arch-go/old/config"
 	"github.com/fdaines/arch-go/old/impl/contents"
 	"github.com/fdaines/arch-go/old/impl/dependencies"
-	"github.com/fdaines/arch-go/old/impl/functions"
 	"github.com/fdaines/arch-go/old/impl/model"
 	"github.com/fdaines/arch-go/old/impl/naming"
 	baseModel "github.com/fdaines/arch-go/old/model"
 	"github.com/fdaines/arch-go/old/model/result"
 	"github.com/fdaines/arch-go/old/report/console"
 	"github.com/fdaines/arch-go/old/report/html"
-	"github.com/fdaines/arch-go/old/utils"
 	"github.com/fdaines/arch-go/old/utils/packages"
 	"github.com/fdaines/arch-go/old/utils/text"
 	"os"
@@ -22,7 +21,7 @@ import (
 
 func CheckArchitecture() bool {
 	returnValue := true
-	utils.ExecuteWithTimer(func() {
+	timer.ExecuteWithTimer(func() {
 		configuration, err := config.LoadConfig("arch-go.yml")
 		if err != nil {
 			color.Red("Error: %+v\n", err)
@@ -72,7 +71,6 @@ func validateVerifications(verifications []model.RuleVerification) {
 func resolveVerifications(configuration *config.Config, moduleInfo *baseModel.ModuleInfo) []model.RuleVerification {
 	var verifications []model.RuleVerification
 	verifications = resolveDependencyRules(configuration, moduleInfo, verifications)
-	verifications = resolveFunctionRules(configuration, moduleInfo, verifications)
 	verifications = resolveContentRules(configuration, moduleInfo, verifications)
 	verifications = resolveNamingRules(configuration, moduleInfo, verifications)
 
@@ -83,23 +81,6 @@ func resolveContentRules(configuration *config.Config, moduleInfo *baseModel.Mod
 	for _, contentRule := range configuration.ContentRules {
 		verificationInstance := contents.NewContentsRuleVerification(moduleInfo.MainPackage, contentRule)
 		packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(contentRule.Package))
-		for _, pkg := range moduleInfo.Packages {
-			if packageRegExp.MatchString(pkg.Path) {
-				verificationInstance.PackageDetails = append(verificationInstance.PackageDetails, baseModel.PackageVerification{
-					Package: pkg,
-					Passes:  false,
-				})
-			}
-		}
-		verifications = append(verifications, verificationInstance)
-	}
-	return verifications
-}
-
-func resolveFunctionRules(configuration *config.Config, moduleInfo *baseModel.ModuleInfo, verifications []model.RuleVerification) []model.RuleVerification {
-	for _, functionRule := range configuration.FunctionsRules {
-		verificationInstance := functions.NewFunctionsRuleVerification(moduleInfo.MainPackage, functionRule)
-		packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(functionRule.Package))
 		for _, pkg := range moduleInfo.Packages {
 			if packageRegExp.MatchString(pkg.Path) {
 				verificationInstance.PackageDetails = append(verificationInstance.PackageDetails, baseModel.PackageVerification{

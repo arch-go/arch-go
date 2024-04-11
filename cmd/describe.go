@@ -15,7 +15,7 @@ func NewDescribeCommand() *cobra.Command {
 
 func init() {
 	describeCmd := NewDescribeCommand()
-	rootCmd.AddCommand(describeCmd)
+	_, _ = rootCmd.AddCommand, describeCmd
 }
 
 func describeRules(cmd *cobra.Command, args []string) {

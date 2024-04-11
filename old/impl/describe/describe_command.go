@@ -2,14 +2,14 @@ package describe
 
 import (
 	"fmt"
+	"github.com/fdaines/arch-go/internal/utils/timer"
 	"github.com/fdaines/arch-go/old/config"
-	"github.com/fdaines/arch-go/old/utils"
 	"io"
 	"os"
 )
 
 func DescribeArchitectureGuidelines(out io.Writer) {
-	utils.ExecuteWithTimer(func() {
+	timer.ExecuteWithTimer(func() {
 		configuration, err := config.LoadConfig("arch-go.yml")
 		if err != nil {
 			fmt.Fprintf(out, "Error: %+v\n", err)

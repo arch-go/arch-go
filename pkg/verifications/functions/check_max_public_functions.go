@@ -2,25 +2,23 @@ package functions
 
 import (
 	"fmt"
-	"github.com/fdaines/arch-go/old/model"
 )
 
-func checkMaxPublicFunctions(pkg *model.PackageInfo, mainPackage string, maxPublicFunctions int) (bool, []string) {
+func checkMaxPublicFunctions(functions []*FunctionDetails, maxPublicFunctions *int) (bool, []string) {
 	var details []string
 	passes := true
-	functions, _ := retrieveFunctions(pkg, mainPackage)
+	if maxPublicFunctions == nil {
+		return passes, details
+	}
 	publicFunctions := map[string]int{}
 	for _, fn := range functions {
 		if fn.IsPublic {
-			current, ok := publicFunctions[fn.FilePath]
-			if !ok {
-				current = 0
-			}
+			current := publicFunctions[fn.FilePath]
 			publicFunctions[fn.FilePath] = current + 1
 		}
 	}
 	for key, value := range publicFunctions {
-		if value > maxPublicFunctions {
+		if value > *maxPublicFunctions {
 			passes = false
 			details = append(details,
 				fmt.Sprintf("File %s has too many public functions (%d)", key, value))

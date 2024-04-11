@@ -1,8 +1,9 @@
 package timer
 
 import (
-	"github.com/fdaines/arch-go/old/utils/output"
 	"time"
+
+	"github.com/fdaines/arch-go/old/utils/output"
 )
 
 type command func()

@@ -7,6 +7,8 @@ import (
 	"os"
 	"testing"
 
+	"github.com/fdaines/arch-go/internal/utils/values"
+
 	"github.com/spf13/viper"
 
 	monkey "github.com/agiledragon/gomonkey/v2"
@@ -118,12 +120,10 @@ Threshold Rules
 }
 
 func configLoaderMockWithRules() *config.Config {
-	cp := 98
-	cv := 80
 	return &config.Config{
 		Threshold: &config.Threshold{
-			Compliance: &cp,
-			Coverage:   &cv,
+			Compliance: values.GetIntRef(98),
+			Coverage:   values.GetIntRef(80),
 		},
 		DependenciesRules: []*config.DependenciesRule{
 			{
@@ -180,10 +180,10 @@ func configLoaderMockWithRules() *config.Config {
 		FunctionsRules: []*config.FunctionsRule{
 			{
 				Package:                  "function-package",
-				MaxParameters:            1,
-				MaxReturnValues:          2,
-				MaxLines:                 3,
-				MaxPublicFunctionPerFile: 4,
+				MaxParameters:            values.GetIntRef(1),
+				MaxReturnValues:          values.GetIntRef(2),
+				MaxLines:                 values.GetIntRef(3),
+				MaxPublicFunctionPerFile: values.GetIntRef(4),
 			},
 		},
 		NamingRules: []*config.NamingRule{

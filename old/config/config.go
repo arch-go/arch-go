@@ -14,10 +14,10 @@ type DependenciesRule struct {
 
 type FunctionsRule struct {
 	Package                  string `yaml:"package,omitempty"`
-	MaxParameters            int    `yaml:"maxParameters,omitempty"`
-	MaxReturnValues          int    `yaml:"maxReturnValues,omitempty"`
-	MaxLines                 int    `yaml:"maxLines,omitempty"`
-	MaxPublicFunctionPerFile int    `yaml:"maxPublicFunctionPerFile,omitempty"`
+	MaxParameters            *int   `yaml:"maxParameters,omitempty"`
+	MaxReturnValues          *int   `yaml:"maxReturnValues,omitempty"`
+	MaxLines                 *int   `yaml:"maxLines,omitempty"`
+	MaxPublicFunctionPerFile *int   `yaml:"maxPublicFunctionPerFile,omitempty"`
 }
 
 type ContentsRule struct {

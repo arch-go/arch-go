@@ -2,15 +2,15 @@ package migrate_config
 
 import (
 	"fmt"
+	"github.com/fdaines/arch-go/internal/utils/timer"
 	"github.com/fdaines/arch-go/old/config"
-	"github.com/fdaines/arch-go/old/utils"
 	"gopkg.in/yaml.v2"
 	"io"
 	"os"
 )
 
 func MigrateConfiguration(out io.Writer) {
-	utils.ExecuteWithTimer(func() {
+	timer.ExecuteWithTimer(func() {
 		deprecatedConfiguration, err := config.LoadDeprecatedConfig("arch-go.yml")
 		if err != nil {
 			fmt.Fprintf(out, "Error: %+v\n", err)

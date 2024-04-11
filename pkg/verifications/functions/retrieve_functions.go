@@ -1,17 +1,18 @@
 package functions
 
 import (
-	"github.com/fdaines/arch-go/old/model"
-	"github.com/fdaines/arch-go/old/utils/packages"
 	"go/ast"
 	"go/parser"
 	"go/token"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/fdaines/arch-go/internal/model"
+	"github.com/fdaines/arch-go/old/utils/packages"
 )
 
-func retrieveFunctions(pkg *model.PackageInfo, mainPackage string) ([]*FunctionDetails, error) {
+func RetrieveFunctions(pkg *model.PackageInfo, mainPackage string) ([]*FunctionDetails, error) {
 	var functionDetailsCollection []*FunctionDetails
 	path, err := os.Getwd()
 	if err != nil {

@@ -3,6 +3,8 @@ package validators
 import (
 	"testing"
 
+	"github.com/fdaines/arch-go/internal/utils/values"
+
 	"github.com/fdaines/arch-go/old/config"
 	"github.com/stretchr/testify/assert"
 )
@@ -39,20 +41,27 @@ func TestValidateConfiguration(t *testing.T) {
 			},
 			FunctionsRules: []*config.FunctionsRule{
 				{
+					Package:                  "foobar0",
+					MaxLines:                 values.GetIntRef(0),
+					MaxParameters:            values.GetIntRef(0),
+					MaxReturnValues:          values.GetIntRef(0),
+					MaxPublicFunctionPerFile: values.GetIntRef(0),
+				},
+				{
 					Package:  "foobar1",
-					MaxLines: 1,
+					MaxLines: values.GetIntRef(1),
 				},
 				{
 					Package:       "foobar2",
-					MaxParameters: 1,
+					MaxParameters: values.GetIntRef(1),
 				},
 				{
 					Package:         "foobar3",
-					MaxReturnValues: 1,
+					MaxReturnValues: values.GetIntRef(1),
 				},
 				{
 					Package:                  "foobar4",
-					MaxPublicFunctionPerFile: 1,
+					MaxPublicFunctionPerFile: values.GetIntRef(1),
 				},
 			},
 			NamingRules: []*config.NamingRule{},
@@ -103,7 +112,7 @@ func TestValidateConfiguration(t *testing.T) {
 			FunctionsRules: []*config.FunctionsRule{
 				{
 					Package:  "foobar",
-					MaxLines: -1,
+					MaxLines: values.GetIntRef(-1),
 				},
 			},
 			NamingRules: []*config.NamingRule{},
@@ -122,7 +131,7 @@ func TestValidateConfiguration(t *testing.T) {
 			FunctionsRules: []*config.FunctionsRule{
 				{
 					Package:       "foobar",
-					MaxParameters: -1,
+					MaxParameters: values.GetIntRef(-1),
 				},
 			},
 			NamingRules: []*config.NamingRule{},
@@ -141,7 +150,7 @@ func TestValidateConfiguration(t *testing.T) {
 			FunctionsRules: []*config.FunctionsRule{
 				{
 					Package:         "foobar",
-					MaxReturnValues: -1,
+					MaxReturnValues: values.GetIntRef(-1),
 				},
 			},
 			NamingRules: []*config.NamingRule{},
@@ -160,7 +169,7 @@ func TestValidateConfiguration(t *testing.T) {
 			FunctionsRules: []*config.FunctionsRule{
 				{
 					Package:                  "foobar",
-					MaxPublicFunctionPerFile: -1,
+					MaxPublicFunctionPerFile: values.GetIntRef(-1),
 				},
 			},
 			NamingRules: []*config.NamingRule{},

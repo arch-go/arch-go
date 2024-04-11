@@ -5,6 +5,8 @@ import (
 	"io"
 	"testing"
 
+	"github.com/fdaines/arch-go/internal/utils/values"
+
 	"github.com/fdaines/arch-go/old/config"
 	"github.com/stretchr/testify/assert"
 )
@@ -15,10 +17,10 @@ func TestDescribeFunctionRules(t *testing.T) {
 		rules := []*config.FunctionsRule{
 			{
 				Package:                  "foobar",
-				MaxLines:                 123,
-				MaxParameters:            32,
-				MaxPublicFunctionPerFile: 24,
-				MaxReturnValues:          3,
+				MaxLines:                 values.GetIntRef(123),
+				MaxParameters:            values.GetIntRef(32),
+				MaxPublicFunctionPerFile: values.GetIntRef(24),
+				MaxReturnValues:          values.GetIntRef(3),
 			},
 		}
 		expectedOutput := `Function Rules
@@ -41,9 +43,9 @@ func TestDescribeFunctionRules(t *testing.T) {
 		rules := []*config.FunctionsRule{
 			{
 				Package:                  "foobar",
-				MaxParameters:            32,
-				MaxPublicFunctionPerFile: 24,
-				MaxReturnValues:          3,
+				MaxParameters:            values.GetIntRef(32),
+				MaxPublicFunctionPerFile: values.GetIntRef(24),
+				MaxReturnValues:          values.GetIntRef(3),
 			},
 		}
 		expectedOutput := `Function Rules
@@ -65,9 +67,9 @@ func TestDescribeFunctionRules(t *testing.T) {
 		rules := []*config.FunctionsRule{
 			{
 				Package:                  "foobar",
-				MaxLines:                 123,
-				MaxPublicFunctionPerFile: 24,
-				MaxReturnValues:          3,
+				MaxLines:                 values.GetIntRef(123),
+				MaxPublicFunctionPerFile: values.GetIntRef(24),
+				MaxReturnValues:          values.GetIntRef(3),
 			},
 		}
 		expectedOutput := `Function Rules
@@ -89,9 +91,9 @@ func TestDescribeFunctionRules(t *testing.T) {
 		rules := []*config.FunctionsRule{
 			{
 				Package:         "foobar",
-				MaxLines:        123,
-				MaxParameters:   32,
-				MaxReturnValues: 3,
+				MaxLines:        values.GetIntRef(123),
+				MaxParameters:   values.GetIntRef(32),
+				MaxReturnValues: values.GetIntRef(3),
 			},
 		}
 		expectedOutput := `Function Rules
@@ -113,9 +115,9 @@ func TestDescribeFunctionRules(t *testing.T) {
 		rules := []*config.FunctionsRule{
 			{
 				Package:                  "foobar",
-				MaxLines:                 123,
-				MaxParameters:            32,
-				MaxPublicFunctionPerFile: 24,
+				MaxLines:                 values.GetIntRef(123),
+				MaxParameters:            values.GetIntRef(32),
+				MaxPublicFunctionPerFile: values.GetIntRef(24),
 			},
 		}
 		expectedOutput := `Function Rules

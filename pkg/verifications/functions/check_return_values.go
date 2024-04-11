@@ -2,15 +2,16 @@ package functions
 
 import (
 	"fmt"
-	"github.com/fdaines/arch-go/old/model"
 )
 
-func checkMaxReturnValues(pkg *model.PackageInfo, mainPackage string, maxReturnValues int) (bool, []string) {
+func checkMaxReturnValues(functions []*FunctionDetails, maxReturnValues *int) (bool, []string) {
 	var details []string
 	passes := true
-	functions, _ := retrieveFunctions(pkg, mainPackage)
+	if maxReturnValues == nil {
+		return passes, details
+	}
 	for _, fn := range functions {
-		if fn.NumReturns > maxReturnValues {
+		if fn.NumReturns > *maxReturnValues {
 			passes = false
 			details = append(details,
 				fmt.Sprintf("Function %s in file %s returns too many values (%d)",

@@ -6,6 +6,8 @@ import (
 	"os"
 	"testing"
 
+	"github.com/fdaines/arch-go/internal/utils/values"
+
 	monkey "github.com/agiledragon/gomonkey/v2"
 	"github.com/fdaines/arch-go/old/config"
 	"github.com/stretchr/testify/assert"
@@ -14,12 +16,10 @@ import (
 func TestDescribeCommand(t *testing.T) {
 	t.Run("describe threshold", func(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
-		cp := 87
-		cv := 34
 		configuration := &config.Config{
 			Threshold: &config.Threshold{
-				Compliance: &cp,
-				Coverage:   &cv,
+				Compliance: values.GetIntRef(87),
+				Coverage:   values.GetIntRef(34),
 			},
 			DependenciesRules: []*config.DependenciesRule{
 				{
@@ -76,10 +76,10 @@ func TestDescribeCommand(t *testing.T) {
 			FunctionsRules: []*config.FunctionsRule{
 				{
 					Package:                  "function-package",
-					MaxParameters:            1,
-					MaxReturnValues:          2,
-					MaxLines:                 3,
-					MaxPublicFunctionPerFile: 4,
+					MaxParameters:            values.GetIntRef(1),
+					MaxReturnValues:          values.GetIntRef(2),
+					MaxLines:                 values.GetIntRef(3),
+					MaxPublicFunctionPerFile: values.GetIntRef(4),
 				},
 			},
 			NamingRules: []*config.NamingRule{

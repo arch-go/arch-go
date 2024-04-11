@@ -2,9 +2,10 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+
 	migrate_config "github.com/fdaines/arch-go/pkg/commands/migrate-config"
 	"github.com/spf13/cobra"
-	"os"
 )
 
 func NewMigrateConfigCommand() *cobra.Command {

@@ -5,12 +5,11 @@ import (
 	"os"
 
 	"github.com/fdaines/arch-go/internal/common"
-
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
-var commandToRun = func() bool { return true }
+var commandToRun = runRootCommand
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -58,4 +57,8 @@ func initConfig() {
 
 	err = viper.ReadInConfig()
 	cobra.CheckErr(err)
+}
+
+func runRootCommand() bool {
+	return true
 }

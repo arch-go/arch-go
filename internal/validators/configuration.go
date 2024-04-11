@@ -64,20 +64,20 @@ func validateFunctionRules(rules []*config.FunctionsRule) error {
 		if rule.Package == "" {
 			return fmt.Errorf("function rule - empty package")
 		}
-		if rule.MaxParameters+rule.MaxLines+rule.MaxReturnValues+rule.MaxPublicFunctionPerFile == 0 {
+		if countNotNil(rule.MaxParameters, rule.MaxLines, rule.MaxReturnValues, rule.MaxPublicFunctionPerFile) == 0 {
 			return fmt.Errorf("function rule - At least one criteria should be set")
 		}
 
-		if rule.MaxParameters < 0 {
+		if rule.MaxParameters != nil && *rule.MaxParameters < 0 {
 			return fmt.Errorf("function rule - MaxParameters is less than zero")
 		}
-		if rule.MaxLines < 0 {
+		if rule.MaxLines != nil && *rule.MaxLines < 0 {
 			return fmt.Errorf("function rule - MaxLines is less than zero")
 		}
-		if rule.MaxReturnValues < 0 {
+		if rule.MaxReturnValues != nil && *rule.MaxReturnValues < 0 {
 			return fmt.Errorf("function rule - MaxReturnValues is less than zero")
 		}
-		if rule.MaxPublicFunctionPerFile < 0 {
+		if rule.MaxPublicFunctionPerFile != nil && *rule.MaxPublicFunctionPerFile < 0 {
 			return fmt.Errorf("function rule - MaxPublicFunctionPerFile is less than zero")
 		}
 	}
@@ -125,6 +125,16 @@ func trueValues(v ...bool) int32 {
 	var counter int32
 	for _, it := range v {
 		if it {
+			counter++
+		}
+	}
+	return counter
+}
+
+func countNotNil(v ...*int) int32 {
+	var counter int32
+	for _, it := range v {
+		if it != nil {
 			counter++
 		}
 	}

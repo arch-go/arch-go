@@ -7,6 +7,8 @@ import (
 	"os"
 	"testing"
 
+	"github.com/fdaines/arch-go/internal/utils/values"
+
 	"github.com/spf13/viper"
 
 	monkey "github.com/agiledragon/gomonkey/v2"
@@ -44,7 +46,7 @@ func TestMigrateConfigCommand(t *testing.T) {
 			FunctionsRules: []*config.FunctionsRule{
 				{
 					Package:  "foobar",
-					MaxLines: 10,
+					MaxLines: values.GetIntRef(10),
 				},
 			},
 		}
@@ -92,7 +94,6 @@ Configuration saved at: arch-go.yml
 		assert.Nil(t, err2, string(out))
 		assert.Equal(t, expected, string(out))
 		assert.Equal(t, 0, exitCode)
-
 	})
 
 	t.Run("when arch-go.yaml cannot be loaded", func(t *testing.T) {

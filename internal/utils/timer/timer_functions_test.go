@@ -2,10 +2,11 @@ package timer_test
 
 import (
 	"fmt"
-	"github.com/fdaines/arch-go/internal/utils/timer"
 	"io"
 	"testing"
 	"time"
+
+	"github.com/fdaines/arch-go/internal/utils/timer"
 
 	"github.com/agiledragon/gomonkey/v2"
 	"github.com/stretchr/testify/assert"
