@@ -6,8 +6,8 @@ import (
 	"strings"
 
 	"github.com/fdaines/arch-go/internal/model"
-	"github.com/fdaines/arch-go/old/config"
-	"github.com/fdaines/arch-go/old/utils/text"
+	"github.com/fdaines/arch-go/internal/utils/text"
+	"github.com/fdaines/arch-go/pkg/config"
 )
 
 func CheckRules(moduleInfo model.ModuleInfo, functionRules []*config.FunctionsRule) RulesResult {

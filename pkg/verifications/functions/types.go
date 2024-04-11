@@ -1,6 +1,6 @@
 package functions
 
-import "github.com/fdaines/arch-go/old/config"
+import "github.com/fdaines/arch-go/pkg/config"
 
 type RulesResult struct {
 	Results []*RuleResult `json:"results"`

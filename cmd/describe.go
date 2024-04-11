@@ -1,8 +1,13 @@
 package cmd
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/fdaines/arch-go/pkg/commands/describe"
+	"github.com/fdaines/arch-go/pkg/config"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 func NewDescribeCommand() *cobra.Command {
@@ -15,9 +20,15 @@ func NewDescribeCommand() *cobra.Command {
 
 func init() {
 	describeCmd := NewDescribeCommand()
-	_, _ = rootCmd.AddCommand, describeCmd
+	rootCmd.AddCommand(describeCmd)
 }
 
 func describeRules(cmd *cobra.Command, args []string) {
-	describe.NewCommand(cmd.OutOrStdout()).Run()
+	configuration, err := config.LoadConfig(viper.ConfigFileUsed())
+	if err != nil {
+		fmt.Fprintf(cmd.OutOrStdout(), "Error: %+v\n", err)
+		os.Exit(1)
+		return
+	}
+	describe.NewCommand(configuration, cmd.OutOrStdout()).Run()
 }

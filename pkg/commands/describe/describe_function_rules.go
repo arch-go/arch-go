@@ -5,7 +5,7 @@ import (
 	"io"
 
 	"github.com/fdaines/arch-go/internal/common"
-	"github.com/fdaines/arch-go/old/config"
+	"github.com/fdaines/arch-go/pkg/config"
 )
 
 func describeFunctionRules(rules []*config.FunctionsRule, out io.Writer) {

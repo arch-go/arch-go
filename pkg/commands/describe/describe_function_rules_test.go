@@ -7,7 +7,7 @@ import (
 
 	"github.com/fdaines/arch-go/internal/utils/values"
 
-	"github.com/fdaines/arch-go/old/config"
+	"github.com/fdaines/arch-go/pkg/config"
 	"github.com/stretchr/testify/assert"
 )
 

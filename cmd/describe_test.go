@@ -14,7 +14,7 @@ import (
 	monkey "github.com/agiledragon/gomonkey/v2"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/fdaines/arch-go/old/config"
+	"github.com/fdaines/arch-go/pkg/config"
 )
 
 func TestDescribeCommand(t *testing.T) {

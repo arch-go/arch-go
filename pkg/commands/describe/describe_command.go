@@ -9,18 +9,19 @@ import (
 
 	"github.com/fdaines/arch-go/internal/validators"
 
-	"github.com/fdaines/arch-go/old/config"
 	"github.com/fdaines/arch-go/pkg/commands"
-	"github.com/spf13/viper"
+	"github.com/fdaines/arch-go/pkg/config"
 )
 
 type command struct {
 	commands.BaseCommand
+	configuration *config.Config
 }
 
-func NewCommand(output io.Writer) command {
+func NewCommand(configuration *config.Config, output io.Writer) command {
 	return command{
-		commands.BaseCommand{Output: output},
+		BaseCommand:   commands.BaseCommand{Output: output},
+		configuration: configuration,
 	}
 }
 
@@ -33,21 +34,16 @@ func (dc command) Run() {
 }
 
 func runDescribeCommand(dc command) int {
-	configuration, err := config.LoadConfig(viper.ConfigFileUsed())
-	if err != nil {
-		fmt.Fprintf(dc.Output, "Error: %+v\n", err)
-		return 1
-	}
-	err = validators.ValidateConfiguration(configuration)
+	err := validators.ValidateConfiguration(dc.configuration)
 	if err != nil {
 		fmt.Fprintf(dc.Output, "Invalid Configuration: %+v\n", err)
 		return 1
 	}
-	describeDependencyRules(configuration.DependenciesRules, dc.Output)
-	describeFunctionRules(configuration.FunctionsRules, dc.Output)
-	describeContentRules(configuration.ContentRules, dc.Output)
-	describeNamingRules(configuration.NamingRules, dc.Output)
-	describeThresholdRules(configuration.Threshold, dc.Output)
+	describeDependencyRules(dc.configuration.DependenciesRules, dc.Output)
+	describeFunctionRules(dc.configuration.FunctionsRules, dc.Output)
+	describeContentRules(dc.configuration.ContentRules, dc.Output)
+	describeNamingRules(dc.configuration.NamingRules, dc.Output)
+	describeThresholdRules(dc.configuration.Threshold, dc.Output)
 
 	return 0
 }

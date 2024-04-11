@@ -6,7 +6,7 @@ import (
 
 	"github.com/fdaines/arch-go/internal/common"
 
-	"github.com/fdaines/arch-go/old/config"
+	"github.com/fdaines/arch-go/pkg/config"
 )
 
 func describeDependencyRules(rules []*config.DependenciesRule, out io.Writer) {

@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/fdaines/arch-go/internal/common"
-	"github.com/fdaines/arch-go/old/config"
+	"github.com/fdaines/arch-go/pkg/config"
 )
 
 func describeContentRules(rules []*config.ContentsRule, out io.Writer) {

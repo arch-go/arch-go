@@ -8,8 +8,8 @@ import (
 
 	"github.com/fdaines/arch-go/internal/utils/timer"
 	"github.com/fdaines/arch-go/internal/validators"
-	"github.com/fdaines/arch-go/old/config"
 	"github.com/fdaines/arch-go/pkg/commands"
+	"github.com/fdaines/arch-go/pkg/config"
 	"gopkg.in/yaml.v2"
 )
 

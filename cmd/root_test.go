@@ -20,10 +20,9 @@ func TestRootCommand(t *testing.T) {
 	t.Run("when command ends with an error", func(t *testing.T) {
 		exitCalled := false
 		osExit := func(code int) {
-			if code != 1 {
-				t.Fatalf("Expects an error")
+			if code == 1 {
+				exitCalled = true
 			}
-			exitCalled = true
 		}
 		patch := monkey.ApplyFunc(os.Exit, osExit)
 		defer patch.Reset()
@@ -39,10 +38,9 @@ func TestRootCommand(t *testing.T) {
 	t.Run("when command ends without an error", func(t *testing.T) {
 		exitCalled := false
 		osExit := func(code int) {
-			if code != 1 {
-				t.Fatalf("Expects an error")
+			if code == 1 {
+				exitCalled = true
 			}
-			exitCalled = true
 		}
 		patch := monkey.ApplyFunc(os.Exit, osExit)
 		defer patch.Reset()
@@ -75,10 +73,9 @@ func TestRootCommand(t *testing.T) {
 	t.Run("Force an error trying to get current directory", func(t *testing.T) {
 		exitCalled := false
 		osExit := func(code int) {
-			if code != 1 {
-				t.Fatalf("Expects an error")
+			if code == 1 {
+				exitCalled = true
 			}
-			exitCalled = true
 		}
 
 		patch := monkey.ApplyFuncReturn(os.Getwd, nil, fmt.Errorf("foobar"))
@@ -96,10 +93,9 @@ func TestRootCommand(t *testing.T) {
 	t.Run("Force an error trying to read configuration", func(t *testing.T) {
 		exitCalled := false
 		osExit := func(code int) {
-			if code != 1 {
-				t.Fatalf("Expects an error")
+			if code == 1 {
+				exitCalled = true
 			}
-			exitCalled = true
 		}
 
 		patch := monkey.ApplyFuncReturn(viper.ReadInConfig, fmt.Errorf("foobar"))

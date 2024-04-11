@@ -2,6 +2,7 @@ package describe
 
 import (
 	"bytes"
+	"fmt"
 	"io"
 	"os"
 	"testing"
@@ -9,12 +10,12 @@ import (
 	"github.com/fdaines/arch-go/internal/utils/values"
 
 	monkey "github.com/agiledragon/gomonkey/v2"
-	"github.com/fdaines/arch-go/old/config"
+	"github.com/fdaines/arch-go/pkg/config"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestDescribeCommand(t *testing.T) {
-	t.Run("describe threshold", func(t *testing.T) {
+	t.Run("describe rules", func(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
 		configuration := &config.Config{
 			Threshold: &config.Threshold{
@@ -99,8 +100,6 @@ func TestDescribeCommand(t *testing.T) {
 				},
 			},
 		}
-		patch := monkey.ApplyFuncReturn(config.LoadConfig, configuration, nil)
-		defer patch.Reset()
 
 		expectedOutput := `Dependency Rules
 	* Packages that match pattern 'foobar',
@@ -145,7 +144,7 @@ Threshold Rules
 
 `
 
-		command := NewCommand(outputBuffer)
+		command := NewCommand(configuration, outputBuffer)
 		returnValue := runDescribeCommand(command)
 
 		outputBytes, _ := io.ReadAll(outputBuffer)
@@ -187,16 +186,17 @@ Threshold Rules
 	})
 
 	t.Run("invalid configuration", func(t *testing.T) {
+		fmt.Println("INvalid case")
 		outputBuffer := bytes.NewBufferString("")
-		patch := monkey.ApplyFuncReturn(config.LoadConfig, &config.Config{}, nil)
-		defer patch.Reset()
 		patchExit := monkey.ApplyFunc(os.Exit, func(c int) {})
 		defer patchExit.Reset()
 
 		expectedOutput := `Invalid Configuration: configuration file should have at least one rule
 `
 
-		NewCommand(outputBuffer).Run()
+		fmt.Println("INvalid case2")
+		NewCommand(&config.Config{}, outputBuffer).Run()
+		fmt.Println("INvalid case3")
 
 		outputBytes, _ := io.ReadAll(outputBuffer)
 

@@ -2,7 +2,7 @@ package text
 
 import "strings"
 
-func preparePackageRegexp(p string) string {
+func PreparePackageRegexp(p string) string {
 	str := p
 	if strings.HasPrefix(str, "**.") {
 		str = strings.Replace(str, "**.", "^([\\w-\\.]+/)+", 1)
