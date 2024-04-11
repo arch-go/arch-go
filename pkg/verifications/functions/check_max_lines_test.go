@@ -18,6 +18,15 @@ func TestCheckFunctionMaxLines(t *testing.T) {
 		assert.True(t, pass)
 	})
 
+	t.Run("check passes when max value is nil", func(t *testing.T) {
+		pass, details := checkMaxLines(functionTestDetails, nil)
+
+		var expected []string
+
+		assert.ElementsMatch(t, expected, details)
+		assert.True(t, pass)
+	})
+
 	t.Run("check doesn't pass", func(t *testing.T) {
 		pass, details := checkMaxLines(functionTestDetails, values.GetIntRef(100))
 

@@ -6,7 +6,7 @@ import (
 	"github.com/agiledragon/gomonkey/v2"
 	"github.com/fdaines/arch-go/internal/model"
 	"github.com/fdaines/arch-go/internal/utils/values"
-	"github.com/fdaines/arch-go/old/config"
+	"github.com/fdaines/arch-go/pkg/config"
 	"github.com/fdaines/arch-go/pkg/verifications/functions"
 	"github.com/stretchr/testify/assert"
 )

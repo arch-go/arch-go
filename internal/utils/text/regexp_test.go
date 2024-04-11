@@ -1,8 +1,10 @@
-package text
+package text_test
 
 import (
 	"fmt"
 	"testing"
+
+	"github.com/fdaines/arch-go/internal/utils/text"
 )
 
 func TestPreparePackageRegexp(t *testing.T) {
@@ -25,7 +27,7 @@ func TestPreparePackageRegexp(t *testing.T) {
 	for _, tt := range tests {
 		testCase := fmt.Sprintf("input: %s", tt.input)
 		t.Run(testCase, func(t *testing.T) {
-			ans := preparePackageRegexp(tt.input)
+			ans := text.PreparePackageRegexp(tt.input)
 			if ans != tt.want {
 				t.Errorf("got %s, want %s", ans, tt.want)
 			}
