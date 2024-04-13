@@ -1,0 +1,51 @@
+package naming
+
+import (
+	"testing"
+
+	"github.com/fdaines/arch-go/pkg/config"
+	"github.com/stretchr/testify/assert"
+)
+
+func TestResolveNamingRuleDescription(t *testing.T) {
+	t.Run("rule includes starting with", func(t *testing.T) {
+		rule := config.NamingRule{
+			Package: "foobar",
+			InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
+				StructsThatImplement:             "myInterface",
+				ShouldHaveSimpleNameStartingWith: "blabla",
+			},
+		}
+		expectedResult := `Packages matching pattern 'foobar' should comply with [structs that implement 'myInterface' should have simple name starting with 'blabla']`
+
+		description := resolveDescription(rule)
+
+		assert.Equal(t, expectedResult, description)
+	})
+
+	t.Run("rule includes ending with", func(t *testing.T) {
+		rule := config.NamingRule{
+			Package: "foobar",
+			InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
+				StructsThatImplement:           "myInterface",
+				ShouldHaveSimpleNameEndingWith: "blabla",
+			},
+		}
+		expectedResult := `Packages matching pattern 'foobar' should comply with [structs that implement 'myInterface' should have simple name ending with 'blabla']`
+
+		description := resolveDescription(rule)
+
+		assert.Equal(t, expectedResult, description)
+	})
+
+	t.Run("rule does not include interface implementation rule", func(t *testing.T) {
+		rule := config.NamingRule{
+			Package: "foobar",
+		}
+		expectedResult := `Packages matching pattern 'foobar' should comply with []`
+
+		description := resolveDescription(rule)
+
+		assert.Equal(t, expectedResult, description)
+	})
+}

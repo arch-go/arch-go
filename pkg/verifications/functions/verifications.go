@@ -1,17 +1,15 @@
 package functions
 
 import (
-	"fmt"
 	"regexp"
-	"strings"
 
 	"github.com/fdaines/arch-go/internal/model"
 	"github.com/fdaines/arch-go/internal/utils/text"
 	"github.com/fdaines/arch-go/pkg/config"
 )
 
-func CheckRules(moduleInfo model.ModuleInfo, functionRules []*config.FunctionsRule) RulesResult {
-	result := RulesResult{
+func CheckRules(moduleInfo model.ModuleInfo, functionRules []*config.FunctionsRule) *RulesResult {
+	result := &RulesResult{
 		Passes: true,
 	}
 
@@ -62,25 +60,4 @@ func checkFunctionRule(functions []*FunctionDetails, functionRule config.Functio
 
 	return pass2 && pass1 && pass3 && pass4,
 		append(details1, append(details2, append(details3, details4...)...)...)
-}
-
-func resolveDescription(r config.FunctionsRule) string {
-	var ruleDescriptions []string
-	if r.MaxParameters != nil {
-		ruleDescriptions = append(ruleDescriptions, fmt.Sprintf("'at most %d parameters'", *r.MaxParameters))
-	}
-	if r.MaxReturnValues != nil {
-		ruleDescriptions = append(ruleDescriptions, fmt.Sprintf("'at most %d return values'", *r.MaxReturnValues))
-	}
-	if r.MaxLines != nil {
-		ruleDescriptions = append(ruleDescriptions, fmt.Sprintf("'at most %d lines'", *r.MaxLines))
-	}
-	if r.MaxPublicFunctionPerFile != nil {
-		ruleDescriptions = append(ruleDescriptions, fmt.Sprintf("'no more than %d public functions per file'", *r.MaxPublicFunctionPerFile))
-	}
-	return fmt.Sprintf(
-		"Functions in packages matching pattern '%s' should have [%s]",
-		r.Package,
-		strings.Join(ruleDescriptions, ","),
-	)
 }

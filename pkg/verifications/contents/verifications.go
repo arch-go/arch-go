@@ -1,17 +1,15 @@
 package contents
 
 import (
-	"fmt"
 	"regexp"
-	"strings"
 
 	"github.com/fdaines/arch-go/internal/model"
 	"github.com/fdaines/arch-go/internal/utils/text"
 	"github.com/fdaines/arch-go/pkg/config"
 )
 
-func CheckRules(moduleInfo model.ModuleInfo, functionRules []*config.ContentsRule) RulesResult {
-	result := RulesResult{
+func CheckRules(moduleInfo model.ModuleInfo, functionRules []*config.ContentsRule) *RulesResult {
+	result := &RulesResult{
 		Passes: true,
 	}
 
@@ -62,33 +60,4 @@ func checkContentsRule(contents *PackageContents, functionRule config.ContentsRu
 
 	return pass2 && pass1 && pass3 && pass4,
 		append(details1, append(details2, append(details3, details4...)...)...)
-}
-
-func resolveDescription(rule config.ContentsRule) string {
-	var ruleDescriptions []string
-	if rule.ShouldOnlyContainStructs {
-		ruleDescriptions = append(ruleDescriptions, "'should only contain structs'")
-	}
-	if rule.ShouldOnlyContainInterfaces {
-		ruleDescriptions = append(ruleDescriptions, "'should only contain interfaces'")
-	}
-	if rule.ShouldOnlyContainFunctions {
-		ruleDescriptions = append(ruleDescriptions, "'should only contain functions'")
-	}
-	if rule.ShouldOnlyContainMethods {
-		ruleDescriptions = append(ruleDescriptions, "'should only contain methods'")
-	}
-	if rule.ShouldNotContainStructs {
-		ruleDescriptions = append(ruleDescriptions, "'should not contain structs'")
-	}
-	if rule.ShouldNotContainInterfaces {
-		ruleDescriptions = append(ruleDescriptions, "'should not contain interfaces'")
-	}
-	if rule.ShouldNotContainFunctions {
-		ruleDescriptions = append(ruleDescriptions, "'should not contain functions'")
-	}
-	if rule.ShouldNotContainMethods {
-		ruleDescriptions = append(ruleDescriptions, "'should not contain methods'")
-	}
-	return fmt.Sprintf("Packages matching pattern '%s' should complies with [%s]", rule.Package, strings.Join(ruleDescriptions, ","))
 }
