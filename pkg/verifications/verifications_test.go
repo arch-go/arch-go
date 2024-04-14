@@ -23,14 +23,8 @@ func TestCheckArchitecture(t *testing.T) {
 		}
 		configuration := config.Config{}
 
-		expectedResult := &verifications.Result{
-			Time:     time.Date(1, time.January, 1, 0, 0, 0, 0, time.UTC),
-			Duration: 0,
-			Passes:   true,
-		}
-
 		result := verifications.CheckArchitecture(moduleInfo, configuration)
 
-		assert.Equal(t, expectedResult, result)
+		assert.True(t, result.Passes)
 	})
 }

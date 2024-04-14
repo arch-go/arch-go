@@ -3,6 +3,8 @@ package verifications
 import (
 	"time"
 
+	"github.com/fdaines/arch-go/pkg/verifications/dependencies"
+
 	"github.com/fdaines/arch-go/internal/model"
 	"github.com/fdaines/arch-go/pkg/config"
 	"github.com/fdaines/arch-go/pkg/verifications/contents"
@@ -11,20 +13,22 @@ import (
 )
 
 type architectureAnalysis struct {
-	moduleInfo         model.ModuleInfo
-	configuration      config.Config
-	checkFunctionRules func(model.ModuleInfo, []*config.FunctionsRule) *functions.RulesResult
-	checkContentsRules func(model.ModuleInfo, []*config.ContentsRule) *contents.RulesResult
-	checkNamingRules   func(model.ModuleInfo, []*config.NamingRule) *naming.RulesResult
+	moduleInfo             model.ModuleInfo
+	configuration          config.Config
+	checkDependenciesRules func(model.ModuleInfo, []*config.DependenciesRule) *dependencies.RulesResult
+	checkFunctionRules     func(model.ModuleInfo, []*config.FunctionsRule) *functions.RulesResult
+	checkContentsRules     func(model.ModuleInfo, []*config.ContentsRule) *contents.RulesResult
+	checkNamingRules       func(model.ModuleInfo, []*config.NamingRule) *naming.RulesResult
 }
 
 func NewArchitectureAnalysis(m model.ModuleInfo, c config.Config) *architectureAnalysis {
 	return &architectureAnalysis{
-		moduleInfo:         m,
-		configuration:      c,
-		checkFunctionRules: functions.CheckRules,
-		checkContentsRules: contents.CheckRules,
-		checkNamingRules:   naming.CheckRules,
+		moduleInfo:             m,
+		configuration:          c,
+		checkDependenciesRules: dependencies.CheckRules,
+		checkFunctionRules:     functions.CheckRules,
+		checkContentsRules:     contents.CheckRules,
+		checkNamingRules:       naming.CheckRules,
 	}
 }
 
@@ -32,6 +36,10 @@ func (a *architectureAnalysis) Run() (*Result, error) {
 	verificationResult := &Result{
 		Time:   time.Now(),
 		Passes: true,
+	}
+	if len(a.configuration.DependenciesRules) > 0 {
+		verificationResult.DependenciesRuleResult = a.checkDependenciesRules(a.moduleInfo, a.configuration.DependenciesRules)
+		verificationResult.Passes = verificationResult.Passes && verificationResult.DependenciesRuleResult.Passes
 	}
 	if len(a.configuration.FunctionsRules) > 0 {
 		verificationResult.FunctionsRuleResult = a.checkFunctionRules(a.moduleInfo, a.configuration.FunctionsRules)
