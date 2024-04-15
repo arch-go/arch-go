@@ -14,7 +14,7 @@ type ReportSummary struct {
 	Time                time.Time
 	Duration            time.Duration
 	Total               int
-	Succeeded           int
+	Passed              int
 	Failed              int
 	ComplianceThreshold *ThresholdSummary
 	CoverageThreshold   *ThresholdSummary
