@@ -1,0 +1,355 @@
+package reports
+
+import (
+	"testing"
+
+	"github.com/fdaines/arch-go/internal/model"
+	"github.com/fdaines/arch-go/internal/utils/values"
+	"github.com/fdaines/arch-go/pkg/config"
+	"github.com/fdaines/arch-go/pkg/verifications"
+	"github.com/fdaines/arch-go/pkg/verifications/contents"
+	"github.com/fdaines/arch-go/pkg/verifications/dependencies"
+	"github.com/fdaines/arch-go/pkg/verifications/functions"
+	"github.com/fdaines/arch-go/pkg/verifications/naming"
+
+	"github.com/stretchr/testify/assert"
+)
+
+func TestCoverageResolver(t *testing.T) {
+	moduleInfo := model.ModuleInfo{
+		Packages: []*model.PackageInfo{
+			{Path: "foo/bar1"},
+			{Path: "foo/bar2"},
+			{Path: "foo/bar3"},
+			{Path: "foo/bar4"},
+			{Path: "foo/bar5"},
+		},
+	}
+	configuration := config.Config{}
+
+	t.Run("checkPackagesCoverage case 1", func(t *testing.T) {
+		verificationResult := &verifications.Result{}
+
+		expectedResult := map[string]bool{
+			"foo/bar1": false,
+			"foo/bar2": false,
+			"foo/bar3": false,
+			"foo/bar4": false,
+			"foo/bar5": false,
+		}
+
+		result := checkPackagesCoverage(verificationResult, moduleInfo)
+
+		assert.Equal(t, expectedResult, result)
+	})
+
+	t.Run("checkPackagesCoverage case 2", func(t *testing.T) {
+		verificationResult := &verifications.Result{
+			DependenciesRuleResult: &dependencies.RulesResult{
+				Results: []*dependencies.RuleResult{
+					{
+						Verifications: []dependencies.Verification{
+							{Package: "foo/bar5"},
+							{Package: "foo/bar2"},
+							{Package: "other/package"},
+						},
+					},
+					{Passes: false},
+				},
+			},
+		}
+
+		expectedResult := map[string]bool{
+			"foo/bar1": false,
+			"foo/bar2": true,
+			"foo/bar3": false,
+			"foo/bar4": false,
+			"foo/bar5": true,
+		}
+
+		result := checkPackagesCoverage(verificationResult, moduleInfo)
+
+		assert.Equal(t, expectedResult, result)
+	})
+
+	t.Run("checkPackagesCoverage case 3", func(t *testing.T) {
+		verificationResult := &verifications.Result{
+			FunctionsRuleResult: &functions.RulesResult{
+				Results: []*functions.RuleResult{
+					{
+						Verifications: []functions.Verification{
+							{Package: "foo/bar5"},
+							{Package: "foo/bar2"},
+							{Package: "other/package"},
+						},
+					},
+					{Passes: false},
+				},
+			},
+		}
+
+		expectedResult := map[string]bool{
+			"foo/bar1": false,
+			"foo/bar2": true,
+			"foo/bar3": false,
+			"foo/bar4": false,
+			"foo/bar5": true,
+		}
+
+		result := checkPackagesCoverage(verificationResult, moduleInfo)
+
+		assert.Equal(t, expectedResult, result)
+	})
+
+	t.Run("checkPackagesCoverage case 4", func(t *testing.T) {
+		verificationResult := &verifications.Result{
+			ContentsRuleResult: &contents.RulesResult{
+				Results: []*contents.RuleResult{
+					{
+						Verifications: []contents.Verification{
+							{Package: "foo/bar5"},
+							{Package: "foo/bar2"},
+							{Package: "other/package"},
+						},
+					},
+					{Passes: false},
+				},
+			},
+		}
+
+		expectedResult := map[string]bool{
+			"foo/bar1": false,
+			"foo/bar2": true,
+			"foo/bar3": false,
+			"foo/bar4": false,
+			"foo/bar5": true,
+		}
+
+		result := checkPackagesCoverage(verificationResult, moduleInfo)
+
+		assert.Equal(t, expectedResult, result)
+	})
+
+	t.Run("checkPackagesCoverage case 5", func(t *testing.T) {
+		verificationResult := &verifications.Result{
+			NamingRuleResult: &naming.RulesResult{
+				Results: []*naming.RuleResult{
+					{
+						Verifications: []naming.Verification{
+							{Package: "foo/bar5"},
+							{Package: "foo/bar2"},
+							{Package: "other/package"},
+						},
+					},
+					{Passes: false},
+				},
+			},
+		}
+
+		expectedResult := map[string]bool{
+			"foo/bar1": false,
+			"foo/bar2": true,
+			"foo/bar3": false,
+			"foo/bar4": false,
+			"foo/bar5": true,
+		}
+
+		result := checkPackagesCoverage(verificationResult, moduleInfo)
+
+		assert.Equal(t, expectedResult, result)
+	})
+
+	t.Run("checkPackagesCoverage case 6", func(t *testing.T) {
+		verificationResult := &verifications.Result{
+			DependenciesRuleResult: &dependencies.RulesResult{
+				Results: []*dependencies.RuleResult{
+					{
+						Verifications: []dependencies.Verification{
+							{Package: "foo/bar5"},
+							{Package: "foo/bar2"},
+							{Package: "other/package"},
+						},
+					},
+					{Passes: false},
+				},
+			},
+			FunctionsRuleResult: &functions.RulesResult{
+				Results: []*functions.RuleResult{
+					{
+						Verifications: []functions.Verification{
+							{Package: "foo/bar4"},
+							{Package: "foo/bar2"},
+							{Package: "other/package"},
+						},
+					},
+					{Passes: false},
+				},
+			},
+			ContentsRuleResult: &contents.RulesResult{
+				Results: []*contents.RuleResult{
+					{
+						Verifications: []contents.Verification{
+							{Package: "foo/bar1"},
+							{Package: "foo/bar2"},
+							{Package: "other/package"},
+						},
+					},
+					{Passes: false},
+				},
+			},
+			NamingRuleResult: &naming.RulesResult{
+				Results: []*naming.RuleResult{
+					{
+						Verifications: []naming.Verification{
+							{Package: "foo/bar5"},
+							{Package: "foo/bar3"},
+							{Package: "other/packageX"},
+						},
+					},
+					{Passes: false},
+				},
+			},
+		}
+
+		expectedResult := map[string]bool{
+			"foo/bar1": true,
+			"foo/bar2": true,
+			"foo/bar3": true,
+			"foo/bar4": true,
+			"foo/bar5": true,
+		}
+
+		result := checkPackagesCoverage(verificationResult, moduleInfo)
+
+		assert.Equal(t, expectedResult, result)
+	})
+
+	t.Run("resolveCoverage case 1", func(t *testing.T) {
+		verificationResult := &verifications.Result{}
+
+		expectedStatus := "PASS"
+		expectedViolations := []string{"foo/bar1", "foo/bar2", "foo/bar3", "foo/bar4", "foo/bar5"}
+
+		result := resolveCoverage(verificationResult, moduleInfo, configuration)
+
+		assert.Equal(t, expectedStatus, result.Status)
+		assert.ElementsMatch(t, expectedViolations, result.Violations)
+	})
+
+	t.Run("resolveCoverage case 2", func(t *testing.T) {
+		verificationResult := &verifications.Result{}
+		config := config.Config{
+			Threshold: &config.Threshold{},
+		}
+
+		expectedResult := &ThresholdSummary{
+			Rate:       0,
+			Threshold:  0,
+			Status:     "PASS",
+			Violations: []string{"foo/bar1", "foo/bar2", "foo/bar3", "foo/bar4", "foo/bar5"},
+		}
+
+		result := resolveCoverage(verificationResult, moduleInfo, config)
+
+		assert.Equal(t, expectedResult.Rate, result.Rate)
+		assert.Equal(t, expectedResult.Threshold, result.Threshold)
+		assert.Equal(t, expectedResult.Status, result.Status)
+		assert.ElementsMatch(t, expectedResult.Violations, result.Violations)
+	})
+
+	t.Run("resolveCoverage case 3", func(t *testing.T) {
+		verificationResult := &verifications.Result{}
+		config := config.Config{
+			Threshold: &config.Threshold{
+				Coverage: values.GetIntRef(100),
+			},
+		}
+
+		expectedResult := &ThresholdSummary{
+			Rate:       0,
+			Threshold:  100,
+			Status:     "FAIL",
+			Violations: []string{"foo/bar1", "foo/bar2", "foo/bar3", "foo/bar4", "foo/bar5"},
+		}
+
+		result := resolveCoverage(verificationResult, moduleInfo, config)
+
+		assert.Equal(t, expectedResult.Rate, result.Rate)
+		assert.Equal(t, expectedResult.Threshold, result.Threshold)
+		assert.Equal(t, expectedResult.Status, result.Status)
+		assert.ElementsMatch(t, expectedResult.Violations, result.Violations)
+	})
+
+	t.Run("resolveCoverage case 4", func(t *testing.T) {
+		verificationResult := &verifications.Result{
+			DependenciesRuleResult: &dependencies.RulesResult{
+				Results: []*dependencies.RuleResult{
+					{
+						Verifications: []dependencies.Verification{
+							{Package: "foo/bar1"},
+							{Package: "foo/bar2"},
+							{Package: "foo/bar3"},
+							{Package: "foo/bar4"},
+							{Package: "foo/bar5"},
+						},
+					},
+				},
+			},
+		}
+		config := config.Config{
+			Threshold: &config.Threshold{
+				Coverage: values.GetIntRef(100),
+			},
+		}
+
+		expectedResult := &ThresholdSummary{
+			Rate:       100,
+			Threshold:  100,
+			Status:     "PASS",
+			Violations: nil,
+		}
+
+		result := resolveCoverage(verificationResult, moduleInfo, config)
+
+		assert.Equal(t, expectedResult.Rate, result.Rate)
+		assert.Equal(t, expectedResult.Threshold, result.Threshold)
+		assert.Equal(t, expectedResult.Status, result.Status)
+		assert.ElementsMatch(t, expectedResult.Violations, result.Violations)
+	})
+
+	t.Run("resolveCoverage case 5", func(t *testing.T) {
+		verificationResult := &verifications.Result{
+			DependenciesRuleResult: &dependencies.RulesResult{
+				Results: []*dependencies.RuleResult{
+					{
+						Verifications: []dependencies.Verification{
+							{Package: "foo/bar1"},
+							{Package: "foo/bar2"},
+							{Package: "foo/bar4"},
+							{Package: "foo/bar5"},
+						},
+					},
+				},
+			},
+		}
+		config := config.Config{
+			Threshold: &config.Threshold{
+				Coverage: values.GetIntRef(78),
+			},
+		}
+
+		expectedResult := &ThresholdSummary{
+			Rate:       80,
+			Threshold:  78,
+			Status:     "PASS",
+			Violations: []string{"foo/bar3"},
+		}
+
+		result := resolveCoverage(verificationResult, moduleInfo, config)
+
+		assert.Equal(t, expectedResult.Rate, result.Rate)
+		assert.Equal(t, expectedResult.Threshold, result.Threshold)
+		assert.Equal(t, expectedResult.Status, result.Status)
+		assert.ElementsMatch(t, expectedResult.Violations, result.Violations)
+	})
+}
