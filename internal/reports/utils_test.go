@@ -3,6 +3,8 @@ package reports
 import (
 	"testing"
 
+	"github.com/fdaines/arch-go/internal/reports/model"
+
 	"github.com/fdaines/arch-go/internal/utils/values"
 
 	"github.com/stretchr/testify/assert"
@@ -33,13 +35,13 @@ func TestReportsUtils(t *testing.T) {
 	})
 
 	t.Run("resolveVerificationStatus", func(t *testing.T) {
-		v1 := &Verification{}
+		v1 := &model.Verification{}
 		resolveVerificationStatus(true, v1)
 		assert.Equal(t, 1, v1.Passed)
 		assert.Equal(t, 0, v1.Failed)
 		assert.Equal(t, 1, v1.Total)
 
-		v2 := &Verification{}
+		v2 := &model.Verification{}
 		resolveVerificationStatus(false, v2)
 		assert.Equal(t, 0, v2.Passed)
 		assert.Equal(t, 1, v2.Failed)
@@ -50,28 +52,28 @@ func TestReportsUtils(t *testing.T) {
 		status := resolveGlobalStatus(nil, nil)
 		assert.Equal(t, "PASS", status)
 
-		status = resolveGlobalStatus(&ThresholdSummary{Status: "PASS"}, nil)
+		status = resolveGlobalStatus(&model.ThresholdSummary{Status: "PASS"}, nil)
 		assert.Equal(t, "PASS", status)
 
-		status = resolveGlobalStatus(&ThresholdSummary{Status: "FAIL"}, nil)
+		status = resolveGlobalStatus(&model.ThresholdSummary{Status: "FAIL"}, nil)
 		assert.Equal(t, "FAIL", status)
 
-		status = resolveGlobalStatus(nil, &ThresholdSummary{Status: "PASS"})
+		status = resolveGlobalStatus(nil, &model.ThresholdSummary{Status: "PASS"})
 		assert.Equal(t, "PASS", status)
 
-		status = resolveGlobalStatus(nil, &ThresholdSummary{Status: "FAIL"})
+		status = resolveGlobalStatus(nil, &model.ThresholdSummary{Status: "FAIL"})
 		assert.Equal(t, "FAIL", status)
 
-		status = resolveGlobalStatus(&ThresholdSummary{Status: "PASS"}, &ThresholdSummary{Status: "PASS"})
+		status = resolveGlobalStatus(&model.ThresholdSummary{Status: "PASS"}, &model.ThresholdSummary{Status: "PASS"})
 		assert.Equal(t, "PASS", status)
 
-		status = resolveGlobalStatus(&ThresholdSummary{Status: "PASS"}, &ThresholdSummary{Status: "FAIL"})
+		status = resolveGlobalStatus(&model.ThresholdSummary{Status: "PASS"}, &model.ThresholdSummary{Status: "FAIL"})
 		assert.Equal(t, "FAIL", status)
 
-		status = resolveGlobalStatus(&ThresholdSummary{Status: "FAIL"}, &ThresholdSummary{Status: "PASS"})
+		status = resolveGlobalStatus(&model.ThresholdSummary{Status: "FAIL"}, &model.ThresholdSummary{Status: "PASS"})
 		assert.Equal(t, "FAIL", status)
 
-		status = resolveGlobalStatus(&ThresholdSummary{Status: "FAIL"}, &ThresholdSummary{Status: "FAIL"})
+		status = resolveGlobalStatus(&model.ThresholdSummary{Status: "FAIL"}, &model.ThresholdSummary{Status: "FAIL"})
 		assert.Equal(t, "FAIL", status)
 	})
 }

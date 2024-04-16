@@ -2,11 +2,12 @@ package reports
 
 import (
 	"github.com/fdaines/arch-go/internal/model"
+	model2 "github.com/fdaines/arch-go/internal/reports/model"
 	"github.com/fdaines/arch-go/pkg/config"
 	"github.com/fdaines/arch-go/pkg/verifications"
 )
 
-func resolveCoverage(r *verifications.Result, m model.ModuleInfo, c config.Config) *ThresholdSummary {
+func resolveCoverage(r *verifications.Result, m model.ModuleInfo, c config.Config) *model2.ThresholdSummary {
 	moduleContents := checkPackagesCoverage(r, m)
 	var uncoveredPackages []string
 	for pkg, verified := range moduleContents {
@@ -32,7 +33,7 @@ func resolveCoverage(r *verifications.Result, m model.ModuleInfo, c config.Confi
 		status = failStatus
 	}
 
-	return &ThresholdSummary{
+	return &model2.ThresholdSummary{
 		Rate:       rate,
 		Threshold:  threshold,
 		Status:     status,

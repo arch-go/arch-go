@@ -1,0 +1,41 @@
+{{define "tab-dependencies-rules" -}}
+<h4>Dependencies Rules Details</h4>
+{{ if .DependenciesVerificationDetails.Details }}
+<table class="rule-details" border="1" frame="void" rules="rows">
+<thead>
+<tr>
+    <th colspan="2">Rule Description</th>
+    <th style="width:100px;">Result</th>
+</tr>
+</thead>
+<tbody>
+{{ range $item := .DependenciesVerificationDetails.Details }}
+<tr class="rule-verification">
+    <td colspan="2"><b>Rule: {{ $item.Rule }}</b></td>
+    <td class="status" style="color:{{if passes $item.Status}}green{{else}}red{{end}}">{{ $item.Status }}</td>
+</tr>
+{{ range $pkgDetail := $item.PackageDetails }}
+<tr style="color:{{if passes $pkgDetail.Status}}green{{else}}red{{end}}">
+    <td style="width: 100px;"></td>
+    <td class="package-details">
+        Package {{ $pkgDetail.Package }}
+        {{ if gt (len $pkgDetail.Details) 0 }}
+        <ul>
+            {{ range $pkgDetail.Details }}
+            <li>{{ . }}</li>
+            {{ end }}
+        </ul>
+        {{ end }}
+    </td>
+    <td class="package-details" style="text-align:center">{{ $pkgDetail.Status }}</td>
+</tr>
+{{ end }}
+{{ end }}
+</tbody>
+</table>
+{{ else }}
+<ul>
+<li>There are no dependencies rules.</li>
+</ul>
+{{ end }}
+{{end}}

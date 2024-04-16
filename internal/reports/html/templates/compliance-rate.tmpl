@@ -1,0 +1,17 @@
+{{define "compliance-rate" -}}
+<div class="col-sm-3 threshold-badges">
+    <div class="badge-progress badge-{{if passes (.ComplianceThreshold.Status)}}green{{else}}red{{end}}">
+        <div class="badge-header">
+            <div class="rate">{{.ComplianceThreshold.Rate}}%</div>
+        </div>
+        <div class="badge-progressbar">
+            <span data-fill="{{.ComplianceThreshold.Rate}}%" style="width: {{.ComplianceThreshold.Rate}}%;"></span>
+        </div>
+        <div class="badge-footer">
+            <h3>Compliance Rate</h3>
+            <span>{{.Passed}}/{{.Total}} rules were successfully verified</span>
+            <span>[Threshold: {{.ComplianceThreshold.Threshold}}%]</span>
+        </div>
+    </div>
+</div>
+{{end}}

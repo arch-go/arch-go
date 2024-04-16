@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/fdaines/arch-go/old/utils/packages"
+	"github.com/fdaines/arch-go/internal/utils/packages"
 )
 
 func TestIsPublic(t *testing.T) {

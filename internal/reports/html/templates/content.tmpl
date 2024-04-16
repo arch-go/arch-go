@@ -1,0 +1,53 @@
+{{define "content" -}}
+<div class="container">
+    <div class="page-header">
+        <h3>Verification Details</h3>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-compliance-tab" data-toggle="tab" href="#nav-compliance" role="tab" aria-controls="nav-compliance" aria-selected="true">Rules Compliance</a>
+                    <a class="nav-item nav-link" id="nav-content-rules-tab" data-toggle="tab" href="#nav-content-rules" role="tab" aria-controls="nav-content-rules" aria-selected="false">Content Rules Details</a>
+                    <a class="nav-item nav-link" id="nav-dependencies-rules-tab" data-toggle="tab" href="#nav-dependencies-rules" role="tab" aria-controls="nav-dependencies-rules" aria-selected="false">Dependencies Rules Details</a>
+                    <a class="nav-item nav-link" id="nav-function-rules-tab" data-toggle="tab" href="#nav-function-rules" role="tab" aria-controls="nav-function-rules" aria-selected="false">Functions Rules Details</a>
+                    <a class="nav-item nav-link" id="nav-naming-rules-tab" data-toggle="tab" href="#nav-naming-rules" role="tab" aria-controls="nav-naming-rules" aria-selected="false">Naming Rules Details</a>
+                    <a class="nav-item nav-link" id="nav-coverage-tab" data-toggle="tab" href="#nav-coverage" role="tab" aria-controls="nav-coverage" aria-selected="false">Coverage Details</a>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-compliance" role="tabpanel" aria-labelledby="nav-compliance-tab">
+                    <div class="container">
+                        {{template "tab-compliance" .Details -}}
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-content-rules" role="tabpanel" aria-labelledby="nav-content-rules-tab">
+                    <div class="container">
+                        {{template "tab-content-rules" .Details -}}
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-dependencies-rules" role="tabpanel" aria-labelledby="nav-dependencies-rules-tab">
+                    <div class="container">
+                        {{template "tab-dependencies-rules" .Details -}}
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-function-rules" role="tabpanel" aria-labelledby="nav-function-rules-tab">
+                    <div class="container">
+                        {{template "tab-functions-rules" .Details -}}
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-naming-rules" role="tabpanel" aria-labelledby="nav-naming-rules-tab">
+                    <div class="container">
+                        {{template "tab-naming-rules" .Details -}}
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-coverage" role="tabpanel" aria-labelledby="nav-coverage-tab">
+                    <div class="container">
+                        {{template "tab-coverage" . -}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}

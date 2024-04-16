@@ -3,6 +3,8 @@ package reports
 import (
 	"testing"
 
+	"github.com/fdaines/arch-go/internal/reports/model"
+
 	"github.com/fdaines/arch-go/internal/utils/values"
 	"github.com/fdaines/arch-go/pkg/config"
 	"github.com/fdaines/arch-go/pkg/verifications"
@@ -100,7 +102,7 @@ func TestComplianceResolver(t *testing.T) {
 		verificationResult := &verifications.Result{}
 		configuration := config.Config{}
 
-		expectedResult := &ThresholdSummary{
+		expectedResult := &model.ThresholdSummary{
 			Status: "PASS",
 		}
 
@@ -117,7 +119,7 @@ func TestComplianceResolver(t *testing.T) {
 			},
 		}
 
-		expectedResult := &ThresholdSummary{
+		expectedResult := &model.ThresholdSummary{
 			Rate:       0,
 			Threshold:  100,
 			Status:     "FAIL",
@@ -144,7 +146,7 @@ func TestComplianceResolver(t *testing.T) {
 			},
 		}
 
-		expectedResult := &ThresholdSummary{
+		expectedResult := &model.ThresholdSummary{
 			Rate:       50,
 			Threshold:  51,
 			Status:     "FAIL",
@@ -171,7 +173,7 @@ func TestComplianceResolver(t *testing.T) {
 			},
 		}
 
-		expectedResult := &ThresholdSummary{
+		expectedResult := &model.ThresholdSummary{
 			Rate:       50,
 			Threshold:  50,
 			Status:     "PASS",

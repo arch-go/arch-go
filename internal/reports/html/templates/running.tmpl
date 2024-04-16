@@ -1,0 +1,9 @@
+{{define "running" -}}
+<div class="col-sm-12">
+    <div style="float:right">
+        <div><b>Run on: </b>{{formatDate .Time}}</div>
+        <div><b>Took: </b>{{toHumanTime .Duration}}</div>
+    </div>
+    <div style="clear:both;"></div>
+</div>
+{{end}}

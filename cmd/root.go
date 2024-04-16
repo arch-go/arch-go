@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"io"
 	"os"
 
 	"github.com/fdaines/arch-go/internal/common"
@@ -38,7 +39,7 @@ func init() {
 func runCommand(cmd *cobra.Command, args []string) {
 	fmt.Fprintf(cmd.OutOrStdout(), "Running arch-go command\n")
 	fmt.Fprintf(cmd.OutOrStdout(), "Using config file: %s\n", viper.ConfigFileUsed())
-	success := commandToRun()
+	success := commandToRun(cmd.OutOrStdout())
 	if !success {
 		os.Exit(1)
 	}
@@ -59,6 +60,6 @@ func initConfig() {
 	cobra.CheckErr(err)
 }
 
-func runRootCommand() bool {
+func runRootCommand(out io.Writer) bool {
 	return true
 }

@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/fdaines/arch-go/internal/model"
-	"github.com/fdaines/arch-go/old/utils/packages"
+	"github.com/fdaines/arch-go/internal/utils/packages"
 )
 
 func RetrieveFunctions(pkg *model.PackageInfo, mainPackage string) ([]*FunctionDetails, error) {

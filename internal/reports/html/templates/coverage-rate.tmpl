@@ -1,0 +1,21 @@
+{{define "coverage-rate" -}}
+<div class="col-sm-3 threshold-badges">
+    <div class="badge-progress badge-{{if passes (.CoverageThreshold.Status)}}green{{else}}red{{end}}">
+        <div class="badge-header">
+            <div class="rate">{{.CoverageThreshold.Rate}}%</div>
+        </div>
+        <div class="badge-progressbar">
+            <span data-fill="{{.CoverageThreshold.Rate}}%" style="width: {{.CoverageThreshold.Rate}}%;"></span>
+        </div>
+        <div class="badge-footer">
+            <h3>Coverage Rate</h3>
+            {{ if (gt .Total 0) }}
+                <span>{{.Total}}/{{.Total}} packages were not considered by any rule.</span>
+            {{ else }}
+                <span>All the packages were considered by at least one rule.</span>
+            {{ end }}
+            <span>[Threshold: {{.CoverageThreshold.Threshold}}%]</span>
+        </div>
+    </div>
+</div>
+{{end}}

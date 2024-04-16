@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	gopkg "golang.org/x/tools/go/packages"
 
-	"github.com/fdaines/arch-go/old/utils/packages"
+	"github.com/fdaines/arch-go/internal/utils/packages"
 )
 
 func TestGetPackages(t *testing.T) {
@@ -22,18 +22,18 @@ func TestGetPackages(t *testing.T) {
 					PkgPath: "io",
 				},
 				{
-					PkgPath: "github.com/fdaines/arch-go/old/report/console",
+					PkgPath: "github.com/fdaines/arch-go/internal/reports/console",
 				},
 			}, nil
 		})
 		defer loadPatch.Reset()
 
-		pkgs, _ := packages.GetBasicPackagesInfo(true)
+		pkgs, _ := packages.GetBasicPackagesInfo("foo", true)
 
 		assert.Equal(t, 3, len(pkgs))
 		assert.Equal(t, "fmt", pkgs[0].Name)
 		assert.Equal(t, "io", pkgs[1].Name)
 		assert.Equal(t, "console", pkgs[2].Name)
-		assert.Equal(t, "github.com/fdaines/arch-go/old/report/console", pkgs[2].Path)
+		assert.Equal(t, "github.com/fdaines/arch-go/internal/reports/console", pkgs[2].Path)
 	})
 }

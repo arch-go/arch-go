@@ -3,6 +3,8 @@ package reports
 import (
 	"testing"
 
+	model2 "github.com/fdaines/arch-go/internal/reports/model"
+
 	"github.com/fdaines/arch-go/internal/model"
 	"github.com/fdaines/arch-go/internal/utils/values"
 	"github.com/fdaines/arch-go/pkg/config"
@@ -242,7 +244,7 @@ func TestCoverageResolver(t *testing.T) {
 			Threshold: &config.Threshold{},
 		}
 
-		expectedResult := &ThresholdSummary{
+		expectedResult := &model2.ThresholdSummary{
 			Rate:       0,
 			Threshold:  0,
 			Status:     "PASS",
@@ -265,7 +267,7 @@ func TestCoverageResolver(t *testing.T) {
 			},
 		}
 
-		expectedResult := &ThresholdSummary{
+		expectedResult := &model2.ThresholdSummary{
 			Rate:       0,
 			Threshold:  100,
 			Status:     "FAIL",
@@ -302,7 +304,7 @@ func TestCoverageResolver(t *testing.T) {
 			},
 		}
 
-		expectedResult := &ThresholdSummary{
+		expectedResult := &model2.ThresholdSummary{
 			Rate:       100,
 			Threshold:  100,
 			Status:     "PASS",
@@ -338,7 +340,7 @@ func TestCoverageResolver(t *testing.T) {
 			},
 		}
 
-		expectedResult := &ThresholdSummary{
+		expectedResult := &model2.ThresholdSummary{
 			Rate:       80,
 			Threshold:  78,
 			Status:     "PASS",

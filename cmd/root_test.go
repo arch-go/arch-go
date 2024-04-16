@@ -27,7 +27,7 @@ func TestRootCommand(t *testing.T) {
 		patch := monkey.ApplyFunc(os.Exit, osExit)
 		defer patch.Reset()
 
-		commandToRun = func() bool {
+		commandToRun = func(_ io.Writer) bool {
 			return false
 		}
 
@@ -44,7 +44,7 @@ func TestRootCommand(t *testing.T) {
 		}
 		patch := monkey.ApplyFunc(os.Exit, osExit)
 		defer patch.Reset()
-		commandToRun = func() bool {
+		commandToRun = func(_ io.Writer) bool {
 			return true
 		}
 

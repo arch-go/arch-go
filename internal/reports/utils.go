@@ -1,5 +1,7 @@
 package reports
 
+import "github.com/fdaines/arch-go/internal/reports/model"
+
 func resolveRuleStatus(failed int) string {
 	if failed > 0 {
 		return failStatus
@@ -15,7 +17,7 @@ func checkVerificationStatus(passes bool, vFailed *int) string {
 	return passStatus
 }
 
-func resolveVerificationStatus(passes bool, verificationDetails *Verification) {
+func resolveVerificationStatus(passes bool, verificationDetails *model.Verification) {
 	if passes {
 		verificationDetails.Passed++
 	} else {
@@ -24,7 +26,7 @@ func resolveVerificationStatus(passes bool, verificationDetails *Verification) {
 	verificationDetails.Total++
 }
 
-func resolveGlobalStatus(compliance *ThresholdSummary, coverage *ThresholdSummary) string {
+func resolveGlobalStatus(compliance *model.ThresholdSummary, coverage *model.ThresholdSummary) string {
 	passCompliance := false
 	if compliance == nil || compliance.Status == passStatus {
 		passCompliance = true

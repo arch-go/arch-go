@@ -1,11 +1,12 @@
 package reports
 
 import (
+	"github.com/fdaines/arch-go/internal/reports/model"
 	"github.com/fdaines/arch-go/pkg/config"
 	"github.com/fdaines/arch-go/pkg/verifications"
 )
 
-func resolveCompliance(r *verifications.Result, c config.Config) *ThresholdSummary {
+func resolveCompliance(r *verifications.Result, c config.Config) *model.ThresholdSummary {
 	passesVerifications, totalVerifications := resolveTotals(r)
 
 	rate := 0
@@ -25,7 +26,7 @@ func resolveCompliance(r *verifications.Result, c config.Config) *ThresholdSumma
 		violations = append(violations, "")
 	}
 
-	return &ThresholdSummary{
+	return &model.ThresholdSummary{
 		Rate:       rate,
 		Threshold:  threshold,
 		Status:     status,
