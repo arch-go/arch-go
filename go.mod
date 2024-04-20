@@ -3,14 +3,12 @@ module github.com/fdaines/arch-go
 go 1.18
 
 require (
-	bou.ke/monkey v1.0.2
 	github.com/agiledragon/gomonkey/v2 v2.11.0
 	github.com/fatih/color v1.14.1
 	github.com/jedib0t/go-pretty/v6 v6.4.0
 	github.com/spf13/cobra v1.8.0
 	github.com/spf13/viper v1.18.2
 	github.com/stretchr/testify v1.9.0
-	golang.org/x/mod v0.12.0
 	golang.org/x/tools v0.13.0
 	gopkg.in/yaml.v2 v2.4.0
 )
@@ -38,6 +36,7 @@ require (
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/multierr v1.9.0 // indirect
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
+	golang.org/x/mod v0.12.0 // indirect
 	golang.org/x/sys v0.15.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect

@@ -1,8 +1,6 @@
 package reports
 
 import (
-	"fmt"
-
 	"github.com/fdaines/arch-go/internal/common"
 	"github.com/fdaines/arch-go/internal/model"
 	reportModel "github.com/fdaines/arch-go/internal/reports/model"
@@ -44,7 +42,6 @@ func generateCoverageInfo(moduleInfo model.ModuleInfo, result *verifications.Res
 		if cr+dr+fr+nr > 0 {
 			status = "YES"
 		}
-		fmt.Printf("Package[%s] --> (%v)(%v)(%v)(%v)\n", pkg.Path, cr, dr, fr, nr)
 		coverageInfo = append(coverageInfo, reportModel.CoverageInfo{
 			Package:           pkg.Path,
 			ContensRules:      cr,

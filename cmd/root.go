@@ -5,6 +5,12 @@ import (
 	"io"
 	"os"
 
+	"github.com/fdaines/arch-go/internal/model"
+	"github.com/fdaines/arch-go/internal/reports"
+	"github.com/fdaines/arch-go/internal/utils/packages"
+	"github.com/fdaines/arch-go/pkg/config"
+	"github.com/fdaines/arch-go/pkg/verifications"
+
 	"github.com/fdaines/arch-go/internal/common"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -61,5 +67,22 @@ func initConfig() {
 }
 
 func runRootCommand(out io.Writer) bool {
+	configuration, err := config.LoadConfig(viper.ConfigFileUsed())
+	if err != nil {
+		fmt.Fprintf(out, "Error: %+v\n", err)
+		os.Exit(1)
+		return false
+	}
+	mainPackage, _ := packages.GetMainPackage()
+	packages, _ := packages.GetBasicPackagesInfo(mainPackage, false)
+	moduleInfo := model.ModuleInfo{
+		MainPackage: mainPackage,
+		Packages:    packages,
+	}
+
+	result := verifications.CheckArchitecture(moduleInfo, *configuration)
+	report := reports.GenerateReport(result, moduleInfo, *configuration)
+	reports.DisplayResult(report, out)
+
 	return true
 }

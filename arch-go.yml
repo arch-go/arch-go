@@ -3,12 +3,36 @@ threshold:
   compliance: 100
   coverage: 100
 dependenciesRules:
-- package: 'main'
-  shouldOnlyDependsOn:
+- package: '**.internal.**'
+  shouldNotDependsOn:
     internal:
-      - '**.arch-go.cmd'
-- package: '**.arch-go.cmd'
+      - '**.arch-go.cmd.**'
+- package: '**.pkg.**'
+  shouldNotDependsOn:
+    internal:
+      - '**.arch-go.cmd.**'
+- package: '**.arch-go.**'
   shouldOnlyDependsOn:
     external:
+    - github.com/agiledragon/gomonkey/v2
+    - github.com/fatih/color
+    - github.com/jedib0t/go-pretty/v6
     - github.com/spf13/cobra
     - github.com/spf13/viper
+    - github.com/stretchr/testify
+    - golang.org/x/tools
+    - gopkg.in/yaml.v2
+functionsRules:
+  - package: '**.arch-go.**'
+    maxParameters: 3
+    maxReturnValues: 2
+    maxLines: 50
+    maxPublicFunctionPerFile: 3
+contentsRules:
+  - package: '**.model.**'
+    shouldOnlyContainStructs: true
+namingRules:
+  - package: '**.arch-go.**'
+    interfaceImplementationNamingRule:
+      structsThatImplement: 'Command'
+      shouldHaveSimpleNameEndingWith: 'Command'

@@ -32,7 +32,7 @@ func NewArchitectureAnalysis(m model.ModuleInfo, c config.Config) *architectureA
 	}
 }
 
-func (a *architectureAnalysis) Run() (*Result, error) {
+func (a *architectureAnalysis) Execute() (*Result, error) {
 	verificationResult := &Result{
 		Time:   time.Now(),
 		Passes: true,

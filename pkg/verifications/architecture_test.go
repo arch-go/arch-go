@@ -84,7 +84,7 @@ func TestArchitecture(t *testing.T) {
 			withContentsRulesVerification(contentsRulesVerification).
 			withNamingRulesVerification(namingRulesVerification)
 
-		result, err := architectureAnalysis.Run()
+		result, err := architectureAnalysis.Execute()
 
 		assert.Nil(t, err)
 		assert.Equal(t, expectedResult, result)
@@ -118,7 +118,7 @@ func TestArchitecture(t *testing.T) {
 			withContentsRulesVerification(contentsRulesVerification).
 			withNamingRulesVerification(namingRulesVerification)
 
-		result, err := architectureAnalysis.Run()
+		result, err := architectureAnalysis.Execute()
 
 		assert.Nil(t, err)
 		assert.Equal(t, expectedResult, result)
@@ -152,7 +152,7 @@ func TestArchitecture(t *testing.T) {
 			withContentsRulesVerification(contentsRulesVerification).
 			withNamingRulesVerification(namingRulesVerification)
 
-		result, err := architectureAnalysis.Run()
+		result, err := architectureAnalysis.Execute()
 
 		assert.Nil(t, err)
 		assert.Equal(t, expectedResult, result)
@@ -186,7 +186,7 @@ func TestArchitecture(t *testing.T) {
 			withContentsRulesVerification(contentsRulesVerification).
 			withNamingRulesVerification(namingRulesVerification)
 
-		result, err := architectureAnalysis.Run()
+		result, err := architectureAnalysis.Execute()
 
 		assert.Nil(t, err)
 		assert.Equal(t, expectedResult, result)
@@ -207,7 +207,7 @@ func TestArchitecture(t *testing.T) {
 
 		architectureAnalysis := NewArchitectureAnalysis(moduleInfo, configuration)
 
-		result, err := architectureAnalysis.Run()
+		result, err := architectureAnalysis.Execute()
 
 		assert.Nil(t, err)
 		assert.Equal(t, expectedResult, result)
@@ -260,7 +260,7 @@ func TestArchitecture(t *testing.T) {
 
 		architectureAnalysis := NewArchitectureAnalysis(moduleInfo, configuration)
 
-		result, err := architectureAnalysis.Run()
+		result, err := architectureAnalysis.Execute()
 
 		assert.Nil(t, err)
 		assert.Equal(t, expectedResult, result)
@@ -277,7 +277,7 @@ func TestArchitecture(t *testing.T) {
 
 		architectureAnalysis := NewArchitectureAnalysis(moduleInfo, configuration)
 
-		result, err := architectureAnalysis.Run()
+		result, err := architectureAnalysis.Execute()
 
 		assert.Nil(t, err)
 		assert.Equal(t, expectedResult, result)

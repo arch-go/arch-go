@@ -378,7 +378,7 @@ body {
     margin-top: 5px;
 }
 
-.threshold-badges {
+.summary-badges {
     margin-top: 40px;
 }
 
@@ -395,11 +395,10 @@ body {
 }
 .badge-progress .badge-header {
     padding: 15px 20px 40px;
-    height: 80px;
+    height: 70px;
 }
 .badge-progress .badge-header .rate {
-    font-size: 4em;
-    width: 230px;
+    font-size: 3em;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
@@ -421,7 +420,7 @@ body {
 }
 .badge-progress .badge-footer {
     padding: 10px;
-    height: 85px;
+    height: 95px;
     text-align: center;
     background: rgba(0,0,0,0.1);
     -webkit-background-clip: padding-box;
@@ -473,9 +472,37 @@ body {
     text-align:center
 }
 .package-details {
-    padding-left: 10px;
     min-height: 30px;
     padding-top: 5px;
     padding-bottom: 5px;
     vertical-align: middle;
+}
+
+.content-tabs {
+    padding-bottom: 0px;
+}
+.nav-tabs {
+    border-bottom: none !important;
+}
+.nav-link {
+    color: #777;
+}
+.nav-link:hover,
+.nav-link:focus {
+    color: #777;
+    background-color: #ddd;
+    border-color: transparent;
+}
+
+.summary-timer {
+    width: 40px;
+    height: 40px;
+    float: right;
+}
+
+.summary-run {
+    width: 100%;
+}
+.summary-run td {
+    height: 25px;
 }

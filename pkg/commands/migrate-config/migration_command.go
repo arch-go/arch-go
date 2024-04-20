@@ -13,19 +13,19 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-type command struct {
+type migrateConfigCommand struct {
 	commands.BaseCommand
 	path string
 }
 
-func NewCommand(output io.Writer, path string) command {
-	return command{
+func NewCommand(output io.Writer, path string) migrateConfigCommand {
+	return migrateConfigCommand{
 		commands.BaseCommand{Output: output},
 		path,
 	}
 }
 
-func (dc command) Run() {
+func (dc migrateConfigCommand) Run() {
 	var exitCode int
 	timer.ExecuteWithTimer(func() {
 		configuration := MigrateConfigurationCommand(dc.Output, dc.path)

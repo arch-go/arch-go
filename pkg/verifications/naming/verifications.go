@@ -90,5 +90,11 @@ func checkInterfaceImplementationNamingRule(interfaces []InterfaceDescription, r
 }
 
 func checkStruct(s StructDescription, i InterfaceDescription) bool {
-	return false
+	ok := implementsInterface(s, i)
+	if ok {
+		fmt.Printf("Struct [%s] implements interface [%s]\n", s.Name, i.Name)
+		return false
+	}
+	fmt.Printf("Struct [%s] doesn't implements interface [%s]\n", s.Name, i.Name)
+	return true
 }

@@ -7,7 +7,7 @@ import (
 
 func CheckArchitecture(moduleInfo model.ModuleInfo, config config.Config) *Result {
 	architecture := NewArchitectureAnalysis(moduleInfo, config)
-	result, _ := architecture.Run()
+	result, _ := architecture.Execute()
 
 	return result
 }

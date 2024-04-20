@@ -8,5 +8,5 @@ var templateFiles embed.FS
 //go:embed assets/*.css
 var styles embed.FS
 
-//go:embed assets/logo.png
+//go:embed assets/*.png
 var images embed.FS

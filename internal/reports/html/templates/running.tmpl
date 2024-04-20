@@ -1,9 +1,24 @@
 {{define "running" -}}
-<div class="col-sm-12">
-    <div style="float:right">
-        <div><b>Run on: </b>{{formatDate .Time}}</div>
-        <div><b>Took: </b>{{toHumanTime .Duration}}</div>
+<div class="col-sm-2 summary-badges">
+    <div class="card" style="height:175px">
+        <div class="card-body">
+            <img src="timer.png" alt="" class="summary-timer" />
+            <h4 style="margin-top: 10px;margin-bottom:35px;">Last Update</h4>
+            <table class="summary-run">
+                <tr>
+                    <td style="width:40px;font-weight:bold">On</td>
+                    <td style="text-align:right">{{formatDate .Time}}</td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold">At</td>
+                    <td style="text-align:right">{{formatTime .Time}}</td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold">Took</td>
+                    <td style="text-align:right">{{toHumanTime .Duration}}</td>
+                </tr>
+            </table>
+        </div>
     </div>
-    <div style="clear:both;"></div>
 </div>
 {{end}}

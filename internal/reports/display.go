@@ -4,16 +4,21 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/fdaines/arch-go/internal/common"
 	"github.com/fdaines/arch-go/internal/reports/console"
 	"github.com/fdaines/arch-go/internal/reports/html"
+
 	"github.com/fdaines/arch-go/internal/reports/model"
 
 	"github.com/fatih/color"
 )
 
 func DisplayResult(report *model.Report, output io.Writer) {
-	console.GenerateConsoleReport(report, output)
-	html.GenerateHtmlReport(report, output)
+	if common.Html {
+		html.GenerateHtmlReport(report, output)
+	} else {
+		console.GenerateConsoleReport(report, output)
+	}
 	displaySummary(report.Summary, output)
 }
 

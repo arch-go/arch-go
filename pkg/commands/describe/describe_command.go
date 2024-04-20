@@ -13,19 +13,19 @@ import (
 	"github.com/fdaines/arch-go/pkg/config"
 )
 
-type command struct {
+type describeCommand struct {
 	commands.BaseCommand
 	configuration *config.Config
 }
 
-func NewCommand(configuration *config.Config, output io.Writer) command {
-	return command{
+func NewCommand(configuration *config.Config, output io.Writer) describeCommand {
+	return describeCommand{
 		BaseCommand:   commands.BaseCommand{Output: output},
 		configuration: configuration,
 	}
 }
 
-func (dc command) Run() {
+func (dc describeCommand) Run() {
 	var exitCode int
 	timer.ExecuteWithTimer(func() {
 		exitCode = runDescribeCommand(dc)
@@ -33,7 +33,7 @@ func (dc command) Run() {
 	os.Exit(exitCode)
 }
 
-func runDescribeCommand(dc command) int {
+func runDescribeCommand(dc describeCommand) int {
 	err := validators.ValidateConfiguration(dc.configuration)
 	if err != nil {
 		fmt.Fprintf(dc.Output, "Invalid Configuration: %+v\n", err)

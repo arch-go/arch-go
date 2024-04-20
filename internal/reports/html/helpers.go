@@ -27,6 +27,8 @@ func copyAssets() {
 	os.WriteFile(".arch-go/report.css", cssByteArray, 0o644)
 	logoPng, _ := images.ReadFile("assets/logo.png")
 	os.WriteFile(".arch-go/logo.png", logoPng, 0o644)
+	timerPng, _ := images.ReadFile("assets/timer.png")
+	os.WriteFile(".arch-go/timer.png", timerPng, 0o644)
 }
 
 func isTestRun() bool {
