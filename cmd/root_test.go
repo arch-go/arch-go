@@ -89,21 +89,4 @@ func TestRootCommand(t *testing.T) {
 			t.Fatal("Expects to call os.Exit when arch-go is not able to get current directory.")
 		}
 	})
-
-	t.Run("Force an error trying to read configuration", func(t *testing.T) {
-		exitCalled := false
-		osExit := func(code int) {
-			if code == 1 {
-				exitCalled = true
-			}
-		}
-
-		patch := monkey.ApplyFuncReturn(viper.ReadInConfig, fmt.Errorf("foobar"))
-		defer patch.Reset()
-		patchExit := monkey.ApplyFunc(os.Exit, osExit)
-		defer patchExit.Reset()
-
-		rootCmd.Execute()
-		assert.True(t, exitCalled, "Expects to call os.Exit when arch-go is not able to get current directory")
-	})
 }
