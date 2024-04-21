@@ -37,37 +37,53 @@ func resolveCompliance(r *verifications.Result, c config.Config) *model.Threshol
 func resolveTotals(r *verifications.Result) (int, int) {
 	total := 0
 	passes := 0
+	countDependenciesRuleResults(r, &passes, &total)
+	countFunctionsRuleResults(r, &passes, &total)
+	countContentsRuleResults(r, &passes, &total)
+	countNamingRuleResults(r, &passes, &total)
+	return passes, total
+}
+
+func countDependenciesRuleResults(r *verifications.Result, passes *int, total *int) {
 	if r.DependenciesRuleResult != nil {
 		for _, dr := range r.DependenciesRuleResult.Results {
 			if dr.Passes {
-				passes++
+				*passes++
 			}
-			total++
+			*total++
 		}
 	}
+}
+
+func countFunctionsRuleResults(r *verifications.Result, passes *int, total *int) {
 	if r.FunctionsRuleResult != nil {
 		for _, dr := range r.FunctionsRuleResult.Results {
 			if dr.Passes {
-				passes++
+				*passes++
 			}
-			total++
+			*total++
 		}
 	}
+}
+
+func countContentsRuleResults(r *verifications.Result, passes *int, total *int) {
 	if r.ContentsRuleResult != nil {
 		for _, dr := range r.ContentsRuleResult.Results {
 			if dr.Passes {
-				passes++
+				*passes++
 			}
-			total++
+			*total++
 		}
 	}
+}
+
+func countNamingRuleResults(r *verifications.Result, passes *int, total *int) {
 	if r.NamingRuleResult != nil {
 		for _, dr := range r.NamingRuleResult.Results {
 			if dr.Passes {
-				passes++
+				*passes++
 			}
-			total++
+			*total++
 		}
 	}
-	return passes, total
 }

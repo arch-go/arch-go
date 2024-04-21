@@ -47,27 +47,15 @@ func checkPackagesCoverage(r *verifications.Result, m model.ModuleInfo) map[stri
 		moduleContents[pkg.Path] = false
 	}
 
-	if r.DependenciesRuleResult != nil {
-		for _, dr := range r.DependenciesRuleResult.Results {
-			for _, v := range dr.Verifications {
-				updatePackage(moduleContents, v.Package)
-			}
-		}
-	}
-	if r.FunctionsRuleResult != nil {
-		for _, dr := range r.FunctionsRuleResult.Results {
-			for _, v := range dr.Verifications {
-				updatePackage(moduleContents, v.Package)
-			}
-		}
-	}
-	if r.ContentsRuleResult != nil {
-		for _, dr := range r.ContentsRuleResult.Results {
-			for _, v := range dr.Verifications {
-				updatePackage(moduleContents, v.Package)
-			}
-		}
-	}
+	checkDependenciesRules(r, moduleContents)
+	checkFunctionsRules(r, moduleContents)
+	checkContentsRules(r, moduleContents)
+	checkNamingRules(r, moduleContents)
+
+	return moduleContents
+}
+
+func checkNamingRules(r *verifications.Result, moduleContents map[string]bool) {
 	if r.NamingRuleResult != nil {
 		for _, dr := range r.NamingRuleResult.Results {
 			for _, v := range dr.Verifications {
@@ -75,8 +63,36 @@ func checkPackagesCoverage(r *verifications.Result, m model.ModuleInfo) map[stri
 			}
 		}
 	}
+}
 
-	return moduleContents
+func checkContentsRules(r *verifications.Result, moduleContents map[string]bool) {
+	if r.ContentsRuleResult != nil {
+		for _, dr := range r.ContentsRuleResult.Results {
+			for _, v := range dr.Verifications {
+				updatePackage(moduleContents, v.Package)
+			}
+		}
+	}
+}
+
+func checkFunctionsRules(r *verifications.Result, moduleContents map[string]bool) {
+	if r.FunctionsRuleResult != nil {
+		for _, dr := range r.FunctionsRuleResult.Results {
+			for _, v := range dr.Verifications {
+				updatePackage(moduleContents, v.Package)
+			}
+		}
+	}
+}
+
+func checkDependenciesRules(r *verifications.Result, moduleContents map[string]bool) {
+	if r.DependenciesRuleResult != nil {
+		for _, dr := range r.DependenciesRuleResult.Results {
+			for _, v := range dr.Verifications {
+				updatePackage(moduleContents, v.Package)
+			}
+		}
+	}
 }
 
 func updatePackage(moduleContents map[string]bool, pkg string) {

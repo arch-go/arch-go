@@ -3,6 +3,8 @@ package validators
 import (
 	"fmt"
 
+	"github.com/fdaines/arch-go/internal/utils/values"
+
 	"github.com/fdaines/arch-go/pkg/config"
 )
 
@@ -72,16 +74,16 @@ func validateFunctionRules(rules []*config.FunctionsRule) error {
 			return fmt.Errorf("function rule - At least one criteria should be set")
 		}
 
-		if rule.MaxParameters != nil && *rule.MaxParameters < 0 {
+		if values.IsLessThanZero(rule.MaxParameters) {
 			return fmt.Errorf("function rule - MaxParameters is less than zero")
 		}
-		if rule.MaxLines != nil && *rule.MaxLines < 0 {
+		if values.IsLessThanZero(rule.MaxLines) {
 			return fmt.Errorf("function rule - MaxLines is less than zero")
 		}
-		if rule.MaxReturnValues != nil && *rule.MaxReturnValues < 0 {
+		if values.IsLessThanZero(rule.MaxReturnValues) {
 			return fmt.Errorf("function rule - MaxReturnValues is less than zero")
 		}
-		if rule.MaxPublicFunctionPerFile != nil && *rule.MaxPublicFunctionPerFile < 0 {
+		if values.IsLessThanZero(rule.MaxPublicFunctionPerFile) {
 			return fmt.Errorf("function rule - MaxPublicFunctionPerFile is less than zero")
 		}
 	}
