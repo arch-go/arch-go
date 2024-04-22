@@ -30,10 +30,12 @@ func ValidateConfiguration(configuration *config.Config) error {
 }
 
 func checkRulesQuantity(c *config.Config) error {
-	fmt.Printf("Config: %+v\n", c)
-	total := len(c.ContentRules) + len(c.DependenciesRules) + len(c.FunctionsRules) + len(c.NamingRules)
-	if total == 0 {
+	if countRules(c) == 0 {
 		return fmt.Errorf("configuration file should have at least one rule")
 	}
 	return nil
+}
+
+func countRules(c *config.Config) int {
+	return len(c.ContentRules) + len(c.DependenciesRules) + len(c.FunctionsRules) + len(c.NamingRules)
 }

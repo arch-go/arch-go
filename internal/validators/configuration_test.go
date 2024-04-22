@@ -71,6 +71,80 @@ func TestValidateConfiguration(t *testing.T) {
 		assert.Nil(t, result, "Valid configuration should not generate an error")
 	})
 
+	t.Run("valid configuration - only dependencies rules", func(t *testing.T) {
+		configuration := &config.Config{
+			Version:   1,
+			Threshold: nil,
+			DependenciesRules: []*config.DependenciesRule{
+				{
+					Package: "foobar",
+					ShouldOnlyDependsOn: &config.Dependencies{
+						Internal: []string{"time"},
+					},
+				},
+			},
+		}
+
+		result := ValidateConfiguration(configuration)
+		assert.Nil(t, result, "Valid configuration should not generate an error")
+	})
+
+	t.Run("valid configuration - only functions rules", func(t *testing.T) {
+		configuration := &config.Config{
+			Version:   1,
+			Threshold: nil,
+			FunctionsRules: []*config.FunctionsRule{
+				{
+					Package:                  "foobar4",
+					MaxPublicFunctionPerFile: values.GetIntRef(1),
+				},
+			},
+		}
+
+		result := ValidateConfiguration(configuration)
+		assert.Nil(t, result, "Valid configuration should not generate an error")
+	})
+
+	t.Run("valid configuration - only contents rules", func(t *testing.T) {
+		configuration := &config.Config{
+			Version:   1,
+			Threshold: nil,
+			ContentRules: []*config.ContentsRule{
+				{
+					Package:                  "foobar1",
+					ShouldOnlyContainStructs: true,
+				},
+			},
+		}
+
+		result := ValidateConfiguration(configuration)
+		assert.Nil(t, result, "Valid configuration should not generate an error")
+	})
+
+	t.Run("valid configuration - only naming rules", func(t *testing.T) {
+		configuration := &config.Config{
+			Version:   1,
+			Threshold: nil,
+			NamingRules: []*config.NamingRule{
+				{
+					Package: "foobar",
+					InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
+						StructsThatImplement:           "bla",
+						ShouldHaveSimpleNameEndingWith: "foo",
+					},
+				},
+			},
+		}
+
+		result := ValidateConfiguration(configuration)
+		assert.Nil(t, result, "Valid configuration should not generate an error")
+	})
+
+	t.Run("invalid configuration - nil object", func(t *testing.T) {
+		result := ValidateConfiguration(nil)
+		assert.Equal(t, "configuration file not found", result.Error(), "Invalid configuration should return an error")
+	})
+
 	t.Run("invalid configuration - no rules", func(t *testing.T) {
 		configuration := &config.Config{
 			Version:           1,
@@ -398,5 +472,44 @@ func TestValidateConfiguration(t *testing.T) {
 
 		result := ValidateConfiguration(configuration)
 		assert.Equal(t, result.Error(), "dependencies rule - ShouldOnlyDependsOn needs at least one of 'External', 'Internal' or 'Standard'", "Invalid configuration should return an error")
+	})
+
+	t.Run("test count rules", func(t *testing.T) {
+		configuration := &config.Config{
+			Version:   1,
+			Threshold: nil,
+			DependenciesRules: []*config.DependenciesRule{
+				{
+					Package: "foobar",
+					ShouldOnlyDependsOn: &config.Dependencies{
+						Internal: []string{"time"},
+					},
+				},
+			},
+			ContentRules: []*config.ContentsRule{
+				{
+					Package:                  "foobar1",
+					ShouldOnlyContainStructs: true,
+				},
+			},
+			FunctionsRules: []*config.FunctionsRule{
+				{
+					Package:                  "foobar4",
+					MaxPublicFunctionPerFile: values.GetIntRef(1),
+				},
+			},
+			NamingRules: []*config.NamingRule{
+				{
+					Package: "foobar",
+					InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
+						StructsThatImplement:           "bla",
+						ShouldHaveSimpleNameEndingWith: "foo",
+					},
+				},
+			},
+		}
+
+		result := countRules(configuration)
+		assert.Equal(t, 4, result, "Expects 4 rules.")
 	})
 }

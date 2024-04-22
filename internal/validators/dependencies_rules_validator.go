@@ -31,7 +31,7 @@ func validateDependencyRules(rules []*config.DependenciesRule) error {
 
 func checkShouldOnlyDependsOn(rule *config.DependenciesRule) error {
 	if rule.ShouldOnlyDependsOn != nil {
-		if len(rule.ShouldOnlyDependsOn.External)+len(rule.ShouldOnlyDependsOn.Internal)+len(rule.ShouldOnlyDependsOn.Standard) == 0 {
+		if dependenciesSize(rule.ShouldNotDependsOn) == 0 {
 			return fmt.Errorf("dependencies rule - ShouldOnlyDependsOn needs at least one of 'External', 'Internal' or 'Standard'")
 		}
 	}
@@ -40,11 +40,15 @@ func checkShouldOnlyDependsOn(rule *config.DependenciesRule) error {
 
 func checkShouldNotDependsOn(rule *config.DependenciesRule) error {
 	if rule.ShouldNotDependsOn != nil {
-		if len(rule.ShouldNotDependsOn.External)+len(rule.ShouldNotDependsOn.Internal)+len(rule.ShouldNotDependsOn.Standard) == 0 {
+		if dependenciesSize(rule.ShouldNotDependsOn) == 0 {
 			return fmt.Errorf("dependencies rule - ShouldNotDependsOn needs at least one of 'External', 'Internal' or 'Standard'")
 		}
 	}
 	return nil
+}
+
+func dependenciesSize(d *config.Dependencies) int {
+	return len(d.External) + len(d.Internal) + len(d.Standard)
 }
 
 func checkAtMostOneCriteria(rule *config.DependenciesRule) bool {
