@@ -74,7 +74,7 @@ func runRootCommand(out io.Writer) bool {
 		return false
 	}
 	mainPackage, _ := packages.GetMainPackage()
-	packages, _ := packages.GetBasicPackagesInfo(mainPackage, out, false)
+	packages, _ := packages.GetBasicPackagesInfo(mainPackage, out, common.Verbose)
 	moduleInfo := model.ModuleInfo{
 		MainPackage: mainPackage,
 		Packages:    packages,

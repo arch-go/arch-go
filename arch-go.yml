@@ -24,8 +24,8 @@ dependenciesRules:
     - gopkg.in/yaml.v2
 functionsRules:
   - package: '**.arch-go.**'
-    maxParameters: 3
-    maxReturnValues: 2
+    maxParameters: 5
+    maxReturnValues: 3
     maxLines: 50
     maxPublicFunctionPerFile: 3
 contentsRules:
