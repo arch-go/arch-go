@@ -31,7 +31,7 @@ func validateDependencyRules(rules []*config.DependenciesRule) error {
 
 func checkShouldOnlyDependsOn(rule *config.DependenciesRule) error {
 	if rule.ShouldOnlyDependsOn != nil {
-		if dependenciesSize(rule.ShouldNotDependsOn) == 0 {
+		if dependenciesSize(rule.ShouldOnlyDependsOn) == 0 {
 			return fmt.Errorf("dependencies rule - ShouldOnlyDependsOn needs at least one of 'External', 'Internal' or 'Standard'")
 		}
 	}
