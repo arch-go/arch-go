@@ -32,11 +32,13 @@ func appendFooter(t table.Writer, title string, threshold *model.ThresholdSummar
 }
 
 func appendSummary(t table.Writer, report *model.Report) {
-	t.AppendHeader(table.Row{"#", "Rule Type", "Total", "Passed", "Failed"})
-	appendSummaryRow(t, 1, "Dependencies Rules", report.Details.DependenciesVerificationDetails)
-	appendSummaryRow(t, 2, "Functions Rules", report.Details.FunctionsVerificationDetails)
-	appendSummaryRow(t, 3, "Contents Rules", report.Details.ContentsVerificationDetails)
-	appendSummaryRow(t, 4, "Naming Rules", report.Details.NamingVerificationDetails)
+	if report.Details != nil {
+		t.AppendHeader(table.Row{"#", "Rule Type", "Total", "Passed", "Failed"})
+		appendSummaryRow(t, 1, "Dependencies Rules", report.Details.DependenciesVerificationDetails)
+		appendSummaryRow(t, 2, "Functions Rules", report.Details.FunctionsVerificationDetails)
+		appendSummaryRow(t, 3, "Contents Rules", report.Details.ContentsVerificationDetails)
+		appendSummaryRow(t, 4, "Naming Rules", report.Details.NamingVerificationDetails)
+	}
 }
 
 func appendSummaryRow(t table.Writer, idx int, title string, d model.Verification) {
