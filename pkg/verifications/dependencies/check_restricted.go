@@ -15,19 +15,18 @@ func checkRestrictedStandardImports(pkg string, restricted []string, moduleInfo 
 		return true, nil
 	}
 	var details []string
-	fails := false
+	failure := false
 	if !strings.HasPrefix(pkg, moduleInfo.MainPackage) && packages.IsStandardPackage(pkg) {
-		fails = false
 		for _, restrictedImport := range restricted {
 			restrictedImportRegexp, _ := regexp.Compile(text.PreparePackageRegexp(restrictedImport))
-			fails = fails || restrictedImportRegexp.MatchString(pkg)
+			failure = failure || restrictedImportRegexp.MatchString(pkg)
 		}
-		if fails {
+		if failure {
 			details = append(details, fmt.Sprintf("ShouldNotDependsOn.Standard rule contains imported package '%s'", pkg))
 		}
 	}
 
-	return !fails, details
+	return !failure, details
 }
 
 func checkRestrictedExternalImports(pkg string, restricted []string, moduleInfo model.ModuleInfo) (bool, []string) {
@@ -35,19 +34,18 @@ func checkRestrictedExternalImports(pkg string, restricted []string, moduleInfo 
 		return true, nil
 	}
 	var details []string
-	fails := false
+	failure := false
 	if !strings.HasPrefix(pkg, moduleInfo.MainPackage) && packages.IsExternalPackage(pkg) {
-		fails = false
 		for _, restrictedImport := range restricted {
 			restrictedImportRegexp, _ := regexp.Compile(text.PreparePackageRegexp(restrictedImport))
-			fails = fails || restrictedImportRegexp.MatchString(pkg)
+			failure = failure || restrictedImportRegexp.MatchString(pkg)
 		}
-		if fails {
+		if failure {
 			details = append(details, fmt.Sprintf("ShouldNotDependsOn.External rule contains imported package '%s'", pkg))
 		}
 	}
 
-	return !fails, details
+	return !failure, details
 }
 
 func checkRestrictedInternalImports(pkg string, restricted []string, moduleInfo model.ModuleInfo) (bool, []string) {
@@ -55,17 +53,16 @@ func checkRestrictedInternalImports(pkg string, restricted []string, moduleInfo 
 		return true, nil
 	}
 	var details []string
-	fails := false
+	failure := false
 	if strings.HasPrefix(pkg, moduleInfo.MainPackage) {
-		fails = false
 		for _, restrictedImport := range restricted {
 			restrictedImportRegexp, _ := regexp.Compile(text.PreparePackageRegexp(restrictedImport))
-			fails = fails || restrictedImportRegexp.MatchString(pkg)
+			failure = failure || restrictedImportRegexp.MatchString(pkg)
 		}
-		if fails {
+		if failure {
 			details = append(details, fmt.Sprintf("ShouldNotDependsOn.Internal rule contains imported package '%s'", pkg))
 		}
 	}
 
-	return !fails, details
+	return !failure, details
 }
