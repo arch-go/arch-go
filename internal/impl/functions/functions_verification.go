@@ -47,22 +47,29 @@ func (d *FunctionsRuleVerification) Verify() bool {
 	result := true
 	for index, pd := range d.PackageDetails {
 		packagePasses := true
+		var ruleResult bool
+		var ruleDetails []string
 
-		ruleResult, ruleDetails := checkMaxParameters(pd.Package, d.Module, d.Rule.MaxParameters)
-		packagePasses = packagePasses && ruleResult
-		d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, ruleDetails...)
-
-		ruleResult, ruleDetails = checkMaxReturnValues(pd.Package, d.Module, d.Rule.MaxReturnValues)
-		packagePasses = packagePasses && ruleResult
-		d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, ruleDetails...)
-
-		ruleResult, ruleDetails = checkMaxLines(pd.Package, d.Module, d.Rule.MaxLines)
-		packagePasses = packagePasses && ruleResult
-		d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, ruleDetails...)
-
-		ruleResult, ruleDetails = checkMaxPublicFunctions(pd.Package, d.Module, d.Rule.MaxPublicFunctionPerFile)
-		packagePasses = packagePasses && ruleResult
-		d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, ruleDetails...)
+		if d.Rule.MaxParameters > 0 {
+			ruleResult, ruleDetails = checkMaxParameters(pd.Package, d.Module, d.Rule.MaxParameters)
+			packagePasses = packagePasses && ruleResult
+			d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, ruleDetails...)
+		}
+		if d.Rule.MaxReturnValues > 0 {
+			ruleResult, ruleDetails = checkMaxReturnValues(pd.Package, d.Module, d.Rule.MaxReturnValues)
+			packagePasses = packagePasses && ruleResult
+			d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, ruleDetails...)
+		}
+		if d.Rule.MaxLines > 0 {
+			ruleResult, ruleDetails = checkMaxLines(pd.Package, d.Module, d.Rule.MaxLines)
+			packagePasses = packagePasses && ruleResult
+			d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, ruleDetails...)
+		}
+		if d.Rule.MaxPublicFunctionPerFile > 0 {
+			ruleResult, ruleDetails = checkMaxPublicFunctions(pd.Package, d.Module, d.Rule.MaxPublicFunctionPerFile)
+			packagePasses = packagePasses && ruleResult
+			d.PackageDetails[index].Details = append(d.PackageDetails[index].Details, ruleDetails...)
+		}
 
 		d.PackageDetails[index].Passes = packagePasses
 		result = result && packagePasses
