@@ -1,3 +1,3 @@
 package common
 
-const Version = "1.5.0-pre"
+const Version = "1.5.0-alpha.1"
