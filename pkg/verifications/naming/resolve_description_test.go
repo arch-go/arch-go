@@ -3,6 +3,8 @@ package naming
 import (
 	"testing"
 
+	"github.com/fdaines/arch-go/internal/utils/values"
+
 	"github.com/fdaines/arch-go/pkg/config"
 	"github.com/stretchr/testify/assert"
 )
@@ -13,7 +15,7 @@ func TestResolveNamingRuleDescription(t *testing.T) {
 			Package: "foobar",
 			InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
 				StructsThatImplement:             "myInterface",
-				ShouldHaveSimpleNameStartingWith: "blabla",
+				ShouldHaveSimpleNameStartingWith: values.GetStringRef("blabla"),
 			},
 		}
 		expectedResult := `Packages matching pattern 'foobar' should comply with [structs that implement 'myInterface' should have simple name starting with 'blabla']`
@@ -28,7 +30,7 @@ func TestResolveNamingRuleDescription(t *testing.T) {
 			Package: "foobar",
 			InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
 				StructsThatImplement:           "myInterface",
-				ShouldHaveSimpleNameEndingWith: "blabla",
+				ShouldHaveSimpleNameEndingWith: values.GetStringRef("blabla"),
 			},
 		}
 		expectedResult := `Packages matching pattern 'foobar' should comply with [structs that implement 'myInterface' should have simple name ending with 'blabla']`

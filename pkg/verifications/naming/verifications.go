@@ -3,6 +3,7 @@ package naming
 import (
 	"fmt"
 	"regexp"
+	"strings"
 
 	"github.com/fdaines/arch-go/internal/model"
 	"github.com/fdaines/arch-go/internal/utils/text"
@@ -62,39 +63,48 @@ func checkNamingRule(pkg *model.PackageInfo, rule config.NamingRule, module mode
 }
 
 func checkInterfaceImplementationNamingRule(interfaces []InterfaceDescription, rule config.NamingRule, pkgs []*model.PackageInfo) (bool, []string) {
-	packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(rule.Package))
-
 	var details []string
 	var passes bool
 
 	for _, pkg := range pkgs {
-		if pkg != nil && packageRegExp.MatchString(pkg.Path) {
-			structs, _ := getStructsWithMethods(pkg)
-			if len(structs) > 0 {
-				passes = true
-				for _, s := range structs {
-					for _, i := range interfaces {
-						pass := checkStruct(s, i)
-						if !pass {
-							passes = false
-							details = append(details, fmt.Sprintf("Struct [%s] in Package [%s] does not match Naming Rule", s.Name, pkg.Path))
-						}
-					}
-				}
-			}
-
+		if packageMustBeAnalyzed(pkg, rule.Package) {
+			passes, details = analyzePackage(interfaces, pkg, passes, details, rule)
 		}
 	}
 
 	return passes, details
 }
 
-func checkStruct(s StructDescription, i InterfaceDescription) bool {
-	ok := implementsInterface(s, i)
-	if ok {
-		fmt.Printf("Struct [%s] implements interface [%s]\n", s.Name, i.Name)
-		return false
+func analyzePackage(interfaces []InterfaceDescription, pkg *model.PackageInfo, passes bool, details []string, rule config.NamingRule) (bool, []string) {
+	structs, _ := getStructsWithMethods(pkg)
+	if len(structs) > 0 {
+		passes = true
+		for _, s := range structs {
+			for _, i := range interfaces {
+				pass := checkStruct(s, i, rule.InterfaceImplementationNamingRule)
+				if !pass {
+					passes = false
+					details = append(details, fmt.Sprintf("Struct [%s] in Package [%s] does not match Naming Rule", s.Name, pkg.Path))
+				}
+			}
+		}
 	}
-	fmt.Printf("Struct [%s] doesn't implements interface [%s]\n", s.Name, i.Name)
+	return passes, details
+}
+
+func checkStruct(s StructDescription, i InterfaceDescription, rule *config.InterfaceImplementationRule) bool {
+	if implementsInterface(s, i) {
+		return checkStructName(s.Name, rule)
+	}
 	return true
+}
+
+func checkStructName(name string, rule *config.InterfaceImplementationRule) bool {
+	if rule.ShouldHaveSimpleNameEndingWith != nil {
+		return strings.HasSuffix(name, *rule.ShouldHaveSimpleNameEndingWith)
+	}
+	if rule.ShouldHaveSimpleNameStartingWith != nil {
+		return strings.HasPrefix(name, *rule.ShouldHaveSimpleNameStartingWith)
+	}
+	return false
 }

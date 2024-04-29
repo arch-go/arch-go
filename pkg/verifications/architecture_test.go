@@ -50,7 +50,7 @@ func TestArchitecture(t *testing.T) {
 				Package: "**.foobar.**",
 				InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
 					StructsThatImplement:           "*Command",
-					ShouldHaveSimpleNameEndingWith: "Foobar",
+					ShouldHaveSimpleNameEndingWith: values.GetStringRef("Foobar"),
 				},
 			},
 		},

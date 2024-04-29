@@ -88,14 +88,14 @@ func TestDescribeCommand(t *testing.T) {
 					Package: "foobar",
 					InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
 						StructsThatImplement:             "foo",
-						ShouldHaveSimpleNameStartingWith: "bla",
+						ShouldHaveSimpleNameStartingWith: values.GetStringRef("bla"),
 					},
 				},
 				{
 					Package: "barfoo",
 					InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
 						StructsThatImplement:           "foo",
-						ShouldHaveSimpleNameEndingWith: "anything",
+						ShouldHaveSimpleNameEndingWith: values.GetStringRef("anything"),
 					},
 				},
 			},

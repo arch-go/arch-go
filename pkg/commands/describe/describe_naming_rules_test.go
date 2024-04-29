@@ -5,6 +5,8 @@ import (
 	"io"
 	"testing"
 
+	"github.com/fdaines/arch-go/internal/utils/values"
+
 	"github.com/fdaines/arch-go/pkg/config"
 	"github.com/stretchr/testify/assert"
 )
@@ -17,14 +19,14 @@ func TestDescribeNamingRules(t *testing.T) {
 				Package: "foobar",
 				InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
 					StructsThatImplement:             "QWERTY",
-					ShouldHaveSimpleNameStartingWith: "test",
+					ShouldHaveSimpleNameStartingWith: values.GetStringRef("test"),
 				},
 			},
 			{
 				Package: "barfoo",
 				InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
 					StructsThatImplement:           "FOOBAR",
-					ShouldHaveSimpleNameEndingWith: "blablabla",
+					ShouldHaveSimpleNameEndingWith: values.GetStringRef("blablabla"),
 				},
 			},
 		}

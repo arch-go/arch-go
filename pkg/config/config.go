@@ -43,9 +43,9 @@ type NamingRule struct {
 }
 
 type InterfaceImplementationRule struct {
-	StructsThatImplement             string `yaml:"structsThatImplement"`
-	ShouldHaveSimpleNameStartingWith string `yaml:"shouldHaveSimpleNameStartingWith"`
-	ShouldHaveSimpleNameEndingWith   string `yaml:"shouldHaveSimpleNameEndingWith"`
+	StructsThatImplement             string  `yaml:"structsThatImplement"`
+	ShouldHaveSimpleNameStartingWith *string `yaml:"shouldHaveSimpleNameStartingWith"`
+	ShouldHaveSimpleNameEndingWith   *string `yaml:"shouldHaveSimpleNameEndingWith"`
 }
 
 type Threshold struct {

@@ -35,4 +35,4 @@ namingRules:
   - package: '**.arch-go.**'
     interfaceImplementationNamingRule:
       structsThatImplement: 'Command'
-      shouldHaveSimpleNameEndingWith: 'Command'
+      shouldHaveSimpleNameEndingWith: 'CommandFoobar'

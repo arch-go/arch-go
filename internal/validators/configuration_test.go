@@ -130,7 +130,7 @@ func TestValidateConfiguration(t *testing.T) {
 					Package: "foobar",
 					InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
 						StructsThatImplement:           "bla",
-						ShouldHaveSimpleNameEndingWith: "foo",
+						ShouldHaveSimpleNameEndingWith: values.GetStringRef("foo"),
 					},
 				},
 			},
@@ -503,7 +503,7 @@ func TestValidateConfiguration(t *testing.T) {
 					Package: "foobar",
 					InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
 						StructsThatImplement:           "bla",
-						ShouldHaveSimpleNameEndingWith: "foo",
+						ShouldHaveSimpleNameEndingWith: values.GetStringRef("foo"),
 					},
 				},
 			},

@@ -3,7 +3,11 @@ package naming
 import (
 	"fmt"
 	"go/ast"
+	"regexp"
 	"strings"
+
+	"github.com/fdaines/arch-go/internal/model"
+	"github.com/fdaines/arch-go/internal/utils/text"
 )
 
 func getPatternComparator(pattern string) (func(s string, prefix string) bool, string) {
@@ -49,4 +53,10 @@ func resolveStructName(ft *ast.FuncDecl) string {
 		return fmt.Sprintf("%v", ie.Name)
 	}
 	return ""
+}
+
+func packageMustBeAnalyzed(pkg *model.PackageInfo, packagePattern string) bool {
+	packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(packagePattern))
+
+	return pkg != nil && packageRegExp.MatchString(pkg.Path)
 }
