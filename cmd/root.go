@@ -5,13 +5,13 @@ import (
 	"io"
 	"os"
 
+	"github.com/fdaines/arch-go/pkg/archgo"
+	"github.com/fdaines/arch-go/pkg/archgo/configuration"
+
+	"github.com/fdaines/arch-go/internal/common"
 	"github.com/fdaines/arch-go/internal/model"
 	"github.com/fdaines/arch-go/internal/reports"
 	"github.com/fdaines/arch-go/internal/utils/packages"
-	"github.com/fdaines/arch-go/pkg/config"
-	"github.com/fdaines/arch-go/pkg/verifications"
-
-	"github.com/fdaines/arch-go/internal/common"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -44,20 +44,20 @@ func init() {
 
 func runCommand(cmd *cobra.Command, args []string) {
 	fmt.Fprintf(cmd.OutOrStdout(), "Running arch-go command\n")
-	fmt.Fprintf(cmd.OutOrStdout(), "Using config file: %s\n", viper.ConfigFileUsed())
+	fmt.Fprintf(cmd.OutOrStdout(), "Using configuration file: %s\n", viper.ConfigFileUsed())
 	success := commandToRun(cmd.OutOrStdout())
 	if !success {
 		os.Exit(1)
 	}
 }
 
-// initConfig reads in config file and ENV variables if set.
+// initConfig reads in configuration file and ENV variables if set.
 func initConfig() {
 	// Find current directory.
 	pwd, err := os.Getwd()
 	cobra.CheckErr(err)
 
-	// Search config in running directory with name "arch-go.yml".
+	// Search configuration in running directory with name "arch-go.yml".
 	viper.AddConfigPath(pwd)
 	viper.SetConfigType("yaml")
 	viper.SetConfigName("arch-go")
@@ -67,7 +67,7 @@ func initConfig() {
 }
 
 func runRootCommand(out io.Writer) bool {
-	configuration, err := config.LoadConfig(viper.ConfigFileUsed())
+	configuration, err := configuration.LoadConfig(viper.ConfigFileUsed())
 	if err != nil {
 		fmt.Fprintf(out, "Error: %+v\n", err)
 		os.Exit(1)
@@ -80,7 +80,7 @@ func runRootCommand(out io.Writer) bool {
 		Packages:    packages,
 	}
 
-	result := verifications.CheckArchitecture(moduleInfo, *configuration)
+	result := archgo.CheckArchitecture(moduleInfo, *configuration)
 	report := reports.GenerateReport(result, moduleInfo, *configuration)
 	reports.DisplayResult(report, out)
 

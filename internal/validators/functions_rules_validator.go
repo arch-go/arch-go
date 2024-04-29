@@ -3,11 +3,12 @@ package validators
 import (
 	"fmt"
 
+	"github.com/fdaines/arch-go/pkg/archgo/configuration"
+
 	"github.com/fdaines/arch-go/internal/utils/values"
-	"github.com/fdaines/arch-go/pkg/config"
 )
 
-func validateFunctionRules(rules []*config.FunctionsRule) error {
+func validateFunctionRules(rules []*configuration.FunctionsRule) error {
 	for _, rule := range rules {
 		if rule.Package == "" {
 			return fmt.Errorf("function rule - empty package")

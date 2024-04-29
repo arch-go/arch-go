@@ -3,19 +3,20 @@ package validators
 import (
 	"testing"
 
+	"github.com/fdaines/arch-go/pkg/archgo/configuration"
+
 	"github.com/fdaines/arch-go/internal/utils/values"
 
-	"github.com/fdaines/arch-go/pkg/config"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestValidateConfiguration(t *testing.T) {
 	t.Run("valid configuration", func(t *testing.T) {
-		configuration := &config.Config{
+		configuration := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
-			DependenciesRules: []*config.DependenciesRule{},
-			ContentRules: []*config.ContentsRule{
+			DependenciesRules: []*configuration.DependenciesRule{},
+			ContentRules: []*configuration.ContentsRule{
 				{
 					Package:                  "foobar1",
 					ShouldOnlyContainStructs: true,
@@ -39,7 +40,7 @@ func TestValidateConfiguration(t *testing.T) {
 					ShouldNotContainMethods:    true,
 				},
 			},
-			FunctionsRules: []*config.FunctionsRule{
+			FunctionsRules: []*configuration.FunctionsRule{
 				{
 					Package:                  "foobar0",
 					MaxLines:                 values.GetIntRef(0),
@@ -64,7 +65,7 @@ func TestValidateConfiguration(t *testing.T) {
 					MaxPublicFunctionPerFile: values.GetIntRef(1),
 				},
 			},
-			NamingRules: []*config.NamingRule{},
+			NamingRules: []*configuration.NamingRule{},
 		}
 
 		result := ValidateConfiguration(configuration)
@@ -72,13 +73,13 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("valid configuration - only dependencies rules", func(t *testing.T) {
-		configuration := &config.Config{
+		configuration := &configuration.Config{
 			Version:   1,
 			Threshold: nil,
-			DependenciesRules: []*config.DependenciesRule{
+			DependenciesRules: []*configuration.DependenciesRule{
 				{
 					Package: "foobar",
-					ShouldOnlyDependsOn: &config.Dependencies{
+					ShouldOnlyDependsOn: &configuration.Dependencies{
 						Internal: []string{"time"},
 					},
 				},
@@ -90,10 +91,10 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("valid configuration - only functions rules", func(t *testing.T) {
-		configuration := &config.Config{
+		configuration := &configuration.Config{
 			Version:   1,
 			Threshold: nil,
-			FunctionsRules: []*config.FunctionsRule{
+			FunctionsRules: []*configuration.FunctionsRule{
 				{
 					Package:                  "foobar4",
 					MaxPublicFunctionPerFile: values.GetIntRef(1),
@@ -106,10 +107,10 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("valid configuration - only contents rules", func(t *testing.T) {
-		configuration := &config.Config{
+		configuration := &configuration.Config{
 			Version:   1,
 			Threshold: nil,
-			ContentRules: []*config.ContentsRule{
+			ContentRules: []*configuration.ContentsRule{
 				{
 					Package:                  "foobar1",
 					ShouldOnlyContainStructs: true,
@@ -122,13 +123,13 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("valid configuration - only naming rules", func(t *testing.T) {
-		configuration := &config.Config{
+		configuration := &configuration.Config{
 			Version:   1,
 			Threshold: nil,
-			NamingRules: []*config.NamingRule{
+			NamingRules: []*configuration.NamingRule{
 				{
 					Package: "foobar",
-					InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
+					InterfaceImplementationNamingRule: &configuration.InterfaceImplementationRule{
 						StructsThatImplement:           "bla",
 						ShouldHaveSimpleNameEndingWith: values.GetStringRef("foo"),
 					},
@@ -146,13 +147,13 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("invalid configuration - no rules", func(t *testing.T) {
-		configuration := &config.Config{
+		configuration := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
-			DependenciesRules: []*config.DependenciesRule{},
-			ContentRules:      []*config.ContentsRule{},
-			FunctionsRules:    []*config.FunctionsRule{},
-			NamingRules:       []*config.NamingRule{},
+			DependenciesRules: []*configuration.DependenciesRule{},
+			ContentRules:      []*configuration.ContentsRule{},
+			FunctionsRules:    []*configuration.FunctionsRule{},
+			NamingRules:       []*configuration.NamingRule{},
 		}
 
 		result := ValidateConfiguration(configuration)
@@ -160,17 +161,17 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("invalid configuration - function rules case 1", func(t *testing.T) {
-		configuration := &config.Config{
+		configuration := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
-			DependenciesRules: []*config.DependenciesRule{},
-			ContentRules:      []*config.ContentsRule{},
-			FunctionsRules: []*config.FunctionsRule{
+			DependenciesRules: []*configuration.DependenciesRule{},
+			ContentRules:      []*configuration.ContentsRule{},
+			FunctionsRules: []*configuration.FunctionsRule{
 				{
 					Package: "",
 				},
 			},
-			NamingRules: []*config.NamingRule{},
+			NamingRules: []*configuration.NamingRule{},
 		}
 
 		result := ValidateConfiguration(configuration)
@@ -178,18 +179,18 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("invalid configuration - function rules case 2", func(t *testing.T) {
-		configuration := &config.Config{
+		configuration := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
-			DependenciesRules: []*config.DependenciesRule{},
-			ContentRules:      []*config.ContentsRule{},
-			FunctionsRules: []*config.FunctionsRule{
+			DependenciesRules: []*configuration.DependenciesRule{},
+			ContentRules:      []*configuration.ContentsRule{},
+			FunctionsRules: []*configuration.FunctionsRule{
 				{
 					Package:  "foobar",
 					MaxLines: values.GetIntRef(-1),
 				},
 			},
-			NamingRules: []*config.NamingRule{},
+			NamingRules: []*configuration.NamingRule{},
 		}
 
 		result := ValidateConfiguration(configuration)
@@ -197,18 +198,18 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("invalid configuration - function rules case 3", func(t *testing.T) {
-		configuration := &config.Config{
+		configuration := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
-			DependenciesRules: []*config.DependenciesRule{},
-			ContentRules:      []*config.ContentsRule{},
-			FunctionsRules: []*config.FunctionsRule{
+			DependenciesRules: []*configuration.DependenciesRule{},
+			ContentRules:      []*configuration.ContentsRule{},
+			FunctionsRules: []*configuration.FunctionsRule{
 				{
 					Package:       "foobar",
 					MaxParameters: values.GetIntRef(-1),
 				},
 			},
-			NamingRules: []*config.NamingRule{},
+			NamingRules: []*configuration.NamingRule{},
 		}
 
 		result := ValidateConfiguration(configuration)
@@ -216,18 +217,18 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("invalid configuration - function rules case 4", func(t *testing.T) {
-		configuration := &config.Config{
+		configuration := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
-			DependenciesRules: []*config.DependenciesRule{},
-			ContentRules:      []*config.ContentsRule{},
-			FunctionsRules: []*config.FunctionsRule{
+			DependenciesRules: []*configuration.DependenciesRule{},
+			ContentRules:      []*configuration.ContentsRule{},
+			FunctionsRules: []*configuration.FunctionsRule{
 				{
 					Package:         "foobar",
 					MaxReturnValues: values.GetIntRef(-1),
 				},
 			},
-			NamingRules: []*config.NamingRule{},
+			NamingRules: []*configuration.NamingRule{},
 		}
 
 		result := ValidateConfiguration(configuration)
@@ -235,18 +236,18 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("invalid configuration - function rules case 5", func(t *testing.T) {
-		configuration := &config.Config{
+		configuration := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
-			DependenciesRules: []*config.DependenciesRule{},
-			ContentRules:      []*config.ContentsRule{},
-			FunctionsRules: []*config.FunctionsRule{
+			DependenciesRules: []*configuration.DependenciesRule{},
+			ContentRules:      []*configuration.ContentsRule{},
+			FunctionsRules: []*configuration.FunctionsRule{
 				{
 					Package:                  "foobar",
 					MaxPublicFunctionPerFile: values.GetIntRef(-1),
 				},
 			},
-			NamingRules: []*config.NamingRule{},
+			NamingRules: []*configuration.NamingRule{},
 		}
 
 		result := ValidateConfiguration(configuration)
@@ -254,17 +255,17 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("invalid configuration - function rules case 6", func(t *testing.T) {
-		configuration := &config.Config{
+		configuration := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
-			DependenciesRules: []*config.DependenciesRule{},
-			ContentRules:      []*config.ContentsRule{},
-			FunctionsRules: []*config.FunctionsRule{
+			DependenciesRules: []*configuration.DependenciesRule{},
+			ContentRules:      []*configuration.ContentsRule{},
+			FunctionsRules: []*configuration.FunctionsRule{
 				{
 					Package: "foobar",
 				},
 			},
-			NamingRules: []*config.NamingRule{},
+			NamingRules: []*configuration.NamingRule{},
 		}
 
 		result := ValidateConfiguration(configuration)
@@ -272,14 +273,14 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("invalid configuration - content rules case 1", func(t *testing.T) {
-		configuration := &config.Config{
+		configuration := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
-			DependenciesRules: []*config.DependenciesRule{},
-			ContentRules: []*config.ContentsRule{
+			DependenciesRules: []*configuration.DependenciesRule{},
+			ContentRules: []*configuration.ContentsRule{
 				{},
 			},
-			FunctionsRules: []*config.FunctionsRule{},
+			FunctionsRules: []*configuration.FunctionsRule{},
 		}
 
 		result := ValidateConfiguration(configuration)
@@ -287,18 +288,18 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("invalid configuration - content rules case 2", func(t *testing.T) {
-		configuration := &config.Config{
+		configuration := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
-			DependenciesRules: []*config.DependenciesRule{},
-			ContentRules: []*config.ContentsRule{
+			DependenciesRules: []*configuration.DependenciesRule{},
+			ContentRules: []*configuration.ContentsRule{
 				{
 					Package:                     "foobar",
 					ShouldOnlyContainInterfaces: true,
 					ShouldOnlyContainMethods:    true,
 				},
 			},
-			FunctionsRules: []*config.FunctionsRule{},
+			FunctionsRules: []*configuration.FunctionsRule{},
 		}
 
 		result := ValidateConfiguration(configuration)
@@ -306,18 +307,18 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("invalid configuration - content rules case 3", func(t *testing.T) {
-		configuration := &config.Config{
+		configuration := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
-			DependenciesRules: []*config.DependenciesRule{},
-			ContentRules: []*config.ContentsRule{
+			DependenciesRules: []*configuration.DependenciesRule{},
+			ContentRules: []*configuration.ContentsRule{
 				{
 					Package:                     "foobar",
 					ShouldOnlyContainInterfaces: true,
 					ShouldOnlyContainStructs:    true,
 				},
 			},
-			FunctionsRules: []*config.FunctionsRule{},
+			FunctionsRules: []*configuration.FunctionsRule{},
 		}
 
 		result := ValidateConfiguration(configuration)
@@ -325,18 +326,18 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("invalid configuration - content rules case 4", func(t *testing.T) {
-		configuration := &config.Config{
+		configuration := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
-			DependenciesRules: []*config.DependenciesRule{},
-			ContentRules: []*config.ContentsRule{
+			DependenciesRules: []*configuration.DependenciesRule{},
+			ContentRules: []*configuration.ContentsRule{
 				{
 					Package:                     "foobar",
 					ShouldOnlyContainInterfaces: true,
 					ShouldOnlyContainFunctions:  true,
 				},
 			},
-			FunctionsRules: []*config.FunctionsRule{},
+			FunctionsRules: []*configuration.FunctionsRule{},
 		}
 
 		result := ValidateConfiguration(configuration)
@@ -344,18 +345,18 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("invalid configuration - content rules case 5", func(t *testing.T) {
-		configuration := &config.Config{
+		configuration := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
-			DependenciesRules: []*config.DependenciesRule{},
-			ContentRules: []*config.ContentsRule{
+			DependenciesRules: []*configuration.DependenciesRule{},
+			ContentRules: []*configuration.ContentsRule{
 				{
 					Package:                     "foobar",
 					ShouldOnlyContainInterfaces: true,
 					ShouldNotContainInterfaces:  true,
 				},
 			},
-			FunctionsRules: []*config.FunctionsRule{},
+			FunctionsRules: []*configuration.FunctionsRule{},
 		}
 
 		result := ValidateConfiguration(configuration)
@@ -363,17 +364,17 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("invalid configuration - content rules case 6", func(t *testing.T) {
-		configuration := &config.Config{
+		configuration := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
-			DependenciesRules: []*config.DependenciesRule{},
-			ContentRules: []*config.ContentsRule{
+			DependenciesRules: []*configuration.DependenciesRule{},
+			ContentRules: []*configuration.ContentsRule{
 				{
 					Package: "foobar",
 				},
 			},
-			FunctionsRules: []*config.FunctionsRule{},
-			NamingRules:    []*config.NamingRule{},
+			FunctionsRules: []*configuration.FunctionsRule{},
+			NamingRules:    []*configuration.NamingRule{},
 		}
 
 		result := ValidateConfiguration(configuration)
@@ -381,17 +382,17 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("invalid configuration - dependencies rules case 1", func(t *testing.T) {
-		configuration := &config.Config{
+		configuration := &configuration.Config{
 			Version:   1,
 			Threshold: nil,
-			DependenciesRules: []*config.DependenciesRule{
+			DependenciesRules: []*configuration.DependenciesRule{
 				{
 					Package: "",
 				},
 			},
-			ContentRules:   []*config.ContentsRule{},
-			FunctionsRules: []*config.FunctionsRule{},
-			NamingRules:    []*config.NamingRule{},
+			ContentRules:   []*configuration.ContentsRule{},
+			FunctionsRules: []*configuration.FunctionsRule{},
+			NamingRules:    []*configuration.NamingRule{},
 		}
 
 		result := ValidateConfiguration(configuration)
@@ -399,17 +400,17 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("invalid configuration - dependencies rules case 2", func(t *testing.T) {
-		configuration := &config.Config{
+		configuration := &configuration.Config{
 			Version:   1,
 			Threshold: nil,
-			DependenciesRules: []*config.DependenciesRule{
+			DependenciesRules: []*configuration.DependenciesRule{
 				{
 					Package: "foobar",
 				},
 			},
-			ContentRules:   []*config.ContentsRule{},
-			FunctionsRules: []*config.FunctionsRule{},
-			NamingRules:    []*config.NamingRule{},
+			ContentRules:   []*configuration.ContentsRule{},
+			FunctionsRules: []*configuration.FunctionsRule{},
+			NamingRules:    []*configuration.NamingRule{},
 		}
 
 		result := ValidateConfiguration(configuration)
@@ -417,19 +418,19 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("invalid configuration - dependencies rules case 3", func(t *testing.T) {
-		configuration := &config.Config{
+		configuration := &configuration.Config{
 			Version:   1,
 			Threshold: nil,
-			DependenciesRules: []*config.DependenciesRule{
+			DependenciesRules: []*configuration.DependenciesRule{
 				{
 					Package:             "foobar",
-					ShouldNotDependsOn:  &config.Dependencies{},
-					ShouldOnlyDependsOn: &config.Dependencies{},
+					ShouldNotDependsOn:  &configuration.Dependencies{},
+					ShouldOnlyDependsOn: &configuration.Dependencies{},
 				},
 			},
-			ContentRules:   []*config.ContentsRule{},
-			FunctionsRules: []*config.FunctionsRule{},
-			NamingRules:    []*config.NamingRule{},
+			ContentRules:   []*configuration.ContentsRule{},
+			FunctionsRules: []*configuration.FunctionsRule{},
+			NamingRules:    []*configuration.NamingRule{},
 		}
 
 		result := ValidateConfiguration(configuration)
@@ -437,18 +438,18 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("invalid configuration - dependencies rules case 4", func(t *testing.T) {
-		configuration := &config.Config{
+		configuration := &configuration.Config{
 			Version:   1,
 			Threshold: nil,
-			DependenciesRules: []*config.DependenciesRule{
+			DependenciesRules: []*configuration.DependenciesRule{
 				{
 					Package:            "foobar",
-					ShouldNotDependsOn: &config.Dependencies{},
+					ShouldNotDependsOn: &configuration.Dependencies{},
 				},
 			},
-			ContentRules:   []*config.ContentsRule{},
-			FunctionsRules: []*config.FunctionsRule{},
-			NamingRules:    []*config.NamingRule{},
+			ContentRules:   []*configuration.ContentsRule{},
+			FunctionsRules: []*configuration.FunctionsRule{},
+			NamingRules:    []*configuration.NamingRule{},
 		}
 
 		result := ValidateConfiguration(configuration)
@@ -456,18 +457,18 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("invalid configuration - dependencies rules case 5", func(t *testing.T) {
-		configuration := &config.Config{
+		configuration := &configuration.Config{
 			Version:   1,
 			Threshold: nil,
-			DependenciesRules: []*config.DependenciesRule{
+			DependenciesRules: []*configuration.DependenciesRule{
 				{
 					Package:             "foobar",
-					ShouldOnlyDependsOn: &config.Dependencies{},
+					ShouldOnlyDependsOn: &configuration.Dependencies{},
 				},
 			},
-			ContentRules:   []*config.ContentsRule{},
-			FunctionsRules: []*config.FunctionsRule{},
-			NamingRules:    []*config.NamingRule{},
+			ContentRules:   []*configuration.ContentsRule{},
+			FunctionsRules: []*configuration.FunctionsRule{},
+			NamingRules:    []*configuration.NamingRule{},
 		}
 
 		result := ValidateConfiguration(configuration)
@@ -475,33 +476,33 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("test count rules", func(t *testing.T) {
-		configuration := &config.Config{
+		configuration := &configuration.Config{
 			Version:   1,
 			Threshold: nil,
-			DependenciesRules: []*config.DependenciesRule{
+			DependenciesRules: []*configuration.DependenciesRule{
 				{
 					Package: "foobar",
-					ShouldOnlyDependsOn: &config.Dependencies{
+					ShouldOnlyDependsOn: &configuration.Dependencies{
 						Internal: []string{"time"},
 					},
 				},
 			},
-			ContentRules: []*config.ContentsRule{
+			ContentRules: []*configuration.ContentsRule{
 				{
 					Package:                  "foobar1",
 					ShouldOnlyContainStructs: true,
 				},
 			},
-			FunctionsRules: []*config.FunctionsRule{
+			FunctionsRules: []*configuration.FunctionsRule{
 				{
 					Package:                  "foobar4",
 					MaxPublicFunctionPerFile: values.GetIntRef(1),
 				},
 			},
-			NamingRules: []*config.NamingRule{
+			NamingRules: []*configuration.NamingRule{
 				{
 					Package: "foobar",
-					InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
+					InterfaceImplementationNamingRule: &configuration.InterfaceImplementationRule{
 						StructsThatImplement:           "bla",
 						ShouldHaveSimpleNameEndingWith: values.GetStringRef("foo"),
 					},

@@ -67,7 +67,7 @@ dependenciesRules:
 contentsRules:
   - package: "**.impl.model"
     shouldNotContainInterfaces: true
-  - package: "**.impl.config"
+  - package: "**.impl.configuration"
     shouldOnlyContainFunctions: true
   - package: "**.impl.dependencies"
     shouldNotContainStructs: true

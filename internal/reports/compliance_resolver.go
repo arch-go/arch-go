@@ -2,11 +2,11 @@ package reports
 
 import (
 	"github.com/fdaines/arch-go/internal/reports/model"
-	"github.com/fdaines/arch-go/pkg/config"
-	"github.com/fdaines/arch-go/pkg/verifications"
+	"github.com/fdaines/arch-go/pkg/archgo"
+	"github.com/fdaines/arch-go/pkg/archgo/configuration"
 )
 
-func resolveCompliance(r *verifications.Result, c config.Config) *model.ThresholdSummary {
+func resolveCompliance(r *archgo.Result, c configuration.Config) *model.ThresholdSummary {
 	passesVerifications, totalVerifications := resolveTotals(r)
 
 	rate := 0
@@ -34,7 +34,7 @@ func resolveCompliance(r *verifications.Result, c config.Config) *model.Threshol
 	}
 }
 
-func resolveTotals(r *verifications.Result) (int, int) {
+func resolveTotals(r *archgo.Result) (int, int) {
 	total := 0
 	passes := 0
 	countDependenciesRuleResults(r, &passes, &total)
@@ -44,7 +44,7 @@ func resolveTotals(r *verifications.Result) (int, int) {
 	return passes, total
 }
 
-func countDependenciesRuleResults(r *verifications.Result, passes *int, total *int) {
+func countDependenciesRuleResults(r *archgo.Result, passes *int, total *int) {
 	if r.DependenciesRuleResult != nil {
 		for _, dr := range r.DependenciesRuleResult.Results {
 			if dr.Passes {
@@ -55,7 +55,7 @@ func countDependenciesRuleResults(r *verifications.Result, passes *int, total *i
 	}
 }
 
-func countFunctionsRuleResults(r *verifications.Result, passes *int, total *int) {
+func countFunctionsRuleResults(r *archgo.Result, passes *int, total *int) {
 	if r.FunctionsRuleResult != nil {
 		for _, dr := range r.FunctionsRuleResult.Results {
 			if dr.Passes {
@@ -66,7 +66,7 @@ func countFunctionsRuleResults(r *verifications.Result, passes *int, total *int)
 	}
 }
 
-func countContentsRuleResults(r *verifications.Result, passes *int, total *int) {
+func countContentsRuleResults(r *archgo.Result, passes *int, total *int) {
 	if r.ContentsRuleResult != nil {
 		for _, dr := range r.ContentsRuleResult.Results {
 			if dr.Passes {
@@ -77,7 +77,7 @@ func countContentsRuleResults(r *verifications.Result, passes *int, total *int) 
 	}
 }
 
-func countNamingRuleResults(r *verifications.Result, passes *int, total *int) {
+func countNamingRuleResults(r *archgo.Result, passes *int, total *int) {
 	if r.NamingRuleResult != nil {
 		for _, dr := range r.NamingRuleResult.Results {
 			if dr.Passes {

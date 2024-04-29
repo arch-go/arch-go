@@ -3,17 +3,17 @@ package reports
 import (
 	"testing"
 
+	"github.com/fdaines/arch-go/internal/verifications/contents"
+	"github.com/fdaines/arch-go/internal/verifications/dependencies"
+	"github.com/fdaines/arch-go/internal/verifications/functions"
+	"github.com/fdaines/arch-go/internal/verifications/naming"
+	"github.com/fdaines/arch-go/pkg/archgo"
+	"github.com/fdaines/arch-go/pkg/archgo/configuration"
+
 	model2 "github.com/fdaines/arch-go/internal/reports/model"
 
 	"github.com/fdaines/arch-go/internal/model"
 	"github.com/fdaines/arch-go/internal/utils/values"
-	"github.com/fdaines/arch-go/pkg/config"
-	"github.com/fdaines/arch-go/pkg/verifications"
-	"github.com/fdaines/arch-go/pkg/verifications/contents"
-	"github.com/fdaines/arch-go/pkg/verifications/dependencies"
-	"github.com/fdaines/arch-go/pkg/verifications/functions"
-	"github.com/fdaines/arch-go/pkg/verifications/naming"
-
 	"github.com/stretchr/testify/assert"
 )
 
@@ -27,10 +27,10 @@ func TestCoverageResolver(t *testing.T) {
 			{Path: "foo/bar5"},
 		},
 	}
-	configuration := config.Config{}
+	rulesConfiguration := configuration.Config{}
 
 	t.Run("checkPackagesCoverage case 1", func(t *testing.T) {
-		verificationResult := &verifications.Result{}
+		verificationResult := &archgo.Result{}
 
 		expectedResult := map[string]bool{
 			"foo/bar1": false,
@@ -46,7 +46,7 @@ func TestCoverageResolver(t *testing.T) {
 	})
 
 	t.Run("checkPackagesCoverage case 2", func(t *testing.T) {
-		verificationResult := &verifications.Result{
+		verificationResult := &archgo.Result{
 			DependenciesRuleResult: &dependencies.RulesResult{
 				Results: []*dependencies.RuleResult{
 					{
@@ -75,7 +75,7 @@ func TestCoverageResolver(t *testing.T) {
 	})
 
 	t.Run("checkPackagesCoverage case 3", func(t *testing.T) {
-		verificationResult := &verifications.Result{
+		verificationResult := &archgo.Result{
 			FunctionsRuleResult: &functions.RulesResult{
 				Results: []*functions.RuleResult{
 					{
@@ -104,7 +104,7 @@ func TestCoverageResolver(t *testing.T) {
 	})
 
 	t.Run("checkPackagesCoverage case 4", func(t *testing.T) {
-		verificationResult := &verifications.Result{
+		verificationResult := &archgo.Result{
 			ContentsRuleResult: &contents.RulesResult{
 				Results: []*contents.RuleResult{
 					{
@@ -133,7 +133,7 @@ func TestCoverageResolver(t *testing.T) {
 	})
 
 	t.Run("checkPackagesCoverage case 5", func(t *testing.T) {
-		verificationResult := &verifications.Result{
+		verificationResult := &archgo.Result{
 			NamingRuleResult: &naming.RulesResult{
 				Results: []*naming.RuleResult{
 					{
@@ -162,7 +162,7 @@ func TestCoverageResolver(t *testing.T) {
 	})
 
 	t.Run("checkPackagesCoverage case 6", func(t *testing.T) {
-		verificationResult := &verifications.Result{
+		verificationResult := &archgo.Result{
 			DependenciesRuleResult: &dependencies.RulesResult{
 				Results: []*dependencies.RuleResult{
 					{
@@ -227,21 +227,21 @@ func TestCoverageResolver(t *testing.T) {
 	})
 
 	t.Run("resolveCoverage case 1", func(t *testing.T) {
-		verificationResult := &verifications.Result{}
+		verificationResult := &archgo.Result{}
 
 		expectedStatus := "PASS"
 		expectedViolations := []string{"foo/bar1", "foo/bar2", "foo/bar3", "foo/bar4", "foo/bar5"}
 
-		result := resolveCoverage(verificationResult, moduleInfo, configuration)
+		result := resolveCoverage(verificationResult, moduleInfo, rulesConfiguration)
 
 		assert.Equal(t, expectedStatus, result.Status)
 		assert.ElementsMatch(t, expectedViolations, result.Violations)
 	})
 
 	t.Run("resolveCoverage case 2", func(t *testing.T) {
-		verificationResult := &verifications.Result{}
-		config := config.Config{
-			Threshold: &config.Threshold{},
+		verificationResult := &archgo.Result{}
+		config := configuration.Config{
+			Threshold: &configuration.Threshold{},
 		}
 
 		expectedResult := &model2.ThresholdSummary{
@@ -260,9 +260,9 @@ func TestCoverageResolver(t *testing.T) {
 	})
 
 	t.Run("resolveCoverage case 3", func(t *testing.T) {
-		verificationResult := &verifications.Result{}
-		config := config.Config{
-			Threshold: &config.Threshold{
+		verificationResult := &archgo.Result{}
+		config := configuration.Config{
+			Threshold: &configuration.Threshold{
 				Coverage: values.GetIntRef(100),
 			},
 		}
@@ -283,7 +283,7 @@ func TestCoverageResolver(t *testing.T) {
 	})
 
 	t.Run("resolveCoverage case 4", func(t *testing.T) {
-		verificationResult := &verifications.Result{
+		verificationResult := &archgo.Result{
 			DependenciesRuleResult: &dependencies.RulesResult{
 				Results: []*dependencies.RuleResult{
 					{
@@ -298,8 +298,8 @@ func TestCoverageResolver(t *testing.T) {
 				},
 			},
 		}
-		config := config.Config{
-			Threshold: &config.Threshold{
+		config := configuration.Config{
+			Threshold: &configuration.Threshold{
 				Coverage: values.GetIntRef(100),
 			},
 		}
@@ -320,7 +320,7 @@ func TestCoverageResolver(t *testing.T) {
 	})
 
 	t.Run("resolveCoverage case 5", func(t *testing.T) {
-		verificationResult := &verifications.Result{
+		verificationResult := &archgo.Result{
 			DependenciesRuleResult: &dependencies.RulesResult{
 				Results: []*dependencies.RuleResult{
 					{
@@ -334,8 +334,8 @@ func TestCoverageResolver(t *testing.T) {
 				},
 			},
 		}
-		config := config.Config{
-			Threshold: &config.Threshold{
+		config := configuration.Config{
+			Threshold: &configuration.Threshold{
 				Coverage: values.GetIntRef(78),
 			},
 		}

@@ -3,10 +3,10 @@ package validators
 import (
 	"fmt"
 
-	"github.com/fdaines/arch-go/pkg/config"
+	"github.com/fdaines/arch-go/pkg/archgo/configuration"
 )
 
-func validateContentRules(rules []*config.ContentsRule) error {
+func validateContentRules(rules []*configuration.ContentsRule) error {
 	for _, rule := range rules {
 		if rule.Package == "" {
 			return fmt.Errorf("content rule - empty package")
@@ -30,11 +30,11 @@ func validateContentRules(rules []*config.ContentsRule) error {
 	return nil
 }
 
-func checkShouldOnlyRule(shouldOnlyRule bool, rule *config.ContentsRule) bool {
+func checkShouldOnlyRule(shouldOnlyRule bool, rule *configuration.ContentsRule) bool {
 	return shouldOnlyRule && countTrueValues(rule) > 1
 }
 
-func countTrueValues(rule *config.ContentsRule) int32 {
+func countTrueValues(rule *configuration.ContentsRule) int32 {
 	return trueValues(
 		rule.ShouldOnlyContainFunctions,
 		rule.ShouldOnlyContainInterfaces,

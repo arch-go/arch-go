@@ -65,7 +65,7 @@ func TestRootCommand(t *testing.T) {
 		if !strings.Contains(cmdOutput, "Running arch-go command") {
 			t.Fatal("Expects a log containing the running command.")
 		}
-		if !strings.Contains(cmdOutput, "Using config file:") || !strings.Contains(cmdOutput, "/test/arch-go.yml") {
+		if !strings.Contains(cmdOutput, "Using configuration file:") || !strings.Contains(cmdOutput, "/test/arch-go.yml") {
 			t.Fatal("Expects a log containing the configuration file.")
 		}
 	})

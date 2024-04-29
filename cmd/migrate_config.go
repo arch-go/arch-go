@@ -4,13 +4,14 @@ import (
 	"fmt"
 	"os"
 
-	migrate_config "github.com/fdaines/arch-go/pkg/commands/migrate-config"
+	migrate_config "github.com/fdaines/arch-go/internal/commands/migrate-config"
+
 	"github.com/spf13/cobra"
 )
 
 func NewMigrateConfigCommand() *cobra.Command {
 	return &cobra.Command{
-		Use:   "migrate-config",
+		Use:   "migrate-configuration",
 		Short: "Migrate architecture configuration (arch-go.yml) to current schema",
 		Run:   migrateConfig,
 	}

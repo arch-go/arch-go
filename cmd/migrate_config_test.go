@@ -7,14 +7,14 @@ import (
 	"os"
 	"testing"
 
+	"github.com/fdaines/arch-go/pkg/archgo/configuration"
+
 	"github.com/fdaines/arch-go/internal/utils/values"
 
 	"github.com/spf13/viper"
 
 	monkey "github.com/agiledragon/gomonkey/v2"
 	"github.com/stretchr/testify/assert"
-
-	"github.com/fdaines/arch-go/pkg/config"
 )
 
 func TestMigrateConfigCommand(t *testing.T) {
@@ -23,7 +23,7 @@ func TestMigrateConfigCommand(t *testing.T) {
 	t.Run("when arch-go.yaml contains current schema but has no rules", func(t *testing.T) {
 		var exitCode int
 		cmd := NewMigrateConfigCommand()
-		patch := monkey.ApplyFuncReturn(config.LoadConfig, &config.Config{}, nil)
+		patch := monkey.ApplyFuncReturn(configuration.LoadConfig, &configuration.Config{}, nil)
 		defer patch.Reset()
 		patchExit := monkey.ApplyFunc(os.Exit, func(c int) { exitCode = c })
 		defer patchExit.Reset()
@@ -42,15 +42,15 @@ func TestMigrateConfigCommand(t *testing.T) {
 	t.Run("when arch-go.yaml contains current schema and has rules", func(t *testing.T) {
 		var exitCode int
 		cmd := NewMigrateConfigCommand()
-		currentConfiguration := config.Config{
-			FunctionsRules: []*config.FunctionsRule{
+		currentConfiguration := configuration.Config{
+			FunctionsRules: []*configuration.FunctionsRule{
 				{
 					Package:  "foobar",
 					MaxLines: values.GetIntRef(10),
 				},
 			},
 		}
-		patch := monkey.ApplyFuncReturn(config.LoadConfig, &currentConfiguration, nil)
+		patch := monkey.ApplyFuncReturn(configuration.LoadConfig, &currentConfiguration, nil)
 		defer patch.Reset()
 		patchExit := monkey.ApplyFunc(os.Exit, func(c int) { exitCode = c })
 		defer patchExit.Reset()
@@ -69,9 +69,9 @@ func TestMigrateConfigCommand(t *testing.T) {
 	t.Run("when arch-go.yaml contains old schema", func(t *testing.T) {
 		var exitCode int
 		cmd := NewMigrateConfigCommand()
-		patch := monkey.ApplyFuncReturn(config.LoadConfig, nil, fmt.Errorf("not found"))
+		patch := monkey.ApplyFuncReturn(configuration.LoadConfig, nil, fmt.Errorf("not found"))
 		defer patch.Reset()
-		patchOldSchema := monkey.ApplyFuncReturn(config.LoadDeprecatedConfig, &config.DeprecatedConfig{}, nil)
+		patchOldSchema := monkey.ApplyFuncReturn(configuration.LoadDeprecatedConfig, &configuration.DeprecatedConfig{}, nil)
 		defer patchOldSchema.Reset()
 		patchExit := monkey.ApplyFunc(os.Exit, func(c int) { exitCode = c })
 		defer patchExit.Reset()
@@ -99,9 +99,9 @@ Configuration saved at: arch-go.yml
 	t.Run("when arch-go.yaml cannot be loaded", func(t *testing.T) {
 		var exitCode int
 		cmd := NewMigrateConfigCommand()
-		patch := monkey.ApplyFuncReturn(config.LoadConfig, nil, fmt.Errorf("not found"))
+		patch := monkey.ApplyFuncReturn(configuration.LoadConfig, nil, fmt.Errorf("not found"))
 		defer patch.Reset()
-		patchOldSchema := monkey.ApplyFuncReturn(config.LoadDeprecatedConfig, nil, fmt.Errorf("not loaded"))
+		patchOldSchema := monkey.ApplyFuncReturn(configuration.LoadDeprecatedConfig, nil, fmt.Errorf("not loaded"))
 		defer patchOldSchema.Reset()
 		patchExit := monkey.ApplyFunc(os.Exit, func(c int) { exitCode = c })
 		defer patchExit.Reset()

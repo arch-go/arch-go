@@ -7,14 +7,14 @@ import (
 	"os"
 	"testing"
 
+	"github.com/fdaines/arch-go/pkg/archgo/configuration"
+
 	"github.com/fdaines/arch-go/internal/utils/values"
 
 	"github.com/spf13/viper"
 
 	monkey "github.com/agiledragon/gomonkey/v2"
 	"github.com/stretchr/testify/assert"
-
-	"github.com/fdaines/arch-go/pkg/config"
 )
 
 func TestDescribeCommand(t *testing.T) {
@@ -23,7 +23,7 @@ func TestDescribeCommand(t *testing.T) {
 	t.Run("when arch-go.yaml has no rules", func(t *testing.T) {
 		var exitCode int
 		cmd := NewDescribeCommand()
-		patch := monkey.ApplyFuncReturn(config.LoadConfig, &config.Config{}, nil)
+		patch := monkey.ApplyFuncReturn(configuration.LoadConfig, &configuration.Config{}, nil)
 		defer patch.Reset()
 		patchExit := monkey.ApplyFunc(os.Exit, func(c int) { exitCode = c })
 		defer patchExit.Reset()
@@ -42,7 +42,7 @@ func TestDescribeCommand(t *testing.T) {
 	t.Run("when arch-go.yaml has rules", func(t *testing.T) {
 		var exitCode int
 		cmd := NewDescribeCommand()
-		patch := monkey.ApplyFuncReturn(config.LoadConfig, configLoaderMockWithRules(), nil)
+		patch := monkey.ApplyFuncReturn(configuration.LoadConfig, configLoaderMockWithRules(), nil)
 		defer patch.Reset()
 		patchExit := monkey.ApplyFunc(os.Exit, func(c int) { exitCode = c })
 		defer patchExit.Reset()
@@ -100,7 +100,7 @@ Threshold Rules
 
 	t.Run("when arch-go.yaml does not exist", func(t *testing.T) {
 		var exitCode int
-		configLoaderPatch := monkey.ApplyFuncReturn(config.LoadConfig, nil, fmt.Errorf("dummy error"))
+		configLoaderPatch := monkey.ApplyFuncReturn(configuration.LoadConfig, nil, fmt.Errorf("dummy error"))
 		defer configLoaderPatch.Reset()
 		patchExit := monkey.ApplyFunc(os.Exit, func(c int) { exitCode = c })
 		defer patchExit.Reset()
@@ -119,16 +119,16 @@ Threshold Rules
 	})
 }
 
-func configLoaderMockWithRules() *config.Config {
-	return &config.Config{
-		Threshold: &config.Threshold{
+func configLoaderMockWithRules() *configuration.Config {
+	return &configuration.Config{
+		Threshold: &configuration.Threshold{
 			Compliance: values.GetIntRef(98),
 			Coverage:   values.GetIntRef(80),
 		},
-		DependenciesRules: []*config.DependenciesRule{
+		DependenciesRules: []*configuration.DependenciesRule{
 			{
 				Package: "foobar",
-				ShouldOnlyDependsOn: &config.Dependencies{
+				ShouldOnlyDependsOn: &configuration.Dependencies{
 					Internal: []string{"foo"},
 					External: []string{"bar"},
 					Standard: []string{"foobar"},
@@ -136,14 +136,14 @@ func configLoaderMockWithRules() *config.Config {
 			},
 			{
 				Package: "barfoo",
-				ShouldNotDependsOn: &config.Dependencies{
+				ShouldNotDependsOn: &configuration.Dependencies{
 					Internal: []string{"oof"},
 					External: []string{"rab"},
 					Standard: []string{"raboof"},
 				},
 			},
 		},
-		ContentRules: []*config.ContentsRule{
+		ContentRules: []*configuration.ContentsRule{
 			{
 				Package:                     "package1",
 				ShouldOnlyContainInterfaces: true,
@@ -177,7 +177,7 @@ func configLoaderMockWithRules() *config.Config {
 				ShouldNotContainMethods: true,
 			},
 		},
-		FunctionsRules: []*config.FunctionsRule{
+		FunctionsRules: []*configuration.FunctionsRule{
 			{
 				Package:                  "function-package",
 				MaxParameters:            values.GetIntRef(1),
@@ -186,17 +186,17 @@ func configLoaderMockWithRules() *config.Config {
 				MaxPublicFunctionPerFile: values.GetIntRef(4),
 			},
 		},
-		NamingRules: []*config.NamingRule{
+		NamingRules: []*configuration.NamingRule{
 			{
 				Package: "foobar",
-				InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
+				InterfaceImplementationNamingRule: &configuration.InterfaceImplementationRule{
 					StructsThatImplement:             "foo",
 					ShouldHaveSimpleNameStartingWith: values.GetStringRef("bla"),
 				},
 			},
 			{
 				Package: "barfoo",
-				InterfaceImplementationNamingRule: &config.InterfaceImplementationRule{
+				InterfaceImplementationNamingRule: &configuration.InterfaceImplementationRule{
 					StructsThatImplement:           "foo",
 					ShouldHaveSimpleNameEndingWith: values.GetStringRef("anything"),
 				},

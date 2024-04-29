@@ -3,10 +3,10 @@ package validators
 import (
 	"fmt"
 
-	"github.com/fdaines/arch-go/pkg/config"
+	"github.com/fdaines/arch-go/pkg/archgo/configuration"
 )
 
-func validateDependencyRules(rules []*config.DependenciesRule) error {
+func validateDependencyRules(rules []*configuration.DependenciesRule) error {
 	for _, rule := range rules {
 		if rule.Package == "" {
 			return fmt.Errorf("dependencies rule - empty package")
@@ -29,7 +29,7 @@ func validateDependencyRules(rules []*config.DependenciesRule) error {
 	return nil
 }
 
-func checkShouldOnlyDependsOn(rule *config.DependenciesRule) error {
+func checkShouldOnlyDependsOn(rule *configuration.DependenciesRule) error {
 	if rule.ShouldOnlyDependsOn != nil {
 		if dependenciesSize(rule.ShouldOnlyDependsOn) == 0 {
 			return fmt.Errorf("dependencies rule - ShouldOnlyDependsOn needs at least one of 'External', 'Internal' or 'Standard'")
@@ -38,7 +38,7 @@ func checkShouldOnlyDependsOn(rule *config.DependenciesRule) error {
 	return nil
 }
 
-func checkShouldNotDependsOn(rule *config.DependenciesRule) error {
+func checkShouldNotDependsOn(rule *configuration.DependenciesRule) error {
 	if rule.ShouldNotDependsOn != nil {
 		if dependenciesSize(rule.ShouldNotDependsOn) == 0 {
 			return fmt.Errorf("dependencies rule - ShouldNotDependsOn needs at least one of 'External', 'Internal' or 'Standard'")
@@ -47,14 +47,14 @@ func checkShouldNotDependsOn(rule *config.DependenciesRule) error {
 	return nil
 }
 
-func dependenciesSize(d *config.Dependencies) int {
+func dependenciesSize(d *configuration.Dependencies) int {
 	return len(d.External) + len(d.Internal) + len(d.Standard)
 }
 
-func checkAtMostOneCriteria(rule *config.DependenciesRule) bool {
+func checkAtMostOneCriteria(rule *configuration.DependenciesRule) bool {
 	return rule.ShouldNotDependsOn != nil && rule.ShouldOnlyDependsOn != nil
 }
 
-func checkAtLeastOneCriteria(rule *config.DependenciesRule) bool {
+func checkAtLeastOneCriteria(rule *configuration.DependenciesRule) bool {
 	return rule.ShouldNotDependsOn == nil && rule.ShouldOnlyDependsOn == nil
 }

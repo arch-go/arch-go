@@ -3,10 +3,10 @@ package validators
 import (
 	"fmt"
 
-	"github.com/fdaines/arch-go/pkg/config"
+	"github.com/fdaines/arch-go/pkg/archgo/configuration"
 )
 
-func ValidateConfiguration(configuration *config.Config) error {
+func ValidateConfiguration(configuration *configuration.Config) error {
 	if configuration == nil {
 		return fmt.Errorf("configuration file not found")
 	}
@@ -29,13 +29,13 @@ func ValidateConfiguration(configuration *config.Config) error {
 	return nil
 }
 
-func checkRulesQuantity(c *config.Config) error {
+func checkRulesQuantity(c *configuration.Config) error {
 	if countRules(c) == 0 {
 		return fmt.Errorf("configuration file should have at least one rule")
 	}
 	return nil
 }
 
-func countRules(c *config.Config) int {
+func countRules(c *configuration.Config) int {
 	return len(c.ContentRules) + len(c.DependenciesRules) + len(c.FunctionsRules) + len(c.NamingRules)
 }
