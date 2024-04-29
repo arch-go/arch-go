@@ -18,24 +18,24 @@ func resolveDependenciesDetails(result *verifications.Result) model.Verification
 	verificationDetails := model.Verification{}
 	var vDetails []model.VerificationDetails
 	if result.DependenciesRuleResult != nil {
-		for _, r := range result.DependenciesRuleResult.Results {
-			resolveVerificationStatus(r.Passes, &verificationDetails)
+		for _, dr := range result.DependenciesRuleResult.Results {
+			resolveVerificationStatus(dr.Passes, &verificationDetails)
 
 			var packageDetails []model.PackageDetails
 			vTotal, vFailed := 0, 0
-			for _, v := range r.Verifications {
+			for _, dv := range dr.Verifications {
 				vTotal++
-				status := checkVerificationStatus(v.Passes, &vFailed)
+				status := checkVerificationStatus(dv.Passes, &vFailed)
 				packageDetails = append(packageDetails, model.PackageDetails{
-					Package: v.Package,
+					Package: dv.Package,
 					Status:  status,
-					Details: v.Details,
+					Details: dv.Details,
 				})
 			}
 			ruleStatus := resolveRuleStatus(vFailed)
 
 			vDetails = append(vDetails, model.VerificationDetails{
-				Rule:           r.Description,
+				Rule:           dr.Description,
 				Status:         ruleStatus,
 				Passed:         vTotal - vFailed,
 				Failed:         vFailed,
@@ -53,24 +53,24 @@ func resolveFunctionsDetails(result *verifications.Result) model.Verification {
 	verificationDetails := model.Verification{}
 	var vDetails []model.VerificationDetails
 	if result.FunctionsRuleResult != nil {
-		for _, r := range result.FunctionsRuleResult.Results {
-			resolveVerificationStatus(r.Passes, &verificationDetails)
+		for _, fr := range result.FunctionsRuleResult.Results {
+			resolveVerificationStatus(fr.Passes, &verificationDetails)
 
 			var packageDetails []model.PackageDetails
 			vTotal, vFailed := 0, 0
-			for _, v := range r.Verifications {
+			for _, fv := range fr.Verifications {
 				vTotal++
-				status := checkVerificationStatus(v.Passes, &vFailed)
+				status := checkVerificationStatus(fv.Passes, &vFailed)
 				packageDetails = append(packageDetails, model.PackageDetails{
-					Package: v.Package,
+					Package: fv.Package,
 					Status:  status,
-					Details: v.Details,
+					Details: fv.Details,
 				})
 			}
 			ruleStatus := resolveRuleStatus(vFailed)
 
 			vDetails = append(vDetails, model.VerificationDetails{
-				Rule:           r.Description,
+				Rule:           fr.Description,
 				Status:         ruleStatus,
 				Passed:         vTotal - vFailed,
 				Failed:         vFailed,
@@ -88,24 +88,24 @@ func resolveContentsDetails(result *verifications.Result) model.Verification {
 	verificationDetails := model.Verification{}
 	var vDetails []model.VerificationDetails
 	if result.ContentsRuleResult != nil {
-		for _, r := range result.ContentsRuleResult.Results {
-			resolveVerificationStatus(r.Passes, &verificationDetails)
+		for _, cr := range result.ContentsRuleResult.Results {
+			resolveVerificationStatus(cr.Passes, &verificationDetails)
 
 			var packageDetails []model.PackageDetails
 			vTotal, vFailed := 0, 0
-			for _, v := range r.Verifications {
+			for _, cv := range cr.Verifications {
 				vTotal++
-				status := checkVerificationStatus(v.Passes, &vFailed)
+				status := checkVerificationStatus(cv.Passes, &vFailed)
 				packageDetails = append(packageDetails, model.PackageDetails{
-					Package: v.Package,
+					Package: cv.Package,
 					Status:  status,
-					Details: v.Details,
+					Details: cv.Details,
 				})
 			}
 			ruleStatus := resolveRuleStatus(vFailed)
 
 			vDetails = append(vDetails, model.VerificationDetails{
-				Rule:           r.Description,
+				Rule:           cr.Description,
 				Status:         ruleStatus,
 				Passed:         vTotal - vFailed,
 				Failed:         vFailed,
@@ -123,24 +123,24 @@ func resolveNamingDetails(result *verifications.Result) model.Verification {
 	verificationDetails := model.Verification{}
 	var vDetails []model.VerificationDetails
 	if result.NamingRuleResult != nil {
-		for _, r := range result.NamingRuleResult.Results {
-			resolveVerificationStatus(r.Passes, &verificationDetails)
+		for _, nr := range result.NamingRuleResult.Results {
+			resolveVerificationStatus(nr.Passes, &verificationDetails)
 
 			var packageDetails []model.PackageDetails
 			vTotal, vFailed := 0, 0
-			for _, v := range r.Verifications {
+			for _, nv := range nr.Verifications {
 				vTotal++
-				status := checkVerificationStatus(v.Passes, &vFailed)
+				status := checkVerificationStatus(nv.Passes, &vFailed)
 				packageDetails = append(packageDetails, model.PackageDetails{
-					Package: v.Package,
+					Package: nv.Package,
 					Status:  status,
-					Details: v.Details,
+					Details: nv.Details,
 				})
 			}
 			ruleStatus := resolveRuleStatus(vFailed)
 
 			vDetails = append(vDetails, model.VerificationDetails{
-				Rule:           r.Description,
+				Rule:           nr.Description,
 				Status:         ruleStatus,
 				Passed:         vTotal - vFailed,
 				Failed:         vFailed,
