@@ -144,21 +144,23 @@ Dependency Rules
         * Packages that match pattern '**.cmd.*',
                 * Should only depends on packages that matches:
                         - '**.arch-go.**'
-
 Function Rules
         * Packages that match pattern '**.arch-go.**' should comply with the following rules:
                 * Functions should not have more than 50 lines
                 * Functions should not have more than 4 parameters
                 * Functions should not have more than 2 return values
                 * Files should not have more than 5 public functions
-
 Content Rules
         * Packages that match pattern '**.impl.model' should not contain functions or methods
         * Packages that match pattern '**.impl.config' should only contain functions
-
 Naming Rules
         * Packages that match pattern '**.arch-go.**' should comply with:
                 * Structs that implement interfaces matching name '*Verification' should have simple name ending with 'Verification'
+Threshold Rules
+        * The module must comply with at least 100% of the rules described above.
+        * The rules described above must cover at least 100% of the packages in this module.
+
+Time: 0.000 seconds
 ```
 
 ## Supported flags
