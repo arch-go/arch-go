@@ -5,8 +5,8 @@ import (
 	"io"
 	"os"
 
-	"github.com/fdaines/arch-go/pkg/archgo"
-	"github.com/fdaines/arch-go/pkg/archgo/configuration"
+	"github.com/fdaines/arch-go/api"
+	"github.com/fdaines/arch-go/api/configuration"
 
 	"github.com/fdaines/arch-go/internal/common"
 	"github.com/fdaines/arch-go/internal/model"
@@ -80,7 +80,7 @@ func runRootCommand(out io.Writer) bool {
 		Packages:    packages,
 	}
 
-	result := archgo.CheckArchitecture(moduleInfo, *configuration)
+	result := api.CheckArchitecture(moduleInfo, *configuration)
 	report := reports.GenerateReport(result, moduleInfo, *configuration)
 	reports.DisplayResult(report, out)
 

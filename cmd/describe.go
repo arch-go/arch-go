@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/fdaines/arch-go/internal/commands/describe"
-	"github.com/fdaines/arch-go/pkg/archgo/configuration"
+	"github.com/fdaines/arch-go/api/configuration"
 
+	"github.com/fdaines/arch-go/internal/commands/describe"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )

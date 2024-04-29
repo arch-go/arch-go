@@ -1,7 +1,7 @@
 package functions
 
 import (
-	"github.com/fdaines/arch-go/pkg/archgo/configuration"
+	"github.com/fdaines/arch-go/api/configuration"
 )
 
 type RulesResult struct {

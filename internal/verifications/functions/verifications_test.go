@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/fdaines/arch-go/internal/verifications/functions"
-	"github.com/fdaines/arch-go/pkg/archgo/configuration"
+	"github.com/fdaines/arch-go/api/configuration"
 
 	"github.com/agiledragon/gomonkey/v2"
 	"github.com/fdaines/arch-go/internal/model"
 	"github.com/fdaines/arch-go/internal/utils/values"
+	"github.com/fdaines/arch-go/internal/verifications/functions"
 	"github.com/stretchr/testify/assert"
 )
 

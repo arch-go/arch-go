@@ -5,9 +5,9 @@ import (
 	"io"
 	"os"
 
-	"github.com/fdaines/arch-go/internal/commands"
-	"github.com/fdaines/arch-go/pkg/archgo/configuration"
+	"github.com/fdaines/arch-go/api/configuration"
 
+	"github.com/fdaines/arch-go/internal/commands"
 	"github.com/fdaines/arch-go/internal/utils/timer"
 
 	"github.com/fdaines/arch-go/internal/validators"

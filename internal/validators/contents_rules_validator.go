@@ -3,7 +3,7 @@ package validators
 import (
 	"fmt"
 
-	"github.com/fdaines/arch-go/pkg/archgo/configuration"
+	"github.com/fdaines/arch-go/api/configuration"
 )
 
 func validateContentRules(rules []*configuration.ContentsRule) error {

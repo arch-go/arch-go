@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/fdaines/arch-go/pkg/archgo/configuration"
+	"github.com/fdaines/arch-go/api/configuration"
 
 	"github.com/fdaines/arch-go/internal/common"
 )

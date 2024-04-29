@@ -1,17 +1,17 @@
-package archgo
+package api
 
 import (
 	"testing"
 	"time"
 
-	"github.com/fdaines/arch-go/internal/verifications/contents"
-	"github.com/fdaines/arch-go/internal/verifications/functions"
-	"github.com/fdaines/arch-go/internal/verifications/naming"
-	"github.com/fdaines/arch-go/pkg/archgo/configuration"
+	"github.com/fdaines/arch-go/api/configuration"
 
 	"github.com/agiledragon/gomonkey/v2"
 	"github.com/fdaines/arch-go/internal/model"
 	"github.com/fdaines/arch-go/internal/utils/values"
+	"github.com/fdaines/arch-go/internal/verifications/contents"
+	"github.com/fdaines/arch-go/internal/verifications/functions"
+	"github.com/fdaines/arch-go/internal/verifications/naming"
 	"github.com/stretchr/testify/assert"
 )
 

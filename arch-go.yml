@@ -7,7 +7,7 @@ dependenciesRules:
   shouldNotDependsOn:
     internal:
       - '**.arch-go.cmd.**'
-- package: '**.pkg.**'
+- package: '**.arch-go.api.**'
   shouldNotDependsOn:
     internal:
       - '**.arch-go.cmd.**'

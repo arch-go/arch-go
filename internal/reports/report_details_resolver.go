@@ -1,11 +1,11 @@
 package reports
 
 import (
+	"github.com/fdaines/arch-go/api"
 	"github.com/fdaines/arch-go/internal/reports/model"
-	"github.com/fdaines/arch-go/pkg/archgo"
 )
 
-func resolveReportDetails(result *archgo.Result) *model.ReportDetails {
+func resolveReportDetails(result *api.Result) *model.ReportDetails {
 	return &model.ReportDetails{
 		DependenciesVerificationDetails: resolveDependenciesDetails(result),
 		FunctionsVerificationDetails:    resolveFunctionsDetails(result),
@@ -14,7 +14,7 @@ func resolveReportDetails(result *archgo.Result) *model.ReportDetails {
 	}
 }
 
-func resolveDependenciesDetails(result *archgo.Result) model.Verification {
+func resolveDependenciesDetails(result *api.Result) model.Verification {
 	verificationDetails := model.Verification{}
 	var vDetails []model.VerificationDetails
 	if result.DependenciesRuleResult != nil {
@@ -49,7 +49,7 @@ func resolveDependenciesDetails(result *archgo.Result) model.Verification {
 	return verificationDetails
 }
 
-func resolveFunctionsDetails(result *archgo.Result) model.Verification {
+func resolveFunctionsDetails(result *api.Result) model.Verification {
 	verificationDetails := model.Verification{}
 	var vDetails []model.VerificationDetails
 	if result.FunctionsRuleResult != nil {
@@ -84,7 +84,7 @@ func resolveFunctionsDetails(result *archgo.Result) model.Verification {
 	return verificationDetails
 }
 
-func resolveContentsDetails(result *archgo.Result) model.Verification {
+func resolveContentsDetails(result *api.Result) model.Verification {
 	verificationDetails := model.Verification{}
 	var vDetails []model.VerificationDetails
 	if result.ContentsRuleResult != nil {
@@ -119,7 +119,7 @@ func resolveContentsDetails(result *archgo.Result) model.Verification {
 	return verificationDetails
 }
 
-func resolveNamingDetails(result *archgo.Result) model.Verification {
+func resolveNamingDetails(result *api.Result) model.Verification {
 	verificationDetails := model.Verification{}
 	var vDetails []model.VerificationDetails
 	if result.NamingRuleResult != nil {

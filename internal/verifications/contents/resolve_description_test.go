@@ -3,7 +3,7 @@ package contents
 import (
 	"testing"
 
-	"github.com/fdaines/arch-go/pkg/archgo/configuration"
+	"github.com/fdaines/arch-go/api/configuration"
 
 	"github.com/stretchr/testify/assert"
 )

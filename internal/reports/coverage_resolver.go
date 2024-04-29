@@ -1,13 +1,13 @@
 package reports
 
 import (
+	"github.com/fdaines/arch-go/api"
+	"github.com/fdaines/arch-go/api/configuration"
 	"github.com/fdaines/arch-go/internal/model"
 	model2 "github.com/fdaines/arch-go/internal/reports/model"
-	"github.com/fdaines/arch-go/pkg/archgo"
-	"github.com/fdaines/arch-go/pkg/archgo/configuration"
 )
 
-func resolveCoverage(r *archgo.Result, m model.ModuleInfo, c configuration.Config) *model2.ThresholdSummary {
+func resolveCoverage(r *api.Result, m model.ModuleInfo, c configuration.Config) *model2.ThresholdSummary {
 	moduleContents := checkPackagesCoverage(r, m)
 	var uncoveredPackages []string
 	for pkg, verified := range moduleContents {
@@ -41,7 +41,7 @@ func resolveCoverage(r *archgo.Result, m model.ModuleInfo, c configuration.Confi
 	}
 }
 
-func checkPackagesCoverage(r *archgo.Result, m model.ModuleInfo) map[string]bool {
+func checkPackagesCoverage(r *api.Result, m model.ModuleInfo) map[string]bool {
 	moduleContents := make(map[string]bool)
 	for _, pkg := range m.Packages {
 		moduleContents[pkg.Path] = false
@@ -55,7 +55,7 @@ func checkPackagesCoverage(r *archgo.Result, m model.ModuleInfo) map[string]bool
 	return moduleContents
 }
 
-func checkNamingRules(r *archgo.Result, moduleContents map[string]bool) {
+func checkNamingRules(r *api.Result, moduleContents map[string]bool) {
 	if r.NamingRuleResult != nil {
 		for _, dr := range r.NamingRuleResult.Results {
 			for _, v := range dr.Verifications {
@@ -65,7 +65,7 @@ func checkNamingRules(r *archgo.Result, moduleContents map[string]bool) {
 	}
 }
 
-func checkContentsRules(r *archgo.Result, moduleContents map[string]bool) {
+func checkContentsRules(r *api.Result, moduleContents map[string]bool) {
 	if r.ContentsRuleResult != nil {
 		for _, dr := range r.ContentsRuleResult.Results {
 			for _, v := range dr.Verifications {
@@ -75,7 +75,7 @@ func checkContentsRules(r *archgo.Result, moduleContents map[string]bool) {
 	}
 }
 
-func checkFunctionsRules(r *archgo.Result, moduleContents map[string]bool) {
+func checkFunctionsRules(r *api.Result, moduleContents map[string]bool) {
 	if r.FunctionsRuleResult != nil {
 		for _, dr := range r.FunctionsRuleResult.Results {
 			for _, v := range dr.Verifications {
@@ -85,7 +85,7 @@ func checkFunctionsRules(r *archgo.Result, moduleContents map[string]bool) {
 	}
 }
 
-func checkDependenciesRules(r *archgo.Result, moduleContents map[string]bool) {
+func checkDependenciesRules(r *api.Result, moduleContents map[string]bool) {
 	if r.DependenciesRuleResult != nil {
 		for _, dr := range r.DependenciesRuleResult.Results {
 			for _, v := range dr.Verifications {

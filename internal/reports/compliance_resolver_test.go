@@ -3,14 +3,14 @@ package reports
 import (
 	"testing"
 
+	"github.com/fdaines/arch-go/api"
+	"github.com/fdaines/arch-go/api/configuration"
+
+	"github.com/fdaines/arch-go/internal/reports/model"
 	"github.com/fdaines/arch-go/internal/verifications/contents"
 	"github.com/fdaines/arch-go/internal/verifications/dependencies"
 	"github.com/fdaines/arch-go/internal/verifications/functions"
 	"github.com/fdaines/arch-go/internal/verifications/naming"
-	"github.com/fdaines/arch-go/pkg/archgo"
-	"github.com/fdaines/arch-go/pkg/archgo/configuration"
-
-	"github.com/fdaines/arch-go/internal/reports/model"
 
 	"github.com/fdaines/arch-go/internal/utils/values"
 	"github.com/stretchr/testify/assert"
@@ -18,11 +18,11 @@ import (
 
 func TestComplianceResolver(t *testing.T) {
 	t.Run("resolveTotals", func(t *testing.T) {
-		passes, totals := resolveTotals(&archgo.Result{})
+		passes, totals := resolveTotals(&api.Result{})
 		assert.Equal(t, 0, passes)
 		assert.Equal(t, 0, totals)
 
-		passes, totals = resolveTotals(&archgo.Result{
+		passes, totals = resolveTotals(&api.Result{
 			DependenciesRuleResult: &dependencies.RulesResult{
 				Results: []*dependencies.RuleResult{
 					{Passes: true},
@@ -33,7 +33,7 @@ func TestComplianceResolver(t *testing.T) {
 		assert.Equal(t, 1, passes)
 		assert.Equal(t, 2, totals)
 
-		passes, totals = resolveTotals(&archgo.Result{
+		passes, totals = resolveTotals(&api.Result{
 			FunctionsRuleResult: &functions.RulesResult{
 				Results: []*functions.RuleResult{
 					{Passes: true},
@@ -45,7 +45,7 @@ func TestComplianceResolver(t *testing.T) {
 		assert.Equal(t, 2, passes)
 		assert.Equal(t, 3, totals)
 
-		passes, totals = resolveTotals(&archgo.Result{
+		passes, totals = resolveTotals(&api.Result{
 			ContentsRuleResult: &contents.RulesResult{
 				Results: []*contents.RuleResult{
 					{Passes: false},
@@ -55,7 +55,7 @@ func TestComplianceResolver(t *testing.T) {
 		assert.Equal(t, 0, passes)
 		assert.Equal(t, 1, totals)
 
-		passes, totals = resolveTotals(&archgo.Result{
+		passes, totals = resolveTotals(&api.Result{
 			NamingRuleResult: &naming.RulesResult{
 				Results: []*naming.RuleResult{
 					{Passes: true},
@@ -67,7 +67,7 @@ func TestComplianceResolver(t *testing.T) {
 		assert.Equal(t, 3, passes)
 		assert.Equal(t, 3, totals)
 
-		passes, totals = resolveTotals(&archgo.Result{
+		passes, totals = resolveTotals(&api.Result{
 			DependenciesRuleResult: &dependencies.RulesResult{
 				Results: []*dependencies.RuleResult{
 					{Passes: true},
@@ -99,7 +99,7 @@ func TestComplianceResolver(t *testing.T) {
 	})
 
 	t.Run("resolveCompliance case 1", func(t *testing.T) {
-		verificationResult := &archgo.Result{}
+		verificationResult := &api.Result{}
 		configuration := configuration.Config{}
 
 		expectedResult := &model.ThresholdSummary{
@@ -112,7 +112,7 @@ func TestComplianceResolver(t *testing.T) {
 	})
 
 	t.Run("resolveCompliance case 2", func(t *testing.T) {
-		verificationResult := &archgo.Result{}
+		verificationResult := &api.Result{}
 		configuration := configuration.Config{
 			Threshold: &configuration.Threshold{
 				Compliance: values.GetIntRef(100),
@@ -132,7 +132,7 @@ func TestComplianceResolver(t *testing.T) {
 	})
 
 	t.Run("resolveCompliance case 3", func(t *testing.T) {
-		verificationResult := &archgo.Result{
+		verificationResult := &api.Result{
 			DependenciesRuleResult: &dependencies.RulesResult{
 				Results: []*dependencies.RuleResult{
 					{Passes: true},
@@ -159,7 +159,7 @@ func TestComplianceResolver(t *testing.T) {
 	})
 
 	t.Run("resolveCompliance case 5", func(t *testing.T) {
-		verificationResult := &archgo.Result{
+		verificationResult := &api.Result{
 			DependenciesRuleResult: &dependencies.RulesResult{
 				Results: []*dependencies.RuleResult{
 					{Passes: true},

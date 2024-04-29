@@ -1,4 +1,4 @@
-package archgo
+package api
 
 import (
 	"time"

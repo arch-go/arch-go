@@ -1,11 +1,11 @@
-package archgo_test
+package api_test
 
 import (
 	"testing"
 	"time"
 
-	"github.com/fdaines/arch-go/pkg/archgo"
-	"github.com/fdaines/arch-go/pkg/archgo/configuration"
+	"github.com/fdaines/arch-go/api"
+	"github.com/fdaines/arch-go/api/configuration"
 
 	"github.com/agiledragon/gomonkey/v2"
 	"github.com/fdaines/arch-go/internal/model"
@@ -23,7 +23,7 @@ func TestCheckArchitecture(t *testing.T) {
 		}
 		configuration := configuration.Config{}
 
-		result := archgo.CheckArchitecture(moduleInfo, configuration)
+		result := api.CheckArchitecture(moduleInfo, configuration)
 
 		assert.True(t, result.Passes)
 	})

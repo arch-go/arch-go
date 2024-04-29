@@ -1,7 +1,7 @@
 package contents
 
 import (
-	"github.com/fdaines/arch-go/pkg/archgo/configuration"
+	"github.com/fdaines/arch-go/api/configuration"
 )
 
 func checkInterfaces(pkg *PackageContents, rule *configuration.ContentsRule) (bool, []string) {
