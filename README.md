@@ -116,6 +116,8 @@ Represents how many packages in this module were evaluated by at least one rule.
 Arch-Go will check that the coverage level of your module must be equals or greater than the threshold defined in your `arch-go.yml` file, if not then the verification will fail.
 
 # Usage
+
+## Using Arch-Go in command line
 To install Arch-Go, run
 ```bash
 $ go install -v github.com/fdaines/arch-go@latest
@@ -179,6 +181,53 @@ $ arch-go --verbose
 $ arch-go --html
 $ arch-go describe
 ```
+
+## Using Arch-Go programmatically
+The current version of Arch-Go allows us to include architecture checks as part of the tests run by the `go test` tool.
+
+You need to include Arch-Go as a dependency in your project, using
+```
+go get github.com/fdaines/arch-go@latest
+```
+And then you need to create Architecture Tests, there is an example of a simple test case:
+```go
+package architecture_test
+
+import (
+	"testing"
+
+	archgo "github.com/fdaines/arch-go/api"
+	config "github.com/fdaines/arch-go/api/configuration"
+)
+
+func TestArchitecture(t *testing.T) {
+	configuration := config.Config{
+		DependenciesRules: []*config.DependenciesRule{
+			{
+				Package: "**.cmd.**",
+				ShouldOnlyDependsOn: &config.Dependencies{
+					Internal: []string{
+						"**.cmd.**",
+						"**.internal.**",
+					},
+				},
+			},
+		},
+	}
+	moduleInfo := config.Load("github.com/melisource/fury_fpaas-proxy")
+
+	result := archgo.CheckArchitecture(moduleInfo, configuration)
+
+	if !result.Passes {
+		t.Fatal("Project doesn't pass architecture tests")
+	}
+}
+```
+The `result` variable will store more than the verification result, 
+it will include details for each rule type and analyzed packages,
+then you can access all this data to create your assertions as you need.
+
+
 
 # Contributions
 Feel free to contribute.
