@@ -33,12 +33,11 @@ func checkThreshold(config *Config) {
 	if config.Threshold == nil {
 		config.Threshold = &Threshold{}
 	}
-
 	maxThreshold := 100
-	if config.Threshold.Compliance != nil {
+	if config.Threshold.Compliance == nil {
 		config.Threshold.Compliance = &maxThreshold
 	}
-	if config.Threshold.Coverage != nil {
+	if config.Threshold.Coverage == nil {
 		config.Threshold.Coverage = &maxThreshold
 	}
 }
