@@ -26,6 +26,7 @@ jobs:
 
       - name: Arch-Go
         run: |
+          # Smoke E2E: Run program with different flag options
           # Define convenience function
           function runTest() {
               echo -e "\e[34m++++++++++++++++++++++++++++++++++++++++\n\e[34m+ Run test: $1\n\e[34m++++++++++++++++++++++++++++++++++++++++\e[0m"
