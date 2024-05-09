@@ -173,10 +173,11 @@ Naming Rules
 
 ## Supported flags
 
-| Flag      | Description                                                                                     |
-| --------- |:------------------------------------------------------------------------------------------------|
-| --verbose | Includes detailed information while the command is running. The shorthand is _-v_               |
-| --html    | Generates a simple HTL report with the evaluation result.                                       |
+| Flag      | Description                                                                                                                              |
+|-----------|:-----------------------------------------------------------------------------------------------------------------------------------------|
+| --color   | If not set (default: auto) in a tty the colors are printed. If set to yes or no the default is overridden. This can be useful in the CI. |
+| --verbose | Includes detailed information while the command is running. The shorthand is _-v_                                                        |
+| --html    | Generates a simple HTL report with the evaluation result.                                                                                |
 
 
 ## Examples
