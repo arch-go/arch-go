@@ -1,6 +1,7 @@
 package api
 
 import (
+	"sync"
 	"time"
 
 	"github.com/fdaines/arch-go/api/configuration"
@@ -33,26 +34,47 @@ func NewArchitectureAnalysis(m model.ModuleInfo, c configuration.Config) *archit
 }
 
 func (a *architectureAnalysis) Execute() (*Result, error) {
+	var wg sync.WaitGroup
+
 	verificationResult := &Result{
 		Time:   time.Now(),
 		Passes: true,
 	}
-	if len(a.configuration.DependenciesRules) > 0 {
-		verificationResult.DependenciesRuleResult = a.checkDependenciesRules(a.moduleInfo, a.configuration.DependenciesRules)
-		verificationResult.Passes = verificationResult.Passes && verificationResult.DependenciesRuleResult.Passes
-	}
-	if len(a.configuration.FunctionsRules) > 0 {
-		verificationResult.FunctionsRuleResult = a.checkFunctionRules(a.moduleInfo, a.configuration.FunctionsRules)
-		verificationResult.Passes = verificationResult.Passes && verificationResult.FunctionsRuleResult.Passes
-	}
-	if len(a.configuration.ContentRules) > 0 {
-		verificationResult.ContentsRuleResult = a.checkContentsRules(a.moduleInfo, a.configuration.ContentRules)
-		verificationResult.Passes = verificationResult.Passes && verificationResult.ContentsRuleResult.Passes
-	}
-	if len(a.configuration.NamingRules) > 0 {
-		verificationResult.NamingRuleResult = a.checkNamingRules(a.moduleInfo, a.configuration.NamingRules)
-		verificationResult.Passes = verificationResult.Passes && verificationResult.NamingRuleResult.Passes
-	}
+
+	wg.Add(4)
+	go func() {
+		if len(a.configuration.DependenciesRules) > 0 {
+			verificationResult.DependenciesRuleResult = a.checkDependenciesRules(a.moduleInfo, a.configuration.DependenciesRules)
+			verificationResult.Passes = verificationResult.Passes && verificationResult.DependenciesRuleResult.Passes
+		}
+		wg.Done()
+	}()
+
+	go func() {
+		if len(a.configuration.FunctionsRules) > 0 {
+			verificationResult.FunctionsRuleResult = a.checkFunctionRules(a.moduleInfo, a.configuration.FunctionsRules)
+			verificationResult.Passes = verificationResult.Passes && verificationResult.FunctionsRuleResult.Passes
+		}
+		wg.Done()
+	}()
+
+	go func() {
+		if len(a.configuration.ContentRules) > 0 {
+			verificationResult.ContentsRuleResult = a.checkContentsRules(a.moduleInfo, a.configuration.ContentRules)
+			verificationResult.Passes = verificationResult.Passes && verificationResult.ContentsRuleResult.Passes
+		}
+		wg.Done()
+	}()
+
+	go func() {
+		if len(a.configuration.NamingRules) > 0 {
+			verificationResult.NamingRuleResult = a.checkNamingRules(a.moduleInfo, a.configuration.NamingRules)
+			verificationResult.Passes = verificationResult.Passes && verificationResult.NamingRuleResult.Passes
+		}
+		wg.Done()
+	}()
+
+	wg.Wait()
 	endMoment := time.Now()
 
 	verificationResult.Duration = endMoment.Sub(verificationResult.Time)

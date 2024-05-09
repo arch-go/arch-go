@@ -25,7 +25,20 @@ jobs:
         run: go test -v ./... -gcflags=all=-l
 
       - name: Arch-Go
-        run: go run main.go -v --html
+        run: |
+          # Define convenience function
+          function runTest() {
+              echo -e "\e[32m++++++++++++++++++++++++++++++++++++++++\nRun test: $1\n++++++++++++++++++++++++++++++++++++++++\e[0m"
+              bash -c "$1"
+          }
+          # Run tests
+          runTest "go run main.go describe"
+          runTest "go run main.go describe -v"
+          runTest "go run main.go"
+          runTest "go run main.go -v"
+          runTest "go run main.go -v --html"
+          runTest "go run main.go -v --html --color yes"
+          runTest "go run main.go -v --html --color no"
 
       - uses: actions/upload-artifact@v2
         with:

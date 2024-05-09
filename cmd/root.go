@@ -2,8 +2,10 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/fatih/color"
 	"io"
 	"os"
+	"strings"
 
 	"github.com/fdaines/arch-go/api"
 	"github.com/fdaines/arch-go/api/configuration"
@@ -38,16 +40,28 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	rootCmd.Flags().BoolVarP(&common.Verbose, "verbose", "v", false, "Verbose Output")
-	rootCmd.Flags().BoolVar(&common.Html, "html", false, "Generate HTML Report")
+	rootCmd.PersistentFlags().BoolVarP(&common.Verbose, "verbose", "v", false, "Verbose Output")
+	rootCmd.PersistentFlags().BoolVar(&common.Html, "html", false, "Generate HTML Report")
+	rootCmd.PersistentFlags().StringVar(&common.Color, "color", "auto", "Print colors (auto, yes, no)")
 }
 
 func runCommand(cmd *cobra.Command, args []string) {
+	configureColor()
 	fmt.Fprintf(cmd.OutOrStdout(), "Running arch-go command\n")
 	fmt.Fprintf(cmd.OutOrStdout(), "Using configuration file: %s\n", viper.ConfigFileUsed())
 	success := commandToRun(cmd.OutOrStdout())
 	if !success {
 		os.Exit(1)
+	}
+}
+
+func configureColor() {
+	// Skip when set to auto or anything else
+	if strings.ToLower(common.Color) == "yes" {
+		color.NoColor = false
+	}
+	if strings.ToLower(common.Color) == "no" {
+		color.NoColor = true
 	}
 }
 
