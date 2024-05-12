@@ -1,0 +1,63 @@
+{{define "rules-summary" -}}
+<table class="rules-summary">
+    <thead>
+    <tr>
+        <th style="width:200px;">Rule Type</th>
+        <th style="width:120px;">Summary</th>
+        <th style="width:100px;">Total</th>
+        <th style="width:100px;">Succeed</th>
+        <th style="width:100px;">Fail</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Content Verification</td>
+        <td>
+            <div class="result_bar">
+                <div class="result_succeeded width-{{ ratio .Details.ContentsVerificationDetails.Passed .Details.ContentsVerificationDetails.Total }}"></div>
+                <div class="result_legend">{{.Details.ContentsVerificationDetails.Passed}}/{{.Details.ContentsVerificationDetails.Total}}</div>
+            </div>
+        </td>
+        <td style="text-align:center;">{{.Details.ContentsVerificationDetails.Total}}</td>
+        <td style="text-align:center;">{{.Details.ContentsVerificationDetails.Passed}}</td>
+        <td style="text-align:center;">{{.Details.ContentsVerificationDetails.Failed}}</td>
+    </tr>
+    <tr>
+        <td>Dependencies Verification</td>
+        <td>
+            <div class="result_bar">
+                <div class="result_succeeded width-{{ ratio .Details.DependenciesVerificationDetails.Passed .Details.DependenciesVerificationDetails.Total }}"></div>
+                <div class="result_legend">{{.Details.DependenciesVerificationDetails.Passed}}/{{.Details.DependenciesVerificationDetails.Total}}</div>
+            </div>
+        </td>
+        <td style="text-align:center;">{{.Details.DependenciesVerificationDetails.Total}}</td>
+        <td style="text-align:center;">{{.Details.DependenciesVerificationDetails.Passed}}</td>
+        <td style="text-align:center;">{{.Details.DependenciesVerificationDetails.Failed}}</td>
+    </tr>
+    <tr>
+        <td>Functions Verification</td>
+        <td>
+            <div class="result_bar">
+                <div class="result_succeeded width-{{ ratio .Details.FunctionsVerificationDetails.Passed .Details.FunctionsVerificationDetails.Total }}"></div>
+                <div class="result_legend">{{.Details.FunctionsVerificationDetails.Passed}}/{{.Details.FunctionsVerificationDetails.Total}}</div>
+            </div>
+        </td>
+        <td style="text-align:center;">{{.Details.FunctionsVerificationDetails.Total}}</td>
+        <td style="text-align:center;">{{.Details.FunctionsVerificationDetails.Passed}}</td>
+        <td style="text-align:center;">{{.Details.FunctionsVerificationDetails.Failed}}</td>
+    </tr>
+    <tr>
+        <td>Naming Verification</td>
+        <td>
+            <div class="result_bar">
+                <div class="result_succeeded width-{{ ratio .Details.NamingVerificationDetails.Passed .Details.NamingVerificationDetails.Total }}"></div>
+                <div class="result_legend">{{.Details.NamingVerificationDetails.Passed}}/{{.Details.NamingVerificationDetails.Total}}</div>
+            </div>
+        </td>
+        <td style="text-align:center;">{{.Details.NamingVerificationDetails.Total}}</td>
+        <td style="text-align:center;">{{.Details.NamingVerificationDetails.Passed}}</td>
+        <td style="text-align:center;">{{.Details.NamingVerificationDetails.Failed}}</td>
+    </tr>
+    </tbody>
+</table>
+{{end}}

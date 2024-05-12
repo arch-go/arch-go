@@ -1,0 +1,58 @@
+{{define "tab-compliance" -}}
+<h4>Rule Details</h4>
+<table class="rule-details" border="1" frame="void" rules="rows">
+<thead>
+<tr>
+    <th style="width:200px;">Rule Type</th>
+    <th>Rule Description</th>
+    <th style="width:60px;">Total</th>
+    <th style="width:60px;">Succeed</th>
+    <th style="width:60px;">Fail</th>
+    <th style="width:100px;">Result</th>
+</tr>
+</thead>
+<tbody>
+{{ range $item := .ContentsVerificationDetails.Details }}
+<tr class="rule-verification">
+    <td>Contents Rules</td>
+    <td>{{ $item.Rule }}</td>
+    <td style="text-align:center">{{ $item.Total }}</td>
+    <td style="text-align:center">{{ $item.Passed }}</td>
+    <td style="text-align:center">{{ $item.Failed }}</td>
+    <td class="status" style="color:{{if passes $item.Status}}green{{else}}red{{end}}">{{ $item.Status }}</td>
+</tr>
+{{ end }}
+{{ range $item := .DependenciesVerificationDetails.Details }}
+<tr class="rule-verification">
+    <td>Dependencies Rules</td>
+    <td>{{ $item.Rule }}</td>
+    <td style="text-align:center">{{ $item.Total }}</td>
+    <td style="text-align:center">{{ $item.Passed }}</td>
+    <td style="text-align:center">{{ $item.Failed }}</td>
+    <td class="status" style="color:{{if passes $item.Status}}green{{else}}red{{end}}">{{ $item.Status }}</td>
+</tr>
+{{ end }}
+{{ range $item := .FunctionsVerificationDetails.Details }}
+<tr class="rule-verification">
+    <td>Functions Rules</td>
+    <td>{{ $item.Rule }}</td>
+    <td style="text-align:center">{{ $item.Total }}</td>
+    <td style="text-align:center">{{ $item.Passed }}</td>
+    <td style="text-align:center">{{ $item.Failed }}</td>
+    <td class="status" style="color:{{if passes $item.Status}}green{{else}}red{{end}}">{{ $item.Status }}</td>
+</tr>
+{{ end }}
+{{ range $item := .NamingVerificationDetails.Details }}
+<tr class="rule-verification">
+    <td>Naming Rules</td>
+    <td>{{ $item.Rule }}</td>
+    <td style="text-align:center">{{ $item.Total }}</td>
+    <td style="text-align:center">{{ $item.Passed }}</td>
+    <td style="text-align:center">{{ $item.Failed }}</td>
+    <td class="status" style="color:{{if passes $item.Status}}green{{else}}red{{end}}">{{ $item.Status }}</td>
+</tr>
+{{ end }}
+
+</tbody>
+</table>
+{{end}}

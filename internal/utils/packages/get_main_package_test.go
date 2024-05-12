@@ -5,7 +5,8 @@ import (
 	"os"
 	"testing"
 
-	"bou.ke/monkey"
+	"github.com/agiledragon/gomonkey/v2"
+
 	"github.com/stretchr/testify/assert"
 
 	"github.com/fdaines/arch-go/internal/utils/packages"
@@ -20,14 +21,12 @@ go 1.18
 require (
 	foobar 0.0.1
 )`
-		readFilePatch := monkey.Patch(os.ReadFile, func(fn string) ([]byte, error) {
+		readFilePatch := gomonkey.ApplyFunc(os.ReadFile, func(fn string) ([]byte, error) {
 			return []byte(gomodFile), nil
 		})
-		defer readFilePatch.Unpatch()
-		statPatch := monkey.Patch(os.Stat, func(string) (os.FileInfo, error) {
-			return nil, nil
-		})
-		defer statPatch.Unpatch()
+		defer readFilePatch.Reset()
+		statPatch := gomonkey.ApplyFuncReturn(os.Stat, nil, nil)
+		defer statPatch.Reset()
 
 		expected := "github.com/fdaines/my-golang-module"
 		modulePath, _ := packages.GetMainPackage()
@@ -36,10 +35,8 @@ require (
 	})
 
 	t.Run("Calls GetMainPackage function and go.mod file doesnt exists", func(t *testing.T) {
-		statPatch := monkey.Patch(os.Stat, func(string) (os.FileInfo, error) {
-			return nil, fmt.Errorf("Error")
-		})
-		defer statPatch.Unpatch()
+		statPatch := gomonkey.ApplyFuncReturn(os.Stat, nil, fmt.Errorf("Error"))
+		defer statPatch.Reset()
 
 		expected := ""
 		modulepath, err := packages.GetMainPackage()

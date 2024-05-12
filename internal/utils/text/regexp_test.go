@@ -2,12 +2,13 @@ package text_test
 
 import (
 	"fmt"
-	"github.com/fdaines/arch-go/internal/utils/text"
 	"testing"
+
+	"github.com/fdaines/arch-go/internal/utils/text"
 )
 
 func TestPreparePackageRegexp(t *testing.T) {
-	var tests = []struct {
+	tests := []struct {
 		input string
 		want  string
 	}{
@@ -21,6 +22,7 @@ func TestPreparePackageRegexp(t *testing.T) {
 		{"foo.*.bar", "foo/[\\w-\\.]+/bar"},
 		{"foo.**.bar", "foo(/[\\w-\\.]+/)+bar"},
 		{"*.foo.**.bar.**", "^[\\w-\\.]+/foo(/[\\w-\\.]+/)+bar(/[\\w-\\.]+)*$"},
+		{"*.foo.**.bar.**.xxx.**", "^[\\w-\\.]+/foo(/[\\w-\\.]+/)+bar(/[\\w-\\.]+/)+xxx(/[\\w-\\.]+)*$"},
 	}
 
 	for _, tt := range tests {

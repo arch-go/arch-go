@@ -2,23 +2,24 @@ package packages
 
 import (
 	"fmt"
-	"github.com/fdaines/arch-go/internal/model"
-	"github.com/fdaines/arch-go/internal/utils/output"
 	"go/build"
+	"io"
+
+	"github.com/fdaines/arch-go/internal/model"
 	"golang.org/x/tools/go/packages"
 )
 
-func GetBasicPackagesInfo(printInfo bool) ([]*model.PackageInfo, error) {
+func GetBasicPackagesInfo(mainPackage string, out io.Writer, printInfo bool) ([]*model.PackageInfo, error) {
 	var packagesInfo []*model.PackageInfo
-	var context = build.Default
+	context := build.Default
 
-	pkgs, err := getPackages(printInfo)
+	pkgs, err := getPackages(mainPackage, out, printInfo)
 	if err != nil {
 		return nil, fmt.Errorf("Error: %v\n", err)
 	} else {
 		for index, packageName := range pkgs {
 			if printInfo {
-				output.PrintVerbose("Loading package (%d/%d): %s\n", index+1, len(pkgs), packageName)
+				fmt.Fprintf(out, "Loading package (%d/%d): %s\n", index+1, len(pkgs), packageName)
 			}
 			pkg, errX := context.Import(packageName, "", 0)
 			if errX == nil {
@@ -35,11 +36,11 @@ func GetBasicPackagesInfo(printInfo bool) ([]*model.PackageInfo, error) {
 	return packagesInfo, nil
 }
 
-func getPackages(printInfo bool) ([]string, error) {
+func getPackages(mainPackage string, out io.Writer, printInfo bool) ([]string, error) {
 	if printInfo {
-		output.Print("Looking for packages.\n")
+		fmt.Fprint(out, "Looking for packages.\n")
 	}
-	pkgs, err := packages.Load(nil, "./...")
+	pkgs, err := packages.Load(&packages.Config{Tests: false}, mainPackage+"/...")
 	if err != nil {
 		return nil, fmt.Errorf("Cannot load module packages: %+v", err)
 	}
@@ -48,7 +49,7 @@ func getPackages(printInfo bool) ([]string, error) {
 		packages = append(packages, pkg.PkgPath)
 	}
 	if printInfo {
-		output.Printf("%v packages found...\n", len(packages))
+		fmt.Fprintf(out, "%v packages found...\n", len(packages))
 	}
 	return packages, nil
 }

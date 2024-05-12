@@ -26,9 +26,6 @@ The supported checks are:
 * shouldOnlyContainFunctions
 * shouldOnlyContainMethods
 
-## Cyclic Dependencies checks
-Checks if a set of packages contains cyclic dependencies.
-
 ## Function checks
 Checks some functions properties, like the following:
 - Maximum number of parameters
@@ -67,29 +64,22 @@ dependenciesRules:
     shouldNotDependsOn:
       external:
         - "github.com/foobar/example-module"
-
 contentsRules:
   - package: "**.impl.model"
     shouldNotContainInterfaces: true
-  - package: "**.impl.config"
+  - package: "**.impl.configuration"
     shouldOnlyContainFunctions: true
   - package: "**.impl.dependencies"
     shouldNotContainStructs: true
     shouldNotContainInterfaces: true
     shouldNotContainMethods: true
     shouldNotContainFunctions: true
-
 functionsRules:
   - package: "**.impl.**"
     maxParameters: 3
     maxReturnValues: 2
     maxPublicFunctionPerFile: 1
     maxLines: 50
-
-cyclesRules:
-  - package: "**.cmd"
-    shouldNotContainCycles: true
-
 namingRules:
   - package: "**.arch-go.**"
     interfaceImplementationNamingRule:
@@ -126,6 +116,9 @@ Represents how many packages in this module were evaluated by at least one rule.
 Arch-Go will check that the coverage level of your module must be equals or greater than the threshold defined in your `arch-go.yml` file, if not then the verification will fail.
 
 # Usage
+
+## Using Arch-Go in command line
+
 To install Arch-Go, run
 ```bash
 $ go install -v github.com/fdaines/arch-go@latest
@@ -154,21 +147,23 @@ Dependency Rules
         * Packages that match pattern '**.cmd.*',
                 * Should only depends on packages that matches:
                         - '**.arch-go.**'
-
 Function Rules
         * Packages that match pattern '**.arch-go.**' should comply with the following rules:
                 * Functions should not have more than 50 lines
                 * Functions should not have more than 4 parameters
                 * Functions should not have more than 2 return values
                 * Files should not have more than 5 public functions
-
 Content Rules
         * Packages that match pattern '**.impl.model' should not contain functions or methods
         * Packages that match pattern '**.impl.config' should only contain functions
-
 Naming Rules
         * Packages that match pattern '**.arch-go.**' should comply with:
                 * Structs that implement interfaces matching name '*Verification' should have simple name ending with 'Verification'
+Threshold Rules
+        * The module must comply with at least 100% of the rules described above.
+        * The rules described above must cover at least 100% of the packages in this module.
+
+Time: 0.000 seconds
 ```
 
 ## Supported flags
@@ -186,8 +181,57 @@ $ arch-go
 $ arch-go -v
 $ arch-go --verbose
 $ arch-go --html
+$ arch-go --color
 $ arch-go describe
 ```
+
+## Using Arch-Go programmatically
+The current version of Arch-Go allows us to include architecture checks as part of the tests run by the go test tool.
+
+You need to include Arch-Go as a dependency in your project, using
+```
+go get github.com/fdaines/arch-go@latest
+```
+
+Then you need to create Architecture Tests, there is an example of a simple test case:
+```go
+package architecture_test
+
+import (
+	"testing"
+
+	archgo "github.com/fdaines/arch-go/api"
+	config "github.com/fdaines/arch-go/api/configuration"
+)
+
+func TestArchitecture(t *testing.T) {
+	configuration := config.Config{
+		DependenciesRules: []*config.DependenciesRule{
+			{
+				Package: "**.cmd.**",
+				ShouldOnlyDependsOn: &config.Dependencies{
+					Internal: []string{
+						"**.cmd.**",
+						"**.internal.**",
+					},
+				},
+			},
+		},
+	}
+	moduleInfo := config.Load("github.com/fdaines/my-go-project")
+
+	result := archgo.CheckArchitecture(moduleInfo, configuration)
+
+	if !result.Passes {
+		t.Fatal("Project doesn't pass architecture tests")
+	}
+}
+```
+The `result` variable will store more than the verification result, 
+including details for each rule type and analyzed packages, 
+so then you can access all this data to create assertions as you need.
+
+
 
 # Contributions
 Feel free to contribute.

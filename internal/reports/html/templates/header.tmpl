@@ -1,0 +1,19 @@
+{{define "header" -}}
+<!DOCTYPE html>
+<html>
+	<head>
+		<link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.css" rel="stylesheet" id="bootstrap-css" />
+		<link rel="stylesheet" type="text/css" href="report.css" />
+		<title>Arch-Go Execution Report</title>
+	</head>
+    <body>
+	<div class="row" style="padding-top: 10px;">
+		<div class="col-md-11">
+			<h1 style="font-size: 6.5em;">Arch-Go Verification Report</h1>
+		</div>
+		<div class="col-md-1 text-right" style="padding-bottom: 10px;">
+			<img src="logo.png" alt="" class="img-fluid" />
+			<span style="padding-right: 5px;"><b>v{{ .ArchGoVersion }}</b></span>
+		</div>
+	</div>
+{{end}}

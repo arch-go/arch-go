@@ -2,8 +2,9 @@ package packages
 
 import (
 	"fmt"
-	"golang.org/x/mod/modfile"
 	"os"
+
+	"golang.org/x/mod/modfile"
 )
 
 const goModFile = "go.mod"

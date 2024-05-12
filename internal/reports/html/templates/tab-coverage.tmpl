@@ -1,0 +1,30 @@
+{{define "tab-coverage" -}}
+<h4>Coverage Details</h4>
+<table class="rule-details" border="1" frame="void" rules="rows">
+<thead>
+<tr>
+    <th rowspan="2">Package</th>
+    <th colspan="4">Architecture Rules</th>
+    <th rowspan="2" style="width:150px;">Covered</th>
+</tr>
+<tr>
+    <th style="width:100px;font-weight:normal">Content</th>
+    <th style="width:100px;font-weight:normal">Dependencies</th>
+    <th style="width:100px;font-weight:normal">Functions</th>
+    <th style="width:100px;font-weight:normal">Naming</th>
+</tr>
+</thead>
+<tbody>
+{{ range $item := .CoverageInfo }}
+<tr style="color:{{if passes $item.Status}}green{{else}}red{{end}}">
+    <td class="package-details">{{ $item.Package }}</td>
+    <td class="package-details" style="text-align:center">{{ $item.ContensRules }}</td>
+    <td class="package-details" style="text-align:center">{{ $item.DependenciesRules }}</td>
+    <td class="package-details" style="text-align:center">{{ $item.FunctionsRules }}</td>
+    <td class="package-details" style="text-align:center">{{ $item.NamingRules }}</td>
+    <td class="package-details" style="text-align:center">{{ $item.Status }}</td>
+</tr>
+{{ end }}
+</tbody>
+</table>
+{{end}}

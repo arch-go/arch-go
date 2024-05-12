@@ -2,12 +2,13 @@ package packages_test
 
 import (
 	"fmt"
-	"github.com/fdaines/arch-go/internal/utils/packages"
 	"testing"
+
+	"github.com/fdaines/arch-go/internal/utils/packages"
 )
 
 func TestIsPublic(t *testing.T) {
-	var tests = []struct {
+	tests := []struct {
 		input string
 		want  bool
 	}{
