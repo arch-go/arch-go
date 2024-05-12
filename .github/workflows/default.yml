@@ -42,7 +42,7 @@ jobs:
           runTest "go run main.go --verbose --html --color yes"
           runTest "go run main.go --html --color yes"
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: Arch-Go Report
-          path: .arch-go/report.html
+          path: .arch-go
