@@ -26,9 +26,10 @@ jobs:
 
       - name: Arch-Go
         run: |
+          # Smoke E2E: Run program with different flag options
           # Define convenience function
           function runTest() {
-              echo -e "\e[32m++++++++++++++++++++++++++++++++++++++++\nRun test: $1\n++++++++++++++++++++++++++++++++++++++++\e[0m"
+              echo -e "\e[34m++++++++++++++++++++++++++++++++++++++++\n\e[34m+ Run test: $1\n\e[34m++++++++++++++++++++++++++++++++++++++++\e[0m"
               bash -c "$1"
           }
           # Run tests
@@ -37,8 +38,9 @@ jobs:
           runTest "go run main.go"
           runTest "go run main.go -v"
           runTest "go run main.go -v --html"
-          runTest "go run main.go -v --html --color yes"
           runTest "go run main.go -v --html --color no"
+          runTest "go run main.go --verbose --html --color yes"
+          runTest "go run main.go --html --color yes"
 
       - uses: actions/upload-artifact@v2
         with:
