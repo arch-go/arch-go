@@ -9,12 +9,12 @@ import (
 	"github.com/fdaines/arch-go/internal/utils/text"
 )
 
-func CheckRules(moduleInfo model.ModuleInfo, functionRules []*configuration.DependenciesRule) *RulesResult {
+func CheckRules(moduleInfo model.ModuleInfo, rules []*configuration.DependenciesRule) *RulesResult {
 	result := &RulesResult{
 		Passes: true,
 	}
 
-	for _, it := range functionRules {
+	for _, it := range rules {
 		result.Results = append(result.Results, CheckRule(moduleInfo, *it))
 	}
 

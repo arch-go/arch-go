@@ -2,10 +2,11 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/fatih/color"
 	"io"
 	"os"
 	"strings"
+
+	"github.com/fatih/color"
 
 	"github.com/fdaines/arch-go/api"
 	"github.com/fdaines/arch-go/api/configuration"

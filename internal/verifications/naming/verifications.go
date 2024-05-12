@@ -11,12 +11,12 @@ import (
 	"github.com/fdaines/arch-go/internal/utils/text"
 )
 
-func CheckRules(moduleInfo model.ModuleInfo, functionRules []*configuration.NamingRule) *RulesResult {
+func CheckRules(moduleInfo model.ModuleInfo, rules []*configuration.NamingRule) *RulesResult {
 	result := &RulesResult{
 		Passes: true,
 	}
 
-	for _, it := range functionRules {
+	for _, it := range rules {
 		result.Results = append(result.Results, CheckRule(moduleInfo, *it))
 	}
 
@@ -66,20 +66,22 @@ func checkNamingRule(pkg *model.PackageInfo, rule configuration.NamingRule, modu
 func checkInterfaceImplementationNamingRule(interfaces []InterfaceDescription, rule configuration.NamingRule, pkgs []*model.PackageInfo) (bool, []string) {
 	var details []string
 	var passes bool
+	ruleResult := true
 
 	for _, pkg := range pkgs {
 		if packageMustBeAnalyzed(pkg, rule.Package) {
-			passes, details = analyzePackage(interfaces, pkg, passes, details, rule)
+			passes, details = analyzePackage(interfaces, pkg, details, rule)
+			ruleResult = ruleResult && passes
 		}
 	}
 
-	return passes, details
+	return ruleResult, details
 }
 
-func analyzePackage(interfaces []InterfaceDescription, pkg *model.PackageInfo, passes bool, details []string, rule configuration.NamingRule) (bool, []string) {
+func analyzePackage(interfaces []InterfaceDescription, pkg *model.PackageInfo, details []string, rule configuration.NamingRule) (bool, []string) {
+	passes := true
 	structs, _ := getStructsWithMethods(pkg)
 	if len(structs) > 0 {
-		passes = true
 		for _, s := range structs {
 			for _, i := range interfaces {
 				pass := checkStruct(s, i, rule.InterfaceImplementationNamingRule)
@@ -90,6 +92,7 @@ func analyzePackage(interfaces []InterfaceDescription, pkg *model.PackageInfo, p
 			}
 		}
 	}
+
 	return passes, details
 }
 
