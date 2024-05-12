@@ -32,6 +32,7 @@ jobs:
               echo -e "\e[34m++++++++++++++++++++++++++++++++++++++++\n\e[34m+ Run test: $1\n\e[34m++++++++++++++++++++++++++++++++++++++++\e[0m"
               bash -c "$1"
           }
+
           # Run tests
           runTest "go run main.go describe"
           runTest "go run main.go describe -v"
@@ -45,4 +46,4 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: Arch-Go Report
-          path: .arch-go
+          path: .arch-go/
