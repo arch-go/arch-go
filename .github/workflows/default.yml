@@ -5,6 +5,7 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+  workflow_dispatch:
 
 jobs:
 
@@ -22,7 +23,9 @@ jobs:
         run: go build -v ./...
 
       - name: Test
-        run: go test -v ./... -gcflags=all=-l
+        run: |
+          go test -v -gcflags=all=-l -cover ./... -coverprofile coverage.out -coverpkg ./...
+          go tool cover -func coverage.out -o coverage.out
 
       - name: Arch-Go
         run: |
@@ -47,3 +50,24 @@ jobs:
         with:
           name: Arch-Go Report
           path: .arch-go/
+
+      - name: Go Coverage Badge
+        uses: tj-actions/coverage-badge-go@v1
+        with:
+          green: 80
+          filename: coverage.out
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        id: auto-commit-action
+        with:
+          commit_message: Apply Code Coverage Badge
+          skip_fetch: true
+          skip_checkout: true
+          file_pattern: ./README.md
+
+      - name: Push Changes
+        if: steps.auto-commit-action.outputs.changes_detected == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ github.token }}
+          branch: ${{ github.ref }}

@@ -1,3 +1,8 @@
+
+[![Go Reference](https://pkg.go.dev/badge/github.com/fdaines/arch-go.svg)](https://pkg.go.dev/github.com/fdaines/arch-go)
+[![Go Report Card](https://goreportcard.com/badge/github.com/fdaines/arch-go)](https://goreportcard.com/badge/github.com/fdaines/arch-go)
+<img align="right" src="https://github.com/fdaines/arch-go/raw/master/internal/reports/html/assets/logo.png" alt="Arch-Go" title="Arch-Go" width="200px"/>
+
 # Arch-Go
 Architecture checks for Go projects
 
