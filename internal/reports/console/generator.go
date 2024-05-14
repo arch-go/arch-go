@@ -17,6 +17,8 @@ func GenerateConsoleReport(report *model.Report, outputMirror io.Writer) {
 
 	if report.Summary != nil && report.Summary.ComplianceThreshold != nil {
 		appendFooter(t, "Compliance Rate", report.Summary.ComplianceThreshold)
+	}
+	if report.Summary != nil && report.Summary.CoverageThreshold != nil {
 		appendFooter(t, "Coverage Rate", report.Summary.CoverageThreshold)
 	}
 	t.Render()
