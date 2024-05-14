@@ -79,8 +79,14 @@ func checkInterfaceImplementationNamingRule(interfaces []InterfaceDescription, r
 }
 
 func analyzePackage(interfaces []InterfaceDescription, pkg *model.PackageInfo, details []string, rule configuration.NamingRule) (bool, []string) {
-	passes := true
 	structs, _ := getStructsWithMethods(pkg)
+	passes, details := analyzeStructs(interfaces, pkg, details, rule, structs)
+
+	return passes, details
+}
+
+func analyzeStructs(interfaces []InterfaceDescription, pkg *model.PackageInfo, details []string, rule configuration.NamingRule, structs []StructDescription) (bool, []string) {
+	passes := true
 	if len(structs) > 0 {
 		for _, s := range structs {
 			for _, i := range interfaces {
@@ -92,7 +98,6 @@ func analyzePackage(interfaces []InterfaceDescription, pkg *model.PackageInfo, d
 			}
 		}
 	}
-
 	return passes, details
 }
 

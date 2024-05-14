@@ -66,7 +66,7 @@ func TestGenerateReport(t *testing.T) {
 						Passes:      true,
 						Verifications: []dependencies.Verification{
 							{
-								Package: "my-package",
+								Package: "my-package/pkg1",
 								Passes:  true,
 							},
 						},
@@ -82,7 +82,7 @@ func TestGenerateReport(t *testing.T) {
 						Passes:      true,
 						Verifications: []functions.Verification{
 							{
-								Package: "my-package",
+								Package: "my-package/pkg1",
 								Passes:  true,
 							},
 						},
@@ -98,7 +98,7 @@ func TestGenerateReport(t *testing.T) {
 						Passes:      true,
 						Verifications: []contents.Verification{
 							{
-								Package: "my-package",
+								Package: "my-package/pkg1",
 								Passes:  true,
 							},
 						},
@@ -114,7 +114,7 @@ func TestGenerateReport(t *testing.T) {
 						Passes:      false,
 						Verifications: []naming.Verification{
 							{
-								Package: "my-package",
+								Package: "my-package/pkg1",
 								Passes:  false,
 								Details: []string{"foobar message"},
 							},
@@ -123,7 +123,19 @@ func TestGenerateReport(t *testing.T) {
 				},
 			},
 		}
-		module := model.ModuleInfo{}
+		module := model.ModuleInfo{
+			MainPackage: "foobar",
+			Packages: []*model.PackageInfo{
+				{
+					Name: "pkg1",
+					Path: "foobar/pkg1",
+				},
+				{
+					Name: "pkgX",
+					Path: "my-package/pkg1",
+				},
+			},
+		}
 		config := configuration.Config{}
 
 		expectedResult := &reportModel.Report{
@@ -141,9 +153,10 @@ func TestGenerateReport(t *testing.T) {
 					Status:    "PASS",
 				},
 				CoverageThreshold: &reportModel.ThresholdSummary{
-					Rate:      0,
-					Threshold: 0,
-					Status:    "PASS",
+					Rate:       50,
+					Threshold:  0,
+					Status:     "PASS",
+					Violations: []string{"foobar/pkg1"},
 				},
 			},
 			Details: &reportModel.ReportDetails{
@@ -160,7 +173,7 @@ func TestGenerateReport(t *testing.T) {
 							Status: "PASS",
 							PackageDetails: []reportModel.PackageDetails{
 								{
-									Package: "my-package",
+									Package: "my-package/pkg1",
 									Status:  "PASS",
 								},
 							},
@@ -180,7 +193,7 @@ func TestGenerateReport(t *testing.T) {
 							Status: "PASS",
 							PackageDetails: []reportModel.PackageDetails{
 								{
-									Package: "my-package",
+									Package: "my-package/pkg1",
 									Status:  "PASS",
 								},
 							},
@@ -200,7 +213,7 @@ func TestGenerateReport(t *testing.T) {
 							Status: "PASS",
 							PackageDetails: []reportModel.PackageDetails{
 								{
-									Package: "my-package",
+									Package: "my-package/pkg1",
 									Status:  "PASS",
 								},
 							},
@@ -220,13 +233,31 @@ func TestGenerateReport(t *testing.T) {
 							Status: "FAIL",
 							PackageDetails: []reportModel.PackageDetails{
 								{
-									Package: "my-package",
+									Package: "my-package/pkg1",
 									Status:  "FAIL",
 									Details: []string{"foobar message"},
 								},
 							},
 						},
 					},
+				},
+			},
+			CoverageInfo: []reportModel.CoverageInfo{
+				{
+					Package:           "foobar/pkg1",
+					ContensRules:      0,
+					DependenciesRules: 0,
+					FunctionsRules:    0,
+					NamingRules:       0,
+					Status:            "NO",
+				},
+				{
+					Package:           "my-package/pkg1",
+					ContensRules:      1,
+					DependenciesRules: 1,
+					FunctionsRules:    1,
+					NamingRules:       1,
+					Status:            "YES",
 				},
 			},
 		}
