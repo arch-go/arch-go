@@ -5,13 +5,24 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+  workflow_dispatch:
 
 jobs:
-
-  build:
+  setup:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.21
+
+  build:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
       - name: Set up Go
         uses: actions/setup-go@v2
@@ -21,8 +32,49 @@ jobs:
       - name: Build
         run: go build -v ./...
 
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.21
+
       - name: Test
-        run: go test -v ./... -gcflags=all=-l
+        run: |
+          go test -v -gcflags=all=-l -cover ./... -coverprofile coverage.out -coverpkg ./...
+          go tool cover -func coverage.out -o coverage.out
+
+      - name: Go Coverage Badge
+        uses: tj-actions/coverage-badge-go@v1
+        with:
+          green: 80
+          filename: coverage.out
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        id: auto-commit-action
+        with:
+          commit_message: Apply Code Coverage Badge
+          skip_fetch: true
+          skip_checkout: true
+          file_pattern: ./README.md
+
+  smoke:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.21
 
       - name: Arch-Go
         run: |
@@ -32,7 +84,7 @@ jobs:
               echo -e "\e[34m++++++++++++++++++++++++++++++++++++++++\n\e[34m+ Run test: $1\n\e[34m++++++++++++++++++++++++++++++++++++++++\e[0m"
               bash -c "$1"
           }
-
+    
           # Run tests
           runTest "go run main.go describe"
           runTest "go run main.go describe -v"
