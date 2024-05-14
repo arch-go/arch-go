@@ -8,11 +8,21 @@ on:
   workflow_dispatch:
 
 jobs:
-
-  build:
+  setup:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.21
+
+  build:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
       - name: Set up Go
         uses: actions/setup-go@v2
@@ -22,34 +32,24 @@ jobs:
       - name: Build
         run: go build -v ./...
 
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.21
+
       - name: Test
         run: |
           go test -v -gcflags=all=-l -cover ./... -coverprofile coverage.out -coverpkg ./...
           go tool cover -func coverage.out -o coverage.out
-
-      - name: Arch-Go
-        run: |
-          # Smoke E2E: Run program with different flag options
-          # Define convenience function
-          function runTest() {
-              echo -e "\e[34m++++++++++++++++++++++++++++++++++++++++\n\e[34m+ Run test: $1\n\e[34m++++++++++++++++++++++++++++++++++++++++\e[0m"
-              bash -c "$1"
-          }
-
-          # Run tests
-          runTest "go run main.go describe"
-          runTest "go run main.go describe -v"
-          runTest "go run main.go"
-          runTest "go run main.go -v"
-          runTest "go run main.go -v --html"
-          runTest "go run main.go -v --html --color no"
-          runTest "go run main.go --verbose --html --color yes"
-          runTest "go run main.go --html --color yes"
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: Arch-Go Report
-          path: .arch-go/
 
       - name: Go Coverage Badge
         uses: tj-actions/coverage-badge-go@v1
@@ -65,9 +65,37 @@ jobs:
           skip_checkout: true
           file_pattern: ./README.md
 
-      - name: Push Changes
-        if: steps.auto-commit-action.outputs.changes_detected == 'true'
-        uses: ad-m/github-push-action@master
+  smoke:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
+          go-version: 1.21
+
+      - name: Arch-Go
+        run: |
+          # Smoke E2E: Run program with different flag options
+          # Define convenience function
+          function runTest() {
+              echo -e "\e[34m++++++++++++++++++++++++++++++++++++++++\n\e[34m+ Run test: $1\n\e[34m++++++++++++++++++++++++++++++++++++++++\e[0m"
+              bash -c "$1"
+          }
+    
+          # Run tests
+          runTest "go run main.go describe"
+          runTest "go run main.go describe -v"
+          runTest "go run main.go"
+          runTest "go run main.go -v"
+          runTest "go run main.go -v --html"
+          runTest "go run main.go -v --html --color no"
+          runTest "go run main.go --verbose --html --color yes"
+          runTest "go run main.go --html --color yes"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Arch-Go Report
+          path: .arch-go/
