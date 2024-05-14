@@ -2,6 +2,7 @@ package reports
 
 import (
 	"encoding/json"
+	"github.com/fdaines/arch-go/internal/common"
 	"testing"
 	"time"
 
@@ -25,7 +26,7 @@ func TestGenerateReport(t *testing.T) {
 		config := configuration.Config{}
 
 		expectedResult := &reportModel.Report{
-			ArchGoVersion: "1.5.0",
+			ArchGoVersion: common.Version,
 			Summary: &reportModel.ReportSummary{
 				Time:     time.Time{},
 				Duration: time.Duration(0),
@@ -139,7 +140,7 @@ func TestGenerateReport(t *testing.T) {
 		config := configuration.Config{}
 
 		expectedResult := &reportModel.Report{
-			ArchGoVersion: "1.5.0",
+			ArchGoVersion: common.Version,
 			Summary: &reportModel.ReportSummary{
 				Time:     time.Time{},
 				Duration: time.Duration(123456789),

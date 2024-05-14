@@ -2,7 +2,6 @@ package functions_test
 
 import (
 	"encoding/json"
-	"fmt"
 	"testing"
 
 	"github.com/fdaines/arch-go/api/configuration"
@@ -96,9 +95,7 @@ func TestCheckFunctionRules(t *testing.T) {
 		result := functions.CheckRules(moduleInfo, functionRules)
 
 		jsonExpectedResult, _ := json.Marshal(expectedResult)
-		fmt.Println("Result:", string(jsonExpectedResult))
 		jsonResult, _ := json.Marshal(result)
-		fmt.Println("Result:", string(jsonResult))
 
 		assert.Equal(t, jsonExpectedResult, jsonResult)
 	})
@@ -214,9 +211,7 @@ func TestCheckFunctionRules(t *testing.T) {
 		result := functions.CheckRules(moduleInfo, functionRules)
 
 		jsonExpectedResult, _ := json.Marshal(expectedResult)
-		fmt.Println("Result:", string(jsonExpectedResult))
 		jsonResult, _ := json.Marshal(result)
-		fmt.Println("Result:", string(jsonResult))
 
 		assert.Equal(t, jsonExpectedResult, jsonResult)
 	})
