@@ -69,5 +69,5 @@ jobs:
         if: steps.auto-commit-action.outputs.changes_detected == 'true'
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ github.token }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref }}
