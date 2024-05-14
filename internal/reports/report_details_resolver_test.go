@@ -1,6 +1,9 @@
 package reports
 
 import (
+	"testing"
+	"time"
+
 	"github.com/fdaines/arch-go/api"
 	"github.com/fdaines/arch-go/api/configuration"
 	"github.com/fdaines/arch-go/internal/reports/model"
@@ -9,8 +12,6 @@ import (
 	"github.com/fdaines/arch-go/internal/verifications/functions"
 	"github.com/fdaines/arch-go/internal/verifications/naming"
 	"github.com/stretchr/testify/assert"
-	"testing"
-	"time"
 )
 
 func TestResolveReportDetails(t *testing.T) {
