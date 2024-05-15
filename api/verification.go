@@ -5,6 +5,7 @@ import (
 	"github.com/fdaines/arch-go/internal/model"
 )
 
+// CheckArchitecture runs the architecture analysis and return the Result.
 func CheckArchitecture(moduleInfo model.ModuleInfo, config configuration.Config) *Result {
 	architecture := NewArchitectureAnalysis(moduleInfo, config)
 	result, _ := architecture.Execute()

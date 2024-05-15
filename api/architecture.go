@@ -22,6 +22,7 @@ type architectureAnalysis struct {
 	checkNamingRules       func(model.ModuleInfo, []*configuration.NamingRule) *naming2.RulesResult
 }
 
+// NewArchitectureAnalysis creates an architectureAnalysis on provided module and using rules provided in configuration.
 func NewArchitectureAnalysis(m model.ModuleInfo, c configuration.Config) *architectureAnalysis {
 	return &architectureAnalysis{
 		moduleInfo:             m,
@@ -33,6 +34,7 @@ func NewArchitectureAnalysis(m model.ModuleInfo, c configuration.Config) *archit
 	}
 }
 
+// Execute runs the architecture analysis and return a Result or an error.
 func (a *architectureAnalysis) Execute() (*Result, error) {
 	var wg sync.WaitGroup
 

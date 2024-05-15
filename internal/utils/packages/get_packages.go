@@ -27,7 +27,6 @@ func GetBasicPackagesInfo(mainPackage string, out io.Writer, printInfo bool) ([]
 					PackageData: pkg,
 					Name:        pkg.Name,
 					Path:        pkg.ImportPath,
-					Covered:     false,
 				})
 			}
 		}
