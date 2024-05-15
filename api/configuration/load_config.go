@@ -7,6 +7,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+// LoadConfig loads configuration struct from a YAML file.
 func LoadConfig(configPath string) (*Config, error) {
 	config := &Config{}
 	file, err := os.Open(configPath)
@@ -29,19 +30,7 @@ func LoadConfig(configPath string) (*Config, error) {
 	return config, nil
 }
 
-func checkThreshold(config *Config) {
-	if config.Threshold == nil {
-		config.Threshold = &Threshold{}
-	}
-	maxThreshold := 100
-	if config.Threshold.Compliance == nil {
-		config.Threshold.Compliance = &maxThreshold
-	}
-	if config.Threshold.Coverage == nil {
-		config.Threshold.Coverage = &maxThreshold
-	}
-}
-
+// LoadDeprecatedConfig loads configuration struct from a YAML file that contains a deprecated format.
 func LoadDeprecatedConfig(configPath string) (*DeprecatedConfig, error) {
 	config := &DeprecatedConfig{}
 	file, err := os.Open(configPath)
@@ -56,4 +45,17 @@ func LoadDeprecatedConfig(configPath string) (*DeprecatedConfig, error) {
 	}
 
 	return config, nil
+}
+
+func checkThreshold(config *Config) {
+	if config.Threshold == nil {
+		config.Threshold = &Threshold{}
+	}
+	maxThreshold := 100
+	if config.Threshold.Compliance == nil {
+		config.Threshold.Compliance = &maxThreshold
+	}
+	if config.Threshold.Coverage == nil {
+		config.Threshold.Coverage = &maxThreshold
+	}
 }

@@ -2,9 +2,10 @@ package reports
 
 import (
 	"encoding/json"
-	"github.com/fdaines/arch-go/internal/common"
 	"testing"
 	"time"
+
+	"github.com/fdaines/arch-go/internal/common"
 
 	"github.com/fdaines/arch-go/api"
 	"github.com/fdaines/arch-go/api/configuration"

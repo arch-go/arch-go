@@ -1,7 +1,7 @@
 
 ![Coverage](https://img.shields.io/badge/Coverage-80.7%25-brightgreen)
 [![Go Reference](https://pkg.go.dev/badge/github.com/fdaines/arch-go.svg)](https://pkg.go.dev/github.com/fdaines/arch-go)
-[![Go Report Card](https://goreportcard.com/badge/github.com/fdaines/arch-go)](https://goreportcard.com/badge/github.com/fdaines/arch-go)
+[![Go Report Card](https://goreportcard.com/badge/github.com/fdaines/arch-go)](https://goreportcard.com/report/github.com/fdaines/arch-go)
 <img align="center" src="logo.png" alt="Arch-Go" title="Arch-Go" width="600px"/>
 
 # Arch-Go

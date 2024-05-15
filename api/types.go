@@ -9,12 +9,13 @@ import (
 	"github.com/fdaines/arch-go/internal/verifications/naming"
 )
 
+// Result contains the result of an architecture analysis.
 type Result struct {
-	Time                   time.Time
-	Duration               time.Duration
-	Passes                 bool
-	DependenciesRuleResult *dependencies.RulesResult
-	FunctionsRuleResult    *functions.RulesResult
-	ContentsRuleResult     *contents.RulesResult
-	NamingRuleResult       *naming.RulesResult
+	Time                   time.Time                 // the moment when the analysis was executed
+	Duration               time.Duration             // the duration of the analysis
+	Passes                 bool                      // if true, then the analysis was succeeded
+	DependenciesRuleResult *dependencies.RulesResult // contains all the verifications of dependencies rules
+	FunctionsRuleResult    *functions.RulesResult    // contains all the verifications of functions rules
+	ContentsRuleResult     *contents.RulesResult     // contains all the verifications of contents rules
+	NamingRuleResult       *naming.RulesResult       // contains all the verifications of naming rules
 }
