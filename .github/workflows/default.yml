@@ -54,7 +54,7 @@ jobs:
       - name: Coveralls
         uses: shogo82148/actions-goveralls@v1
         with:
-          path-to-profile: profile.cov
+          path-to-profile: profile.out
 
       - name: Go Coverage Badge
         uses: tj-actions/coverage-badge-go@v1
