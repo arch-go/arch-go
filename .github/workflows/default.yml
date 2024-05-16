@@ -48,8 +48,13 @@ jobs:
 
       - name: Test
         run: |
-          go test -v -gcflags=all=-l -cover ./... -coverprofile coverage.out -coverpkg ./...
-          go tool cover -func coverage.out -o coverage.out
+          go test -v -gcflags=all=-l -cover ./... -coverprofile profile.out -coverpkg ./...
+          go tool cover -func profile.out -o coverage.out
+
+      - name: Coveralls
+        run: |
+          go install github.com/mattn/goveralls@latest
+          goveralls -coverprofile=profile.out -repotoken ${{ github.COVERALLS_REPO_TOKEN }}
 
       - name: Go Coverage Badge
         uses: tj-actions/coverage-badge-go@v1
