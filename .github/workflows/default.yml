@@ -52,9 +52,9 @@ jobs:
           go tool cover -func profile.out -o coverage.out
 
       - name: Coveralls
-        run: |
-          go install github.com/mattn/goveralls@latest
-          goveralls -coverprofile=profile.out
+        uses: shogo82148/actions-goveralls@v1
+        with:
+          path-to-profile: profile.cov
 
       - name: Go Coverage Badge
         uses: tj-actions/coverage-badge-go@v1
