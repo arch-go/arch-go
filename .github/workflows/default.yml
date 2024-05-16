@@ -54,7 +54,7 @@ jobs:
       - name: Coveralls
         run: |
           go install github.com/mattn/goveralls@latest
-          goveralls -coverprofile=profile.out -repotoken ${{ github.COVERALLS_REPO_TOKEN }}
+          goveralls -coverprofile=profile.out
 
       - name: Go Coverage Badge
         uses: tj-actions/coverage-badge-go@v1
