@@ -99,5 +99,5 @@ func runRootCommand(out io.Writer) bool {
 	report := reports.GenerateReport(result, moduleInfo, *configuration)
 	reports.DisplayResult(report, out)
 
-	return true
+	return result.Passes
 }
