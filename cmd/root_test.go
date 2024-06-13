@@ -7,9 +7,11 @@ import (
 	"os"
 	"strings"
 	"testing"
+	"time"
 
 	monkey "github.com/agiledragon/gomonkey/v2"
 
+	"github.com/fdaines/arch-go/api"
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
 )
@@ -67,6 +69,69 @@ func TestRootCommand(t *testing.T) {
 		}
 		if !strings.Contains(cmdOutput, "Using configuration file:") || !strings.Contains(cmdOutput, "/test/arch-go.yml") {
 			t.Fatal("Expects a log containing the configuration file.")
+		}
+	})
+
+	t.Run("checks if successful run returns zero exit code", func(t *testing.T) {
+		nonZeroExitCode := false
+		osExit := func(code int) {
+			if code != 0 {
+				nonZeroExitCode = true
+			}
+		}
+
+		passingApiResult := &api.Result{
+			Time:   time.Now(),
+			Passes: true,
+		}
+
+		rootCmd.SetArgs([]string{
+			"",
+		})
+
+		patchCheck := monkey.ApplyFuncReturn(api.CheckArchitecture, passingApiResult)
+		defer patchCheck.Reset()
+
+		patchExit := monkey.ApplyFunc(os.Exit, osExit)
+		defer patchExit.Reset()
+
+		rootCmd.Execute()
+
+		if nonZeroExitCode {
+			t.Fatal("Expects to call os.Exit with exit code 0 when arch-go validates successfully.")
+		}
+	})
+
+	t.Run("checks if not successful run returns non-zero exit code", func(t *testing.T) {
+		viper.Reset()
+
+		nonZeroExitCode := false
+
+		osExit := func(code int) {
+			if code != 0 {
+				nonZeroExitCode = true
+			}
+		}
+
+		nonPassingApiResult := &api.Result{
+			Time:   time.Now(),
+			Passes: false,
+		}
+
+		patchCheck := monkey.ApplyFuncReturn(api.CheckArchitecture, nonPassingApiResult)
+		defer patchCheck.Reset()
+
+		patchExit := monkey.ApplyFunc(os.Exit, osExit)
+		defer patchExit.Reset()
+
+		rootCmd.SetArgs([]string{
+			"",
+		})
+
+		err := rootCmd.Execute()
+
+		if !nonZeroExitCode && err == nil {
+			t.Fatal("Expects to call os.Exit with exit code 1 when arch-go does find errors when validating.")
 		}
 	})
 
