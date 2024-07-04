@@ -7,6 +7,15 @@
     "helpers:pinGitHubActionDigests",
     ":pinDevDependencies"
   ],
+  "packageRules": [
+    {
+      "matchDepTypes": [
+        "dependencies",
+        "require"
+      ],
+      "semanticCommitType": "deps"
+    }
+  ],
   "configMigration": true,
   "baseBranches": ["master"],
   "assigneesFromCodeOwners": true,
