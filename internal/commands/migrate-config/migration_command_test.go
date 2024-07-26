@@ -3,15 +3,15 @@ package migrate_config
 import (
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/fdaines/arch-go/api/configuration"
 	"github.com/fdaines/arch-go/internal/utils/values"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestMigrationCommand(t *testing.T) {
 	t.Run("test migrate empty configuration", func(t *testing.T) {
 		originalConfig := &configuration.DeprecatedConfig{}
-
 		expectedConfig := &configuration.Config{
 			Version: 1,
 		}
@@ -98,7 +98,6 @@ func TestMigrationCommand(t *testing.T) {
 		}
 
 		result := migrateRules(originalConfig)
-
 		assert.Equal(t, expectedConfig, result)
 	})
 
@@ -173,7 +172,6 @@ func TestMigrationCommand(t *testing.T) {
 		}
 
 		result := migrateRules(originalConfig)
-
 		assert.Equal(t, expectedConfig, result)
 	})
 }
