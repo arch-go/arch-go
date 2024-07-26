@@ -11,7 +11,7 @@ import (
 	"github.com/fdaines/arch-go/internal/commands"
 	"github.com/fdaines/arch-go/internal/utils/timer"
 	"github.com/fdaines/arch-go/internal/validators"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 type migrateConfigCommand struct {

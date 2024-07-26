@@ -21,7 +21,7 @@ dependenciesRules:
     - github.com/spf13/viper
     - github.com/stretchr/testify
     - golang.org/x/tools
-    - gopkg.in/yaml.v2
+    - gopkg.in/yaml.v3
 functionsRules:
   - package: '**.arch-go.**'
     maxParameters: 5
