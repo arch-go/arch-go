@@ -1,0 +1,22 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":semanticCommitScopeDisabled",
+    ":semanticCommitTypeAll(chore)",
+    "docker:pinDigests",
+    "helpers:pinGitHubActionDigests",
+    ":pinDevDependencies"
+  ],
+  "packageRules": [
+    {
+      "matchCategories": [ "golang" ],
+      "semanticCommitType": "deps"
+    }
+  ],
+  "configMigration": true,
+  "baseBranches": ["master"],
+  "assigneesFromCodeOwners": true,
+  "addLabels": ["dependency"],
+  "automerge": false
+}
