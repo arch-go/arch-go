@@ -3,7 +3,7 @@ module github.com/fdaines/arch-go
 go 1.21
 
 require (
-	github.com/agiledragon/gomonkey/v2 v2.11.0
+	github.com/agiledragon/gomonkey/v2 v2.12.0
 	github.com/fatih/color v1.14.1
 	github.com/jedib0t/go-pretty/v6 v6.4.0
 	github.com/spf13/cobra v1.8.1
