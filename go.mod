@@ -6,7 +6,7 @@ require (
 	github.com/agiledragon/gomonkey/v2 v2.11.0
 	github.com/fatih/color v1.14.1
 	github.com/jedib0t/go-pretty/v6 v6.4.0
-	github.com/spf13/cobra v1.8.0
+	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.18.2
 	github.com/stretchr/testify v1.9.0
 	golang.org/x/mod v0.12.0
