@@ -3,16 +3,14 @@
   "extends": [
     "config:recommended",
     ":semanticCommitScopeDisabled",
+    ":semanticCommitTypeAll(chore)",
     "docker:pinDigests",
     "helpers:pinGitHubActionDigests",
     ":pinDevDependencies"
   ],
   "packageRules": [
     {
-      "matchDepTypes": [
-        "dependencies",
-        "require"
-      ],
+      "matchCategories": [ "golang" ],
       "semanticCommitType": "deps"
     }
   ],
@@ -20,6 +18,5 @@
   "baseBranches": ["master"],
   "assigneesFromCodeOwners": true,
   "addLabels": ["dependency"],
-  "automerge": false,
-  "commitMessageAction": "Update"
+  "automerge": false
 }
