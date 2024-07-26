@@ -17,6 +17,7 @@ func resolveDescription(rule configuration.NamingRule) string {
 				*rule.InterfaceImplementationNamingRule.ShouldHaveSimpleNameStartingWith,
 			)
 		}
+
 		if rule.InterfaceImplementationNamingRule.ShouldHaveSimpleNameEndingWith != nil {
 			description = fmt.Sprintf(
 				"structs that implement '%s' should have simple name ending with '%s'",
@@ -25,7 +26,9 @@ func resolveDescription(rule configuration.NamingRule) string {
 			)
 		}
 	}
-	ruleDescription := fmt.Sprintf("Packages matching pattern '%s' should comply with [%s]", rule.Package, description)
+
+	ruleDescription := fmt.Sprintf("Packages matching pattern '%s' should comply with [%s]",
+		rule.Package, description)
 
 	return ruleDescription
 }

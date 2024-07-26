@@ -38,11 +38,9 @@ func TestNamingRuleImplementsInterface(t *testing.T) {
 		structDescription := StructDescription{}
 		interfaceDescription := InterfaceDescription{}
 
-		expectedResult := true
-
 		result := implementsInterface(structDescription, interfaceDescription)
 
-		assert.Equal(t, expectedResult, result)
+		assert.True(t, result)
 	})
 
 	t.Run("implements interface case 2", func(t *testing.T) {
@@ -72,11 +70,9 @@ func TestNamingRuleImplementsInterface(t *testing.T) {
 			},
 		}
 
-		expectedResult := false
-
 		result := implementsInterface(structDescription, interfaceDescription)
 
-		assert.Equal(t, expectedResult, result)
+		assert.False(t, result)
 	})
 
 	t.Run("implements interface case 3", func(t *testing.T) {
@@ -116,11 +112,9 @@ func TestNamingRuleImplementsInterface(t *testing.T) {
 			},
 		}
 
-		expectedResult := true
-
 		result := implementsInterface(structDescription, interfaceDescription)
 
-		assert.Equal(t, expectedResult, result)
+		assert.True(t, result)
 	})
 
 	t.Run("implements interface case 4", func(t *testing.T) {
@@ -160,11 +154,9 @@ func TestNamingRuleImplementsInterface(t *testing.T) {
 			},
 		}
 
-		expectedResult := false
-
 		result := implementsInterface(structDescription, interfaceDescription)
 
-		assert.Equal(t, expectedResult, result)
+		assert.False(t, result)
 	})
 
 	t.Run("implements interface case 5", func(t *testing.T) {
@@ -204,10 +196,8 @@ func TestNamingRuleImplementsInterface(t *testing.T) {
 			},
 		}
 
-		expectedResult := false
-
 		result := implementsInterface(structDescription, interfaceDescription)
 
-		assert.Equal(t, expectedResult, result)
+		assert.False(t, result)
 	})
 }

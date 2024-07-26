@@ -10,11 +10,13 @@ import (
 
 func TestResolveStructsDescription(t *testing.T) {
 	t.Run("test empty inputs", func(t *testing.T) {
+		var (
+			inputStructs         []StructDescription
+			expectedDescriptions []StructDescription
+		)
+
 		inputMap := make(map[string][]*ast.FuncDecl)
 		inputFileStructMap := make(map[*ast.FuncDecl]string)
-		inputStructs := []StructDescription{}
-
-		expectedDescriptions := []StructDescription{}
 
 		result := resolveStructsDescription(inputMap, inputFileStructMap, inputStructs)
 
