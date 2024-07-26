@@ -16,7 +16,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5
         with:
-          go-version: 1.21
+          go-version: 1.22.5
 
   build:
     needs: setup
@@ -27,7 +27,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5
         with:
-          go-version: 1.21
+          go-version: 1.22.5
 
       - name: Build
         run: go build -v ./...
@@ -44,7 +44,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5
         with:
-          go-version: 1.21
+          go-version: 1.22.5
 
       - name: Test
         run: |
@@ -74,7 +74,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5
         with:
-          go-version: 1.21
+          go-version: 1.22.5
 
       - name: Arch-Go
         run: |
