@@ -65,7 +65,7 @@ dependenciesRules:
   - package: "**.foobar.**"
     shouldOnlyDependsOn:
       external:
-        - "gopkg.in/yaml.v2"
+        - "gopkg.in/yaml.v3"
   - package: "**.example.**"
     shouldNotDependsOn:
       external:

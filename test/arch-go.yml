@@ -10,7 +10,7 @@ dependenciesRules:
     external:
     - github.com/fatih/color
     - github.com/spf13/cobra
-    - gopkg.in/yaml.v2
+    - gopkg.in/yaml.v3
     - github.com/jedib0t/go-pretty/v6/table
     - github.com/jedib0t/go-pretty/v6/text
 contentsRules:
