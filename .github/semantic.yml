@@ -1,0 +1,3 @@
+enabled: true
+titleOnly: true
+types: [ feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, wip, deps ]
