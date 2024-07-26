@@ -4,19 +4,21 @@ import (
 	"testing"
 	"time"
 
-	"github.com/fdaines/arch-go/api/configuration"
-
 	"github.com/agiledragon/gomonkey/v2"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
+	"github.com/fdaines/arch-go/api/configuration"
 	"github.com/fdaines/arch-go/internal/model"
 	"github.com/fdaines/arch-go/internal/utils/values"
 	"github.com/fdaines/arch-go/internal/verifications/contents"
 	"github.com/fdaines/arch-go/internal/verifications/functions"
 	"github.com/fdaines/arch-go/internal/verifications/naming"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestArchitecture(t *testing.T) {
 	mockTimeNow := gomonkey.ApplyFuncReturn(time.Now, time.Date(1, time.January, 1, 0, 0, 0, 0, time.UTC))
+
 	defer mockTimeNow.Reset()
 
 	moduleInfo := model.ModuleInfo{
@@ -86,7 +88,7 @@ func TestArchitecture(t *testing.T) {
 
 		result, err := architectureAnalysis.Execute()
 
-		assert.Nil(t, err)
+		require.NoError(t, err)
 		assert.Equal(t, expectedResult, result)
 	})
 
@@ -120,7 +122,7 @@ func TestArchitecture(t *testing.T) {
 
 		result, err := architectureAnalysis.Execute()
 
-		assert.Nil(t, err)
+		require.NoError(t, err)
 		assert.Equal(t, expectedResult, result)
 	})
 
@@ -154,7 +156,7 @@ func TestArchitecture(t *testing.T) {
 
 		result, err := architectureAnalysis.Execute()
 
-		assert.Nil(t, err)
+		require.NoError(t, err)
 		assert.Equal(t, expectedResult, result)
 	})
 
@@ -188,7 +190,7 @@ func TestArchitecture(t *testing.T) {
 
 		result, err := architectureAnalysis.Execute()
 
-		assert.Nil(t, err)
+		require.NoError(t, err)
 		assert.Equal(t, expectedResult, result)
 	})
 
@@ -209,7 +211,7 @@ func TestArchitecture(t *testing.T) {
 
 		result, err := architectureAnalysis.Execute()
 
-		assert.Nil(t, err)
+		require.NoError(t, err)
 		assert.Equal(t, expectedResult, result)
 	})
 
@@ -262,7 +264,7 @@ func TestArchitecture(t *testing.T) {
 
 		result, err := architectureAnalysis.Execute()
 
-		assert.Nil(t, err)
+		require.NoError(t, err)
 		assert.Equal(t, expectedResult, result)
 	})
 
@@ -279,7 +281,7 @@ func TestArchitecture(t *testing.T) {
 
 		result, err := architectureAnalysis.Execute()
 
-		assert.Nil(t, err)
+		require.NoError(t, err)
 		assert.Equal(t, expectedResult, result)
 	})
 }

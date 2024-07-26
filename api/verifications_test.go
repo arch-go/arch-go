@@ -21,9 +21,9 @@ func TestCheckArchitecture(t *testing.T) {
 			MainPackage: "mymodule",
 			Packages:    []*model.PackageInfo{},
 		}
-		configuration := configuration.Config{}
+		config := configuration.Config{}
 
-		result := api.CheckArchitecture(moduleInfo, configuration)
+		result := api.CheckArchitecture(moduleInfo, config)
 
 		assert.True(t, result.Passes)
 	})

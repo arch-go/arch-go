@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/fdaines/arch-go/api/configuration"
-
 	"github.com/fdaines/arch-go/internal/model"
 	contents2 "github.com/fdaines/arch-go/internal/verifications/contents"
 	dependencies2 "github.com/fdaines/arch-go/internal/verifications/dependencies"
@@ -44,11 +43,13 @@ func (a *architectureAnalysis) Execute() (*Result, error) {
 	}
 
 	wg.Add(4)
+
 	go func() {
 		if len(a.configuration.DependenciesRules) > 0 {
 			verificationResult.DependenciesRuleResult = a.checkDependenciesRules(a.moduleInfo, a.configuration.DependenciesRules)
 			verificationResult.Passes = verificationResult.Passes && verificationResult.DependenciesRuleResult.Passes
 		}
+
 		wg.Done()
 	}()
 
@@ -57,6 +58,7 @@ func (a *architectureAnalysis) Execute() (*Result, error) {
 			verificationResult.FunctionsRuleResult = a.checkFunctionRules(a.moduleInfo, a.configuration.FunctionsRules)
 			verificationResult.Passes = verificationResult.Passes && verificationResult.FunctionsRuleResult.Passes
 		}
+
 		wg.Done()
 	}()
 
@@ -65,6 +67,7 @@ func (a *architectureAnalysis) Execute() (*Result, error) {
 			verificationResult.ContentsRuleResult = a.checkContentsRules(a.moduleInfo, a.configuration.ContentRules)
 			verificationResult.Passes = verificationResult.Passes && verificationResult.ContentsRuleResult.Passes
 		}
+
 		wg.Done()
 	}()
 
@@ -73,12 +76,13 @@ func (a *architectureAnalysis) Execute() (*Result, error) {
 			verificationResult.NamingRuleResult = a.checkNamingRules(a.moduleInfo, a.configuration.NamingRules)
 			verificationResult.Passes = verificationResult.Passes && verificationResult.NamingRuleResult.Passes
 		}
+
 		wg.Done()
 	}()
 
 	wg.Wait()
-	endMoment := time.Now()
 
+	endMoment := time.Now()
 	verificationResult.Duration = endMoment.Sub(verificationResult.Time)
 
 	return verificationResult, nil
@@ -88,6 +92,7 @@ func (a *architectureAnalysis) withFunctionRulesVerification(
 	f func(model.ModuleInfo, []*configuration.FunctionsRule) *functions2.RulesResult,
 ) *architectureAnalysis {
 	a.checkFunctionRules = f
+
 	return a
 }
 
@@ -95,6 +100,7 @@ func (a *architectureAnalysis) withContentsRulesVerification(
 	f func(model.ModuleInfo, []*configuration.ContentsRule) *contents2.RulesResult,
 ) *architectureAnalysis {
 	a.checkContentsRules = f
+
 	return a
 }
 
@@ -102,5 +108,6 @@ func (a *architectureAnalysis) withNamingRulesVerification(
 	f func(model.ModuleInfo, []*configuration.NamingRule) *naming2.RulesResult,
 ) *architectureAnalysis {
 	a.checkNamingRules = f
+
 	return a
 }

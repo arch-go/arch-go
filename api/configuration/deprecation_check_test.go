@@ -5,15 +5,16 @@ import (
 	"testing"
 
 	"github.com/fatih/color"
+	"github.com/stretchr/testify/assert"
 
 	"github.com/fdaines/arch-go/internal/utils/values"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestDeprecationCheck(t *testing.T) {
 	t.Run("nil configuration", func(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
 		color.Output = outputBuffer
+
 		checkForDeprecatedConfiguration(nil)
 		assert.Equal(t, "", outputBuffer.String())
 	})
@@ -50,6 +51,7 @@ func TestDeprecationCheck(t *testing.T) {
 		}
 		outputBuffer := bytes.NewBufferString("")
 		color.Output = outputBuffer
+
 		checkForDeprecatedConfiguration(&configurationRules)
 
 		assert.Nil(t, configurationRules.CyclesRules)
@@ -83,6 +85,7 @@ func TestDeprecationCheck(t *testing.T) {
 
 		outputBuffer := bytes.NewBufferString("")
 		color.Output = outputBuffer
+
 		checkForDeprecatedConfiguration(&configurationRules)
 
 		assert.Nil(t, configurationRules.CyclesRules)
