@@ -4,16 +4,15 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/fdaines/arch-go/internal/reports/model"
-
 	"github.com/stretchr/testify/assert"
+
+	"github.com/fdaines/arch-go/internal/reports/model"
 )
 
 func TestConsoleReportGenerator(t *testing.T) {
 	t.Run("Empty Report", func(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
 		report := &model.Report{}
-
 		expectedOutput := ``
 
 		GenerateConsoleReport(report, outputBuffer)

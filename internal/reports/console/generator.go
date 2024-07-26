@@ -4,33 +4,37 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/fdaines/arch-go/internal/reports/model"
 	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/jedib0t/go-pretty/v6/text"
+
+	"github.com/fdaines/arch-go/internal/reports/model"
 )
 
 func GenerateConsoleReport(report *model.Report, outputMirror io.Writer) {
-	t := table.NewWriter()
-	t.SetOutputMirror(outputMirror)
+	tw := table.NewWriter()
+	tw.SetOutputMirror(outputMirror)
 
-	appendSummary(t, report)
+	appendSummary(tw, report)
 
 	if report.Summary != nil && report.Summary.ComplianceThreshold != nil {
-		appendFooter(t, "Compliance Rate", report.Summary.ComplianceThreshold)
+		appendFooter(tw, "Compliance Rate", report.Summary.ComplianceThreshold)
 	}
+
 	if report.Summary != nil && report.Summary.CoverageThreshold != nil {
-		appendFooter(t, "Coverage Rate", report.Summary.CoverageThreshold)
+		appendFooter(tw, "Coverage Rate", report.Summary.CoverageThreshold)
 	}
-	t.Render()
+
+	tw.Render()
 }
 
-func appendFooter(t table.Writer, title string, threshold *model.ThresholdSummary) {
+func appendFooter(tw table.Writer, title string, threshold *model.ThresholdSummary) {
 	rowConfig := table.RowConfig{
 		AutoMerge:      true,
 		AutoMergeAlign: text.AlignLeft,
 	}
 	complianceDetails := fmt.Sprintf("%3v%% [%s]", threshold.Rate, threshold.Status)
-	t.AppendFooter(table.Row{"", title, complianceDetails, complianceDetails, complianceDetails}, rowConfig)
+
+	tw.AppendFooter(table.Row{"", title, complianceDetails, complianceDetails, complianceDetails}, rowConfig)
 }
 
 func appendSummary(t table.Writer, report *model.Report) {
