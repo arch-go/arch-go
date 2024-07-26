@@ -11,21 +11,26 @@ func validateDependencyRules(rules []*configuration.DependenciesRule) error {
 		if rule.Package == "" {
 			return fmt.Errorf("dependencies rule - empty package")
 		}
+
 		if checkAtLeastOneCriteria(rule) {
 			return fmt.Errorf("dependencies rule - Should contain one of 'ShouldOnlyDependsOn' or 'ShouldNotDependsOn'")
 		}
+
 		if checkAtMostOneCriteria(rule) {
 			return fmt.Errorf("dependencies rule - Should contain only one of 'ShouldOnlyDependsOn' or 'ShouldNotDependsOn'")
 		}
+
 		err := checkShouldNotDependsOn(rule)
 		if err != nil {
 			return err
 		}
+
 		err = checkShouldOnlyDependsOn(rule)
 		if err != nil {
 			return err
 		}
 	}
+
 	return nil
 }
 
@@ -35,6 +40,7 @@ func checkShouldOnlyDependsOn(rule *configuration.DependenciesRule) error {
 			return fmt.Errorf("dependencies rule - ShouldOnlyDependsOn needs at least one of 'External', 'Internal' or 'Standard'")
 		}
 	}
+
 	return nil
 }
 

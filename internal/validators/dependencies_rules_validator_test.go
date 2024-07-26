@@ -3,9 +3,9 @@ package validators
 import (
 	"testing"
 
-	"github.com/fdaines/arch-go/api/configuration"
-
 	"github.com/stretchr/testify/assert"
+
+	"github.com/fdaines/arch-go/api/configuration"
 )
 
 func TestDependenciesRulesValidator(t *testing.T) {
