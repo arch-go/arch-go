@@ -52,7 +52,7 @@ jobs:
           go tool cover -func coverage.out -o coverage.out
 
       - name: Go Coverage Badge
-        uses: tj-actions/coverage-badge-go@5779f88ebf037e06cd56d9312c9aeff696aba8ae # v1
+        uses: tj-actions/coverage-badge-go@84540b9f82b4f569ac9f248cf6f2893ac3cc4791 # v2
         with:
           green: 80
           filename: coverage.out
