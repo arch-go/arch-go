@@ -1,7 +1,8 @@
 package common
 
+//nolint:gochecknoglobals
 var (
 	Verbose bool
-	Html    bool
+	HTML    bool
 	Color   string
 )

@@ -15,7 +15,7 @@ import (
 
 func DisplayResult(report *model.Report, output io.Writer) {
 	displayRules(report, output)
-	if common.Html {
+	if common.HTML {
 		html.GenerateHtmlReport(report, output)
 	} else {
 		console.GenerateConsoleReport(report, output)

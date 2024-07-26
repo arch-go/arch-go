@@ -39,7 +39,7 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	rootCmd.PersistentFlags().BoolVarP(&common.Verbose, "verbose", "v", false, "Verbose Output")
-	rootCmd.PersistentFlags().BoolVar(&common.Html, "html", false, "Generate HTML Report")
+	rootCmd.PersistentFlags().BoolVar(&common.HTML, "html", false, "Generate HTML Report")
 	rootCmd.PersistentFlags().StringVar(&common.Color, "color", "auto", "Print colors (auto, yes, no)")
 }
 
