@@ -7,12 +7,11 @@ import (
 	"os"
 	"testing"
 
-	"github.com/fdaines/arch-go/api/configuration"
-
-	"github.com/fdaines/arch-go/internal/utils/values"
-
 	monkey "github.com/agiledragon/gomonkey/v2"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/fdaines/arch-go/api/configuration"
+	"github.com/fdaines/arch-go/internal/utils/values"
 )
 
 func TestDescribeCommand(t *testing.T) {
@@ -147,7 +146,6 @@ Threshold Rules
 
 		command := NewCommand(configuration, outputBuffer)
 		returnValue := runDescribeCommand(command)
-
 		outputBytes, _ := io.ReadAll(outputBuffer)
 
 		assert.Equal(t, 0, returnValue, "Unexpected Return Value")
@@ -171,7 +169,6 @@ Threshold Rules
 		describeThresholdRules(threshold, outputBuffer)
 
 		outputBytes, _ := io.ReadAll(outputBuffer)
-
 		assert.Equal(t, expectedOutput, string(outputBytes), "Output doesn't match expected values.")
 	})
 
@@ -182,14 +179,15 @@ Threshold Rules
 		describeThresholdRules(nil, outputBuffer)
 
 		outputBytes, _ := io.ReadAll(outputBuffer)
-
 		assert.Equal(t, expectedOutput, string(outputBytes), "Output doesn't match expected values.")
 	})
 
 	t.Run("invalid configuration", func(t *testing.T) {
 		fmt.Println("INvalid case")
+
 		outputBuffer := bytes.NewBufferString("")
 		patchExit := monkey.ApplyFunc(os.Exit, func(c int) {})
+
 		defer patchExit.Reset()
 
 		expectedOutput := `Invalid Configuration: configuration file should have at least one rule
@@ -200,7 +198,6 @@ Threshold Rules
 		fmt.Println("INvalid case3")
 
 		outputBytes, _ := io.ReadAll(outputBuffer)
-
 		assert.Equal(t, expectedOutput, string(outputBytes), "Output doesn't match expected values.")
 	})
 }

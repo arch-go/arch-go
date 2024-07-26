@@ -5,11 +5,10 @@ import (
 	"io"
 	"testing"
 
-	"github.com/fdaines/arch-go/api/configuration"
-
-	"github.com/fdaines/arch-go/internal/utils/values"
-
 	"github.com/stretchr/testify/assert"
+
+	"github.com/fdaines/arch-go/api/configuration"
+	"github.com/fdaines/arch-go/internal/utils/values"
 )
 
 func TestDescribeNamingRules(t *testing.T) {
@@ -41,13 +40,13 @@ func TestDescribeNamingRules(t *testing.T) {
 		describeNamingRules(rules, outputBuffer)
 
 		outputBytes, _ := io.ReadAll(outputBuffer)
-
 		assert.Equal(t, expectedOutput, string(outputBytes), "Output doesn't match expected values.")
 	})
 
 	t.Run("empty rules", func(t *testing.T) {
-		outputBuffer := bytes.NewBufferString("")
 		var rules []*configuration.NamingRule
+
+		outputBuffer := bytes.NewBufferString("")
 		expectedOutput := `Naming Rules
 	* No rules defined
 `
@@ -55,7 +54,6 @@ func TestDescribeNamingRules(t *testing.T) {
 		describeNamingRules(rules, outputBuffer)
 
 		outputBytes, _ := io.ReadAll(outputBuffer)
-
 		assert.Equal(t, expectedOutput, string(outputBytes), "Output doesn't match expected values.")
 	})
 }

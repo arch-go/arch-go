@@ -5,9 +5,9 @@ import (
 	"io"
 	"testing"
 
-	"github.com/fdaines/arch-go/api/configuration"
-
 	"github.com/stretchr/testify/assert"
+
+	"github.com/fdaines/arch-go/api/configuration"
 )
 
 func TestDescribeContentRules(t *testing.T) {
@@ -55,13 +55,13 @@ func TestDescribeContentRules(t *testing.T) {
 		describeContentRules(rules, outputBuffer)
 
 		outputBytes, _ := io.ReadAll(outputBuffer)
-
 		assert.Equal(t, expectedOutput, string(outputBytes), "Output doesn't match expected values.")
 	})
 
 	t.Run("empty rules", func(t *testing.T) {
-		outputBuffer := bytes.NewBufferString("")
 		var rules []*configuration.ContentsRule
+
+		outputBuffer := bytes.NewBufferString("")
 		expectedOutput := `Content Rules
 	* No rules defined
 `
@@ -69,7 +69,6 @@ func TestDescribeContentRules(t *testing.T) {
 		describeContentRules(rules, outputBuffer)
 
 		outputBytes, _ := io.ReadAll(outputBuffer)
-
 		assert.Equal(t, expectedOutput, string(outputBytes), "Output doesn't match expected values.")
 	})
 }

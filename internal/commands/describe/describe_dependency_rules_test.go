@@ -125,13 +125,13 @@ func TestDescribeDependencyRules(t *testing.T) {
 		describeDependencyRules(rules, outputBuffer)
 
 		outputBytes, _ := io.ReadAll(outputBuffer)
-
 		assert.Equal(t, expectedOutput, string(outputBytes), "Output doesn't match expected values.")
 	})
 
 	t.Run("empty rules", func(t *testing.T) {
-		outputBuffer := bytes.NewBufferString("")
 		var rules []*configuration.DependenciesRule
+
+		outputBuffer := bytes.NewBufferString("")
 		expectedOutput := `Dependency Rules
 	* No rules defined
 `
@@ -139,7 +139,6 @@ func TestDescribeDependencyRules(t *testing.T) {
 		describeDependencyRules(rules, outputBuffer)
 
 		outputBytes, _ := io.ReadAll(outputBuffer)
-
 		assert.Equal(t, expectedOutput, string(outputBytes), "Output doesn't match expected values.")
 	})
 }
