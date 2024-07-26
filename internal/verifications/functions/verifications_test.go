@@ -4,13 +4,13 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/fdaines/arch-go/api/configuration"
-
 	"github.com/agiledragon/gomonkey/v2"
+	"github.com/stretchr/testify/assert"
+
+	"github.com/fdaines/arch-go/api/configuration"
 	"github.com/fdaines/arch-go/internal/model"
 	"github.com/fdaines/arch-go/internal/utils/values"
 	"github.com/fdaines/arch-go/internal/verifications/functions"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestCheckFunctionRules(t *testing.T) {
@@ -45,6 +45,7 @@ func TestCheckFunctionRules(t *testing.T) {
 			},
 		}
 		mock := gomonkey.ApplyFuncReturn(functions.RetrieveFunctions, functionDetails, nil)
+
 		defer mock.Reset()
 
 		moduleInfo := model.ModuleInfo{
@@ -93,7 +94,6 @@ func TestCheckFunctionRules(t *testing.T) {
 		}
 
 		result := functions.CheckRules(moduleInfo, functionRules)
-
 		jsonExpectedResult, _ := json.Marshal(expectedResult)
 		jsonResult, _ := json.Marshal(result)
 
@@ -153,13 +153,16 @@ func TestCheckFunctionRules(t *testing.T) {
 		}
 		mock := gomonkey.ApplyFunc(
 			functions.RetrieveFunctions,
-			func(pkg *model.PackageInfo, mainPackage string) ([]*functions.FunctionDetails, error) {
+			func(_ *model.PackageInfo, mainPackage string) ([]*functions.FunctionDetails, error) {
 				if index == 1 {
 					index++
+
 					return functionDetails1, nil
 				}
+
 				return functionDetails2, nil
 			})
+
 		defer mock.Reset()
 
 		moduleInfo := model.ModuleInfo{

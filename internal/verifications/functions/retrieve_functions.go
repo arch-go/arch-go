@@ -14,23 +14,29 @@ import (
 
 func RetrieveFunctions(pkg *model.PackageInfo, mainPackage string) ([]*FunctionDetails, error) {
 	var functionDetailsCollection []*FunctionDetails
+
 	path, err := os.Getwd()
 	if err != nil {
 		panic(err)
 	}
+
 	packageDir := strings.Replace(pkg.PackageData.ImportPath, mainPackage, path, 1)
 
 	for _, srcFile := range pkg.PackageData.GoFiles {
 		srcFilePath := filepath.Join(pkg.Path, srcFile)
+
 		data, err := os.ReadFile(filepath.Join(packageDir, srcFile))
 		if err != nil {
 			return nil, err
 		}
+
 		fileset := token.NewFileSet()
+
 		node, err := parser.ParseFile(fileset, srcFile, data, 0)
 		if err != nil {
 			return nil, err
 		}
+
 		functionDetailsCollection = resolveFunctionDetails(node, srcFile, srcFilePath, fileset, functionDetailsCollection)
 	}
 

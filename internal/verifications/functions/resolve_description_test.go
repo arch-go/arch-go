@@ -3,11 +3,10 @@ package functions
 import (
 	"testing"
 
-	"github.com/fdaines/arch-go/api/configuration"
-
-	"github.com/fdaines/arch-go/internal/utils/values"
-
 	"github.com/stretchr/testify/assert"
+
+	"github.com/fdaines/arch-go/api/configuration"
+	"github.com/fdaines/arch-go/internal/utils/values"
 )
 
 func TestResolveNamingRuleDescription(t *testing.T) {
