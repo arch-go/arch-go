@@ -5,9 +5,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/fdaines/arch-go/internal/reports/model"
-
 	"github.com/stretchr/testify/assert"
+
+	"github.com/fdaines/arch-go/internal/reports/model"
 )
 
 func TestDisplay(t *testing.T) {

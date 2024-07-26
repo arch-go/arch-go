@@ -4,28 +4,31 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/fatih/color"
+
 	"github.com/fdaines/arch-go/internal/common"
 	"github.com/fdaines/arch-go/internal/reports/console"
 	"github.com/fdaines/arch-go/internal/reports/html"
-
 	"github.com/fdaines/arch-go/internal/reports/model"
-
-	"github.com/fatih/color"
 )
 
 func DisplayResult(report *model.Report, output io.Writer) {
 	displayRules(report, output)
+
 	if common.HTML {
 		html.GenerateHTMLReport(report, output)
 	} else {
 		console.GenerateConsoleReport(report, output)
 	}
+
 	displaySummary(report.Summary, output)
 }
 
 func displaySummary(summary *model.ReportSummary, output io.Writer) {
-	color.Output = output
 	const lineSeparator = "--------------------------------------\n"
+
+	color.Output = output
+
 	fmt.Fprintf(output, lineSeparator)
 	fmt.Fprintf(output, "\tExecution Summary\n")
 	fmt.Fprintf(output, lineSeparator)

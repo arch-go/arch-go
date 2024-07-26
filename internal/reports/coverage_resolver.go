@@ -8,8 +8,9 @@ import (
 )
 
 func resolveCoverage(r *api.Result, m model.ModuleInfo, c configuration.Config) *model2.ThresholdSummary {
-	moduleContents := checkPackagesCoverage(r, m)
 	var uncoveredPackages []string
+
+	moduleContents := checkPackagesCoverage(r, m)
 	for pkg, verified := range moduleContents {
 		if !verified {
 			uncoveredPackages = append(uncoveredPackages, pkg)
@@ -19,6 +20,7 @@ func resolveCoverage(r *api.Result, m model.ModuleInfo, c configuration.Config) 
 	totalPackages := len(moduleContents)
 	coveredPackages := totalPackages - len(uncoveredPackages)
 	rate := 0
+
 	if totalPackages > 0 {
 		rate = (100 * coveredPackages) / totalPackages
 	}

@@ -5,19 +5,17 @@ import (
 	"testing"
 	"time"
 
-	"github.com/fdaines/arch-go/internal/common"
+	"github.com/stretchr/testify/assert"
 
 	"github.com/fdaines/arch-go/api"
 	"github.com/fdaines/arch-go/api/configuration"
+	"github.com/fdaines/arch-go/internal/common"
+	"github.com/fdaines/arch-go/internal/model"
+	reportModel "github.com/fdaines/arch-go/internal/reports/model"
 	"github.com/fdaines/arch-go/internal/verifications/contents"
 	"github.com/fdaines/arch-go/internal/verifications/dependencies"
 	"github.com/fdaines/arch-go/internal/verifications/functions"
 	"github.com/fdaines/arch-go/internal/verifications/naming"
-
-	"github.com/fdaines/arch-go/internal/model"
-	reportModel "github.com/fdaines/arch-go/internal/reports/model"
-
-	"github.com/stretchr/testify/assert"
 )
 
 func TestGenerateReport(t *testing.T) {
@@ -265,10 +263,9 @@ func TestGenerateReport(t *testing.T) {
 		}
 
 		result := GenerateReport(apiResult, module, config)
+		resultJSONBytes, _ := json.Marshal(result)
+		expectedResultJSONBytes, _ := json.Marshal(expectedResult)
 
-		resultJsonBytes, _ := json.Marshal(result)
-		expectedResultJsonBytes, _ := json.Marshal(expectedResult)
-
-		assert.Equal(t, string(expectedResultJsonBytes), string(resultJsonBytes))
+		assert.Equal(t, string(expectedResultJSONBytes), string(resultJSONBytes))
 	})
 }

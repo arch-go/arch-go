@@ -10,6 +10,7 @@ import (
 
 func displayRules(report *model.Report, output io.Writer) {
 	color.Output = output
+
 	if report.Details != nil {
 		displayDetails(report.Details.ContentsVerificationDetails)
 		displayDetails(report.Details.DependenciesVerificationDetails)
@@ -31,6 +32,7 @@ func printPackagesDetails(d model.VerificationDetails) {
 			color.Green("\tPackage '%s' passes\n", p.Package)
 		} else {
 			color.Red("\tPackage '%s' fails\n", p.Package)
+
 			for _, str := range p.Details {
 				color.Red("\t\t%s\n", str)
 			}

@@ -13,6 +13,7 @@ func GenerateReport(result *api.Result, moduleInfo model.ModuleInfo, config conf
 	coverage := resolveCoverage(result, moduleInfo, config)
 	details := resolveReportDetails(result)
 	total, passed, failed := retrieveTotals(details)
+
 	return &reportModel.Report{
 		ArchGoVersion: common.Version,
 		Summary: &reportModel.ReportSummary{
@@ -39,9 +40,11 @@ func generateCoverageInfo(moduleInfo model.ModuleInfo, result *api.Result) []rep
 		fr := countFunctionsRulesVerifications(pkg.Path, result)
 		nr := countNamingRulesVerifications(pkg.Path, result)
 		status := "NO"
+
 		if cr+dr+fr+nr > 0 {
 			status = "YES"
 		}
+
 		coverageInfo = append(coverageInfo, reportModel.CoverageInfo{
 			Package:           pkg.Path,
 			ContensRules:      cr,
@@ -56,9 +59,21 @@ func generateCoverageInfo(moduleInfo model.ModuleInfo, result *api.Result) []rep
 }
 
 func retrieveTotals(details *reportModel.ReportDetails) (int, int, int) {
-	total := details.DependenciesVerificationDetails.Total + details.FunctionsVerificationDetails.Total + details.ContentsVerificationDetails.Total + details.NamingVerificationDetails.Total
-	passed := details.DependenciesVerificationDetails.Passed + details.FunctionsVerificationDetails.Passed + details.ContentsVerificationDetails.Passed + details.NamingVerificationDetails.Passed
-	failed := details.DependenciesVerificationDetails.Failed + details.FunctionsVerificationDetails.Failed + details.ContentsVerificationDetails.Failed + details.NamingVerificationDetails.Failed
+	total :=
+		details.DependenciesVerificationDetails.Total +
+			details.FunctionsVerificationDetails.Total +
+			details.ContentsVerificationDetails.Total +
+			details.NamingVerificationDetails.Total
+	passed :=
+		details.DependenciesVerificationDetails.Passed +
+			details.FunctionsVerificationDetails.Passed +
+			details.ContentsVerificationDetails.Passed +
+			details.NamingVerificationDetails.Passed
+	failed :=
+		details.DependenciesVerificationDetails.Failed +
+			details.FunctionsVerificationDetails.Failed +
+			details.ContentsVerificationDetails.Failed +
+			details.NamingVerificationDetails.Failed
 
 	return total, passed, failed
 }

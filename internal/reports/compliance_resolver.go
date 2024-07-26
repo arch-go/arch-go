@@ -7,22 +7,24 @@ import (
 )
 
 func resolveCompliance(r *api.Result, c configuration.Config) *model.ThresholdSummary {
-	passesVerifications, totalVerifications := resolveTotals(r)
+	var violations []string
 
+	passesVerifications, totalVerifications := resolveTotals(r)
 	rate := 0
+	status := passStatus
+	threshold := 0
+
 	if totalVerifications > 0 {
 		rate = (100 * passesVerifications) / totalVerifications
 	}
 
-	threshold := 0
 	if c.Threshold != nil && c.Threshold.Compliance != nil {
 		threshold = *c.Threshold.Compliance
 	}
 
-	status := passStatus
-	var violations []string
 	if rate < threshold {
 		status = failStatus
+
 		violations = append(violations, "")
 	}
 
@@ -41,6 +43,7 @@ func resolveTotals(r *api.Result) (int, int) {
 	countFunctionsRuleResults(r, &passes, &total)
 	countContentsRuleResults(r, &passes, &total)
 	countNamingRuleResults(r, &passes, &total)
+
 	return passes, total
 }
 
@@ -50,6 +53,7 @@ func countDependenciesRuleResults(r *api.Result, passes *int, total *int) {
 			if dr.Passes {
 				*passes++
 			}
+
 			*total++
 		}
 	}
@@ -61,6 +65,7 @@ func countFunctionsRuleResults(r *api.Result, passes *int, total *int) {
 			if dr.Passes {
 				*passes++
 			}
+
 			*total++
 		}
 	}
@@ -72,6 +77,7 @@ func countContentsRuleResults(r *api.Result, passes *int, total *int) {
 			if dr.Passes {
 				*passes++
 			}
+
 			*total++
 		}
 	}
@@ -83,6 +89,7 @@ func countNamingRuleResults(r *api.Result, passes *int, total *int) {
 			if dr.Passes {
 				*passes++
 			}
+
 			*total++
 		}
 	}
