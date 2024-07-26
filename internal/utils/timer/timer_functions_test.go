@@ -6,22 +6,26 @@ import (
 	"testing"
 	"time"
 
-	"github.com/fdaines/arch-go/internal/utils/timer"
-
 	"github.com/agiledragon/gomonkey/v2"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/fdaines/arch-go/internal/utils/timer"
 )
 
 func TestExecuteWithTimer(t *testing.T) {
 	t.Run("Calls ExecuteWithTimer function", func(t *testing.T) {
 		var out string
+
 		printPatch := gomonkey.ApplyFunc(fmt.Fprintf, func(w io.Writer, f string, a ...interface{}) (int, error) {
 			out = fmt.Sprintf(f, a)
+
 			return 0, nil
 		})
-		defer printPatch.Reset()
 		patch := gomonkey.ApplyFuncReturn(time.Since, time.Duration(123456789))
+
+		defer printPatch.Reset()
 		defer patch.Reset()
+
 		innerFunctionCalls := 0
 		innerFunction := func() { innerFunctionCalls++ }
 

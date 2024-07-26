@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/agiledragon/gomonkey/v2"
-
 	"github.com/stretchr/testify/assert"
 
 	"github.com/fdaines/arch-go/internal/utils/packages"
@@ -24,8 +23,9 @@ require (
 		readFilePatch := gomonkey.ApplyFunc(os.ReadFile, func(fn string) ([]byte, error) {
 			return []byte(gomodFile), nil
 		})
-		defer readFilePatch.Reset()
 		statPatch := gomonkey.ApplyFuncReturn(os.Stat, nil, nil)
+
+		defer readFilePatch.Reset()
 		defer statPatch.Reset()
 
 		expected := "github.com/fdaines/my-golang-module"

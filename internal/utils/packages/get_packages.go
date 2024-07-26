@@ -11,6 +11,7 @@ import (
 
 func GetBasicPackagesInfo(mainPackage string, out io.Writer, printInfo bool) ([]*model.PackageInfo, error) {
 	var packagesInfo []*model.PackageInfo
+
 	context := build.Default
 
 	pkgs, err := getPackages(mainPackage, out, printInfo)
@@ -21,6 +22,7 @@ func GetBasicPackagesInfo(mainPackage string, out io.Writer, printInfo bool) ([]
 			if printInfo {
 				fmt.Fprintf(out, "Loading package (%d/%d): %s\n", index+1, len(pkgs), packageName)
 			}
+
 			pkg, errX := context.Import(packageName, "", 0)
 			if errX == nil {
 				packagesInfo = append(packagesInfo, &model.PackageInfo{
@@ -39,16 +41,20 @@ func getPackages(mainPackage string, out io.Writer, printInfo bool) ([]string, e
 	if printInfo {
 		fmt.Fprint(out, "Looking for packages.\n")
 	}
+
 	pkgs, err := packages.Load(&packages.Config{Tests: false}, mainPackage+"/...")
 	if err != nil {
 		return nil, fmt.Errorf("Cannot load module packages: %+v", err)
 	}
+
 	var packages []string
 	for _, pkg := range pkgs {
 		packages = append(packages, pkg.PkgPath)
 	}
+
 	if printInfo {
 		fmt.Fprintf(out, "%v packages found...\n", len(packages))
 	}
+
 	return packages, nil
 }
