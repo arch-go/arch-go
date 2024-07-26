@@ -3,9 +3,9 @@ package contents
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-
 	"github.com/fdaines/arch-go/api/configuration"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestCheckContentFunctions(t *testing.T) {
