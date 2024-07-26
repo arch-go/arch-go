@@ -7,26 +7,29 @@ import (
 	"testing"
 
 	monkey "github.com/agiledragon/gomonkey/v2"
-
 	"github.com/stretchr/testify/assert"
 )
 
 func TestReportHtmlHelpers(t *testing.T) {
 	t.Run("writeReport", func(t *testing.T) {
-		var filename string
-		var fileContents string
-		var permissions os.FileMode
+		var (
+			filename     string
+			fileContents string
+			permissions  os.FileMode
+		)
+
 		patch := monkey.ApplyFunc(os.WriteFile, func(name string, data []byte, perm os.FileMode) error {
 			filename = name
 			fileContents = string(data)
 			permissions = perm
+
 			return nil
 		})
+
 		defer patch.Reset()
 
 		outputBuffer := bytes.NewBufferString("")
 		content := "foobar"
-
 		expectedOutput := "HTML report generated at: .arch-go/report.html\n"
 
 		writeReport(content, outputBuffer)

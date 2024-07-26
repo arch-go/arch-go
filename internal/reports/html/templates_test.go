@@ -30,6 +30,7 @@ func TestReportHtmlTemplates(t *testing.T) {
 		templates := resolveTemplates()
 
 		var resultTemplateFiles []string
+
 		for _, tmpl := range templates.Templates() {
 			if strings.HasSuffix(tmpl.Name(), ".tmpl") {
 				resultTemplateFiles = append(resultTemplateFiles, tmpl.Name())
