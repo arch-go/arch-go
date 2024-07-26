@@ -7,37 +7,34 @@ import (
 	"strings"
 
 	"github.com/fatih/color"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 
 	"github.com/fdaines/arch-go/api"
 	"github.com/fdaines/arch-go/api/configuration"
-
 	"github.com/fdaines/arch-go/internal/common"
 	"github.com/fdaines/arch-go/internal/model"
 	"github.com/fdaines/arch-go/internal/reports"
 	"github.com/fdaines/arch-go/internal/utils/packages"
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
-var commandToRun = runRootCommand
-
-// rootCmd represents the base command when called without any subcommands
-var rootCmd = &cobra.Command{
-	Use:     "arch-go",
-	Version: common.Version,
-	Short:   "Architecture checks for Go",
-	Long: `Architecture checks for Go:
+//nolint:gochecknoglobals
+var (
+	commandToRun = runRootCommand
+	rootCmd      = &cobra.Command{
+		Use:     "arch-go",
+		Version: common.Version,
+		Short:   "Architecture checks for Go",
+		Long: `Architecture checks for Go:
 * Dependencies
 * Package contents
 * Function rules
 * Naming rules`,
-	Run: runCommand,
-}
+		Run: runCommand,
+	}
+)
 
-func Execute() {
-	cobra.CheckErr(rootCmd.Execute())
-}
-
+//nolint:gochecknoinits
 func init() {
 	cobra.OnInitialize(initConfig)
 
@@ -46,10 +43,15 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&common.Color, "color", "auto", "Print colors (auto, yes, no)")
 }
 
-func runCommand(cmd *cobra.Command, args []string) {
+func Execute() {
+	cobra.CheckErr(rootCmd.Execute())
+}
+
+func runCommand(cmd *cobra.Command, _ []string) {
 	configureColor()
 	fmt.Fprintf(cmd.OutOrStdout(), "Running arch-go command\n")
 	fmt.Fprintf(cmd.OutOrStdout(), "Using configuration file: %s\n", viper.ConfigFileUsed())
+
 	success := commandToRun(cmd.OutOrStdout())
 	if !success {
 		os.Exit(1)
@@ -61,6 +63,7 @@ func configureColor() {
 	if strings.ToLower(common.Color) == "yes" {
 		color.NoColor = false
 	}
+
 	if strings.ToLower(common.Color) == "no" {
 		color.NoColor = true
 	}
@@ -82,12 +85,14 @@ func initConfig() {
 }
 
 func runRootCommand(out io.Writer) bool {
-	configuration, err := configuration.LoadConfig(viper.ConfigFileUsed())
+	conf, err := configuration.LoadConfig(viper.ConfigFileUsed())
 	if err != nil {
 		fmt.Fprintf(out, "Error: %+v\n", err)
 		os.Exit(1)
+
 		return false
 	}
+
 	mainPackage, _ := packages.GetMainPackage()
 	packages, _ := packages.GetBasicPackagesInfo(mainPackage, out, common.Verbose)
 	moduleInfo := model.ModuleInfo{
@@ -95,8 +100,8 @@ func runRootCommand(out io.Writer) bool {
 		Packages:    packages,
 	}
 
-	result := api.CheckArchitecture(moduleInfo, *configuration)
-	report := reports.GenerateReport(result, moduleInfo, *configuration)
+	result := api.CheckArchitecture(moduleInfo, *conf)
+	report := reports.GenerateReport(result, moduleInfo, *conf)
 	reports.DisplayResult(report, out)
 
 	return result.Passes

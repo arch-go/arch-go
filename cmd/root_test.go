@@ -10,10 +10,10 @@ import (
 	"time"
 
 	monkey "github.com/agiledragon/gomonkey/v2"
-
-	"github.com/fdaines/arch-go/api"
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/fdaines/arch-go/api"
 )
 
 func TestRootCommand(t *testing.T) {
@@ -27,6 +27,7 @@ func TestRootCommand(t *testing.T) {
 			}
 		}
 		patch := monkey.ApplyFunc(os.Exit, osExit)
+
 		defer patch.Reset()
 
 		commandToRun = func(_ io.Writer) bool {
@@ -39,16 +40,16 @@ func TestRootCommand(t *testing.T) {
 
 	t.Run("when command ends without an error", func(t *testing.T) {
 		exitCalled := false
-		osExit := func(code int) {
+		patch := monkey.ApplyFunc(os.Exit, func(code int) {
 			if code == 1 {
 				exitCalled = true
 			}
-		}
-		patch := monkey.ApplyFunc(os.Exit, osExit)
-		defer patch.Reset()
+		})
 		commandToRun = func(_ io.Writer) bool {
 			return true
 		}
+
+		defer patch.Reset()
 
 		rootCmd.Execute()
 		assert.False(t, exitCalled, "Expects to finish")
@@ -63,10 +64,12 @@ func TestRootCommand(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
+
 		cmdOutput := string(out)
 		if !strings.Contains(cmdOutput, "Running arch-go command") {
 			t.Fatal("Expects a log containing the running command.")
 		}
+
 		if !strings.Contains(cmdOutput, "Using configuration file:") || !strings.Contains(cmdOutput, "/test/arch-go.yml") {
 			t.Fatal("Expects a log containing the configuration file.")
 		}
@@ -74,25 +77,22 @@ func TestRootCommand(t *testing.T) {
 
 	t.Run("checks if successful run returns zero exit code", func(t *testing.T) {
 		nonZeroExitCode := false
-		osExit := func(code int) {
-			if code != 0 {
-				nonZeroExitCode = true
-			}
-		}
-
 		passingApiResult := &api.Result{
 			Time:   time.Now(),
 			Passes: true,
 		}
+		patchCheck := monkey.ApplyFuncReturn(api.CheckArchitecture, passingApiResult)
+		patchExit := monkey.ApplyFunc(os.Exit, func(code int) {
+			if code != 0 {
+				nonZeroExitCode = true
+			}
+		})
 
 		rootCmd.SetArgs([]string{
 			"",
 		})
 
-		patchCheck := monkey.ApplyFuncReturn(api.CheckArchitecture, passingApiResult)
 		defer patchCheck.Reset()
-
-		patchExit := monkey.ApplyFunc(os.Exit, osExit)
 		defer patchExit.Reset()
 
 		rootCmd.Execute()
@@ -106,22 +106,18 @@ func TestRootCommand(t *testing.T) {
 		viper.Reset()
 
 		nonZeroExitCode := false
-
-		osExit := func(code int) {
-			if code != 0 {
-				nonZeroExitCode = true
-			}
-		}
-
 		nonPassingApiResult := &api.Result{
 			Time:   time.Now(),
 			Passes: false,
 		}
-
 		patchCheck := monkey.ApplyFuncReturn(api.CheckArchitecture, nonPassingApiResult)
-		defer patchCheck.Reset()
+		patchExit := monkey.ApplyFunc(os.Exit, func(code int) {
+			if code != 0 {
+				nonZeroExitCode = true
+			}
+		})
 
-		patchExit := monkey.ApplyFunc(os.Exit, osExit)
+		defer patchCheck.Reset()
 		defer patchExit.Reset()
 
 		rootCmd.SetArgs([]string{
@@ -137,15 +133,14 @@ func TestRootCommand(t *testing.T) {
 
 	t.Run("Force an error trying to get current directory", func(t *testing.T) {
 		exitCalled := false
-		osExit := func(code int) {
+		patch := monkey.ApplyFuncReturn(os.Getwd, nil, fmt.Errorf("foobar"))
+		patchExit := monkey.ApplyFunc(os.Exit, func(code int) {
 			if code == 1 {
 				exitCalled = true
 			}
-		}
+		})
 
-		patch := monkey.ApplyFuncReturn(os.Getwd, nil, fmt.Errorf("foobar"))
 		defer patch.Reset()
-		patchExit := monkey.ApplyFunc(os.Exit, osExit)
 		defer patchExit.Reset()
 
 		rootCmd.Execute()
