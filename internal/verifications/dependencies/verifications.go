@@ -4,7 +4,6 @@ import (
 	"regexp"
 
 	"github.com/fdaines/arch-go/api/configuration"
-
 	"github.com/fdaines/arch-go/internal/model"
 	"github.com/fdaines/arch-go/internal/utils/text"
 )
@@ -52,16 +51,22 @@ func CheckRule(moduleInfo model.ModuleInfo, rule configuration.DependenciesRule)
 	return result
 }
 
-func checkDependencies(pkg *model.PackageInfo, rule configuration.DependenciesRule, moduleInfo model.ModuleInfo) (bool, []string) {
+func checkDependencies(
+	pkg *model.PackageInfo, rule configuration.DependenciesRule, moduleInfo model.ModuleInfo,
+) (bool, []string) {
 	pass1, details1 := checkAllowedDependencies(pkg, rule, moduleInfo)
 	pass2, details2 := checkRestrictedDependencies(pkg, rule, moduleInfo)
 
 	return pass1 && pass2, append(details1, details2...)
 }
 
-func checkAllowedDependencies(pkg *model.PackageInfo, rule configuration.DependenciesRule, moduleInfo model.ModuleInfo) (bool, []string) {
+func checkAllowedDependencies(
+	pkg *model.PackageInfo, rule configuration.DependenciesRule, moduleInfo model.ModuleInfo,
+) (bool, []string) {
 	result := true
+
 	var details []string
+
 	if rule.ShouldOnlyDependsOn != nil {
 		for _, p := range pkg.PackageData.Imports {
 			pass1, details1 := checkAllowedInternalImports(p, rule.ShouldOnlyDependsOn.Internal, moduleInfo)
@@ -69,15 +74,21 @@ func checkAllowedDependencies(pkg *model.PackageInfo, rule configuration.Depende
 			pass3, details3 := checkAllowedStandardImports(p, rule.ShouldOnlyDependsOn.Standard, moduleInfo)
 
 			result = result && pass1 && pass2 && pass3
+
 			details = append(details, append(details1, append(details2, details3...)...)...)
 		}
 	}
+
 	return result, details
 }
 
-func checkRestrictedDependencies(pkg *model.PackageInfo, rule configuration.DependenciesRule, moduleInfo model.ModuleInfo) (bool, []string) {
+func checkRestrictedDependencies(
+	pkg *model.PackageInfo, rule configuration.DependenciesRule, moduleInfo model.ModuleInfo,
+) (bool, []string) {
 	result := true
+
 	var details []string
+
 	if rule.ShouldNotDependsOn != nil {
 		for _, p := range pkg.PackageData.Imports {
 			pass1, details1 := checkRestrictedInternalImports(p, rule.ShouldNotDependsOn.Internal, moduleInfo)
@@ -85,8 +96,10 @@ func checkRestrictedDependencies(pkg *model.PackageInfo, rule configuration.Depe
 			pass3, details3 := checkRestrictedStandardImports(p, rule.ShouldNotDependsOn.Standard, moduleInfo)
 
 			result = result && pass1 && pass2 && pass3
+
 			details = append(details, append(details1, append(details2, details3...)...)...)
 		}
 	}
+
 	return result, details
 }

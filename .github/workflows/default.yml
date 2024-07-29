@@ -8,6 +8,23 @@ on:
   workflow_dispatch:
 
 jobs:
+  lint-code:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+        with:
+          fetch-depth: 0
+      - name: Review code
+        uses: reviewdog/action-golangci-lint@7708105983c614f7a2725e2172908b7709d1c3e4 # v2.6.2
+        with:
+          go_version: 1.22.3
+          golangci_lint_version: v1.59.1
+          reporter: github-pr-review
+          fail_on_error: true
+
   test:
     runs-on: ubuntu-latest
     steps:

@@ -1,8 +1,10 @@
 package output
 
+import "io"
+
 type nilWriter struct{}
 
-func CreateNilWriter() nilWriter {
+func CreateNilWriter() io.Writer {
 	return nilWriter{}
 }
 

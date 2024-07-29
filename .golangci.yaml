@@ -1,0 +1,85 @@
+# Options for analysis running.
+run:
+  timeout: 5m
+  modules-download-mode: readonly
+
+linters:
+  enable-all: true
+  disable:
+    - dupl
+    - wrapcheck
+    - ireturn
+    - exhaustruct
+    - testpackage
+    - paralleltest
+    - nolintlint
+    - tparallel
+    - depguard
+    - zerologlint
+    - forbidigo
+    - mnd
+    - err113
+    # depricated
+    - gomnd
+    - execinquery
+
+issues:
+  exclude-rules:
+    - path: '(.+)_test\.go'
+      linters:
+        - funlen
+        - maintidx
+        - cyclop
+        - gocognit
+        - err113
+        - lll
+        - errcheck
+        - canonicalheader
+        - mnd
+        - musttag
+
+linters-settings:
+  exhaustive:
+    ignore-enum-members: "POT.+"
+    default-signifies-exhaustive: true
+  tagliatelle:
+    # Check the struck tag name case.
+    case:
+      rules:
+        # Support string case: `camel`, `pascal`, `kebab`, `snake`, `goCamel`, `goPascal`, `goKebab`, `goSnake`, `upper`, `lower`
+        json: camel
+        yaml: camel
+  gci:
+    no-inline-comments: true
+    no-prefix-comments: true
+    sections:
+      - standard # Captures all standard packages if they do not match another section.
+      - default # Contains all imports that could not be matched to another section type.
+      - prefix(github.com/fdaines/arch-go) # Groups all imports with the specified Prefix.
+  varnamelen:
+    min-name-length: 2
+    ignore-type-assert-ok: true
+    ignore-map-index-ok: true
+    ignore-chan-recv-ok: true
+    ignore-names:
+      - err
+    ignore-decls:
+      - t testing.T
+      - i int
+      - T any
+      - m map[string]int
+      - d time.Duration
+      - w io.Writer
+      - r io.Reader
+      - f *os.File
+  goconst:
+    ignore-tests: true
+  cyclop:
+    max-complexity: 11
+  funlen:
+    lines: 80
+  mnd:
+    ignored-functions:
+      - '^make'
+      - '^math\.'
+      - '^time\.*'

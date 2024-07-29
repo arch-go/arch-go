@@ -7,9 +7,12 @@ import (
 	model2 "github.com/fdaines/arch-go/internal/reports/model"
 )
 
-func resolveCoverage(r *api.Result, m model.ModuleInfo, c configuration.Config) *model2.ThresholdSummary {
-	moduleContents := checkPackagesCoverage(r, m)
+func resolveCoverage(
+	result *api.Result, moduleInfo model.ModuleInfo, conf configuration.Config,
+) *model2.ThresholdSummary {
 	var uncoveredPackages []string
+
+	moduleContents := checkPackagesCoverage(result, moduleInfo)
 	for pkg, verified := range moduleContents {
 		if !verified {
 			uncoveredPackages = append(uncoveredPackages, pkg)
@@ -19,13 +22,14 @@ func resolveCoverage(r *api.Result, m model.ModuleInfo, c configuration.Config) 
 	totalPackages := len(moduleContents)
 	coveredPackages := totalPackages - len(uncoveredPackages)
 	rate := 0
+
 	if totalPackages > 0 {
 		rate = (100 * coveredPackages) / totalPackages
 	}
 
 	threshold := 0
-	if c.Threshold != nil && c.Threshold.Coverage != nil {
-		threshold = *c.Threshold.Coverage
+	if conf.Threshold != nil && conf.Threshold.Coverage != nil {
+		threshold = *conf.Threshold.Coverage
 	}
 
 	status := passStatus
@@ -41,16 +45,16 @@ func resolveCoverage(r *api.Result, m model.ModuleInfo, c configuration.Config) 
 	}
 }
 
-func checkPackagesCoverage(r *api.Result, m model.ModuleInfo) map[string]bool {
+func checkPackagesCoverage(result *api.Result, moduleInfo model.ModuleInfo) map[string]bool {
 	moduleContents := make(map[string]bool)
-	for _, pkg := range m.Packages {
+	for _, pkg := range moduleInfo.Packages {
 		moduleContents[pkg.Path] = false
 	}
 
-	checkDependenciesRules(r, moduleContents)
-	checkFunctionsRules(r, moduleContents)
-	checkContentsRules(r, moduleContents)
-	checkNamingRules(r, moduleContents)
+	checkDependenciesRules(result, moduleContents)
+	checkFunctionsRules(result, moduleContents)
+	checkContentsRules(result, moduleContents)
+	checkNamingRules(result, moduleContents)
 
 	return moduleContents
 }

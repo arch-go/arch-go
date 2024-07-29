@@ -3,17 +3,16 @@ package reports
 import (
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/fdaines/arch-go/api"
 	"github.com/fdaines/arch-go/api/configuration"
-
 	"github.com/fdaines/arch-go/internal/reports/model"
+	"github.com/fdaines/arch-go/internal/utils/values"
 	"github.com/fdaines/arch-go/internal/verifications/contents"
 	"github.com/fdaines/arch-go/internal/verifications/dependencies"
 	"github.com/fdaines/arch-go/internal/verifications/functions"
 	"github.com/fdaines/arch-go/internal/verifications/naming"
-
-	"github.com/fdaines/arch-go/internal/utils/values"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestComplianceResolver(t *testing.T) {
@@ -100,25 +99,23 @@ func TestComplianceResolver(t *testing.T) {
 
 	t.Run("resolveCompliance case 1", func(t *testing.T) {
 		verificationResult := &api.Result{}
-		configuration := configuration.Config{}
-
+		conf := configuration.Config{}
 		expectedResult := &model.ThresholdSummary{
 			Status: "PASS",
 		}
 
-		threshold := resolveCompliance(verificationResult, configuration)
+		threshold := resolveCompliance(verificationResult, conf)
 
 		assert.Equal(t, expectedResult, threshold)
 	})
 
 	t.Run("resolveCompliance case 2", func(t *testing.T) {
 		verificationResult := &api.Result{}
-		configuration := configuration.Config{
+		conf := configuration.Config{
 			Threshold: &configuration.Threshold{
 				Compliance: values.GetIntRef(100),
 			},
 		}
-
 		expectedResult := &model.ThresholdSummary{
 			Rate:       0,
 			Threshold:  100,
@@ -126,7 +123,7 @@ func TestComplianceResolver(t *testing.T) {
 			Violations: []string{""},
 		}
 
-		threshold := resolveCompliance(verificationResult, configuration)
+		threshold := resolveCompliance(verificationResult, conf)
 
 		assert.Equal(t, expectedResult, threshold)
 	})
@@ -140,12 +137,11 @@ func TestComplianceResolver(t *testing.T) {
 				},
 			},
 		}
-		configuration := configuration.Config{
+		conf := configuration.Config{
 			Threshold: &configuration.Threshold{
 				Compliance: values.GetIntRef(51),
 			},
 		}
-
 		expectedResult := &model.ThresholdSummary{
 			Rate:       50,
 			Threshold:  51,
@@ -153,7 +149,7 @@ func TestComplianceResolver(t *testing.T) {
 			Violations: []string{""},
 		}
 
-		threshold := resolveCompliance(verificationResult, configuration)
+		threshold := resolveCompliance(verificationResult, conf)
 
 		assert.Equal(t, expectedResult, threshold)
 	})
@@ -167,12 +163,11 @@ func TestComplianceResolver(t *testing.T) {
 				},
 			},
 		}
-		configuration := configuration.Config{
+		conf := configuration.Config{
 			Threshold: &configuration.Threshold{
 				Compliance: values.GetIntRef(50),
 			},
 		}
-
 		expectedResult := &model.ThresholdSummary{
 			Rate:       50,
 			Threshold:  50,
@@ -180,7 +175,7 @@ func TestComplianceResolver(t *testing.T) {
 			Violations: nil,
 		}
 
-		threshold := resolveCompliance(verificationResult, configuration)
+		threshold := resolveCompliance(verificationResult, conf)
 
 		assert.Equal(t, expectedResult, threshold)
 	})

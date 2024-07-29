@@ -3,11 +3,10 @@ package reports
 import (
 	"testing"
 
-	"github.com/fdaines/arch-go/internal/reports/model"
-
-	"github.com/fdaines/arch-go/internal/utils/values"
-
 	"github.com/stretchr/testify/assert"
+
+	"github.com/fdaines/arch-go/internal/reports/model"
+	"github.com/fdaines/arch-go/internal/utils/values"
 )
 
 func TestReportsUtils(t *testing.T) {

@@ -1,24 +1,27 @@
-package migrate_config
+package migrate
 
 import (
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/fdaines/arch-go/api/configuration"
 	"github.com/fdaines/arch-go/internal/utils/values"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestMigrationCommand(t *testing.T) {
 	t.Run("test migrate empty configuration", func(t *testing.T) {
 		originalConfig := &configuration.DeprecatedConfig{}
 
-		expectedConfig := &configuration.Config{
-			Version: 1,
-		}
-
 		result := migrateRules(originalConfig)
 
-		assert.Equal(t, expectedConfig, result)
+		assert.Equal(t, 1, result.Version)
+		assert.Nil(t, result.Threshold)
+		assert.Empty(t, result.ContentRules)
+		assert.Empty(t, result.DependenciesRules)
+		assert.Empty(t, result.FunctionsRules)
+		assert.Empty(t, result.NamingRules)
+		assert.Empty(t, result.CyclesRules)
 	})
 
 	t.Run("test migrate configuration with cycles rules", func(t *testing.T) {
@@ -53,7 +56,7 @@ func TestMigrationCommand(t *testing.T) {
 					},
 				},
 			},
-			CyclesRules: []*configuration.CyclesRule{
+			CyclesRules: []*configuration.CyclesRule{ //nolint: staticcheck
 				{
 					Package:                "foobar",
 					ShouldNotContainCycles: true,
@@ -98,7 +101,6 @@ func TestMigrationCommand(t *testing.T) {
 		}
 
 		result := migrateRules(originalConfig)
-
 		assert.Equal(t, expectedConfig, result)
 	})
 
@@ -173,7 +175,6 @@ func TestMigrationCommand(t *testing.T) {
 		}
 
 		result := migrateRules(originalConfig)
-
 		assert.Equal(t, expectedConfig, result)
 	})
 }

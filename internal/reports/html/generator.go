@@ -8,19 +8,21 @@ import (
 	"github.com/fdaines/arch-go/internal/reports/model"
 )
 
-func GenerateHtmlReport(report *model.Report, output io.Writer) {
-	html := generateHtml(report, output)
+func GenerateHTMLReport(report *model.Report, output io.Writer) {
+	html := generateHTML(report, output)
+
 	copyAssets()
 	writeReport(html, output)
 }
 
-func generateHtml(report *model.Report, output io.Writer) string {
+func generateHTML(report *model.Report, output io.Writer) string {
 	var processed bytes.Buffer
+
 	templates := resolveTemplates()
 
-	err := templates.ExecuteTemplate(&processed, "report", report)
-	if err != nil {
+	if err := templates.ExecuteTemplate(&processed, "report", report); err != nil {
 		fmt.Fprintf(output, "Error: %+v\n", err)
 	}
-	return string(processed.Bytes())
+
+	return processed.String()
 }

@@ -6,46 +6,57 @@ import (
 	"strings"
 
 	"github.com/fdaines/arch-go/api/configuration"
-
 	"github.com/fdaines/arch-go/internal/common"
 )
 
 func describeContentRules(rules []*configuration.ContentsRule, out io.Writer) {
-	fmt.Fprintf(out, "Content Rules\n")
+	fmt.Fprint(out, "Content Rules\n")
+
 	if len(rules) == 0 {
-		fmt.Fprintf(out, common.NoRulesDefined)
+		fmt.Fprint(out, common.NoRulesDefined)
+
 		return
 	}
+
 	for _, r := range rules {
 		fmt.Fprintf(out, "\t* Packages that match pattern '%s' %s\n", r.Package, resolveContentRule(r))
 	}
 }
 
-func resolveContentRule(r *configuration.ContentsRule) string {
+func resolveContentRule(rule *configuration.ContentsRule) string {
 	var shouldNotContain []string
-	if r.ShouldOnlyContainStructs {
+
+	if rule.ShouldOnlyContainStructs {
 		return "should only contain structs"
 	}
-	if r.ShouldOnlyContainInterfaces {
+
+	if rule.ShouldOnlyContainInterfaces {
 		return "should only contain interfaces"
 	}
-	if r.ShouldOnlyContainFunctions {
+
+	if rule.ShouldOnlyContainFunctions {
 		return "should only contain functions"
 	}
-	if r.ShouldOnlyContainMethods {
+
+	if rule.ShouldOnlyContainMethods {
 		return "should only contain methods"
 	}
-	if r.ShouldNotContainStructs {
+
+	if rule.ShouldNotContainStructs {
 		shouldNotContain = append(shouldNotContain, "structs")
 	}
-	if r.ShouldNotContainInterfaces {
+
+	if rule.ShouldNotContainInterfaces {
 		shouldNotContain = append(shouldNotContain, "interfaces")
 	}
-	if r.ShouldNotContainFunctions {
+
+	if rule.ShouldNotContainFunctions {
 		shouldNotContain = append(shouldNotContain, "functions")
 	}
-	if r.ShouldNotContainMethods {
+
+	if rule.ShouldNotContainMethods {
 		shouldNotContain = append(shouldNotContain, "methods")
 	}
-	return fmt.Sprintf("should not contain %s", strings.Join(shouldNotContain, " or "))
+
+	return "should not contain " + strings.Join(shouldNotContain, " or ")
 }

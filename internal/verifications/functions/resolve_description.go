@@ -7,23 +7,32 @@ import (
 	"github.com/fdaines/arch-go/api/configuration"
 )
 
-func resolveDescription(r configuration.FunctionsRule) string {
+func resolveDescription(rule configuration.FunctionsRule) string {
 	var ruleDescriptions []string
-	if r.MaxParameters != nil {
-		ruleDescriptions = append(ruleDescriptions, fmt.Sprintf("'at most %d parameters'", *r.MaxParameters))
+
+	if rule.MaxParameters != nil {
+		ruleDescriptions = append(ruleDescriptions,
+			fmt.Sprintf("'at most %d parameters'", *rule.MaxParameters))
 	}
-	if r.MaxReturnValues != nil {
-		ruleDescriptions = append(ruleDescriptions, fmt.Sprintf("'at most %d return values'", *r.MaxReturnValues))
+
+	if rule.MaxReturnValues != nil {
+		ruleDescriptions = append(ruleDescriptions,
+			fmt.Sprintf("'at most %d return values'", *rule.MaxReturnValues))
 	}
-	if r.MaxLines != nil {
-		ruleDescriptions = append(ruleDescriptions, fmt.Sprintf("'at most %d lines'", *r.MaxLines))
+
+	if rule.MaxLines != nil {
+		ruleDescriptions = append(ruleDescriptions,
+			fmt.Sprintf("'at most %d lines'", *rule.MaxLines))
 	}
-	if r.MaxPublicFunctionPerFile != nil {
-		ruleDescriptions = append(ruleDescriptions, fmt.Sprintf("'no more than %d public functions per file'", *r.MaxPublicFunctionPerFile))
+
+	if rule.MaxPublicFunctionPerFile != nil {
+		ruleDescriptions = append(ruleDescriptions,
+			fmt.Sprintf("'no more than %d public functions per file'", *rule.MaxPublicFunctionPerFile))
 	}
+
 	return fmt.Sprintf(
 		"Functions in packages matching pattern '%s' should have [%s]",
-		r.Package,
+		rule.Package,
 		strings.Join(ruleDescriptions, ","),
 	)
 }

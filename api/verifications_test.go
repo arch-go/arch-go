@@ -4,12 +4,12 @@ import (
 	"testing"
 	"time"
 
+	"github.com/agiledragon/gomonkey/v2"
+	"github.com/stretchr/testify/assert"
+
 	"github.com/fdaines/arch-go/api"
 	"github.com/fdaines/arch-go/api/configuration"
-
-	"github.com/agiledragon/gomonkey/v2"
 	"github.com/fdaines/arch-go/internal/model"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestCheckArchitecture(t *testing.T) {
@@ -21,9 +21,9 @@ func TestCheckArchitecture(t *testing.T) {
 			MainPackage: "mymodule",
 			Packages:    []*model.PackageInfo{},
 		}
-		configuration := configuration.Config{}
+		config := configuration.Config{}
 
-		result := api.CheckArchitecture(moduleInfo, configuration)
+		result := api.CheckArchitecture(moduleInfo, config)
 
 		assert.True(t, result.Passes)
 	})

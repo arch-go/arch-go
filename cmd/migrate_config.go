@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	migrate_config "github.com/fdaines/arch-go/internal/commands/migrate-config"
-
 	"github.com/spf13/cobra"
+
+	"github.com/fdaines/arch-go/internal/commands/migrate"
 )
 
 func NewMigrateConfigCommand() *cobra.Command {
@@ -17,13 +17,14 @@ func NewMigrateConfigCommand() *cobra.Command {
 	}
 }
 
+//nolint:gochecknoinits
 func init() {
 	migrateCmd := NewMigrateConfigCommand()
 	rootCmd.AddCommand(migrateCmd)
 }
 
-func migrateConfig(cmd *cobra.Command, args []string) {
-	migrate_config.NewCommand(cmd.OutOrStdout(), getWorkingDirectory()).Run()
+func migrateConfig(cmd *cobra.Command, _ []string) {
+	migrate.NewCommand(cmd.OutOrStdout(), getWorkingDirectory()).Run()
 }
 
 func getWorkingDirectory() string {
@@ -32,5 +33,6 @@ func getWorkingDirectory() string {
 		fmt.Printf("Error: %+v\n", err)
 		os.Exit(1)
 	}
+
 	return wd
 }

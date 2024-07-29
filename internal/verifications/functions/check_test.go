@@ -1,6 +1,6 @@
 package functions
 
-var functionTestDetails = []*FunctionDetails{
+var functionTestDetails = []*FunctionDetails{ //nolint:gochecknoglobals
 	{
 		FilePath:   "/foo/bar/myfile.go",
 		File:       "myfile.go",

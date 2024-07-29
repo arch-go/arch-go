@@ -7,7 +7,7 @@ import (
 
 // CheckArchitecture runs the architecture analysis and return the Result.
 func CheckArchitecture(moduleInfo model.ModuleInfo, config configuration.Config) *Result {
-	architecture := NewArchitectureAnalysis(moduleInfo, config)
+	architecture := newArchitectureAnalysis(moduleInfo, config)
 	result, _ := architecture.Execute()
 
 	return result

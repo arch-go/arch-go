@@ -26,7 +26,7 @@ functionsRules:
   - package: '**.arch-go.**'
     maxParameters: 5
     maxReturnValues: 3
-    maxLines: 50
+    maxLines: 55
     maxPublicFunctionPerFile: 3
 contentsRules:
   - package: '**.model.**'

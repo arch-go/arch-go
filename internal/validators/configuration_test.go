@@ -3,16 +3,16 @@ package validators
 import (
 	"testing"
 
-	"github.com/fdaines/arch-go/api/configuration"
-
-	"github.com/fdaines/arch-go/internal/utils/values"
-
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
+	"github.com/fdaines/arch-go/api/configuration"
+	"github.com/fdaines/arch-go/internal/utils/values"
 )
 
 func TestValidateConfiguration(t *testing.T) {
 	t.Run("valid configuration", func(t *testing.T) {
-		configuration := &configuration.Config{
+		conf := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
 			DependenciesRules: []*configuration.DependenciesRule{},
@@ -68,12 +68,13 @@ func TestValidateConfiguration(t *testing.T) {
 			NamingRules: []*configuration.NamingRule{},
 		}
 
-		result := ValidateConfiguration(configuration)
-		assert.Nil(t, result, "Valid configuration should not generate an error")
+		err := ValidateConfiguration(conf)
+
+		require.NoError(t, err, "Valid configuration should not generate an error")
 	})
 
 	t.Run("valid configuration - only dependencies rules", func(t *testing.T) {
-		configuration := &configuration.Config{
+		conf := &configuration.Config{
 			Version:   1,
 			Threshold: nil,
 			DependenciesRules: []*configuration.DependenciesRule{
@@ -86,12 +87,12 @@ func TestValidateConfiguration(t *testing.T) {
 			},
 		}
 
-		result := ValidateConfiguration(configuration)
-		assert.Nil(t, result, "Valid configuration should not generate an error")
+		err := ValidateConfiguration(conf)
+		require.NoError(t, err, "Valid configuration should not generate an error")
 	})
 
 	t.Run("valid configuration - only functions rules", func(t *testing.T) {
-		configuration := &configuration.Config{
+		conf := &configuration.Config{
 			Version:   1,
 			Threshold: nil,
 			FunctionsRules: []*configuration.FunctionsRule{
@@ -102,12 +103,12 @@ func TestValidateConfiguration(t *testing.T) {
 			},
 		}
 
-		result := ValidateConfiguration(configuration)
-		assert.Nil(t, result, "Valid configuration should not generate an error")
+		err := ValidateConfiguration(conf)
+		require.NoError(t, err, "Valid configuration should not generate an error")
 	})
 
 	t.Run("valid configuration - only contents rules", func(t *testing.T) {
-		configuration := &configuration.Config{
+		conf := &configuration.Config{
 			Version:   1,
 			Threshold: nil,
 			ContentRules: []*configuration.ContentsRule{
@@ -118,12 +119,12 @@ func TestValidateConfiguration(t *testing.T) {
 			},
 		}
 
-		result := ValidateConfiguration(configuration)
-		assert.Nil(t, result, "Valid configuration should not generate an error")
+		err := ValidateConfiguration(conf)
+		require.NoError(t, err, "Valid configuration should not generate an error")
 	})
 
 	t.Run("valid configuration - only naming rules", func(t *testing.T) {
-		configuration := &configuration.Config{
+		conf := &configuration.Config{
 			Version:   1,
 			Threshold: nil,
 			NamingRules: []*configuration.NamingRule{
@@ -137,17 +138,18 @@ func TestValidateConfiguration(t *testing.T) {
 			},
 		}
 
-		result := ValidateConfiguration(configuration)
-		assert.Nil(t, result, "Valid configuration should not generate an error")
+		err := ValidateConfiguration(conf)
+		require.NoError(t, err, "Valid configuration should not generate an error")
 	})
 
 	t.Run("invalid configuration - nil object", func(t *testing.T) {
-		result := ValidateConfiguration(nil)
-		assert.Equal(t, "configuration file not found", result.Error(), "Invalid configuration should return an error")
+		err := ValidateConfiguration(nil)
+		require.Error(t, err, "Invalid configuration should return an error")
+		require.ErrorContains(t, err, "configuration file not found")
 	})
 
 	t.Run("invalid configuration - no rules", func(t *testing.T) {
-		configuration := &configuration.Config{
+		conf := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
 			DependenciesRules: []*configuration.DependenciesRule{},
@@ -156,12 +158,13 @@ func TestValidateConfiguration(t *testing.T) {
 			NamingRules:       []*configuration.NamingRule{},
 		}
 
-		result := ValidateConfiguration(configuration)
-		assert.Equal(t, result.Error(), "configuration file should have at least one rule", "Invalid configuration should return an error")
+		err := ValidateConfiguration(conf)
+		require.Error(t, err)
+		require.ErrorContains(t, err, "configuration file should have at least one rule", "Invalid configuration should return an error")
 	})
 
 	t.Run("invalid configuration - function rules case 1", func(t *testing.T) {
-		configuration := &configuration.Config{
+		conf := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
 			DependenciesRules: []*configuration.DependenciesRule{},
@@ -174,12 +177,13 @@ func TestValidateConfiguration(t *testing.T) {
 			NamingRules: []*configuration.NamingRule{},
 		}
 
-		result := ValidateConfiguration(configuration)
-		assert.Equal(t, result.Error(), "function rule - empty package", "Invalid configuration should return an error")
+		err := ValidateConfiguration(conf)
+		require.Error(t, err, "Invalid configuration should return an error")
+		require.ErrorContains(t, err, "function rule - empty package")
 	})
 
 	t.Run("invalid configuration - function rules case 2", func(t *testing.T) {
-		configuration := &configuration.Config{
+		conf := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
 			DependenciesRules: []*configuration.DependenciesRule{},
@@ -193,12 +197,13 @@ func TestValidateConfiguration(t *testing.T) {
 			NamingRules: []*configuration.NamingRule{},
 		}
 
-		result := ValidateConfiguration(configuration)
-		assert.Equal(t, result.Error(), "function rule - MaxLines is less than zero", "Invalid configuration should return an error")
+		err := ValidateConfiguration(conf)
+		require.Error(t, err, "Invalid configuration should return an error")
+		require.ErrorContains(t, err, "function rule - MaxLines is less than zero")
 	})
 
 	t.Run("invalid configuration - function rules case 3", func(t *testing.T) {
-		configuration := &configuration.Config{
+		conf := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
 			DependenciesRules: []*configuration.DependenciesRule{},
@@ -212,12 +217,13 @@ func TestValidateConfiguration(t *testing.T) {
 			NamingRules: []*configuration.NamingRule{},
 		}
 
-		result := ValidateConfiguration(configuration)
-		assert.Equal(t, result.Error(), "function rule - MaxParameters is less than zero", "Invalid configuration should return an error")
+		err := ValidateConfiguration(conf)
+		require.Error(t, err, "Invalid configuration should return an error")
+		require.ErrorContains(t, err, "function rule - MaxParameters is less than zero")
 	})
 
 	t.Run("invalid configuration - function rules case 4", func(t *testing.T) {
-		configuration := &configuration.Config{
+		conf := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
 			DependenciesRules: []*configuration.DependenciesRule{},
@@ -231,12 +237,13 @@ func TestValidateConfiguration(t *testing.T) {
 			NamingRules: []*configuration.NamingRule{},
 		}
 
-		result := ValidateConfiguration(configuration)
-		assert.Equal(t, result.Error(), "function rule - MaxReturnValues is less than zero", "Invalid configuration should return an error")
+		err := ValidateConfiguration(conf)
+		require.Error(t, err, "Invalid configuration should return an error")
+		require.ErrorContains(t, err, "function rule - MaxReturnValues is less than zero")
 	})
 
 	t.Run("invalid configuration - function rules case 5", func(t *testing.T) {
-		configuration := &configuration.Config{
+		conf := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
 			DependenciesRules: []*configuration.DependenciesRule{},
@@ -250,12 +257,13 @@ func TestValidateConfiguration(t *testing.T) {
 			NamingRules: []*configuration.NamingRule{},
 		}
 
-		result := ValidateConfiguration(configuration)
-		assert.Equal(t, result.Error(), "function rule - MaxPublicFunctionPerFile is less than zero", "Invalid configuration should return an error")
+		err := ValidateConfiguration(conf)
+		require.Error(t, err, "Invalid configuration should return an error")
+		require.ErrorContains(t, err, "function rule - MaxPublicFunctionPerFile is less than zero")
 	})
 
 	t.Run("invalid configuration - function rules case 6", func(t *testing.T) {
-		configuration := &configuration.Config{
+		conf := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
 			DependenciesRules: []*configuration.DependenciesRule{},
@@ -268,12 +276,13 @@ func TestValidateConfiguration(t *testing.T) {
 			NamingRules: []*configuration.NamingRule{},
 		}
 
-		result := ValidateConfiguration(configuration)
-		assert.Equal(t, result.Error(), "function rule - At least one criteria should be set", "Invalid configuration should return an error")
+		err := ValidateConfiguration(conf)
+		require.Error(t, err, "Invalid configuration should return an error")
+		require.ErrorContains(t, err, "function rule - At least one criteria should be set")
 	})
 
 	t.Run("invalid configuration - content rules case 1", func(t *testing.T) {
-		configuration := &configuration.Config{
+		conf := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
 			DependenciesRules: []*configuration.DependenciesRule{},
@@ -283,12 +292,13 @@ func TestValidateConfiguration(t *testing.T) {
 			FunctionsRules: []*configuration.FunctionsRule{},
 		}
 
-		result := ValidateConfiguration(configuration)
-		assert.Equal(t, result.Error(), "content rule - empty package", "Invalid configuration should return an error")
+		err := ValidateConfiguration(conf)
+		require.Error(t, err, "Invalid configuration should return an error")
+		require.ErrorContains(t, err, "content rule - empty package")
 	})
 
 	t.Run("invalid configuration - content rules case 2", func(t *testing.T) {
-		configuration := &configuration.Config{
+		conf := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
 			DependenciesRules: []*configuration.DependenciesRule{},
@@ -302,12 +312,13 @@ func TestValidateConfiguration(t *testing.T) {
 			FunctionsRules: []*configuration.FunctionsRule{},
 		}
 
-		result := ValidateConfiguration(configuration)
-		assert.Equal(t, result.Error(), "content rule - if ShouldOnlyContainMethods is set, then it should be the only parameter", "Invalid configuration should return an error")
+		err := ValidateConfiguration(conf)
+		require.Error(t, err, "Invalid configuration should return an error")
+		require.ErrorContains(t, err, "content rule - if ShouldOnlyContainMethods is set, then it should be the only parameter")
 	})
 
 	t.Run("invalid configuration - content rules case 3", func(t *testing.T) {
-		configuration := &configuration.Config{
+		conf := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
 			DependenciesRules: []*configuration.DependenciesRule{},
@@ -321,12 +332,13 @@ func TestValidateConfiguration(t *testing.T) {
 			FunctionsRules: []*configuration.FunctionsRule{},
 		}
 
-		result := ValidateConfiguration(configuration)
-		assert.Equal(t, result.Error(), "content rule - if ShouldOnlyContainStructs is set, then it should be the only parameter", "Invalid configuration should return an error")
+		err := ValidateConfiguration(conf)
+		require.Error(t, err, "Invalid configuration should return an error")
+		require.ErrorContains(t, err, "content rule - if ShouldOnlyContainStructs is set, then it should be the only parameter")
 	})
 
 	t.Run("invalid configuration - content rules case 4", func(t *testing.T) {
-		configuration := &configuration.Config{
+		conf := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
 			DependenciesRules: []*configuration.DependenciesRule{},
@@ -340,12 +352,13 @@ func TestValidateConfiguration(t *testing.T) {
 			FunctionsRules: []*configuration.FunctionsRule{},
 		}
 
-		result := ValidateConfiguration(configuration)
-		assert.Equal(t, result.Error(), "content rule - if ShouldOnlyContainFunctions is set, then it should be the only parameter", "Invalid configuration should return an error")
+		err := ValidateConfiguration(conf)
+		require.Error(t, err, "Invalid configuration should return an error")
+		require.ErrorContains(t, err, "content rule - if ShouldOnlyContainFunctions is set, then it should be the only parameter")
 	})
 
 	t.Run("invalid configuration - content rules case 5", func(t *testing.T) {
-		configuration := &configuration.Config{
+		conf := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
 			DependenciesRules: []*configuration.DependenciesRule{},
@@ -359,12 +372,13 @@ func TestValidateConfiguration(t *testing.T) {
 			FunctionsRules: []*configuration.FunctionsRule{},
 		}
 
-		result := ValidateConfiguration(configuration)
-		assert.Equal(t, result.Error(), "content rule - if ShouldOnlyContainInterfaces is set, then it should be the only parameter", "Invalid configuration should return an error")
+		err := ValidateConfiguration(conf)
+		require.Error(t, err, "Invalid configuration should return an error")
+		require.ErrorContains(t, err, "content rule - if ShouldOnlyContainInterfaces is set, then it should be the only parameter")
 	})
 
 	t.Run("invalid configuration - content rules case 6", func(t *testing.T) {
-		configuration := &configuration.Config{
+		conf := &configuration.Config{
 			Version:           1,
 			Threshold:         nil,
 			DependenciesRules: []*configuration.DependenciesRule{},
@@ -377,12 +391,13 @@ func TestValidateConfiguration(t *testing.T) {
 			NamingRules:    []*configuration.NamingRule{},
 		}
 
-		result := ValidateConfiguration(configuration)
-		assert.Equal(t, result.Error(), "content rule - At least one criteria should be set", "Invalid configuration should return an error")
+		err := ValidateConfiguration(conf)
+		require.Error(t, err, "Invalid configuration should return an error")
+		require.ErrorContains(t, err, "content rule - At least one criteria should be set")
 	})
 
 	t.Run("invalid configuration - dependencies rules case 1", func(t *testing.T) {
-		configuration := &configuration.Config{
+		conf := &configuration.Config{
 			Version:   1,
 			Threshold: nil,
 			DependenciesRules: []*configuration.DependenciesRule{
@@ -395,12 +410,13 @@ func TestValidateConfiguration(t *testing.T) {
 			NamingRules:    []*configuration.NamingRule{},
 		}
 
-		result := ValidateConfiguration(configuration)
-		assert.Equal(t, result.Error(), "dependencies rule - empty package", "Invalid configuration should return an error")
+		err := ValidateConfiguration(conf)
+		require.Error(t, err, "Invalid configuration should return an error")
+		require.ErrorContains(t, err, "dependencies rule - empty package")
 	})
 
 	t.Run("invalid configuration - dependencies rules case 2", func(t *testing.T) {
-		configuration := &configuration.Config{
+		conf := &configuration.Config{
 			Version:   1,
 			Threshold: nil,
 			DependenciesRules: []*configuration.DependenciesRule{
@@ -413,12 +429,13 @@ func TestValidateConfiguration(t *testing.T) {
 			NamingRules:    []*configuration.NamingRule{},
 		}
 
-		result := ValidateConfiguration(configuration)
-		assert.Equal(t, result.Error(), "dependencies rule - Should contain one of 'ShouldOnlyDependsOn' or 'ShouldNotDependsOn'", "Invalid configuration should return an error")
+		err := ValidateConfiguration(conf)
+		require.Error(t, err, "Invalid configuration should return an error")
+		require.ErrorContains(t, err, "dependencies rule - Should contain one of 'ShouldOnlyDependsOn' or 'ShouldNotDependsOn'")
 	})
 
 	t.Run("invalid configuration - dependencies rules case 3", func(t *testing.T) {
-		configuration := &configuration.Config{
+		conf := &configuration.Config{
 			Version:   1,
 			Threshold: nil,
 			DependenciesRules: []*configuration.DependenciesRule{
@@ -433,12 +450,13 @@ func TestValidateConfiguration(t *testing.T) {
 			NamingRules:    []*configuration.NamingRule{},
 		}
 
-		result := ValidateConfiguration(configuration)
-		assert.Equal(t, result.Error(), "dependencies rule - Should contain only one of 'ShouldOnlyDependsOn' or 'ShouldNotDependsOn'", "Invalid configuration should return an error")
+		err := ValidateConfiguration(conf)
+		require.Error(t, err, "Invalid configuration should return an error")
+		require.ErrorContains(t, err, "dependencies rule - Should contain only one of 'ShouldOnlyDependsOn' or 'ShouldNotDependsOn'")
 	})
 
 	t.Run("invalid configuration - dependencies rules case 4", func(t *testing.T) {
-		configuration := &configuration.Config{
+		conf := &configuration.Config{
 			Version:   1,
 			Threshold: nil,
 			DependenciesRules: []*configuration.DependenciesRule{
@@ -452,12 +470,13 @@ func TestValidateConfiguration(t *testing.T) {
 			NamingRules:    []*configuration.NamingRule{},
 		}
 
-		result := ValidateConfiguration(configuration)
-		assert.Equal(t, result.Error(), "dependencies rule - ShouldNotDependsOn needs at least one of 'External', 'Internal' or 'Standard'", "Invalid configuration should return an error")
+		err := ValidateConfiguration(conf)
+		require.Error(t, err, "Invalid configuration should return an error")
+		require.ErrorContains(t, err, "dependencies rule - ShouldNotDependsOn needs at least one of 'External', 'Internal' or 'Standard'")
 	})
 
 	t.Run("invalid configuration - dependencies rules case 5", func(t *testing.T) {
-		configuration := &configuration.Config{
+		conf := &configuration.Config{
 			Version:   1,
 			Threshold: nil,
 			DependenciesRules: []*configuration.DependenciesRule{
@@ -471,12 +490,13 @@ func TestValidateConfiguration(t *testing.T) {
 			NamingRules:    []*configuration.NamingRule{},
 		}
 
-		result := ValidateConfiguration(configuration)
-		assert.Equal(t, result.Error(), "dependencies rule - ShouldOnlyDependsOn needs at least one of 'External', 'Internal' or 'Standard'", "Invalid configuration should return an error")
+		err := ValidateConfiguration(conf)
+		require.Error(t, err, "Invalid configuration should return an error")
+		require.ErrorContains(t, err, "dependencies rule - ShouldOnlyDependsOn needs at least one of 'External', 'Internal' or 'Standard'")
 	})
 
 	t.Run("test count rules", func(t *testing.T) {
-		configuration := &configuration.Config{
+		conf := &configuration.Config{
 			Version:   1,
 			Threshold: nil,
 			DependenciesRules: []*configuration.DependenciesRule{
@@ -510,7 +530,7 @@ func TestValidateConfiguration(t *testing.T) {
 			},
 		}
 
-		result := countRules(configuration)
+		result := countRules(conf)
 		assert.Equal(t, 4, result, "Expects 4 rules.")
 	})
 }

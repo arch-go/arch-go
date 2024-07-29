@@ -13,6 +13,7 @@ func GenerateReport(result *api.Result, moduleInfo model.ModuleInfo, config conf
 	coverage := resolveCoverage(result, moduleInfo, config)
 	details := resolveReportDetails(result)
 	total, passed, failed := retrieveTotals(details)
+
 	return &reportModel.Report{
 		ArchGoVersion: common.Version,
 		Summary: &reportModel.ReportSummary{
@@ -33,32 +34,47 @@ func GenerateReport(result *api.Result, moduleInfo model.ModuleInfo, config conf
 func generateCoverageInfo(moduleInfo model.ModuleInfo, result *api.Result) []reportModel.CoverageInfo {
 	var coverageInfo []reportModel.CoverageInfo
 
-	for _, pkg := range moduleInfo.Packages {
+	if len(moduleInfo.Packages) != 0 {
+		coverageInfo = make([]reportModel.CoverageInfo, len(moduleInfo.Packages))
+	}
+
+	for i, pkg := range moduleInfo.Packages {
 		cr := countContentsRulesVerifications(pkg.Path, result)
 		dr := countDependenciesRulesVerifications(pkg.Path, result)
 		fr := countFunctionsRulesVerifications(pkg.Path, result)
 		nr := countNamingRulesVerifications(pkg.Path, result)
 		status := "NO"
+
 		if cr+dr+fr+nr > 0 {
 			status = "YES"
 		}
-		coverageInfo = append(coverageInfo, reportModel.CoverageInfo{
+
+		coverageInfo[i] = reportModel.CoverageInfo{
 			Package:           pkg.Path,
 			ContensRules:      cr,
 			DependenciesRules: dr,
 			FunctionsRules:    fr,
 			NamingRules:       nr,
 			Status:            status,
-		})
+		}
 	}
 
 	return coverageInfo
 }
 
 func retrieveTotals(details *reportModel.ReportDetails) (int, int, int) {
-	total := details.DependenciesVerificationDetails.Total + details.FunctionsVerificationDetails.Total + details.ContentsVerificationDetails.Total + details.NamingVerificationDetails.Total
-	passed := details.DependenciesVerificationDetails.Passed + details.FunctionsVerificationDetails.Passed + details.ContentsVerificationDetails.Passed + details.NamingVerificationDetails.Passed
-	failed := details.DependenciesVerificationDetails.Failed + details.FunctionsVerificationDetails.Failed + details.ContentsVerificationDetails.Failed + details.NamingVerificationDetails.Failed
+	total := details.DependenciesVerificationDetails.Total +
+		details.FunctionsVerificationDetails.Total +
+		details.ContentsVerificationDetails.Total +
+		details.NamingVerificationDetails.Total
+	passed := details.DependenciesVerificationDetails.Passed +
+		details.FunctionsVerificationDetails.Passed +
+		details.ContentsVerificationDetails.Passed +
+		details.NamingVerificationDetails.Passed
+	failed := details.DependenciesVerificationDetails.Failed +
+		details.FunctionsVerificationDetails.Failed +
+		details.ContentsVerificationDetails.Failed +
+		details.NamingVerificationDetails.Failed
 
 	return total, passed, failed
 }

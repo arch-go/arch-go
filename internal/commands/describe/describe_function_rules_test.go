@@ -5,11 +5,10 @@ import (
 	"io"
 	"testing"
 
-	"github.com/fdaines/arch-go/api/configuration"
-
-	"github.com/fdaines/arch-go/internal/utils/values"
-
 	"github.com/stretchr/testify/assert"
+
+	"github.com/fdaines/arch-go/api/configuration"
+	"github.com/fdaines/arch-go/internal/utils/values"
 )
 
 func TestDescribeFunctionRules(t *testing.T) {
@@ -35,7 +34,6 @@ func TestDescribeFunctionRules(t *testing.T) {
 		describeFunctionRules(rules, outputBuffer)
 
 		outputBytes, _ := io.ReadAll(outputBuffer)
-
 		assert.Equal(t, expectedOutput, string(outputBytes), "Output doesn't match expected values.")
 	})
 
@@ -59,7 +57,6 @@ func TestDescribeFunctionRules(t *testing.T) {
 		describeFunctionRules(rules, outputBuffer)
 
 		outputBytes, _ := io.ReadAll(outputBuffer)
-
 		assert.Equal(t, expectedOutput, string(outputBytes), "Output doesn't match expected values.")
 	})
 
@@ -83,7 +80,6 @@ func TestDescribeFunctionRules(t *testing.T) {
 		describeFunctionRules(rules, outputBuffer)
 
 		outputBytes, _ := io.ReadAll(outputBuffer)
-
 		assert.Equal(t, expectedOutput, string(outputBytes), "Output doesn't match expected values.")
 	})
 
@@ -107,7 +103,6 @@ func TestDescribeFunctionRules(t *testing.T) {
 		describeFunctionRules(rules, outputBuffer)
 
 		outputBytes, _ := io.ReadAll(outputBuffer)
-
 		assert.Equal(t, expectedOutput, string(outputBytes), "Output doesn't match expected values.")
 	})
 
@@ -131,13 +126,13 @@ func TestDescribeFunctionRules(t *testing.T) {
 		describeFunctionRules(rules, outputBuffer)
 
 		outputBytes, _ := io.ReadAll(outputBuffer)
-
 		assert.Equal(t, expectedOutput, string(outputBytes), "Output doesn't match expected values.")
 	})
 
 	t.Run("empty rules", func(t *testing.T) {
-		outputBuffer := bytes.NewBufferString("")
 		var rules []*configuration.FunctionsRule
+
+		outputBuffer := bytes.NewBufferString("")
 		expectedOutput := `Function Rules
 	* No rules defined
 `
@@ -145,7 +140,6 @@ func TestDescribeFunctionRules(t *testing.T) {
 		describeFunctionRules(rules, outputBuffer)
 
 		outputBytes, _ := io.ReadAll(outputBuffer)
-
 		assert.Equal(t, expectedOutput, string(outputBytes), "Output doesn't match expected values.")
 	})
 }

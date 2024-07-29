@@ -7,9 +7,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/fdaines/arch-go/internal/model"
-
 	"github.com/stretchr/testify/assert"
+
+	"github.com/fdaines/arch-go/internal/model"
 )
 
 func TestNamingRuleUtils(t *testing.T) {
@@ -99,21 +99,21 @@ func TestNamingRuleUtils(t *testing.T) {
 	t.Run("packageMustBeAnalyzed case 1", func(t *testing.T) {
 		returnValue := packageMustBeAnalyzed(nil, "foo.**")
 
-		assert.Equal(t, false, returnValue)
+		assert.False(t, returnValue)
 	})
 
 	t.Run("packageMustBeAnalyzed case 2", func(t *testing.T) {
 		pkg := &model.PackageInfo{Path: "foo/bar/blablabla/dummy"}
 		returnValue := packageMustBeAnalyzed(pkg, "**.bar.**")
 
-		assert.Equal(t, true, returnValue)
+		assert.True(t, returnValue)
 	})
 
 	t.Run("packageMustBeAnalyzed case 3", func(t *testing.T) {
 		pkg := &model.PackageInfo{Path: "foo/bar/blablabla/dummy"}
 		returnValue := packageMustBeAnalyzed(pkg, "unknown.**")
 
-		assert.Equal(t, false, returnValue)
+		assert.False(t, returnValue)
 	})
 
 	t.Run("resolveStructName case 1", func(t *testing.T) {
@@ -173,13 +173,3 @@ dijijfdjfioejvmdlksmvdivjiodsvetuwoqtueowiqutietewioufoiduoigudsoiguoidsaguoidsu
 ewioufoiduoigudsoiguoidsaguoidsuvicxxnvcxnvuceanckjdwnxxxnvcxnvuceanckjdwncduwnosdncxnvzdjnvufewncjdvmcnvjkdfjgfdjgusfdj
 ghudfgjfdshguseeirjfawkdopkodjsdijijfdjfioejvmdlksmvdivjiodidsaguoidsuvicxxnvcxnvnvuceanckjdwncduwnosnvuceanckjdwncduwno
 `
-
-type mockStarExpr struct {
-	*ast.StarExpr
-	pos token.Pos
-	end token.Pos
-}
-
-func (m mockStarExpr) Pos() token.Pos { return m.pos }
-
-func (m mockStarExpr) End() token.Pos { return m.end }

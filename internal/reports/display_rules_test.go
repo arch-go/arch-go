@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/fdaines/arch-go/internal/reports/model"
-
 	"github.com/stretchr/testify/assert"
+
+	"github.com/fdaines/arch-go/internal/reports/model"
 )
 
 func TestDisplayRules(t *testing.T) {
@@ -110,6 +110,7 @@ func TestDisplayRules(t *testing.T) {
 	Package 'my-package' fails
 		foobar message
 `
+
 		displayRules(report, outputBuffer)
 
 		assert.Equal(t, expectedOutput, outputBuffer.String())
@@ -124,6 +125,7 @@ func TestDisplayRules(t *testing.T) {
 			CoverageInfo:  []model.CoverageInfo{},
 		}
 		expectedOutput := ``
+
 		displayRules(report, outputBuffer)
 
 		assert.Equal(t, expectedOutput, outputBuffer.String())

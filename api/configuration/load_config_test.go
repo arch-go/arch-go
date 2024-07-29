@@ -3,8 +3,9 @@ package configuration
 import (
 	"testing"
 
-	"github.com/fdaines/arch-go/internal/utils/values"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/fdaines/arch-go/internal/utils/values"
 )
 
 func TestCheckThreshold(t *testing.T) {

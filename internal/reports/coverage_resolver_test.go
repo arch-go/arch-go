@@ -3,18 +3,17 @@ package reports
 import (
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/fdaines/arch-go/api"
 	"github.com/fdaines/arch-go/api/configuration"
-
+	"github.com/fdaines/arch-go/internal/model"
 	model2 "github.com/fdaines/arch-go/internal/reports/model"
+	"github.com/fdaines/arch-go/internal/utils/values"
 	"github.com/fdaines/arch-go/internal/verifications/contents"
 	"github.com/fdaines/arch-go/internal/verifications/dependencies"
 	"github.com/fdaines/arch-go/internal/verifications/functions"
 	"github.com/fdaines/arch-go/internal/verifications/naming"
-
-	"github.com/fdaines/arch-go/internal/model"
-	"github.com/fdaines/arch-go/internal/utils/values"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestCoverageResolver(t *testing.T) {

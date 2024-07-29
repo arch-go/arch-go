@@ -2,19 +2,17 @@ package cmd
 
 import (
 	"bytes"
-	"fmt"
+	"errors"
 	"io"
 	"os"
 	"testing"
 
-	"github.com/fdaines/arch-go/api/configuration"
-
-	"github.com/fdaines/arch-go/internal/utils/values"
-
-	"github.com/spf13/viper"
-
 	monkey "github.com/agiledragon/gomonkey/v2"
+	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/fdaines/arch-go/api/configuration"
+	"github.com/fdaines/arch-go/internal/utils/values"
 )
 
 func TestDescribeCommand(t *testing.T) {
@@ -22,15 +20,18 @@ func TestDescribeCommand(t *testing.T) {
 
 	t.Run("when arch-go.yaml has no rules", func(t *testing.T) {
 		var exitCode int
+
 		cmd := NewDescribeCommand()
 		patch := monkey.ApplyFuncReturn(configuration.LoadConfig, &configuration.Config{}, nil)
-		defer patch.Reset()
 		patchExit := monkey.ApplyFunc(os.Exit, func(c int) { exitCode = c })
+
+		defer patch.Reset()
 		defer patchExit.Reset()
 
 		b := bytes.NewBufferString("")
 		cmd.SetOut(b)
 		cmd.Execute()
+
 		out, _ := io.ReadAll(b)
 
 		expected := `Invalid Configuration: configuration file should have at least one rule
@@ -41,17 +42,19 @@ func TestDescribeCommand(t *testing.T) {
 
 	t.Run("when arch-go.yaml has rules", func(t *testing.T) {
 		var exitCode int
+
 		cmd := NewDescribeCommand()
 		patch := monkey.ApplyFuncReturn(configuration.LoadConfig, configLoaderMockWithRules(), nil)
-		defer patch.Reset()
 		patchExit := monkey.ApplyFunc(os.Exit, func(c int) { exitCode = c })
+
+		defer patch.Reset()
 		defer patchExit.Reset()
 
 		b := bytes.NewBufferString("")
 		cmd.SetOut(b)
 		cmd.Execute()
-		out, _ := io.ReadAll(b)
 
+		out, _ := io.ReadAll(b)
 		expected := `Dependency Rules
 	* Packages that match pattern 'foobar',
 		* Should only depends on:
@@ -100,9 +103,11 @@ Threshold Rules
 
 	t.Run("when arch-go.yaml does not exist", func(t *testing.T) {
 		var exitCode int
-		configLoaderPatch := monkey.ApplyFuncReturn(configuration.LoadConfig, nil, fmt.Errorf("dummy error"))
-		defer configLoaderPatch.Reset()
+
+		configLoaderPatch := monkey.ApplyFuncReturn(configuration.LoadConfig, nil, errors.New("dummy error"))
 		patchExit := monkey.ApplyFunc(os.Exit, func(c int) { exitCode = c })
+
+		defer configLoaderPatch.Reset()
 		defer patchExit.Reset()
 
 		cmd := NewDescribeCommand()
@@ -110,6 +115,7 @@ Threshold Rules
 		b := bytes.NewBufferString("")
 		cmd.SetOut(b)
 		cmd.Execute()
+
 		out, _ := io.ReadAll(b)
 
 		expected := `Error: dummy error

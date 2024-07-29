@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/fdaines/arch-go/internal/model"
-
 	"github.com/stretchr/testify/assert"
+
+	"github.com/fdaines/arch-go/internal/model"
 )
 
 func TestCheckRestrictedDependencies(t *testing.T) {
