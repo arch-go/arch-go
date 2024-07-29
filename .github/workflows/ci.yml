@@ -1,4 +1,4 @@
-name: Default Workflow
+name: CI
 
 on:
   push:
