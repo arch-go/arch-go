@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	migrate_config "github.com/fdaines/arch-go/internal/commands/migrate-config"
+	"github.com/fdaines/arch-go/internal/commands/migrate"
 )
 
 func NewMigrateConfigCommand() *cobra.Command {
@@ -24,7 +24,7 @@ func init() {
 }
 
 func migrateConfig(cmd *cobra.Command, _ []string) {
-	migrate_config.NewCommand(cmd.OutOrStdout(), getWorkingDirectory()).Run()
+	migrate.NewCommand(cmd.OutOrStdout(), getWorkingDirectory()).Run()
 }
 
 func getWorkingDirectory() string {

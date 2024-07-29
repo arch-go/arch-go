@@ -29,13 +29,13 @@ func displaySummary(summary *model.ReportSummary, output io.Writer) {
 
 	color.Output = output
 
-	fmt.Fprintf(output, lineSeparator)
-	fmt.Fprintf(output, "\tExecution Summary\n")
-	fmt.Fprintf(output, lineSeparator)
+	fmt.Fprint(output, lineSeparator)
+	fmt.Fprint(output, "\tExecution Summary\n")
+	fmt.Fprint(output, lineSeparator)
 	fmt.Fprintf(output, "Total Rules: \t%d\n", summary.Total)
 	fmt.Fprintf(output, "Succeeded: \t%d\n", summary.Passed)
 	fmt.Fprintf(output, "Failed: \t%d\n", summary.Failed)
-	fmt.Fprintf(output, lineSeparator)
+	fmt.Fprint(output, lineSeparator)
 
 	if summary.ComplianceThreshold != nil {
 		complianceSummary := fmt.Sprintf("Compliance: %8d%% (%s)\n",
@@ -47,6 +47,7 @@ func displaySummary(summary *model.ReportSummary, output io.Writer) {
 			color.Red(complianceSummary)
 		}
 	}
+
 	if summary.CoverageThreshold != nil {
 		complianceSummary := fmt.Sprintf("Coverage: %10d%% (%s)\n",
 			summary.CoverageThreshold.Rate,

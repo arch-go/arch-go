@@ -81,7 +81,7 @@ func TestArchitecture(t *testing.T) {
 			return expectedNamingResult
 		}
 
-		architectureAnalysis := NewArchitectureAnalysis(moduleInfo, configurationRules).
+		architectureAnalysis := newArchitectureAnalysis(moduleInfo, configurationRules).
 			withFunctionRulesVerification(functionRulesVerification).
 			withContentsRulesVerification(contentsRulesVerification).
 			withNamingRulesVerification(namingRulesVerification)
@@ -115,7 +115,7 @@ func TestArchitecture(t *testing.T) {
 			return expectedNamingResult
 		}
 
-		architectureAnalysis := NewArchitectureAnalysis(moduleInfo, configurationRules).
+		architectureAnalysis := newArchitectureAnalysis(moduleInfo, configurationRules).
 			withFunctionRulesVerification(functionRulesVerification).
 			withContentsRulesVerification(contentsRulesVerification).
 			withNamingRulesVerification(namingRulesVerification)
@@ -149,7 +149,7 @@ func TestArchitecture(t *testing.T) {
 			return expectedNamingResult
 		}
 
-		architectureAnalysis := NewArchitectureAnalysis(moduleInfo, configurationRules).
+		architectureAnalysis := newArchitectureAnalysis(moduleInfo, configurationRules).
 			withFunctionRulesVerification(functionRulesVerification).
 			withContentsRulesVerification(contentsRulesVerification).
 			withNamingRulesVerification(namingRulesVerification)
@@ -183,7 +183,7 @@ func TestArchitecture(t *testing.T) {
 			return expectedNamingResult
 		}
 
-		architectureAnalysis := NewArchitectureAnalysis(moduleInfo, configurationRules).
+		architectureAnalysis := newArchitectureAnalysis(moduleInfo, configurationRules).
 			withFunctionRulesVerification(functionRulesVerification).
 			withContentsRulesVerification(contentsRulesVerification).
 			withNamingRulesVerification(namingRulesVerification)
@@ -207,7 +207,7 @@ func TestArchitecture(t *testing.T) {
 			Passes:   true,
 		}
 
-		architectureAnalysis := NewArchitectureAnalysis(moduleInfo, localConfiguration)
+		architectureAnalysis := newArchitectureAnalysis(moduleInfo, localConfiguration)
 
 		result, err := architectureAnalysis.Execute()
 
@@ -260,7 +260,7 @@ func TestArchitecture(t *testing.T) {
 			NamingRuleResult:    expectedNamingResult,
 		}
 
-		architectureAnalysis := NewArchitectureAnalysis(moduleInfo, configurationRules)
+		architectureAnalysis := newArchitectureAnalysis(moduleInfo, configurationRules)
 
 		result, err := architectureAnalysis.Execute()
 
@@ -277,7 +277,7 @@ func TestArchitecture(t *testing.T) {
 			Passes:   true,
 		}
 
-		architectureAnalysis := NewArchitectureAnalysis(moduleInfo, localConfiguration)
+		architectureAnalysis := newArchitectureAnalysis(moduleInfo, localConfiguration)
 
 		result, err := architectureAnalysis.Execute()
 

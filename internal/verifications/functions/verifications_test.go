@@ -153,7 +153,7 @@ func TestCheckFunctionRules(t *testing.T) {
 		}
 		mock := gomonkey.ApplyFunc(
 			functions.RetrieveFunctions,
-			func(_ *model.PackageInfo, mainPackage string) ([]*functions.FunctionDetails, error) {
+			func(_ *model.PackageInfo, _ string) ([]*functions.FunctionDetails, error) {
 				if index == 1 {
 					index++
 

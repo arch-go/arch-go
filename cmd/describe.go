@@ -25,7 +25,7 @@ func init() {
 	rootCmd.AddCommand(describeCmd)
 }
 
-func describeRules(cmd *cobra.Command, args []string) {
+func describeRules(cmd *cobra.Command, _ []string) {
 	conf, err := configuration.LoadConfig(viper.ConfigFileUsed())
 	if err != nil {
 		fmt.Fprintf(cmd.OutOrStdout(), "Error: %+v\n", err)

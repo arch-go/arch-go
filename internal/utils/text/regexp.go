@@ -22,8 +22,8 @@ func PreparePackageRegexp(p string) string {
 		str = str[:idx] + strings.Replace(str[idx:], ".*", "(/[\\w-\\.]+){0,1}$", 1)
 	}
 
-	str = strings.Replace(str, ".**.", "(/[\\w-\\.]+/)+", -1)
-	str = strings.Replace(str, ".*.", "/[\\w-\\.]+/", -1)
+	str = strings.ReplaceAll(str, ".**.", "(/[\\w-\\.]+/)+")
+	str = strings.ReplaceAll(str, ".*.", "/[\\w-\\.]+/")
 
 	return str
 }

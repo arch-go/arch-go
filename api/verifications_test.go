@@ -4,12 +4,12 @@ import (
 	"testing"
 	"time"
 
+	"github.com/agiledragon/gomonkey/v2"
+	"github.com/stretchr/testify/assert"
+
 	"github.com/fdaines/arch-go/api"
 	"github.com/fdaines/arch-go/api/configuration"
-
-	"github.com/agiledragon/gomonkey/v2"
 	"github.com/fdaines/arch-go/internal/model"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestCheckArchitecture(t *testing.T) {

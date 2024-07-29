@@ -27,10 +27,10 @@ func getReturnValues(fileContent string, results *ast.FieldList) []string {
 		return []string{}
 	}
 
-	returnValues := make([]string, results.NumFields(), results.NumFields())
+	returnValues := make([]string, results.NumFields())
 
 	for index, p := range results.List {
-		returnValues[index] = fmt.Sprintf("%s", fileContent[p.Type.Pos()-1:p.Type.End()-1])
+		returnValues[index] = fileContent[p.Type.Pos()-1 : p.Type.End()-1]
 	}
 
 	return returnValues
@@ -41,10 +41,10 @@ func getParameters(fileContent string, params *ast.FieldList) []string {
 		return []string{}
 	}
 
-	parameters := make([]string, params.NumFields(), params.NumFields())
+	parameters := make([]string, params.NumFields())
 
 	for index, p := range params.List {
-		parameters[index] = fmt.Sprintf("%s", fileContent[p.Type.Pos()-1:p.Type.End()-1])
+		parameters[index] = fileContent[p.Type.Pos()-1 : p.Type.End()-1]
 	}
 
 	return parameters
@@ -58,7 +58,7 @@ func resolveStructName(ft *ast.FuncDecl) string {
 
 	ie, ok := ft.Recv.List[0].Type.(*ast.Ident)
 	if ok {
-		return fmt.Sprintf("%v", ie.Name)
+		return ie.Name
 	}
 
 	return ""

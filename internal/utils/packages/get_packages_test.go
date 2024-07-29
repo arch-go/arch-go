@@ -17,7 +17,7 @@ func TestGetPackages(t *testing.T) {
 	t.Run("Calls GetPackages function", func(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
 		loadPatch := gomonkey.ApplyFunc(gopkg.Load,
-			func(cfg *gopkg.Config, patterns ...string) ([]*gopkg.Package, error) {
+			func(_ *gopkg.Config, _ ...string) ([]*gopkg.Package, error) {
 				return []*gopkg.Package{
 					{
 						PkgPath: "fmt",
@@ -54,7 +54,7 @@ Loading package (3/3): github.com/fdaines/arch-go/internal/reports/console
 	t.Run("Calls GetPackages function without printinfo", func(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
 		loadPatch := gomonkey.ApplyFunc(gopkg.Load,
-			func(cfg *gopkg.Config, patterns ...string) ([]*gopkg.Package, error) {
+			func(_ *gopkg.Config, _ ...string) ([]*gopkg.Package, error) {
 				return []*gopkg.Package{
 					{
 						PkgPath: "fmt",
@@ -85,7 +85,7 @@ Loading package (3/3): github.com/fdaines/arch-go/internal/reports/console
 
 	t.Run("Calls GetPackages function", func(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
-		loadPatch := gomonkey.ApplyFuncReturn(gopkg.Load, nil, errors.New("load error"))
+		loadPatch := gomonkey.ApplyFuncReturn(gopkg.Load, nil, errors.New("test error"))
 		expectedOutput := `Looking for packages.
 `
 
@@ -94,8 +94,8 @@ Loading package (3/3): github.com/fdaines/arch-go/internal/reports/console
 		pkgs, err := packages.GetBasicPackagesInfo("foo", outputBuffer, true)
 
 		require.Error(t, err)
+		require.ErrorContains(t, err, "error: cannot load module packages: test error")
 		assert.Empty(t, pkgs)
-		assert.Equal(t, "Error: Cannot load module packages: load error\n", err.Error())
 		assert.Equal(t, expectedOutput, outputBuffer.String())
 	})
 }

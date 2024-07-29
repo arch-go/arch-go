@@ -2,19 +2,18 @@ package cmd
 
 import (
 	"bytes"
-	"fmt"
+	"errors"
 	"io"
 	"os"
 	"testing"
 
-	"github.com/fdaines/arch-go/api/configuration"
-
-	"github.com/fdaines/arch-go/internal/utils/values"
-
-	"github.com/spf13/viper"
-
 	monkey "github.com/agiledragon/gomonkey/v2"
+	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
+	"github.com/fdaines/arch-go/api/configuration"
+	"github.com/fdaines/arch-go/internal/utils/values"
 )
 
 func TestMigrateConfigCommand(t *testing.T) {
@@ -75,7 +74,7 @@ func TestMigrateConfigCommand(t *testing.T) {
 		var exitCode int
 
 		cmd := NewMigrateConfigCommand()
-		patch := monkey.ApplyFuncReturn(configuration.LoadConfig, nil, fmt.Errorf("not found"))
+		patch := monkey.ApplyFuncReturn(configuration.LoadConfig, nil, errors.New("not found"))
 		patchOldSchema := monkey.ApplyFuncReturn(configuration.LoadDeprecatedConfig, &configuration.DeprecatedConfig{}, nil)
 		patchExit := monkey.ApplyFunc(os.Exit, func(c int) { exitCode = c })
 
@@ -98,8 +97,8 @@ Configuration saved at: arch-go.yml
 		_, err2 := os.Stat("arch-go.yml")
 		os.Remove("arch-go.yml")
 
-		assert.Nil(t, err1, string(out))
-		assert.Nil(t, err2, string(out))
+		require.NoError(t, err1, string(out))
+		require.NoError(t, err2, string(out))
 		assert.Equal(t, expected, string(out))
 		assert.Equal(t, 0, exitCode)
 	})
@@ -108,8 +107,8 @@ Configuration saved at: arch-go.yml
 		var exitCode int
 
 		cmd := NewMigrateConfigCommand()
-		patch := monkey.ApplyFuncReturn(configuration.LoadConfig, nil, fmt.Errorf("not found"))
-		patchOldSchema := monkey.ApplyFuncReturn(configuration.LoadDeprecatedConfig, nil, fmt.Errorf("not loaded"))
+		patch := monkey.ApplyFuncReturn(configuration.LoadConfig, nil, errors.New("not found"))
+		patchOldSchema := monkey.ApplyFuncReturn(configuration.LoadDeprecatedConfig, nil, errors.New("not loaded"))
 		patchExit := monkey.ApplyFunc(os.Exit, func(c int) { exitCode = c })
 
 		defer patch.Reset()

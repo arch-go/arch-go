@@ -44,7 +44,8 @@ func retrieveMatchingInterfaces(
 	ast.Inspect(node, func(n ast.Node) bool {
 		if typ, ok := n.(*ast.GenDecl); ok {
 			if typ.Tok.String() == "type" {
-				ts := typ.Specs[0].(*ast.TypeSpec)
+				// ok if panics
+				ts := typ.Specs[0].(*ast.TypeSpec) //nolint: forcetypeassert
 
 				it, ok := ts.Type.(*ast.InterfaceType)
 				if ok && comparator(ts.Name.String(), patternValue) {
@@ -53,7 +54,8 @@ func retrieveMatchingInterfaces(
 					}
 
 					for _, m := range it.Methods.List {
-						method := m.Type.(*ast.FuncType)
+						// ok if panics
+						method := m.Type.(*ast.FuncType) //nolint: forcetypeassert
 
 						currentInterface.Methods = append(currentInterface.Methods, MethodDescription{
 							Name:         m.Names[0].String(),

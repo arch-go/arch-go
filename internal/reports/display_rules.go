@@ -27,13 +27,13 @@ func displayDetails(verification model.Verification) {
 }
 
 func printPackagesDetails(d model.VerificationDetails) {
-	for _, p := range d.PackageDetails {
-		if p.Status == "PASS" {
-			color.Green("\tPackage '%s' passes\n", p.Package)
+	for _, pd := range d.PackageDetails {
+		if pd.Status == "PASS" {
+			color.Green("\tPackage '%s' passes\n", pd.Package)
 		} else {
-			color.Red("\tPackage '%s' fails\n", p.Package)
+			color.Red("\tPackage '%s' fails\n", pd.Package)
 
-			for _, str := range p.Details {
+			for _, str := range pd.Details {
 				color.Red("\t\t%s\n", str)
 			}
 		}

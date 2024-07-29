@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"bytes"
-	"fmt"
+	"errors"
 	"io"
 	"os"
 	"strings"
@@ -77,11 +77,11 @@ func TestRootCommand(t *testing.T) {
 
 	t.Run("checks if successful run returns zero exit code", func(t *testing.T) {
 		nonZeroExitCode := false
-		passingApiResult := &api.Result{
+		passingAPIResult := &api.Result{
 			Time:   time.Now(),
 			Passes: true,
 		}
-		patchCheck := monkey.ApplyFuncReturn(api.CheckArchitecture, passingApiResult)
+		patchCheck := monkey.ApplyFuncReturn(api.CheckArchitecture, passingAPIResult)
 		patchExit := monkey.ApplyFunc(os.Exit, func(code int) {
 			if code != 0 {
 				nonZeroExitCode = true
@@ -106,11 +106,11 @@ func TestRootCommand(t *testing.T) {
 		viper.Reset()
 
 		nonZeroExitCode := false
-		nonPassingApiResult := &api.Result{
+		nonPassingAPIResult := &api.Result{
 			Time:   time.Now(),
 			Passes: false,
 		}
-		patchCheck := monkey.ApplyFuncReturn(api.CheckArchitecture, nonPassingApiResult)
+		patchCheck := monkey.ApplyFuncReturn(api.CheckArchitecture, nonPassingAPIResult)
 		patchExit := monkey.ApplyFunc(os.Exit, func(code int) {
 			if code != 0 {
 				nonZeroExitCode = true
@@ -133,7 +133,7 @@ func TestRootCommand(t *testing.T) {
 
 	t.Run("Force an error trying to get current directory", func(t *testing.T) {
 		exitCalled := false
-		patch := monkey.ApplyFuncReturn(os.Getwd, nil, fmt.Errorf("foobar"))
+		patch := monkey.ApplyFuncReturn(os.Getwd, nil, errors.New("foobar"))
 		patchExit := monkey.ApplyFunc(os.Exit, func(code int) {
 			if code == 1 {
 				exitCalled = true

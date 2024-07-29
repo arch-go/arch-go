@@ -16,8 +16,8 @@ func TestExecuteWithTimer(t *testing.T) {
 	t.Run("Calls ExecuteWithTimer function", func(t *testing.T) {
 		var out string
 
-		printPatch := gomonkey.ApplyFunc(fmt.Fprintf, func(w io.Writer, f string, a ...interface{}) (int, error) {
-			out = fmt.Sprintf(f, a)
+		printPatch := gomonkey.ApplyFunc(fmt.Fprintf, func(_ io.Writer, format string, args ...interface{}) (int, error) {
+			out = fmt.Sprintf(format, args)
 
 			return 0, nil
 		})

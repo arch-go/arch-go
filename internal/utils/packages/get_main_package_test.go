@@ -1,7 +1,7 @@
 package packages_test
 
 import (
-	"fmt"
+	"errors"
 	"os"
 	"testing"
 
@@ -20,7 +20,7 @@ go 1.18
 require (
 	foobar 0.0.1
 )`
-		readFilePatch := gomonkey.ApplyFunc(os.ReadFile, func(fn string) ([]byte, error) {
+		readFilePatch := gomonkey.ApplyFunc(os.ReadFile, func(_ string) ([]byte, error) {
 			return []byte(gomodFile), nil
 		})
 		statPatch := gomonkey.ApplyFuncReturn(os.Stat, nil, nil)
@@ -35,13 +35,13 @@ require (
 	})
 
 	t.Run("Calls GetMainPackage function and go.mod file doesnt exists", func(t *testing.T) {
-		statPatch := gomonkey.ApplyFuncReturn(os.Stat, nil, fmt.Errorf("Error"))
+		statPatch := gomonkey.ApplyFuncReturn(os.Stat, nil, errors.New("test error"))
 		defer statPatch.Reset()
 
 		expected := ""
 		modulepath, err := packages.GetMainPackage()
 
 		assert.Equal(t, expected, modulepath)
-		assert.Equal(t, "Could not load go.mod file. Error\n", err.Error())
+		assert.Equal(t, "could not load go.mod file. test error", err.Error())
 	})
 }

@@ -5,9 +5,9 @@ import (
 	"io"
 	"testing"
 
-	"github.com/fdaines/arch-go/api/configuration"
-
 	"github.com/stretchr/testify/assert"
+
+	"github.com/fdaines/arch-go/api/configuration"
 )
 
 func TestDescribeDependencyRules(t *testing.T) {

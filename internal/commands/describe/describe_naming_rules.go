@@ -9,10 +9,11 @@ import (
 )
 
 func describeNamingRules(rules []*configuration.NamingRule, out io.Writer) {
-	fmt.Fprintf(out, "Naming Rules\n")
+	fmt.Fprint(out, "Naming Rules\n")
 
 	if len(rules) == 0 {
-		fmt.Fprintf(out, common.NoRulesDefined)
+		fmt.Fprint(out, common.NoRulesDefined)
+
 		return
 	}
 
@@ -22,22 +23,21 @@ func describeNamingRules(rules []*configuration.NamingRule, out io.Writer) {
 	}
 }
 
-func describeInterfaceImplementationNamingRule(r *configuration.NamingRule, out io.Writer) {
-	if r.InterfaceImplementationNamingRule != nil {
+func describeInterfaceImplementationNamingRule(rule *configuration.NamingRule, out io.Writer) {
+	if rule.InterfaceImplementationNamingRule != nil {
 		namingRule := ""
 
-		if r.InterfaceImplementationNamingRule.ShouldHaveSimpleNameEndingWith != nil {
+		if rule.InterfaceImplementationNamingRule.ShouldHaveSimpleNameEndingWith != nil {
 			namingRule = fmt.Sprintf("should have simple name ending with '%s'",
-				*r.InterfaceImplementationNamingRule.ShouldHaveSimpleNameEndingWith)
+				*rule.InterfaceImplementationNamingRule.ShouldHaveSimpleNameEndingWith)
 		}
 
-		if r.InterfaceImplementationNamingRule.ShouldHaveSimpleNameStartingWith != nil {
+		if rule.InterfaceImplementationNamingRule.ShouldHaveSimpleNameStartingWith != nil {
 			namingRule = fmt.Sprintf("should have simple name starting with '%s'",
-				*r.InterfaceImplementationNamingRule.ShouldHaveSimpleNameStartingWith)
+				*rule.InterfaceImplementationNamingRule.ShouldHaveSimpleNameStartingWith)
 		}
 
 		fmt.Fprintf(out, "\t\t* Structs that implement interfaces matching name '%s' %s\n",
-			r.InterfaceImplementationNamingRule.StructsThatImplement, namingRule)
-
+			rule.InterfaceImplementationNamingRule.StructsThatImplement, namingRule)
 	}
 }

@@ -3,72 +3,136 @@ package configuration
 
 // Config contains the architecture rules and the thresholds for coverage and compliance.
 type Config struct {
-	Version           int                 `yaml:"version,omitempty"`           // version of configuration
-	Threshold         *Threshold          `yaml:"threshold,omitempty"`         // contains threshold values
-	DependenciesRules []*DependenciesRule `yaml:"dependenciesRules,omitempty"` // contains a set of dependencies rules
-	ContentRules      []*ContentsRule     `yaml:"contentsRules,omitempty"`     // contains a set of contents rules
-	CyclesRules       []*CyclesRule       `yaml:"cyclesRules,omitempty"`       // contains a set of cycles rules (deprecated)
-	FunctionsRules    []*FunctionsRule    `yaml:"functionsRules,omitempty"`    // contains a set of functions rules
-	NamingRules       []*NamingRule       `yaml:"namingRules,omitempty"`       // contains a set of naming rules
+	// Version is the version of configuration.
+	Version int `yaml:"version,omitempty"`
+
+	// Threshold contains threshold values.
+	Threshold *Threshold `yaml:"threshold,omitempty"`
+
+	// DependenciesRules contains a set of dependencies rules.
+	DependenciesRules []*DependenciesRule `yaml:"dependenciesRules,omitempty"`
+
+	// ContentRules contains a set of contents rules.
+	ContentRules []*ContentsRule `yaml:"contentsRules,omitempty"`
+
+	// CyclesRules contains a set of cycles rules.
+	// Deprecated
+	CyclesRules []*CyclesRule `yaml:"cyclesRules,omitempty"`
+
+	// FunctionsRules contains a set of functions rules.
+	FunctionsRules []*FunctionsRule `yaml:"functionsRules,omitempty"`
+
+	// NamingRules contains a set of naming rules.
+	NamingRules []*NamingRule `yaml:"namingRules,omitempty"`
 }
 
 // Threshold contains the compliance and coverage rate to consider the evaluations succeeded.
 type Threshold struct {
-	Compliance *int `yaml:"compliance,omitempty"` // Compliance threshold.
-	Coverage   *int `yaml:"coverage,omitempty"`   // Coverage threshold.
+	// Compliance threshold.
+	Compliance *int `yaml:"compliance,omitempty"`
+
+	// Coverage threshold.
+	Coverage *int `yaml:"coverage,omitempty"`
 }
 
 // DependenciesRule represents a rule related to dependencies between packages.
 type DependenciesRule struct {
-	Package             string        `yaml:"package,omitempty"`             // the package pattern to be evaluated
-	ShouldOnlyDependsOn *Dependencies `yaml:"shouldOnlyDependsOn,omitempty"` // packages should only use these dependencies
-	ShouldNotDependsOn  *Dependencies `yaml:"shouldNotDependsOn,omitempty"`  // packages should not use these dependencies
+	// Package is the package pattern to be evaluated.
+	Package string `yaml:"package,omitempty"`
+
+	// ShouldOnlyDependsOn packages should only use these dependencies.
+	ShouldOnlyDependsOn *Dependencies `yaml:"shouldOnlyDependsOn,omitempty"`
+
+	// ShouldNotDependsOn packages should not use these dependencies.
+	ShouldNotDependsOn *Dependencies `yaml:"shouldNotDependsOn,omitempty"`
 }
 
 // FunctionsRule represents a rule related to functions in packages.
 type FunctionsRule struct {
-	Package                  string `yaml:"package,omitempty"`                  // the package pattern to be evaluated
-	MaxParameters            *int   `yaml:"maxParameters,omitempty"`            // the max number of parameters that the functions should contain
-	MaxReturnValues          *int   `yaml:"maxReturnValues,omitempty"`          // the max number of values that the functions should return
-	MaxLines                 *int   `yaml:"maxLines,omitempty"`                 // the max number of lines that the functions should contain
-	MaxPublicFunctionPerFile *int   `yaml:"maxPublicFunctionPerFile,omitempty"` // the max number of
+	// Package is the package pattern to be evaluated.
+	Package string `yaml:"package,omitempty"`
+
+	// MaxParameters are the max number of parameters that the functions should contain.
+	MaxParameters *int `yaml:"maxParameters,omitempty"`
+
+	// MaxReturnValues are the max number of values that the functions should return.
+	MaxReturnValues *int `yaml:"maxReturnValues,omitempty"`
+
+	// MaxLines are the max number of lines that the functions should contain.
+	MaxLines *int `yaml:"maxLines,omitempty"`
+
+	// MaxPublicFunctionPerFile are the max number of functions allowed per file.
+	MaxPublicFunctionPerFile *int `yaml:"maxPublicFunctionPerFile,omitempty"`
 }
 
 // ContentsRule represents a rule related to package contents.
 type ContentsRule struct {
-	Package                     string `yaml:"package,omitempty"`                     // the package pattern to be evaluated
-	ShouldOnlyContainInterfaces bool   `yaml:"shouldOnlyContainInterfaces,omitempty"` // if true, then the packages should only contain interfaces
-	ShouldOnlyContainStructs    bool   `yaml:"shouldOnlyContainStructs,omitempty"`    // if true, then the packages should only contain structs
-	ShouldOnlyContainFunctions  bool   `yaml:"shouldOnlyContainFunctions,omitempty"`  // if true, then the packages should only contain functions
-	ShouldOnlyContainMethods    bool   `yaml:"shouldOnlyContainMethods,omitempty"`    // if true, then the packages should only contain methods
-	ShouldNotContainInterfaces  bool   `yaml:"shouldNotContainInterfaces,omitempty"`  // if true, then the packages should not contain interfaces
-	ShouldNotContainStructs     bool   `yaml:"shouldNotContainStructs,omitempty"`     // if true, then the packages should not contain structs
-	ShouldNotContainFunctions   bool   `yaml:"shouldNotContainFunctions,omitempty"`   // if true, then the packages should not contain functions
-	ShouldNotContainMethods     bool   `yaml:"shouldNotContainMethods,omitempty"`     // if true, then the packages should not contain methods
+	// Package are the package pattern to be evaluated.
+	Package string `yaml:"package,omitempty"`
+
+	// ShouldOnlyContainInterfaces if true, then the packages should only contain interfaces.
+	ShouldOnlyContainInterfaces bool `yaml:"shouldOnlyContainInterfaces,omitempty"`
+
+	// ShouldOnlyContainStructs if true, then the packages should only contain structs.
+	ShouldOnlyContainStructs bool `yaml:"shouldOnlyContainStructs,omitempty"`
+
+	// ShouldOnlyContainFunctions if true, then the packages should only contain functions.
+	ShouldOnlyContainFunctions bool `yaml:"shouldOnlyContainFunctions,omitempty"`
+
+	// ShouldOnlyContainMethods if true, then the packages should only contain methods.
+	ShouldOnlyContainMethods bool `yaml:"shouldOnlyContainMethods,omitempty"`
+
+	// ShouldNotContainInterfaces if true, then the packages should not contain interfaces.
+	ShouldNotContainInterfaces bool `yaml:"shouldNotContainInterfaces,omitempty"`
+
+	// ShouldNotContainStructs if true, then the packages should not contain structs.
+	ShouldNotContainStructs bool `yaml:"shouldNotContainStructs,omitempty"`
+
+	// ShouldNotContainFunctions if true, then the packages should not contain functions.
+	ShouldNotContainFunctions bool `yaml:"shouldNotContainFunctions,omitempty"`
+
+	// ShouldNotContainMethods if true, then the packages should not contain methods.
+	ShouldNotContainMethods bool `yaml:"shouldNotContainMethods,omitempty"`
 }
 
-// Deprecated: CyclesRule was deprecated in v1.4.0
+// Deprecated: CyclesRule was deprecated in v1.4.0.
 type CyclesRule struct {
-	Package                string `yaml:"package,omitempty"`                // the package pattern to be evaluated
-	ShouldNotContainCycles bool   `yaml:"shouldNotContainCycles,omitempty"` // if true, then the packages should not contain cycles
+	// Package is the package pattern to be evaluated.
+	Package string `yaml:"package,omitempty"`
+
+	// ShouldNotContainCycles if true, then the packages should not contain cycles.
+	ShouldNotContainCycles bool `yaml:"shouldNotContainCycles,omitempty"`
 }
 
 // NamingRule represents a naming rule.
 type NamingRule struct {
-	Package                           string                       `yaml:"package"` // the package pattern to be evaluated
+	// Package the package pattern to be evaluated.
+	Package string `yaml:"package"`
+
+	// InterfaceImplementationNamingRule.
 	InterfaceImplementationNamingRule *InterfaceImplementationRule `yaml:"interfaceImplementationNamingRule"`
 }
 
 // Dependencies contains dependencies grouped by origin.
 type Dependencies struct {
-	Internal []string `yaml:"internal,omitempty"` // contains a set of internal dependencies (same go module)
-	External []string `yaml:"external,omitempty"` // contains a set of external dependencies
-	Standard []string `yaml:"standard,omitempty"` // contains a set of standard dependencies
+	// Internal contains a set of internal dependencies (same go module).
+	Internal []string `yaml:"internal,omitempty"`
+
+	// External contains a set of external dependencies.
+	External []string `yaml:"external,omitempty"`
+
+	// Standard contains a set of standard dependencies.
+	Standard []string `yaml:"standard,omitempty"`
 }
 
 // InterfaceImplementationRule represents a naming rule related to interface implementation.
 type InterfaceImplementationRule struct {
-	StructsThatImplement             string  `yaml:"structsThatImplement"`             // the implemented interface
-	ShouldHaveSimpleNameStartingWith *string `yaml:"shouldHaveSimpleNameStartingWith"` // the struct that implements the interface should have this prefix
-	ShouldHaveSimpleNameEndingWith   *string `yaml:"shouldHaveSimpleNameEndingWith"`   // the struct that implements the interface should have this suffix
+	// StructsThatImplement the implemented interface.
+	StructsThatImplement string `yaml:"structsThatImplement"`
+
+	// ShouldHaveSimpleNameStartingWith the struct that implements the interface should have this prefix.
+	ShouldHaveSimpleNameStartingWith *string `yaml:"shouldHaveSimpleNameStartingWith"`
+
+	// ShouldHaveSimpleNameEndingWith the struct that implements the interface should have this suffix.
+	ShouldHaveSimpleNameEndingWith *string `yaml:"shouldHaveSimpleNameEndingWith"`
 }

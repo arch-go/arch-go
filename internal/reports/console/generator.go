@@ -37,16 +37,16 @@ func appendFooter(tw table.Writer, title string, threshold *model.ThresholdSumma
 	tw.AppendFooter(table.Row{"", title, complianceDetails, complianceDetails, complianceDetails}, rowConfig)
 }
 
-func appendSummary(t table.Writer, report *model.Report) {
+func appendSummary(tw table.Writer, report *model.Report) {
 	if report.Details != nil {
-		t.AppendHeader(table.Row{"#", "Rule Type", "Total", "Passed", "Failed"})
-		appendSummaryRow(t, 1, "Dependencies Rules", report.Details.DependenciesVerificationDetails)
-		appendSummaryRow(t, 2, "Functions Rules", report.Details.FunctionsVerificationDetails)
-		appendSummaryRow(t, 3, "Contents Rules", report.Details.ContentsVerificationDetails)
-		appendSummaryRow(t, 4, "Naming Rules", report.Details.NamingVerificationDetails)
+		tw.AppendHeader(table.Row{"#", "Rule Type", "Total", "Passed", "Failed"})
+		appendSummaryRow(tw, 1, "Dependencies Rules", report.Details.DependenciesVerificationDetails)
+		appendSummaryRow(tw, 2, "Functions Rules", report.Details.FunctionsVerificationDetails)
+		appendSummaryRow(tw, 3, "Contents Rules", report.Details.ContentsVerificationDetails)
+		appendSummaryRow(tw, 4, "Naming Rules", report.Details.NamingVerificationDetails)
 	}
 }
 
-func appendSummaryRow(t table.Writer, idx int, title string, d model.Verification) {
-	t.AppendRow(table.Row{idx, title, d.Total, d.Passed, d.Failed})
+func appendSummaryRow(tw table.Writer, idx int, title string, d model.Verification) {
+	tw.AppendRow(table.Row{idx, title, d.Total, d.Passed, d.Failed})
 }

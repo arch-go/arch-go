@@ -38,18 +38,6 @@ func TestReportHtmlHelpers(t *testing.T) {
 		assert.Equal(t, expectedOutput, string(outputBytes))
 		assert.Equal(t, ".arch-go/report.html", filename)
 		assert.Equal(t, "foobar", fileContents)
-		assert.Equal(t, os.FileMode(0x1a4), permissions)
+		assert.Equal(t, os.FileMode(0o600), permissions)
 	})
-	/*
-		t.Run("writeReport error", func(t *testing.T) {
-			patch := monkey.ApplyFuncReturn(os.WriteFile, errors.New("foobar error"))
-			defer patch.Reset()
-
-			outputBuffer := bytes.NewBufferString("")
-			content := "foobar"
-
-			assert.Panics(t, func() { writeReport(content, outputBuffer) })
-		})
-
-	*/
 }

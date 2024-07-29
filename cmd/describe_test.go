@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"bytes"
-	"fmt"
+	"errors"
 	"io"
 	"os"
 	"testing"
@@ -104,7 +104,7 @@ Threshold Rules
 	t.Run("when arch-go.yaml does not exist", func(t *testing.T) {
 		var exitCode int
 
-		configLoaderPatch := monkey.ApplyFuncReturn(configuration.LoadConfig, nil, fmt.Errorf("dummy error"))
+		configLoaderPatch := monkey.ApplyFuncReturn(configuration.LoadConfig, nil, errors.New("dummy error"))
 		patchExit := monkey.ApplyFunc(os.Exit, func(c int) { exitCode = c })
 
 		defer configLoaderPatch.Reset()

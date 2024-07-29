@@ -1,4 +1,4 @@
-package migrate_config
+package migrate
 
 import (
 	"fmt"
@@ -20,7 +20,7 @@ type migrateConfigCommand struct {
 	path string
 }
 
-func NewCommand(output io.Writer, path string) migrateConfigCommand {
+func NewCommand(output io.Writer, path string) commands.Command {
 	return migrateConfigCommand{
 		commands.BaseCommand{Output: output},
 		path,
@@ -31,14 +31,15 @@ func (dc migrateConfigCommand) Run() {
 	var exitCode int
 
 	timer.ExecuteWithTimer(func() {
-		if conf := MigrateConfigurationCommand(dc.Output, dc.path); conf == nil {
+		if conf := migrateConfiguration(dc.Output, dc.path); conf == nil {
 			exitCode = 1
 		}
 	})
+
 	os.Exit(exitCode)
 }
 
-func MigrateConfigurationCommand(out io.Writer, path string) *configuration.Config {
+func migrateConfiguration(out io.Writer, path string) *configuration.Config {
 	filename := filepath.Join(path, "arch-go.yml")
 
 	conf, err := configuration.LoadConfig(filename)
@@ -122,14 +123,14 @@ func migrateRules(deprecatedConfig *configuration.DeprecatedConfig) *configurati
 }
 
 func migrateDependencyRules(rules []*configuration.DeprecatedDependenciesRule) []*configuration.DependenciesRule {
-	var dependencyRules []*configuration.DependenciesRule
+	dependencyRules := make([]*configuration.DependenciesRule, len(rules))
 
-	for _, r := range rules {
-		dependencyRules = append(dependencyRules, &configuration.DependenciesRule{
-			Package:             r.Package,
-			ShouldOnlyDependsOn: resolveAllowedDependencies(r),
-			ShouldNotDependsOn:  resolveRestrictedDependencies(r),
-		})
+	for i, rule := range rules {
+		dependencyRules[i] = &configuration.DependenciesRule{
+			Package:             rule.Package,
+			ShouldOnlyDependsOn: resolveAllowedDependencies(rule),
+			ShouldNotDependsOn:  resolveRestrictedDependencies(rule),
+		}
 	}
 
 	return dependencyRules

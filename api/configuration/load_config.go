@@ -1,7 +1,7 @@
 package configuration
 
 import (
-	"fmt"
+	"errors"
 	"os"
 
 	"gopkg.in/yaml.v3"
@@ -22,7 +22,8 @@ func LoadConfig(configPath string) (*Config, error) {
 	if err1 := d.Decode(&config); err1 != nil {
 		_, err2 := LoadDeprecatedConfig(configPath)
 		if err2 == nil {
-			return nil, fmt.Errorf("A deprecated architecture description was provided. To update the arch-go.yml file please run 'arch-go migrate-configuration'")
+			return nil, errors.New("a deprecated architecture description was provided." +
+				" To update the arch-go.yml file please run 'arch-go migrate-configuration'")
 		}
 
 		return nil, err1

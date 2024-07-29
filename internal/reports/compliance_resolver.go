@@ -6,10 +6,10 @@ import (
 	"github.com/fdaines/arch-go/internal/reports/model"
 )
 
-func resolveCompliance(r *api.Result, c configuration.Config) *model.ThresholdSummary {
+func resolveCompliance(result *api.Result, conf configuration.Config) *model.ThresholdSummary {
 	var violations []string
 
-	passesVerifications, totalVerifications := resolveTotals(r)
+	passesVerifications, totalVerifications := resolveTotals(result)
 	rate := 0
 	status := passStatus
 	threshold := 0
@@ -18,8 +18,8 @@ func resolveCompliance(r *api.Result, c configuration.Config) *model.ThresholdSu
 		rate = (100 * passesVerifications) / totalVerifications
 	}
 
-	if c.Threshold != nil && c.Threshold.Compliance != nil {
-		threshold = *c.Threshold.Compliance
+	if conf.Threshold != nil && conf.Threshold.Compliance != nil {
+		threshold = *conf.Threshold.Compliance
 	}
 
 	if rate < threshold {
@@ -36,13 +36,14 @@ func resolveCompliance(r *api.Result, c configuration.Config) *model.ThresholdSu
 	}
 }
 
-func resolveTotals(r *api.Result) (int, int) {
+func resolveTotals(result *api.Result) (int, int) {
 	total := 0
 	passes := 0
-	countDependenciesRuleResults(r, &passes, &total)
-	countFunctionsRuleResults(r, &passes, &total)
-	countContentsRuleResults(r, &passes, &total)
-	countNamingRuleResults(r, &passes, &total)
+
+	countDependenciesRuleResults(result, &passes, &total)
+	countFunctionsRuleResults(result, &passes, &total)
+	countContentsRuleResults(result, &passes, &total)
+	countNamingRuleResults(result, &passes, &total)
 
 	return passes, total
 }

@@ -1,14 +1,14 @@
 package validators
 
 import (
-	"fmt"
+	"errors"
 
 	"github.com/fdaines/arch-go/api/configuration"
 )
 
 func ValidateConfiguration(configuration *configuration.Config) error {
 	if configuration == nil {
-		return fmt.Errorf("configuration file not found")
+		return errors.New("configuration file not found")
 	}
 
 	err := checkRulesQuantity(configuration)
@@ -36,7 +36,7 @@ func ValidateConfiguration(configuration *configuration.Config) error {
 
 func checkRulesQuantity(c *configuration.Config) error {
 	if countRules(c) == 0 {
-		return fmt.Errorf("configuration file should have at least one rule")
+		return errors.New("configuration file should have at least one rule")
 	}
 
 	return nil

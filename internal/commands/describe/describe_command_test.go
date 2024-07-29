@@ -145,7 +145,7 @@ Threshold Rules
 `
 
 		command := NewCommand(configuration, outputBuffer)
-		returnValue := runDescribeCommand(command)
+		returnValue := runDescribeCommand(command.(describeCommand)) //nolint: forcetypeassert
 		outputBytes, _ := io.ReadAll(outputBuffer)
 
 		assert.Equal(t, 0, returnValue, "Unexpected Return Value")
@@ -186,7 +186,7 @@ Threshold Rules
 		fmt.Println("INvalid case")
 
 		outputBuffer := bytes.NewBufferString("")
-		patchExit := monkey.ApplyFunc(os.Exit, func(c int) {})
+		patchExit := monkey.ApplyFunc(os.Exit, func(_ int) {})
 
 		defer patchExit.Reset()
 

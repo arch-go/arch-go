@@ -16,7 +16,7 @@ type describeCommand struct {
 	configuration *configuration.Config
 }
 
-func NewCommand(configuration *configuration.Config, output io.Writer) describeCommand {
+func NewCommand(configuration *configuration.Config, output io.Writer) commands.Command {
 	return describeCommand{
 		BaseCommand:   commands.BaseCommand{Output: output},
 		configuration: configuration,

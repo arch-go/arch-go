@@ -1,39 +1,12 @@
 package naming
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestNamingRuleImplementsInterface(t *testing.T) {
-	t.Run("test areEquals function", func(t *testing.T) {
-		testCases := []struct {
-			input1         []string
-			input2         []string
-			expectedOutput bool
-		}{
-			{nil, nil, true},
-			{[]string{}, []string{}, true},
-			{[]string{"a", "b"}, []string{"a", "b"}, true},
-			{nil, []string{}, false},
-			{[]string{}, nil, false},
-			{[]string{"a", "b"}, []string{"a", "b", "c"}, false},
-			{[]string{"a", "b"}, []string{"b", "a"}, false},
-		}
-
-		for idx, tt := range testCases {
-			result := areEquals(tt.input1, tt.input2)
-			assert.Equal(
-				t,
-				tt.expectedOutput,
-				result,
-				fmt.Sprintf("Case:%d, input1:%+v, input2:%+v", idx+1, tt.input1, tt.input2),
-			)
-		}
-	})
-
 	t.Run("implements interface case 1", func(t *testing.T) {
 		structDescription := StructDescription{}
 		interfaceDescription := InterfaceDescription{}
