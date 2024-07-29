@@ -9,6 +9,7 @@ on:
 
 jobs:
   lint-code:
+    name: Run Linters
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
