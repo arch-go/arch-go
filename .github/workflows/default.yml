@@ -9,6 +9,7 @@ on:
 
 jobs:
   lint-code:
+    name: Run Linters
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -25,48 +26,67 @@ jobs:
           reporter: github-pr-review
           fail_on_error: true
 
-  test:
+  check-licenses:
+    name: Check Licenses
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+      - name: Set up Go
+        uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.0.2
+        with:
+          go-version: 1.22.5
+      - name: Get google/go-licenses package
+        run: go install github.com/google/go-licenses@v1.6.0
+      - name: Check the licenses
+        run: |
+          # Ignoring github.com/hashicorp/hcl used by viper, as it uses problematic MPL-2.0 license. 
+          # Our code does not use corresponding viper functionality.
+          # New activities in viper repository outsources encoding dependencies in an own module. This way, we can remove the --ignore setting in the future 
+          go-licenses check --disallowed_types=forbidden,restricted,reciprocal,permissive,unknown  --ignore=github.com/hashicorp/hcl .
+
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
-
       - name: Set up Go
         uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5
         with:
           go-version: 1.22.5
-
       - name: Test
         run: |
           go test -v -gcflags=all=-l -cover ./... -coverprofile coverage.out -coverpkg ./...
 
   build:
+    name: Build Binaries
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
-
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
       - name: Set up Go
         uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5
         with:
           go-version: 1.22.5
-
       - name: Build
         run: go build -v ./...
 
-  smoke:
+  smoke-test:
+    name: Run Smoke Tests
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
-
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
       - name: Set up Go
         uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5
         with:
           go-version: 1.22.5
-
       - name: Arch-Go
         run: |
           # Smoke E2E: Run program with different flag options
@@ -85,7 +105,6 @@ jobs:
           runTest "go run main.go -v --html --color no"
           runTest "go run main.go --verbose --html --color yes"
           runTest "go run main.go --html --color yes"
-
       - uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4
         with:
           name: Arch-Go Report
