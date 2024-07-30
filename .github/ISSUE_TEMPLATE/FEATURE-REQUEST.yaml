@@ -15,8 +15,9 @@ body:
         - label: I agree to follow this project's [Code of Conduct](https://github.com/arch-go/arch-go/blob/main/CODE_OF_CONDUCT.md).
           required: true
         - label: I have read and am following this repository's [Contribution Guidelines](https://github.com/arch-go/arch-go/blob/main/CONTRIBUTING.md)."
-          required: false
+          required: true
         - label: I have discussed this feature request with the community.
+          required: true
 
   - id: idea
     type: textarea
