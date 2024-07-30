@@ -1,7 +1,7 @@
-# Welcome to heimdall's contributing guide
+# Welcome to arch-go's contributing guide
 
 Thank you for investing your time in contributing to this project!
-Any contribution you will make, will make heimdall better for everyone :sparkles:!
+Any contribution you make, will make arch-go better for everyone :sparkles:!
 
 Before you continue, here are some important resources:
 
@@ -11,56 +11,51 @@ Before you continue, here are some important resources:
 
 ## How can I contribute?
 
-There are many ways you can contribute to heimdall. Here are some ideas:
+There are many ways you can contribute to arch-go. Here are some ideas:
 
-* **Give this project a star**: It may not seem like much, but it really makes a difference. This is something that everyone can do to help. Github stars help the project gaining visibility and stand out.
-* **Join the community**: Helping people can be as easy as by just sharing your own experience. You can also help by listening to issues and ideas of other people and offering a different perspective, or providing some related information that might help. Take a look at [heimdall's Discussions](https://github.com/dadrus/heimdall/discussions).  Bonus: You get GitHub achievements for answered discussions :wink:.
-* **Review documentation**: Most [documentation](https://dadrus.github.io/heimdall/) just needs a review for proper spelling and grammar. If you think a document can be improved in any way, feel free to do so by opening a PR.
-* **Help with open issues**: There are many [open issues](https://github.com/dadrus/heimdall/issues). Some of them may lack necessary information, some may be duplicates of older issues. Most are waiting for being implemented.
-* **You spot a problem**: Search if an [issue already exists](https://github.com/dadrus/heimdall/issues). If a related issue doesn't exist, please open a new issue using a relevant [issue form](https://github.com/dadrus/heimdall/issues/new/choose).
+* **Give this project a star**: It may not seem like much, but it really makes a difference. This is something that everyone can do to help. GitHub stars help the project gaining visibility and stand out.
+* **Join the community**: Helping people can be as easy as by just sharing your own experience. You can also help by listening to issues and ideas of other people and offering a different perspective, or providing some related information that might help. Take a look at [arch-go's Discussions](https://github.com/arch-go/arch-go/discussions). Bonus: You get GitHub achievements for answered discussions :wink:.
+* **Help with open issues**: There may be many [open issues](https://github.com/arch-go/arch-go/issues). Some of them may lack necessary information, some may be duplicates of older issues. Most are waiting for being implemented.
+* **You spot a problem**: Search if an [issue already exists](https://github.com/arch-go/arch-go/issues). If a related issue doesn't exist, please open a new issue using a relevant [issue form](https://github.com/arch-go/arch-go/issues/new/choose). You have no obligation to offer a solution or code to fix an issue you open. 
 
 ## Disclosing vulnerabilities
 
-Please disclose vulnerabilities by making use of [Security Advisories](https://github.com/dadrus/heimdall/security/advisories). Do not use GitHub issues for that.
+Please disclose vulnerabilities by making use of [Security Advisories](https://github.com/arch-go/arch-go/security/advisories). Do not use GitHub issues for that!
 
 ## Contribute content
 
-Unless you are fixing a known bug, we strongly recommend discussing it with the core team via a GitHub issue or in [heimdall's Discussions](https://github.com/dadrus/heimdall/discussions) or [Discord](https://discord.gg/qQgg8xKuyb) (preferred) before getting started.
+Unless you are fixing a known bug, we strongly recommend discussing it with the core team via a [GitHub Issue](https://github.com/arch-go/arch-go/issues) or in [arch-go's Discussions](https://github.com/arch-go/arch-go/discussions) before getting started.
 
 **Important:** Only PRs with [signed commits](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits) will be accepted.
 
 The general process is as follows:
 
-Set up your local development environment to contribute to heimdall:
+Set up your local development environment to contribute to arch-go:
 
-1. [Fork](https://github.com/dadrus/heimdall/fork), then clone the repository.
+1. [Fork](https://github.com/arch-go/arch-go/fork), then clone the repository.
   
    ```bash
-   > git clone https://github.com/your_github_username/heimdall.git
-   > cd heimdall
-   > git remote add upstream https://github.com/dadrus/heimdall.git
-   > git fetch upstream
+   > git clone https://github.com/your_github_username/arch-go.git
+   > cd arch-go
+   > git remote add upstream https://github.com/arch-go/arch-go.git
+   > git fetch -p upstream
    ```
 
 2. Install required tools:
-  * [Just](https://github.com/casey/just/releases), which is used to lint, build and test the project via CLI.
-  * [Docker](https://docs.docker.com/desktop/) if you want to build and work with docker images.
-  * [Golang](https://go.dev/dl/).
+  * [Golang](https://go.dev/dl/) - latest version.
   * [golangci-lint](https://golangci-lint.run/usage/install/#local-installation) to lint the code.
-  * [hadolint](https://github.com/hadolint/hadolint/releases) to lint the Dockerfiles.
-  * [Helm](https://github.com/helm/helm/releases) to lint and work with Helm Chart provided with heimdall.
   * [go-licenses](https://github.com/google/go-licenses) to ensure all dependencies have allowed licenses.
-  * [kubeconform](https://github.com/yannh/kubeconform/releases) to validate the manifests generated by Helm.
 
 3. Verify that tests and other checks pass locally.
    ```bash
    > git pull
    > git checkout main
-   > just lint
-   > just test
+   > golangci-lint run
+   > go-licenses check --disallowed_types=forbidden,restricted,reciprocal,permissive,unknown  --ignore=github.com/hashicorp/hcl .
+   > go test -v -gcflags=all=-l ./...
    ```
    
-4. When creating the PR, please follow the guide, you'll see in the PR template to make the review process more smoothly.
+4. When creating your PR, please follow the guide you'll see in the PR template to streamline the review process.
 
 5. At this point, you're waiting on us to review your changes. We *try* to respond to issues and pull requests within a few days, and we may suggest some improvements or alternatives. Once your changes are approved, one of the project maintainers will merge them.
 
@@ -75,61 +70,13 @@ After having installed the tools listed above:
 
 2. Make your changes, and verify that all tests and lints still pass.
    ```bash
-   > just lint
-   > just test
+   > golangci-lint run
+   > go-licenses check --disallowed_types=forbidden,restricted,reciprocal,permissive,unknown  --ignore=github.com/hashicorp/hcl .
+   > go test -v -gcflags=all=-l ./...
    ```
 
 3. When you're satisfied with the change, push it to your fork and make a pull request.
    ```bash
    > git push origin cool_new_feature
-   # Open a PR at https://github.com/dadrus/heimdall/compare
-   ```
-
-### Contribute Documentation
-
-The entire documentation is located under `docs` with the actual content located under `docs/content`. In that folder you can see the top level sections
-
-* "docs" - containing the documentation of the project, and
-* "guides" - containing the different guides.
-
-The contents are written in [Asciidoc](https://docs.asciidoctor.org/asciidoc/latest/), a lightweight markup langauge, designed to write technical documentation.
-
-To contribute to the documentation, the only tools you need is actually [Docker](https://docs.docker.com/desktop/) and [Just](https://github.com/casey/just/releases). After having these two in place:
-
-1. Create a new feature branch
-   ```bash
-   > git checkout -b cool_new_documentation_update
-   ```
-
-2. Start the docs server with
-   ```bash
-   > just run-docs
-   ```
-   and open the browser by following the link shown in the output of the started server. This allows you working on your changes and observing the results immediately.
-
-3. Make your changes, and verify that what you've written looks nice and is rendered properly.
-
-4. When you're satisfied with the change, push it to your fork and make a pull request.
-   ```bash
-   > git push origin cool_new_documentation_update
-   # Open a PR at https://github.com/dadrus/heimdall/compare
-   ```
-
-### Contribute Examples
-
-There are many examples for docker and kubernetes to support people interested in heimdall in getting started with it. All of these are located under the `examples` directory.
-
-As with other contribution options addressed above
-
-1. Create a new feature branch
-   ```bash
-   > git checkout -b cool_new_example
-   ```
-   
-2. Work on your example. While working on it, please ensure, you do not break existing ones.
-
-3. When you're satisfied with your result, push it to your fork and make a pull request.
-   ```bash
-   > git push origin cool_new_example
-   # Open a PR at https://github.com/dadrus/heimdall/compare
+   # Open a PR at https://github.com/arch-go/arch-go/compare
    ```
