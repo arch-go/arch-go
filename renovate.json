@@ -15,7 +15,7 @@
     }
   ],
   "configMigration": true,
-  "baseBranches": ["master"],
+  "baseBranches": ["main"],
   "assigneesFromCodeOwners": true,
   "addLabels": ["dependency"],
   "automerge": false

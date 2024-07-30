@@ -1,6 +1,6 @@
 
-[![CI](https://github.com/arch-go/arch-go/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/arch-go/arch-go/actions/workflows/ci.yml)
-[![Codecov](https://codecov.io/gh/arch-go/arch-go/branch/master/graph/badge.svg)](https://codecov.io/gh/arch-go/arch-go)
+[![CI](https://github.com/arch-go/arch-go/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/arch-go/arch-go/actions/workflows/ci.yml)
+[![Codecov](https://codecov.io/gh/arch-go/arch-go/branch/main/graph/badge.svg)](https://codecov.io/gh/arch-go/arch-go)
 [![Go Reference](https://pkg.go.dev/badge/github.com/arch-go/arch-go.svg)](https://pkg.go.dev/github.com/arch-go/arch-go)
 [![Go Report Card](https://goreportcard.com/badge/github.com/arch-go/arch-go)](https://goreportcard.com/report/github.com/arch-go/arch-go)
 <img align="center" src="logo.png" alt="Arch-Go" title="Arch-Go" width="600px"/>
