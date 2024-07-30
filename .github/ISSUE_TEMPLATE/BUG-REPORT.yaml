@@ -1,0 +1,83 @@
+name: Bug Report
+description: File a bug report
+labels: [bug]
+body:
+  - id: thanks
+    type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+
+  - id: checklist
+    type: checkboxes
+    attributes:
+      label: Preflight checklist
+      options:
+        - label: I agree to follow this project's [Code of Conduct](https://github.com/arch-go/arch-go/blob/main/CODE_OF_CONDUCT.md).
+          required: true
+        - label: I have read and am following this repository's [Contribution Guidelines](https://github.com/arch-go/arch-go/blob/main/CONTRIBUTING.md).
+          required: false
+        - label: I could not find a solution in the existing [issues](https://github.com/arch-go/arch-go/issues) or [discussions](https://github.com/arch-go/arch-go/discussions).
+          required: true
+
+  - id: what-happened
+    type: textarea
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is. Also tell us, what did you expect to happen?
+      placeholder: Tell us what you see!
+    validations:
+      required: true
+
+  - id: reproduce-bug
+    type: textarea
+    attributes:
+      label: How can the bug be reproduced
+      description: Clear, formatted, and easy to follow steps to reproduce the bug, or at best a reproducer([ref](https://github.com/jmcdo29/wtf-is-a-minimum-reproduction))
+      placeholder: |
+        Steps to reproduce the behavior:
+        1. Run `arch-go ....`
+        2. next step
+        3. next step
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: |
+        Please copy and paste any relevant log output. This will be automatically formatted
+        into code, so no need for backticks. Please redact any sensitive information.
+      render: shell
+      placeholder: Running arch-go command ....
+
+  - type: textarea
+    id: config
+    attributes:
+      label: Relevant configuration
+      description: |
+        Please copy and paste any relevant configuration from your `arch-go.yaml`. This will be automatically formatted
+        into code, so no need for backticks. Please redact any sensitive information!
+      render: yml
+      placeholder: |
+        version: 1
+        threshold:
+          compliance: 100
+        ...
+
+  - id: version
+    type: input
+    attributes:
+      label: Version
+      description: | 
+        What version of arch-go are you running? Please provide the output from `arch-go --version`.
+    validations:
+      required: true
+
+  - id: additional
+    type: textarea
+    attributes:
+      label: Additional Context
+      description: Add any other relevant context or screenshots about the issue here.
+

@@ -1,0 +1,60 @@
+name: Feature Request
+description: Suggest a feature you would like to see implemented
+labels: [feature]
+body:
+  - id: thanks
+    type: markdown
+    attributes:
+      value: Thank you for sharing your idea for this project!
+
+  - id: checklist
+    type: checkboxes
+    attributes:
+      label: Preflight checklist
+      options:
+        - label: I agree to follow this project's [Code of Conduct](https://github.com/arch-go/arch-go/blob/main/CODE_OF_CONDUCT.md).
+          required: true
+        - label: I have read and am following this repository's [Contribution Guidelines](https://github.com/arch-go/arch-go/blob/main/CONTRIBUTING.md)."
+          required: false
+        - label: I have discussed this feature request with the community.
+
+  - id: idea
+    type: textarea
+    attributes:
+      label: Describe the background of your feature request
+      description: Is it maybe related to a problem? Please describe.
+      placeholder: A clear and concise description of the background/problem.
+    validations:
+      required: true
+
+  - id: solution
+    type: textarea
+    attributes:
+      label: Describe your idea
+      description: Describe the solution you'd like to see implemented
+      placeholder: A clear and concise description of what you want to happen.
+    validations:
+      required: true
+
+  - id: alternatives
+    type: textarea
+    attributes:
+      label: Are there any workarounds or alternatives?
+      description: Describe alternatives, respectively workarounds you've considered
+    validations:
+      required: true
+
+  - id: version
+    type: input
+    attributes:
+      label: Version
+      description: |
+        What version of arch-go are you running? Please provide the output from `arch-go --version`.
+    validations:
+      required: true
+
+  - id: additional
+    type: textarea
+    attributes:
+      label: Additional Context
+      description: Add any other context or screenshots about the feature here.
