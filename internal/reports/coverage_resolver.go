@@ -1,10 +1,10 @@
 package reports
 
 import (
-	"github.com/fdaines/arch-go/api"
-	"github.com/fdaines/arch-go/api/configuration"
-	"github.com/fdaines/arch-go/internal/model"
-	model2 "github.com/fdaines/arch-go/internal/reports/model"
+	"github.com/arch-go/arch-go/api"
+	"github.com/arch-go/arch-go/api/configuration"
+	"github.com/arch-go/arch-go/internal/model"
+	model2 "github.com/arch-go/arch-go/internal/reports/model"
 )
 
 func resolveCoverage(

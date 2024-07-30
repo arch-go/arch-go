@@ -5,8 +5,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/fdaines/arch-go/api/configuration"
-	"github.com/fdaines/arch-go/internal/utils/values"
+	"github.com/arch-go/arch-go/api/configuration"
+	"github.com/arch-go/arch-go/internal/utils/values"
 )
 
 func TestMigrationCommand(t *testing.T) {

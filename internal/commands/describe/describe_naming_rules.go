@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/fdaines/arch-go/api/configuration"
-	"github.com/fdaines/arch-go/internal/common"
+	"github.com/arch-go/arch-go/api/configuration"
+	"github.com/arch-go/arch-go/internal/common"
 )
 
 func describeNamingRules(rules []*configuration.NamingRule, out io.Writer) {

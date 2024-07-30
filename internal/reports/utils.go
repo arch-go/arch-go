@@ -1,6 +1,6 @@
 package reports
 
-import "github.com/fdaines/arch-go/internal/reports/model"
+import "github.com/arch-go/arch-go/internal/reports/model"
 
 func resolveRuleStatus(failed int) string {
 	if failed > 0 {

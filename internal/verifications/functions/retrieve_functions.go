@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/fdaines/arch-go/internal/model"
-	"github.com/fdaines/arch-go/internal/utils/packages"
+	"github.com/arch-go/arch-go/internal/model"
+	"github.com/arch-go/arch-go/internal/utils/packages"
 )
 
 func RetrieveFunctions(pkg *model.PackageInfo, mainPackage string) ([]*FunctionDetails, error) {

@@ -7,7 +7,7 @@ import (
 	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/jedib0t/go-pretty/v6/text"
 
-	"github.com/fdaines/arch-go/internal/reports/model"
+	"github.com/arch-go/arch-go/internal/reports/model"
 )
 
 func GenerateConsoleReport(report *model.Report, outputMirror io.Writer) {

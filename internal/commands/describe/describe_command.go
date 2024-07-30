@@ -5,10 +5,10 @@ import (
 	"io"
 	"os"
 
-	"github.com/fdaines/arch-go/api/configuration"
-	"github.com/fdaines/arch-go/internal/commands"
-	"github.com/fdaines/arch-go/internal/utils/timer"
-	"github.com/fdaines/arch-go/internal/validators"
+	"github.com/arch-go/arch-go/api/configuration"
+	"github.com/arch-go/arch-go/internal/commands"
+	"github.com/arch-go/arch-go/internal/utils/timer"
+	"github.com/arch-go/arch-go/internal/validators"
 )
 
 type describeCommand struct {

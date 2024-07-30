@@ -1,8 +1,8 @@
 
 [![CI](https://github.com/arch-go/arch-go/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/arch-go/arch-go/actions/workflows/ci.yml)
 [![Codecov](https://codecov.io/gh/arch-go/arch-go/branch/master/graph/badge.svg)](https://codecov.io/gh/arch-go/arch-go)
-[![Go Reference](https://pkg.go.dev/badge/github.com/arch-go/arch-go.svg)](https://pkg.go.dev/github.com/fdaines/arch-go)
-[![Go Report Card](https://goreportcard.com/badge/github.com/arch-go/arch-go)](https://goreportcard.com/report/github.com/fdaines/arch-go)
+[![Go Reference](https://pkg.go.dev/badge/github.com/arch-go/arch-go.svg)](https://pkg.go.dev/github.com/arch-go/arch-go)
+[![Go Report Card](https://goreportcard.com/badge/github.com/arch-go/arch-go)](https://goreportcard.com/report/github.com/arch-go/arch-go)
 <img align="center" src="logo.png" alt="Arch-Go" title="Arch-Go" width="600px"/>
 
 # Arch-Go
@@ -128,7 +128,7 @@ Arch-Go will check that the coverage level of your module must be equals or grea
 
 To install Arch-Go, run
 ```bash
-$ go install -v github.com/fdaines/arch-go@latest
+$ go install -v github.com/arch-go/arch-go@latest
 ```
 
 To execute this tool you have to be in the module path
@@ -197,7 +197,7 @@ The current version of Arch-Go allows us to include architecture checks as part 
 
 You need to include Arch-Go as a dependency in your project, using
 ```
-go get github.com/fdaines/arch-go@latest
+go get github.com/arch-go/arch-go@latest
 ```
 
 Then you need to create Architecture Tests, there is an example of a simple test case:
@@ -207,8 +207,8 @@ package architecture_test
 import (
 	"testing"
 
-	archgo "github.com/fdaines/arch-go/api"
-	config "github.com/fdaines/arch-go/api/configuration"
+	archgo "github.com/arch-go/arch-go/api"
+	config "github.com/arch-go/arch-go/api/configuration"
 )
 
 func TestArchitecture(t *testing.T) {
@@ -225,7 +225,7 @@ func TestArchitecture(t *testing.T) {
 			},
 		},
 	}
-	moduleInfo := config.Load("github.com/fdaines/my-go-project")
+	moduleInfo := config.Load("github.com/arch-go/my-go-project")
 
 	result := archgo.CheckArchitecture(moduleInfo, configuration)
 

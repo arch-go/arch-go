@@ -7,7 +7,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/fdaines/arch-go/internal/model"
+	"github.com/arch-go/arch-go/internal/model"
 )
 
 func getInterfacesMatching(pkg *model.PackageInfo, pattern string) ([]InterfaceDescription, error) {

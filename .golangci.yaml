@@ -55,7 +55,7 @@ linters-settings:
     sections:
       - standard # Captures all standard packages if they do not match another section.
       - default # Contains all imports that could not be matched to another section type.
-      - prefix(github.com/fdaines/arch-go) # Groups all imports with the specified Prefix.
+      - prefix(github.com/arch-go/arch-go) # Groups all imports with the specified Prefix.
   varnamelen:
     min-name-length: 2
     ignore-type-assert-ok: true
