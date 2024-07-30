@@ -7,10 +7,10 @@ import (
 	"github.com/agiledragon/gomonkey/v2"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/fdaines/arch-go/api/configuration"
-	"github.com/fdaines/arch-go/internal/model"
-	"github.com/fdaines/arch-go/internal/utils/values"
-	"github.com/fdaines/arch-go/internal/verifications/functions"
+	"github.com/arch-go/arch-go/api/configuration"
+	"github.com/arch-go/arch-go/internal/model"
+	"github.com/arch-go/arch-go/internal/utils/values"
+	"github.com/arch-go/arch-go/internal/verifications/functions"
 )
 
 func TestCheckFunctionRules(t *testing.T) {

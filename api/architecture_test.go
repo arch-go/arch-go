@@ -8,12 +8,12 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/fdaines/arch-go/api/configuration"
-	"github.com/fdaines/arch-go/internal/model"
-	"github.com/fdaines/arch-go/internal/utils/values"
-	"github.com/fdaines/arch-go/internal/verifications/contents"
-	"github.com/fdaines/arch-go/internal/verifications/functions"
-	"github.com/fdaines/arch-go/internal/verifications/naming"
+	"github.com/arch-go/arch-go/api/configuration"
+	"github.com/arch-go/arch-go/internal/model"
+	"github.com/arch-go/arch-go/internal/utils/values"
+	"github.com/arch-go/arch-go/internal/verifications/contents"
+	"github.com/arch-go/arch-go/internal/verifications/functions"
+	"github.com/arch-go/arch-go/internal/verifications/naming"
 )
 
 func TestArchitecture(t *testing.T) {

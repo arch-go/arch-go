@@ -1,6 +1,6 @@
 package main
 
-import "github.com/fdaines/arch-go/cmd"
+import "github.com/arch-go/arch-go/cmd"
 
 func main() {
 	cmd.Execute()

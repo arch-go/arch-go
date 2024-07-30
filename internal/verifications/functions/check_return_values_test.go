@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/fdaines/arch-go/internal/utils/values"
+	"github.com/arch-go/arch-go/internal/utils/values"
 )
 
 func TestCheckFunctionReturnValues(t *testing.T) {

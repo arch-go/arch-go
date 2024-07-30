@@ -3,9 +3,9 @@ package functions
 import (
 	"regexp"
 
-	"github.com/fdaines/arch-go/api/configuration"
-	"github.com/fdaines/arch-go/internal/model"
-	"github.com/fdaines/arch-go/internal/utils/text"
+	"github.com/arch-go/arch-go/api/configuration"
+	"github.com/arch-go/arch-go/internal/model"
+	"github.com/arch-go/arch-go/internal/utils/text"
 )
 
 func CheckRules(moduleInfo model.ModuleInfo, functionRules []*configuration.FunctionsRule) *RulesResult {

@@ -4,12 +4,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/fdaines/arch-go/api/configuration"
-	"github.com/fdaines/arch-go/internal/model"
-	contents2 "github.com/fdaines/arch-go/internal/verifications/contents"
-	dependencies2 "github.com/fdaines/arch-go/internal/verifications/dependencies"
-	functions2 "github.com/fdaines/arch-go/internal/verifications/functions"
-	naming2 "github.com/fdaines/arch-go/internal/verifications/naming"
+	"github.com/arch-go/arch-go/api/configuration"
+	"github.com/arch-go/arch-go/internal/model"
+	contents2 "github.com/arch-go/arch-go/internal/verifications/contents"
+	dependencies2 "github.com/arch-go/arch-go/internal/verifications/dependencies"
+	functions2 "github.com/arch-go/arch-go/internal/verifications/functions"
+	naming2 "github.com/arch-go/arch-go/internal/verifications/naming"
 )
 
 type architectureAnalysis struct {

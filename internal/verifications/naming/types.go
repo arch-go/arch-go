@@ -1,7 +1,7 @@
 package naming
 
 import (
-	"github.com/fdaines/arch-go/api/configuration"
+	"github.com/arch-go/arch-go/api/configuration"
 )
 
 type RulesResult struct {

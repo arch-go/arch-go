@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/fdaines/arch-go/api/configuration"
+	"github.com/arch-go/arch-go/api/configuration"
 )
 
 func resolveDescription(rule configuration.FunctionsRule) string {

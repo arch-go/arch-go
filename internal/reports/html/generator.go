@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/fdaines/arch-go/internal/reports/model"
+	"github.com/arch-go/arch-go/internal/reports/model"
 )
 
 func GenerateHTMLReport(report *model.Report, output io.Writer) {

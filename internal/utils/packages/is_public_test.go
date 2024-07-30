@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/fdaines/arch-go/internal/utils/packages"
+	"github.com/arch-go/arch-go/internal/utils/packages"
 )
 
 func TestIsPublic(t *testing.T) {

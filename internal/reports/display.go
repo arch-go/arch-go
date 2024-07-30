@@ -6,10 +6,10 @@ import (
 
 	"github.com/fatih/color"
 
-	"github.com/fdaines/arch-go/internal/common"
-	"github.com/fdaines/arch-go/internal/reports/console"
-	"github.com/fdaines/arch-go/internal/reports/html"
-	"github.com/fdaines/arch-go/internal/reports/model"
+	"github.com/arch-go/arch-go/internal/common"
+	"github.com/arch-go/arch-go/internal/reports/console"
+	"github.com/arch-go/arch-go/internal/reports/html"
+	"github.com/arch-go/arch-go/internal/reports/model"
 )
 
 func DisplayResult(report *model.Report, output io.Writer) {

@@ -1,4 +1,4 @@
-module github.com/fdaines/arch-go
+module github.com/arch-go/arch-go
 
 go 1.22.5
 

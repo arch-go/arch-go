@@ -7,7 +7,7 @@ import (
 	"github.com/fatih/color"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/fdaines/arch-go/internal/utils/values"
+	"github.com/arch-go/arch-go/internal/utils/values"
 )
 
 func TestDeprecationCheck(t *testing.T) {

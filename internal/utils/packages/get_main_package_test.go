@@ -8,12 +8,12 @@ import (
 	"github.com/agiledragon/gomonkey/v2"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/fdaines/arch-go/internal/utils/packages"
+	"github.com/arch-go/arch-go/internal/utils/packages"
 )
 
 func TestGetMainPackage(t *testing.T) {
 	t.Run("Calls GetMainPackage function", func(t *testing.T) {
-		gomodFile := `module github.com/fdaines/my-golang-module
+		gomodFile := `module github.com/arch-go/my-golang-module
 
 go 1.18
 
@@ -28,7 +28,7 @@ require (
 		defer readFilePatch.Reset()
 		defer statPatch.Reset()
 
-		expected := "github.com/fdaines/my-golang-module"
+		expected := "github.com/arch-go/my-golang-module"
 		modulePath, _ := packages.GetMainPackage()
 
 		assert.Equal(t, expected, modulePath)
