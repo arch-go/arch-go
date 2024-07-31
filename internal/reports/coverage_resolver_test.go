@@ -228,12 +228,11 @@ func TestCoverageResolver(t *testing.T) {
 	t.Run("resolveCoverage case 1", func(t *testing.T) {
 		verificationResult := &api.Result{}
 
-		expectedStatus := "PASS"
 		expectedViolations := []string{"foo/bar1", "foo/bar2", "foo/bar3", "foo/bar4", "foo/bar5"}
 
 		result := resolveCoverage(verificationResult, moduleInfo, rulesConfiguration)
 
-		assert.Equal(t, expectedStatus, result.Status)
+		assert.True(t, result.Pass)
 		assert.ElementsMatch(t, expectedViolations, result.Violations)
 	})
 
@@ -246,7 +245,7 @@ func TestCoverageResolver(t *testing.T) {
 		expectedResult := &model2.ThresholdSummary{
 			Rate:       0,
 			Threshold:  0,
-			Status:     "PASS",
+			Pass:       true,
 			Violations: []string{"foo/bar1", "foo/bar2", "foo/bar3", "foo/bar4", "foo/bar5"},
 		}
 
@@ -254,7 +253,7 @@ func TestCoverageResolver(t *testing.T) {
 
 		assert.Equal(t, expectedResult.Rate, result.Rate)
 		assert.Equal(t, expectedResult.Threshold, result.Threshold)
-		assert.Equal(t, expectedResult.Status, result.Status)
+		assert.Equal(t, expectedResult.Pass, result.Pass)
 		assert.ElementsMatch(t, expectedResult.Violations, result.Violations)
 	})
 
@@ -269,7 +268,7 @@ func TestCoverageResolver(t *testing.T) {
 		expectedResult := &model2.ThresholdSummary{
 			Rate:       0,
 			Threshold:  100,
-			Status:     "FAIL",
+			Pass:       false,
 			Violations: []string{"foo/bar1", "foo/bar2", "foo/bar3", "foo/bar4", "foo/bar5"},
 		}
 
@@ -277,7 +276,7 @@ func TestCoverageResolver(t *testing.T) {
 
 		assert.Equal(t, expectedResult.Rate, result.Rate)
 		assert.Equal(t, expectedResult.Threshold, result.Threshold)
-		assert.Equal(t, expectedResult.Status, result.Status)
+		assert.Equal(t, expectedResult.Pass, result.Pass)
 		assert.ElementsMatch(t, expectedResult.Violations, result.Violations)
 	})
 
@@ -306,7 +305,7 @@ func TestCoverageResolver(t *testing.T) {
 		expectedResult := &model2.ThresholdSummary{
 			Rate:       100,
 			Threshold:  100,
-			Status:     "PASS",
+			Pass:       true,
 			Violations: nil,
 		}
 
@@ -314,7 +313,7 @@ func TestCoverageResolver(t *testing.T) {
 
 		assert.Equal(t, expectedResult.Rate, result.Rate)
 		assert.Equal(t, expectedResult.Threshold, result.Threshold)
-		assert.Equal(t, expectedResult.Status, result.Status)
+		assert.Equal(t, expectedResult.Pass, result.Pass)
 		assert.ElementsMatch(t, expectedResult.Violations, result.Violations)
 	})
 
@@ -342,7 +341,7 @@ func TestCoverageResolver(t *testing.T) {
 		expectedResult := &model2.ThresholdSummary{
 			Rate:       80,
 			Threshold:  78,
-			Status:     "PASS",
+			Pass:       true,
 			Violations: []string{"foo/bar3"},
 		}
 
@@ -350,7 +349,7 @@ func TestCoverageResolver(t *testing.T) {
 
 		assert.Equal(t, expectedResult.Rate, result.Rate)
 		assert.Equal(t, expectedResult.Threshold, result.Threshold)
-		assert.Equal(t, expectedResult.Status, result.Status)
+		assert.Equal(t, expectedResult.Pass, result.Pass)
 		assert.ElementsMatch(t, expectedResult.Violations, result.Violations)
 	})
 }

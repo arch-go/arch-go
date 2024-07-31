@@ -6,6 +6,7 @@ import (
 	"github.com/arch-go/arch-go/internal/common"
 	"github.com/arch-go/arch-go/internal/model"
 	reportModel "github.com/arch-go/arch-go/internal/reports/model"
+	"github.com/arch-go/arch-go/internal/reports/utils"
 )
 
 func GenerateReport(result *api.Result, moduleInfo model.ModuleInfo, config configuration.Config) *reportModel.Report {
@@ -17,7 +18,7 @@ func GenerateReport(result *api.Result, moduleInfo model.ModuleInfo, config conf
 	return &reportModel.Report{
 		ArchGoVersion: common.Version,
 		Summary: &reportModel.ReportSummary{
-			Status:              resolveGlobalStatus(compliance, coverage),
+			Status:              utils.ResolveGlobalStatus(compliance, coverage),
 			Total:               total,
 			Passed:              passed,
 			Failed:              failed,

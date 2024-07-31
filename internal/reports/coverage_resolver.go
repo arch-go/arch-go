@@ -32,15 +32,10 @@ func resolveCoverage(
 		threshold = *conf.Threshold.Coverage
 	}
 
-	status := passStatus
-	if rate < threshold {
-		status = failStatus
-	}
-
 	return &model2.ThresholdSummary{
 		Rate:       rate,
 		Threshold:  threshold,
-		Status:     status,
+		Pass:       rate >= threshold,
 		Violations: uncoveredPackages,
 	}
 }

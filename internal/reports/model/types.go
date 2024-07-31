@@ -25,7 +25,7 @@ type ReportSummary struct {
 type ThresholdSummary struct {
 	Rate       int
 	Threshold  int
-	Status     string
+	Pass       bool
 	Violations []string
 }
 

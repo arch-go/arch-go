@@ -27,12 +27,12 @@ func TestConsoleReportGenerator(t *testing.T) {
 				ComplianceThreshold: &model.ThresholdSummary{
 					Rate:      87,
 					Threshold: 100,
-					Status:    "FAIL",
+					Pass:      false,
 				},
 				CoverageThreshold: &model.ThresholdSummary{
 					Rate:      87,
 					Threshold: 60,
-					Status:    "PASS",
+					Pass:      true,
 				},
 			},
 			Details: &model.ReportDetails{},

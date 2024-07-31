@@ -10,6 +10,7 @@ import (
 	"github.com/arch-go/arch-go/internal/reports/console"
 	"github.com/arch-go/arch-go/internal/reports/html"
 	"github.com/arch-go/arch-go/internal/reports/model"
+	"github.com/arch-go/arch-go/internal/reports/utils"
 )
 
 func DisplayResult(report *model.Report, output io.Writer) {
@@ -40,8 +41,8 @@ func displaySummary(summary *model.ReportSummary, output io.Writer) {
 	if summary.ComplianceThreshold != nil {
 		complianceSummary := fmt.Sprintf("Compliance: %8d%% (%s)\n",
 			summary.ComplianceThreshold.Rate,
-			summary.ComplianceThreshold.Status)
-		if summary.ComplianceThreshold.Status == passStatus {
+			utils.ResolveStatus(summary.ComplianceThreshold.Pass))
+		if summary.ComplianceThreshold.Pass {
 			color.Green(complianceSummary)
 		} else {
 			color.Red(complianceSummary)
@@ -51,8 +52,8 @@ func displaySummary(summary *model.ReportSummary, output io.Writer) {
 	if summary.CoverageThreshold != nil {
 		complianceSummary := fmt.Sprintf("Coverage: %10d%% (%s)\n",
 			summary.CoverageThreshold.Rate,
-			summary.CoverageThreshold.Status)
-		if summary.CoverageThreshold.Status == passStatus {
+			utils.ResolveStatus(summary.CoverageThreshold.Pass))
+		if summary.CoverageThreshold.Pass {
 			color.Green(complianceSummary)
 		} else {
 			color.Red(complianceSummary)

@@ -11,7 +11,7 @@ func resolveCompliance(result *api.Result, conf configuration.Config) *model.Thr
 
 	passesVerifications, totalVerifications := resolveTotals(result)
 	rate := 0
-	status := passStatus
+	pass := true
 	threshold := 0
 
 	if totalVerifications > 0 {
@@ -23,7 +23,7 @@ func resolveCompliance(result *api.Result, conf configuration.Config) *model.Thr
 	}
 
 	if rate < threshold {
-		status = failStatus
+		pass = false
 
 		violations = append(violations, "")
 	}
@@ -31,7 +31,7 @@ func resolveCompliance(result *api.Result, conf configuration.Config) *model.Thr
 	return &model.ThresholdSummary{
 		Rate:       rate,
 		Threshold:  threshold,
-		Status:     status,
+		Pass:       pass,
 		Violations: violations,
 	}
 }

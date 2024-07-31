@@ -64,12 +64,12 @@ Failed: 	2
 			ComplianceThreshold: &model.ThresholdSummary{
 				Rate:      80,
 				Threshold: 100,
-				Status:    "FAIL",
+				Pass:      false,
 			},
 			CoverageThreshold: &model.ThresholdSummary{
 				Rate:      85,
 				Threshold: 90,
-				Status:    "FAIL",
+				Pass:      false,
 			},
 		}
 
@@ -100,12 +100,12 @@ Coverage:         85% (FAIL)
 			ComplianceThreshold: &model.ThresholdSummary{
 				Rate:      100,
 				Threshold: 100,
-				Status:    "PASS",
+				Pass:      true,
 			},
 			CoverageThreshold: &model.ThresholdSummary{
 				Rate:      90,
 				Threshold: 90,
-				Status:    "PASS",
+				Pass:      true,
 			},
 		}
 

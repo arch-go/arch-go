@@ -1,8 +1,16 @@
-package reports
+package utils
 
 import "github.com/arch-go/arch-go/internal/reports/model"
 
-func resolveRuleStatus(failed int) string {
+func ResolveStatus(result bool) string {
+	if result {
+		return passStatus
+	}
+
+	return failStatus
+}
+
+func ResolveRuleStatus(failed int) string {
 	if failed > 0 {
 		return failStatus
 	}
@@ -10,7 +18,7 @@ func resolveRuleStatus(failed int) string {
 	return passStatus
 }
 
-func checkVerificationStatus(passes bool, vFailed *int) string {
+func CheckVerificationStatus(passes bool, vFailed *int) string {
 	if !passes {
 		*vFailed++
 
@@ -20,7 +28,7 @@ func checkVerificationStatus(passes bool, vFailed *int) string {
 	return passStatus
 }
 
-func resolveVerificationStatus(passes bool, verificationDetails *model.Verification) {
+func ResolveVerificationStatus(passes bool, verificationDetails *model.Verification) {
 	if passes {
 		verificationDetails.Passed++
 	} else {
@@ -30,14 +38,14 @@ func resolveVerificationStatus(passes bool, verificationDetails *model.Verificat
 	verificationDetails.Total++
 }
 
-func resolveGlobalStatus(compliance *model.ThresholdSummary, coverage *model.ThresholdSummary) string {
+func ResolveGlobalStatus(compliance *model.ThresholdSummary, coverage *model.ThresholdSummary) string {
 	passCompliance := false
-	if compliance == nil || compliance.Status == passStatus {
+	if compliance == nil || compliance.Pass {
 		passCompliance = true
 	}
 
 	passCoverage := false
-	if coverage == nil || coverage.Status == passStatus {
+	if coverage == nil || coverage.Pass {
 		passCoverage = true
 	}
 

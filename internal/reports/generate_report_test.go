@@ -36,12 +36,12 @@ func TestGenerateReport(t *testing.T) {
 				ComplianceThreshold: &reportModel.ThresholdSummary{
 					Rate:      0,
 					Threshold: 0,
-					Status:    "PASS",
+					Pass:      true,
 				},
 				CoverageThreshold: &reportModel.ThresholdSummary{
 					Rate:      0,
 					Threshold: 0,
-					Status:    "PASS",
+					Pass:      true,
 				},
 			},
 			Details: &reportModel.ReportDetails{},
@@ -150,12 +150,12 @@ func TestGenerateReport(t *testing.T) {
 				ComplianceThreshold: &reportModel.ThresholdSummary{
 					Rate:      75,
 					Threshold: 0,
-					Status:    "PASS",
+					Pass:      true,
 				},
 				CoverageThreshold: &reportModel.ThresholdSummary{
 					Rate:       50,
 					Threshold:  0,
-					Status:     "PASS",
+					Pass:       true,
 					Violations: []string{"foobar/pkg1"},
 				},
 			},
