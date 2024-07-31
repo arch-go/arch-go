@@ -1,0 +1,62 @@
+version: 2
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -buildid=
+      - -w
+      - -s
+      - -X github.com/arch-go/arch-go/internal.common.version.Version={{ .Tag }}
+    flags:
+      - -trimpath
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm
+      - arm64
+    goarm:
+      - '7'
+      - '6'
+    ignore:
+      - goos: darwin
+        goarch: arm
+      - goos: darwin
+        goarch: '386'
+      - goos: windows
+        goarch: arm
+      - goos: windows
+        goarch: arm64
+
+
+changelog:
+  disable: true
+
+archives:
+  - format: tar.gz
+    name_template: '{{ .ProjectName }}_{{ .Tag }}_{{ .Os }}_{{ .Arch }}{{ with .Arm }}v{{ . }}{{ end }}{{ with .Mips }}_{{ . }}{{ end }}{{ if not (eq .Amd64 "v1") }}{{ .Amd64 }}{{ end }}'
+    format_overrides:
+      - goos: windows
+        format: zip
+    files:
+      - LICENSE
+      - CHANGELOG.md
+      - CycloneDX-SBOM.json
+
+checksum:
+  name_template: "{{ .ProjectName }}_{{ .Tag }}_checksums.txt"
+
+signs:
+  - cmd: cosign
+    signature: "${artifact}-keyless.sig"
+    certificate: "${artifact}-keyless.pem"
+    args:
+      - "sign-blob"
+      - "--output-signature=${artifact}-keyless.sig"
+      - "--output-certificate=${artifact}-keyless.pem"
+      - "${artifact}"
+      - "--yes"
+    artifacts: all

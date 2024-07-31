@@ -1,3 +1,3 @@
 package common
 
-const Version = "1.5.4"
+var Version = "master" // nolint: gochecknoglobals
