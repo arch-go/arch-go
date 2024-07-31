@@ -1,0 +1,17 @@
+{
+  "bump-minor-pre-major": true,
+  "draft": false,
+  "release-type": "go",
+  "changelog-sections": [
+    { "type": "feat", "section": "Features", "hidden": false },
+    { "type": "refactor", "section": "Code Refactorings", "hidden": true },
+    { "type": "perf", "section": "Performance Improvements", "hidden": false },
+    { "type": "fix", "section": "Bug Fixes", "hidden": false },
+    { "type": "docs", "section": "Documentation", "hidden": false },
+    { "type": "deps", "section": "Dependencies", "hidden": false }
+  ],
+  "packages": {
+    ".": {}
+  },
+  "bootstrap-sha": "6fc119838885b0cb831e78ddd23ac01cb819e585"
+}

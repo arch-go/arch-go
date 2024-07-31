@@ -8,6 +8,23 @@ on:
   workflow_dispatch:
 
 jobs:
+  prepare-release:
+    name: Prepare Release
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      pull-requests: write
+      contents: write
+    outputs:
+      release_created: ${{ steps.release_prepare.outputs.release_created }}
+      tag_name: ${{ steps.release_prepare.outputs.tag_name }}
+    steps:
+      - name: Prepare Release
+        id: release_prepare
+        uses: googleapis/release-please-action@7987652d64b4581673a76e33ad5e98e3dd56832f # v4.1.3
+        with:
+          target-branch: ${{ github.ref_name }}
+
   lint-code:
     name: Run Linters
     runs-on: ubuntu-latest
@@ -21,7 +38,7 @@ jobs:
       - name: Review code
         uses: reviewdog/action-golangci-lint@7708105983c614f7a2725e2172908b7709d1c3e4 # v2.6.2
         with:
-          go_version: 1.22.3
+          go_version: 1.22.5
           golangci_lint_version: v1.59.1
           reporter: github-pr-review
           fail_on_error: true
@@ -68,19 +85,77 @@ jobs:
           verbose: true
           token: ${{ secrets.CODECOV_TOKEN }}
 
-  build:
-    name: Build Binaries
-    needs: test
+  build-binaries:
     runs-on: ubuntu-latest
+    name: Build Binaries
+    needs:
+      - test
+      - prepare-release
+    if: always() && needs.prepare-release.outputs.release_created == false && needs.test.result == 'success'
+    strategy:
+      matrix:
+        # build and publish in parallel: linux/amd64, linux/arm64, windows/amd64, darwin/amd64, darwin/arm64
+        goos: [ linux, windows, darwin ]
+        goarch: [ amd64, arm64, arm ]
+        exclude:
+          - goarch: arm
+            goos: darwin
+          - goarch: arm
+            goos: windows
+          - goarch: arm64
+            goos: windows
     steps:
       - name: Checkout repository
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
       - name: Set up Go
-        uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5
+        uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.0.2
         with:
           go-version: 1.22.5
       - name: Build
-        run: go build -v ./...
+        run: CGO_ENABLED=0 GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -trimpath -ldflags="-buildid= -w -s -X github.com/arch-go/arch-go/internal.common.version.Version=${{ github.sha }}" -o ./build/
+      - uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
+        if: github.ref == 'refs/heads/main'
+        with:
+          name: build-result-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: ./build/*
+          retention-days: 30
+
+  release-binaries:
+    name: Perform Release
+    runs-on: ubuntu-latest
+    needs:
+      - test
+      - prepare-release
+    if: needs.prepare-release.outputs.release_created
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+        with:
+          fetch-depth: 0
+      - name: Set up Go
+        uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.0.2
+        with:
+          go-version: 1.22.5
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20 # v3.5.0
+        with:
+          cosign-release: v2.2.3
+      - name: Install CycloneDX gomod
+        run: go install github.com/CycloneDX/cyclonedx-gomod/cmd/cyclonedx-gomod@v1.4.1
+      - name: Generate SBOM
+        uses: CycloneDX/gh-gomod-generate-sbom@efc74245d6802c8cefd925620515442756c70d8f # v2.0.0
+        with:
+          version: v1.4.1
+          args: app -licenses -assert-licenses -json -std -output CycloneDX-SBOM.json -main .
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@286f3b13b1b49da4ac219696163fb8c1c93e1200 # v6.0.0
+        with:
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   smoke-test:
     name: Run Smoke Tests
