@@ -18,26 +18,6 @@ func ResolveRuleStatus(failed int) string {
 	return passStatus
 }
 
-func CheckVerificationStatus(passes bool, vFailed *int) string {
-	if !passes {
-		*vFailed++
-
-		return failStatus
-	}
-
-	return passStatus
-}
-
-func ResolveVerificationStatus(passes bool, verificationDetails *model.Verification) {
-	if passes {
-		verificationDetails.Passed++
-	} else {
-		verificationDetails.Failed++
-	}
-
-	verificationDetails.Total++
-}
-
 func ResolveGlobalStatus(compliance *model.ThresholdSummary, coverage *model.ThresholdSummary) string {
 	passCompliance := false
 	if compliance == nil || compliance.Pass {
@@ -55,8 +35,3 @@ func ResolveGlobalStatus(compliance *model.ThresholdSummary, coverage *model.Thr
 
 	return failStatus
 }
-
-const (
-	failStatus = "FAIL"
-	passStatus = "PASS"
-)
