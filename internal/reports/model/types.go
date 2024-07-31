@@ -60,9 +60,9 @@ type PackageDetails struct {
 
 type CoverageInfo struct {
 	Package           string
-	ContensRules      int
+	ContentsRules     int
 	DependenciesRules int
 	FunctionsRules    int
 	NamingRules       int
-	Status            string
+	Covered           bool
 }

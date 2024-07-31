@@ -43,19 +43,14 @@ func generateCoverageInfo(moduleInfo model.ModuleInfo, result *api.Result) []rep
 		dr := countDependenciesRulesVerifications(pkg.Path, result)
 		fr := countFunctionsRulesVerifications(pkg.Path, result)
 		nr := countNamingRulesVerifications(pkg.Path, result)
-		status := "NO"
-
-		if cr+dr+fr+nr > 0 {
-			status = "YES"
-		}
 
 		coverageInfo[i] = reportModel.CoverageInfo{
 			Package:           pkg.Path,
-			ContensRules:      cr,
+			ContentsRules:     cr,
 			DependenciesRules: dr,
 			FunctionsRules:    fr,
 			NamingRules:       nr,
-			Status:            status,
+			Covered:           cr+dr+fr+nr > 0,
 		}
 	}
 

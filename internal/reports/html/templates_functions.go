@@ -62,3 +62,21 @@ func increment() func(number int) int {
 		return 1 + number
 	}
 }
+
+func toYesNo() func(pass bool) string {
+	return func(pass bool) string {
+		if pass {
+			return "YES"
+		}
+		return "NO"
+	}
+}
+
+func toPassFail() func(pass bool) string {
+	return func(pass bool) string {
+		if pass {
+			return "PASS"
+		}
+		return "FAIL"
+	}
+}

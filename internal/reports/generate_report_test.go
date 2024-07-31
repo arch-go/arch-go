@@ -245,19 +245,19 @@ func TestGenerateReport(t *testing.T) {
 			CoverageInfo: []reportModel.CoverageInfo{
 				{
 					Package:           "foobar/pkg1",
-					ContensRules:      0,
+					ContentsRules:     0,
 					DependenciesRules: 0,
 					FunctionsRules:    0,
 					NamingRules:       0,
-					Status:            "NO",
+					Covered:           false,
 				},
 				{
 					Package:           "my-package/pkg1",
-					ContensRules:      1,
+					ContentsRules:     1,
 					DependenciesRules: 1,
 					FunctionsRules:    1,
 					NamingRules:       1,
-					Status:            "YES",
+					Covered:           true,
 				},
 			},
 		}
