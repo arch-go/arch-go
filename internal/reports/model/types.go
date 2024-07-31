@@ -54,7 +54,7 @@ type VerificationDetails struct {
 
 type PackageDetails struct {
 	Package string
-	Status  string
+	Pass    bool
 	Details []string
 }
 

@@ -28,7 +28,7 @@ func displayDetails(verification model.Verification) {
 
 func printPackagesDetails(d model.VerificationDetails) {
 	for _, pd := range d.PackageDetails {
-		if pd.Status == "PASS" {
+		if pd.Pass {
 			color.Green("\tPackage '%s' passes\n", pd.Package)
 		} else {
 			color.Red("\tPackage '%s' fails\n", pd.Package)

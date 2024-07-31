@@ -174,7 +174,7 @@ func TestGenerateReport(t *testing.T) {
 							PackageDetails: []reportModel.PackageDetails{
 								{
 									Package: "my-package/pkg1",
-									Status:  "PASS",
+									Pass:    true,
 								},
 							},
 						},
@@ -194,7 +194,7 @@ func TestGenerateReport(t *testing.T) {
 							PackageDetails: []reportModel.PackageDetails{
 								{
 									Package: "my-package/pkg1",
-									Status:  "PASS",
+									Pass:    true,
 								},
 							},
 						},
@@ -214,7 +214,7 @@ func TestGenerateReport(t *testing.T) {
 							PackageDetails: []reportModel.PackageDetails{
 								{
 									Package: "my-package/pkg1",
-									Status:  "PASS",
+									Pass:    true,
 								},
 							},
 						},
@@ -234,7 +234,7 @@ func TestGenerateReport(t *testing.T) {
 							PackageDetails: []reportModel.PackageDetails{
 								{
 									Package: "my-package/pkg1",
-									Status:  "FAIL",
+									Pass:    false,
 									Details: []string{"foobar message"},
 								},
 							},

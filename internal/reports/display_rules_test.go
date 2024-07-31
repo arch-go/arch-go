@@ -30,7 +30,7 @@ func TestDisplayRules(t *testing.T) {
 							PackageDetails: []model.PackageDetails{
 								{
 									Package: "my-package",
-									Status:  "PASS",
+									Pass:    true,
 								},
 							},
 						},
@@ -50,7 +50,7 @@ func TestDisplayRules(t *testing.T) {
 							PackageDetails: []model.PackageDetails{
 								{
 									Package: "my-package",
-									Status:  "PASS",
+									Pass:    true,
 								},
 							},
 						},
@@ -70,7 +70,7 @@ func TestDisplayRules(t *testing.T) {
 							PackageDetails: []model.PackageDetails{
 								{
 									Package: "my-package",
-									Status:  "PASS",
+									Pass:    true,
 								},
 							},
 						},
@@ -90,7 +90,7 @@ func TestDisplayRules(t *testing.T) {
 							PackageDetails: []model.PackageDetails{
 								{
 									Package: "my-package",
-									Status:  "FAIL",
+									Pass:    false,
 									Details: []string{"foobar message"},
 								},
 							},
