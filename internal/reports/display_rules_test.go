@@ -14,7 +14,7 @@ func TestDisplayRules(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
 		report := &model.Report{
 			ArchGoVersion: "vfoobar",
-			Summary:       &model.ReportSummary{},
+			SummaryOld:    &model.ReportSummary{},
 			Details: &model.ReportDetails{
 				DependenciesVerificationDetails: model.Verification{
 					Total:  1,
@@ -120,7 +120,7 @@ func TestDisplayRules(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
 		report := &model.Report{
 			ArchGoVersion: "vfoobar",
-			Summary:       &model.ReportSummary{},
+			SummaryOld:    &model.ReportSummary{},
 			Details:       &model.ReportDetails{},
 			CoverageInfo:  []model.CoverageInfo{},
 		}

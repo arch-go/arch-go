@@ -104,5 +104,5 @@ func runRootCommand(out io.Writer) bool {
 	report := reports.GenerateReport(result, moduleInfo, *conf)
 	reports.DisplayResult(report, out)
 
-	return result.Passes
+	return report.Summary.Pass
 }

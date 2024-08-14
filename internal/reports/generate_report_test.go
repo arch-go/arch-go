@@ -26,13 +26,15 @@ func TestGenerateReport(t *testing.T) {
 
 		expectedResult := &reportModel.Report{
 			ArchGoVersion: common.Version,
-			Summary: &reportModel.ReportSummary{
+			Summary: &reportModel.Summary{
 				Time:     time.Time{},
 				Duration: time.Duration(0),
 				Pass:     true,
-				Total:    0,
-				Passed:   0,
-				Failed:   0,
+			},
+			SummaryOld: &reportModel.ReportSummary{
+				Total:  0,
+				Passed: 0,
+				Failed: 0,
 				ComplianceThreshold: &reportModel.ThresholdSummary{
 					Rate:      0,
 					Threshold: 0,
@@ -56,7 +58,7 @@ func TestGenerateReport(t *testing.T) {
 		apiResult := &api.Result{
 			Time:     time.Time{},
 			Duration: time.Duration(123456789),
-			Passes:   false,
+			Pass:     false,
 			DependenciesRuleResult: &dependencies.RulesResult{
 				Passes: true,
 				Results: []*dependencies.RuleResult{
@@ -140,13 +142,15 @@ func TestGenerateReport(t *testing.T) {
 
 		expectedResult := &reportModel.Report{
 			ArchGoVersion: common.Version,
-			Summary: &reportModel.ReportSummary{
+			Summary: &reportModel.Summary{
 				Time:     time.Time{},
 				Duration: time.Duration(123456789),
 				Pass:     true,
-				Total:    4,
-				Passed:   3,
-				Failed:   1,
+			},
+			SummaryOld: &reportModel.ReportSummary{
+				Total:  4,
+				Passed: 3,
+				Failed: 1,
 				ComplianceThreshold: &reportModel.ThresholdSummary{
 					Rate:      75,
 					Threshold: 0,

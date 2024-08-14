@@ -22,7 +22,7 @@ func DisplayResult(report *model.Report, output io.Writer) {
 		console.GenerateConsoleReport(report, output)
 	}
 
-	displaySummary(report.Summary, output)
+	displaySummary(report.SummaryOld, output)
 }
 
 func displaySummary(summary *model.ReportSummary, output io.Writer) {

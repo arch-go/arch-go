@@ -23,7 +23,7 @@ func TestConsoleReportGenerator(t *testing.T) {
 	t.Run("Full Report", func(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
 		report := &model.Report{
-			Summary: &model.ReportSummary{
+			SummaryOld: &model.ReportSummary{
 				ComplianceThreshold: &model.ThresholdSummary{
 					Rate:      87,
 					Threshold: 100,

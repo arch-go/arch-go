@@ -17,13 +17,15 @@ func GenerateReport(result *api.Result, moduleInfo model.ModuleInfo, config conf
 
 	return &reportModel.Report{
 		ArchGoVersion: common.Version,
-		Summary: &reportModel.ReportSummary{
-			Pass:                utils.ResolveGlobalStatus(compliance, coverage),
+		Summary: &reportModel.Summary{
+			Pass:     utils.ResolveGlobalStatus(compliance, coverage),
+			Time:     result.Time,
+			Duration: result.Duration,
+		},
+		SummaryOld: &reportModel.ReportSummary{
 			Total:               total,
 			Passed:              passed,
 			Failed:              failed,
-			Time:                result.Time,
-			Duration:            result.Duration,
 			ComplianceThreshold: compliance,
 			CoverageThreshold:   coverage,
 		},

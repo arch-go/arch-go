@@ -66,7 +66,7 @@ func TestArchitecture(t *testing.T) {
 		expectedResult := &Result{
 			Time:                time.Date(1, time.January, 1, 0, 0, 0, 0, time.UTC),
 			Duration:            0,
-			Passes:              true,
+			Pass:                true,
 			FunctionsRuleResult: expectedFunctionsResult,
 			ContentsRuleResult:  expectedContentsResult,
 			NamingRuleResult:    expectedNamingResult,
@@ -100,7 +100,7 @@ func TestArchitecture(t *testing.T) {
 		expectedResult := &Result{
 			Time:                time.Date(1, time.January, 1, 0, 0, 0, 0, time.UTC),
 			Duration:            0,
-			Passes:              false,
+			Pass:                false,
 			FunctionsRuleResult: expectedFunctionsResult,
 			ContentsRuleResult:  expectedContentsResult,
 			NamingRuleResult:    expectedNamingResult,
@@ -134,7 +134,7 @@ func TestArchitecture(t *testing.T) {
 		expectedResult := &Result{
 			Time:                time.Date(1, time.January, 1, 0, 0, 0, 0, time.UTC),
 			Duration:            0,
-			Passes:              false,
+			Pass:                false,
 			FunctionsRuleResult: expectedFunctionsResult,
 			ContentsRuleResult:  expectedContentsResult,
 			NamingRuleResult:    expectedNamingResult,
@@ -168,7 +168,7 @@ func TestArchitecture(t *testing.T) {
 		expectedResult := &Result{
 			Time:                time.Date(1, time.January, 1, 0, 0, 0, 0, time.UTC),
 			Duration:            0,
-			Passes:              false,
+			Pass:                false,
 			FunctionsRuleResult: expectedFunctionsResult,
 			ContentsRuleResult:  expectedContentsResult,
 			NamingRuleResult:    expectedNamingResult,
@@ -204,7 +204,7 @@ func TestArchitecture(t *testing.T) {
 		expectedResult := &Result{
 			Time:     time.Date(1, time.January, 1, 0, 0, 0, 0, time.UTC),
 			Duration: 0,
-			Passes:   true,
+			Pass:     true,
 		}
 
 		architectureAnalysis := newArchitectureAnalysis(moduleInfo, localConfiguration)
@@ -254,7 +254,7 @@ func TestArchitecture(t *testing.T) {
 		expectedResult := &Result{
 			Time:                time.Date(1, time.January, 1, 0, 0, 0, 0, time.UTC),
 			Duration:            0,
-			Passes:              true,
+			Pass:                true,
 			FunctionsRuleResult: expectedFunctionsResult,
 			ContentsRuleResult:  expectedContentsResult,
 			NamingRuleResult:    expectedNamingResult,
@@ -274,7 +274,7 @@ func TestArchitecture(t *testing.T) {
 		expectedResult := &Result{
 			Time:     time.Date(1, time.January, 1, 0, 0, 0, 0, time.UTC),
 			Duration: 0,
-			Passes:   true,
+			Pass:     true,
 		}
 
 		architectureAnalysis := newArchitectureAnalysis(moduleInfo, localConfiguration)

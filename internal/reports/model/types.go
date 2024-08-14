@@ -5,10 +5,17 @@ import (
 )
 
 type Report struct {
-	ArchGoVersion string
-	Summary       *ReportSummary
+	ArchGoVersion string         `json:"version"`
+	Summary       *Summary       `json:"summary"`
+	SummaryOld    *ReportSummary `json:"summary-old"`
 	Details       *ReportDetails
 	CoverageInfo  []CoverageInfo
+}
+
+type Summary struct {
+	Pass     bool          `json:"pass"`
+	Time     time.Time     `json:"timestamp"`
+	Duration time.Duration `json:"duration"`
 }
 
 type ReportSummary struct {

@@ -20,7 +20,7 @@ func TestResolveReportDetails(t *testing.T) {
 		result := &api.Result{
 			Time:     time.Time{},
 			Duration: time.Duration(123456789),
-			Passes:   false,
+			Pass:     false,
 			DependenciesRuleResult: &dependencies.RulesResult{
 				Passes: true,
 				Results: []*dependencies.RuleResult{
