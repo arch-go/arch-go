@@ -30,7 +30,9 @@ func resolveDependenciesDetails(result *api.Result) model.Verification {
 
 			for _, dv := range dr.Verifications {
 				vTotal++
-				utils.CheckVerificationStatus(dv.Passes, &vFailed)
+				if !dv.Passes {
+					vFailed++
+				}
 				packageDetails = append(packageDetails, model.PackageDetails{
 					Package: dv.Package,
 					Pass:    dv.Passes,
@@ -68,7 +70,9 @@ func resolveFunctionsDetails(result *api.Result) model.Verification {
 
 			for _, fv := range fr.Verifications {
 				vTotal++
-				utils.CheckVerificationStatus(fv.Passes, &vFailed)
+				if !fv.Passes {
+					vFailed++
+				}
 				packageDetails = append(packageDetails, model.PackageDetails{
 					Package: fv.Package,
 					Pass:    fv.Passes,
@@ -106,7 +110,9 @@ func resolveContentsDetails(result *api.Result) model.Verification {
 
 			for _, cv := range cr.Verifications {
 				vTotal++
-				utils.CheckVerificationStatus(cv.Passes, &vFailed)
+				if !cv.Passes {
+					vFailed++
+				}
 				packageDetails = append(packageDetails, model.PackageDetails{
 					Package: cv.Package,
 					Pass:    cv.Passes,
@@ -144,7 +150,9 @@ func resolveNamingDetails(result *api.Result) model.Verification {
 
 			for _, nv := range nr.Verifications {
 				vTotal++
-				utils.CheckVerificationStatus(nv.Passes, &vFailed)
+				if !nv.Passes {
+					vFailed++
+				}
 				packageDetails = append(packageDetails, model.PackageDetails{
 					Package: nv.Package,
 					Pass:    nv.Passes,

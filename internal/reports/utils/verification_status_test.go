@@ -6,22 +6,9 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/arch-go/arch-go/internal/reports/model"
-	"github.com/arch-go/arch-go/internal/utils/values"
 )
 
 func TestReportsUtilVerificationStatus(t *testing.T) {
-	t.Run("CheckVerificationStatus", func(t *testing.T) {
-		total1 := values.GetIntRef(0)
-		result1 := CheckVerificationStatus(true, total1)
-		assert.Equal(t, "PASS", result1)
-		assert.Equal(t, 0, *total1)
-
-		total2 := values.GetIntRef(0)
-		result2 := CheckVerificationStatus(false, total2)
-		assert.Equal(t, "FAIL", result2)
-		assert.Equal(t, 1, *total2)
-	})
-
 	t.Run("ResolveVerificationStatus", func(t *testing.T) {
 		v1 := &model.Verification{}
 		ResolveVerificationStatus(true, v1)
