@@ -14,6 +14,8 @@ func resolveTemplates() *template.Template {
 			"formatDate":     formatDate(),
 			"formatTime":     formatTime(),
 			"toHumanTime":    toHumanTime(),
+			"toYesNo":        toYesNo(),
+			"toPassFail":     toPassFail(),
 		}).ParseFS(templateFiles, "templates/*.tmpl")
 
 	return templates

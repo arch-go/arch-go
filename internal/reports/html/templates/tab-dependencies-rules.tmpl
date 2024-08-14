@@ -15,7 +15,7 @@
     <td class="status" style="color:{{if passes $item.Status}}green{{else}}red{{end}}">{{ $item.Status }}</td>
 </tr>
 {{ range $pkgDetail := $item.PackageDetails }}
-<tr style="color:{{if passes $pkgDetail.Status}}green{{else}}red{{end}}">
+<tr style="color:{{if $pkgDetail.Pass}}green{{else}}red{{end}}">
     <td style="width: 100px;"></td>
     <td class="package-details">
         Package {{ $pkgDetail.Package }}
@@ -27,7 +27,7 @@
         </ul>
         {{ end }}
     </td>
-    <td class="package-details" style="text-align:center">{{ $pkgDetail.Status }}</td>
+    <td class="package-details" style="text-align:center">{{ toPassFail $pkgDetail.Pass }}</td>
 </tr>
 {{ end }}
 {{ end }}

@@ -1,6 +1,6 @@
 {{define "compliance-rate" -}}
 <div class="col-sm-2 summary-badges">
-    <div class="badge-progress badge-{{if passes (.ComplianceThreshold.Status)}}green{{else}}red{{end}}">
+    <div class="badge-progress badge-{{if (.ComplianceThreshold.Pass)}}green{{else}}red{{end}}">
         <div class="badge-header">
             <div class="rate">{{.ComplianceThreshold.Rate}}%</div>
         </div>

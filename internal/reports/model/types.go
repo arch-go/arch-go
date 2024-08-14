@@ -25,7 +25,7 @@ type ReportSummary struct {
 type ThresholdSummary struct {
 	Rate       int
 	Threshold  int
-	Status     string
+	Pass       bool
 	Violations []string
 }
 
@@ -54,15 +54,15 @@ type VerificationDetails struct {
 
 type PackageDetails struct {
 	Package string
-	Status  string
+	Pass    bool
 	Details []string
 }
 
 type CoverageInfo struct {
 	Package           string
-	ContensRules      int
+	ContentsRules     int
 	DependenciesRules int
 	FunctionsRules    int
 	NamingRules       int
-	Status            string
+	Covered           bool
 }

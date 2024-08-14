@@ -6,6 +6,7 @@ import (
 	"github.com/arch-go/arch-go/internal/common"
 	"github.com/arch-go/arch-go/internal/model"
 	reportModel "github.com/arch-go/arch-go/internal/reports/model"
+	"github.com/arch-go/arch-go/internal/reports/utils"
 )
 
 func GenerateReport(result *api.Result, moduleInfo model.ModuleInfo, config configuration.Config) *reportModel.Report {
@@ -17,7 +18,7 @@ func GenerateReport(result *api.Result, moduleInfo model.ModuleInfo, config conf
 	return &reportModel.Report{
 		ArchGoVersion: common.Version,
 		Summary: &reportModel.ReportSummary{
-			Status:              resolveGlobalStatus(compliance, coverage),
+			Status:              utils.ResolveGlobalStatus(compliance, coverage),
 			Total:               total,
 			Passed:              passed,
 			Failed:              failed,
@@ -43,19 +44,14 @@ func generateCoverageInfo(moduleInfo model.ModuleInfo, result *api.Result) []rep
 		dr := countDependenciesRulesVerifications(pkg.Path, result)
 		fr := countFunctionsRulesVerifications(pkg.Path, result)
 		nr := countNamingRulesVerifications(pkg.Path, result)
-		status := "NO"
-
-		if cr+dr+fr+nr > 0 {
-			status = "YES"
-		}
 
 		coverageInfo[i] = reportModel.CoverageInfo{
 			Package:           pkg.Path,
-			ContensRules:      cr,
+			ContentsRules:     cr,
 			DependenciesRules: dr,
 			FunctionsRules:    fr,
 			NamingRules:       nr,
-			Status:            status,
+			Covered:           cr+dr+fr+nr > 0,
 		}
 	}
 

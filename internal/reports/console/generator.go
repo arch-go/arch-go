@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/arch-go/arch-go/internal/reports/utils"
+
 	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/jedib0t/go-pretty/v6/text"
 
@@ -32,7 +34,7 @@ func appendFooter(tw table.Writer, title string, threshold *model.ThresholdSumma
 		AutoMerge:      true,
 		AutoMergeAlign: text.AlignLeft,
 	}
-	complianceDetails := fmt.Sprintf("%3v%% [%s]", threshold.Rate, threshold.Status)
+	complianceDetails := fmt.Sprintf("%3v%% [%s]", threshold.Rate, utils.ResolveStatus(threshold.Pass))
 
 	tw.AppendFooter(table.Row{"", title, complianceDetails, complianceDetails, complianceDetails}, rowConfig)
 }
