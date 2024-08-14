@@ -29,7 +29,7 @@ func TestGenerateReport(t *testing.T) {
 			Summary: &reportModel.ReportSummary{
 				Time:     time.Time{},
 				Duration: time.Duration(0),
-				Status:   "PASS",
+				Pass:     true,
 				Total:    0,
 				Passed:   0,
 				Failed:   0,
@@ -143,7 +143,7 @@ func TestGenerateReport(t *testing.T) {
 			Summary: &reportModel.ReportSummary{
 				Time:     time.Time{},
 				Duration: time.Duration(123456789),
-				Status:   "PASS",
+				Pass:     true,
 				Total:    4,
 				Passed:   3,
 				Failed:   1,

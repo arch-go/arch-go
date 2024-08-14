@@ -51,12 +51,6 @@ func calculateRatio() func(num int, den int) int {
 	}
 }
 
-func checkStatus() func(status string) bool {
-	return func(status string) bool {
-		return status == "PASS" || status == "YES"
-	}
-}
-
 func increment() func(number int) int {
 	return func(number int) int {
 		return 1 + number

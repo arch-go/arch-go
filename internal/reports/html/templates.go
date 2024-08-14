@@ -8,7 +8,6 @@ func resolveTemplates() *template.Template {
 	templates, _ := template.New("").Funcs(
 		template.FuncMap{
 			"inc":            increment(),
-			"passes":         checkStatus(),
 			"ratio":          calculateRatio(),
 			"formatDateTime": formatDateTime(),
 			"formatDate":     formatDate(),

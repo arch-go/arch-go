@@ -10,15 +10,7 @@ func ResolveStatus(result bool) string {
 	return failStatus
 }
 
-func ResolveRuleStatus(failed int) string {
-	if failed > 0 {
-		return failStatus
-	}
-
-	return passStatus
-}
-
-func ResolveGlobalStatus(compliance *model.ThresholdSummary, coverage *model.ThresholdSummary) string {
+func ResolveGlobalStatus(compliance *model.ThresholdSummary, coverage *model.ThresholdSummary) bool {
 	passCompliance := false
 	if compliance == nil || compliance.Pass {
 		passCompliance = true
@@ -29,9 +21,5 @@ func ResolveGlobalStatus(compliance *model.ThresholdSummary, coverage *model.Thr
 		passCoverage = true
 	}
 
-	if passCompliance && passCoverage {
-		return passStatus
-	}
-
-	return failStatus
+	return passCompliance && passCoverage
 }

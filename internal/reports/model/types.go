@@ -12,7 +12,7 @@ type Report struct {
 }
 
 type ReportSummary struct {
-	Status              string
+	Pass                bool
 	Time                time.Time
 	Duration            time.Duration
 	Total               int

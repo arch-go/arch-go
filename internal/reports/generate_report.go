@@ -18,7 +18,7 @@ func GenerateReport(result *api.Result, moduleInfo model.ModuleInfo, config conf
 	return &reportModel.Report{
 		ArchGoVersion: common.Version,
 		Summary: &reportModel.ReportSummary{
-			Status:              utils.ResolveGlobalStatus(compliance, coverage),
+			Pass:                utils.ResolveGlobalStatus(compliance, coverage),
 			Total:               total,
 			Passed:              passed,
 			Failed:              failed,

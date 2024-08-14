@@ -16,17 +16,6 @@ func TestReportHtmlTemplatesFunctions(t *testing.T) {
 		assert.Equal(t, 1235, result)
 	})
 
-	t.Run("test checkStatus function", func(t *testing.T) {
-		result := checkStatus()("PASS")
-		assert.True(t, result)
-
-		result = checkStatus()("YES")
-		assert.True(t, result)
-
-		result = checkStatus()("foobar")
-		assert.False(t, result)
-	})
-
 	t.Run("test calculateRatio function", func(t *testing.T) {
 		result := calculateRatio()(10, 100)
 		assert.Equal(t, 10, result)

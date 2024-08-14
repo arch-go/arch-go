@@ -12,7 +12,7 @@
 {{ range $item := .ContentsVerificationDetails.Details }}
 <tr class="rule-verification">
     <td colspan="2"><b>Rule: {{ $item.Rule }}</b></td>
-    <td class="status" style="color:{{if passes $item.Status}}green{{else}}red{{end}}">{{ $item.Status }}</td>
+    <td class="status" style="color:{{if $item.Pass}}green{{else}}red{{end}}">{{ toPassFail $item.Pass }}</td>
 </tr>
 {{ range $pkgDetail := $item.PackageDetails }}
 <tr style="color:{{if $pkgDetail.Pass}}green{{else}}red{{end}}">

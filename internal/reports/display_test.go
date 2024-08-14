@@ -32,7 +32,7 @@ Failed: 	0
 	t.Run("minimal report summary", func(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
 		summary := &model.ReportSummary{
-			Status: "OK",
+			Pass:   true,
 			Time:   time.Now(),
 			Total:  10,
 			Passed: 8,
@@ -56,7 +56,7 @@ Failed: 	2
 	t.Run("full report summary failing compliance and coverage", func(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
 		summary := &model.ReportSummary{
-			Status: "OK",
+			Pass:   true,
 			Time:   time.Now(),
 			Total:  10,
 			Passed: 8,
@@ -92,7 +92,7 @@ Coverage:         85% (FAIL)
 	t.Run("full report summary passing compliance and coverage", func(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
 		summary := &model.ReportSummary{
-			Status: "OK",
+			Pass:   true,
 			Time:   time.Now(),
 			Total:  10,
 			Passed: 8,
