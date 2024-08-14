@@ -170,7 +170,7 @@ func TestGenerateReport(t *testing.T) {
 							Total:  1,
 							Passed: 1,
 							Failed: 0,
-							Status: "PASS",
+							Pass:   true,
 							PackageDetails: []reportModel.PackageDetails{
 								{
 									Package: "my-package/pkg1",
@@ -190,7 +190,7 @@ func TestGenerateReport(t *testing.T) {
 							Total:  1,
 							Passed: 1,
 							Failed: 0,
-							Status: "PASS",
+							Pass:   true,
 							PackageDetails: []reportModel.PackageDetails{
 								{
 									Package: "my-package/pkg1",
@@ -210,7 +210,7 @@ func TestGenerateReport(t *testing.T) {
 							Total:  1,
 							Passed: 1,
 							Failed: 0,
-							Status: "PASS",
+							Pass:   true,
 							PackageDetails: []reportModel.PackageDetails{
 								{
 									Package: "my-package/pkg1",
@@ -230,7 +230,7 @@ func TestGenerateReport(t *testing.T) {
 							Total:  1,
 							Passed: 0,
 							Failed: 1,
-							Status: "FAIL",
+							Pass:   false,
 							PackageDetails: []reportModel.PackageDetails{
 								{
 									Package: "my-package/pkg1",

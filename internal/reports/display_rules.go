@@ -41,7 +41,7 @@ func printPackagesDetails(d model.VerificationDetails) {
 }
 
 func printRuleStatus(d model.VerificationDetails) {
-	if d.Status == "PASS" {
+	if d.Pass {
 		color.Green("[PASS] - %s\n", d.Rule)
 	} else {
 		color.Red("[FAIL] - %s\n", d.Rule)

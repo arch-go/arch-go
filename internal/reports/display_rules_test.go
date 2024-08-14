@@ -23,7 +23,7 @@ func TestDisplayRules(t *testing.T) {
 					Details: []model.VerificationDetails{
 						{
 							Rule:   "foobar rule dep",
-							Status: "PASS",
+							Pass:   true,
 							Total:  1,
 							Passed: 1,
 							Failed: 0,
@@ -43,7 +43,7 @@ func TestDisplayRules(t *testing.T) {
 					Details: []model.VerificationDetails{
 						{
 							Rule:   "foobar rule fn",
-							Status: "PASS",
+							Pass:   true,
 							Total:  1,
 							Passed: 1,
 							Failed: 0,
@@ -63,7 +63,7 @@ func TestDisplayRules(t *testing.T) {
 					Details: []model.VerificationDetails{
 						{
 							Rule:   "foobar rule cn",
-							Status: "PASS",
+							Pass:   true,
 							Total:  1,
 							Passed: 1,
 							Failed: 0,
@@ -83,7 +83,7 @@ func TestDisplayRules(t *testing.T) {
 					Details: []model.VerificationDetails{
 						{
 							Rule:   "foobar rule nm",
-							Status: "FAIL",
+							Pass:   false,
 							Total:  1,
 							Passed: 0,
 							Failed: 1,

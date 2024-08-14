@@ -38,11 +38,9 @@ func resolveDependenciesDetails(result *api.Result) model.Verification {
 				})
 			}
 
-			ruleStatus := utils.ResolveRuleStatus(vFailed)
-
 			vDetails = append(vDetails, model.VerificationDetails{
 				Rule:           dr.Description,
-				Status:         ruleStatus,
+				Pass:           vFailed == 0,
 				Passed:         vTotal - vFailed,
 				Failed:         vFailed,
 				Total:          vTotal,
@@ -78,11 +76,9 @@ func resolveFunctionsDetails(result *api.Result) model.Verification {
 				})
 			}
 
-			ruleStatus := utils.ResolveRuleStatus(vFailed)
-
 			vDetails = append(vDetails, model.VerificationDetails{
 				Rule:           fr.Description,
-				Status:         ruleStatus,
+				Pass:           vFailed == 0,
 				Passed:         vTotal - vFailed,
 				Failed:         vFailed,
 				Total:          vTotal,
@@ -118,11 +114,9 @@ func resolveContentsDetails(result *api.Result) model.Verification {
 				})
 			}
 
-			ruleStatus := utils.ResolveRuleStatus(vFailed)
-
 			vDetails = append(vDetails, model.VerificationDetails{
 				Rule:           cr.Description,
-				Status:         ruleStatus,
+				Pass:           vFailed == 0,
 				Passed:         vTotal - vFailed,
 				Failed:         vFailed,
 				Total:          vTotal,
@@ -158,11 +152,9 @@ func resolveNamingDetails(result *api.Result) model.Verification {
 				})
 			}
 
-			ruleStatus := utils.ResolveRuleStatus(vFailed)
-
 			vDetails = append(vDetails, model.VerificationDetails{
 				Rule:           nr.Description,
-				Status:         ruleStatus,
+				Pass:           vFailed == 0,
 				Passed:         vTotal - vFailed,
 				Failed:         vFailed,
 				Total:          vTotal,

@@ -45,7 +45,7 @@ type Verification struct {
 
 type VerificationDetails struct {
 	Rule           string
-	Status         string
+	Pass           bool
 	Total          int
 	Passed         int
 	Failed         int
