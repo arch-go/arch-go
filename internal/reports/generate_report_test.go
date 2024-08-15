@@ -39,13 +39,13 @@ func TestGenerateReport(t *testing.T) {
 				Rate:      0,
 				Threshold: values.GetIntRef(0),
 				Pass:      true,
+				Details:   &reportModel.ReportDetails{},
 			},
 			Coverage: reportModel.Coverage{
 				Rate:      0,
 				Threshold: values.GetIntRef(0),
 				Pass:      true,
 			},
-			Details: &reportModel.ReportDetails{},
 		}
 
 		result := GenerateReport(apiResult, module, config)
@@ -153,6 +153,89 @@ func TestGenerateReport(t *testing.T) {
 				Rate:      75,
 				Threshold: values.GetIntRef(0),
 				Pass:      true,
+				Details: &reportModel.ReportDetails{
+					DependenciesVerificationDetails: reportModel.Verification{
+						Total:  1,
+						Passed: 1,
+						Failed: 0,
+						Details: []reportModel.VerificationDetails{
+							{
+								Rule:   "foobar rule dep",
+								Total:  1,
+								Passed: 1,
+								Failed: 0,
+								Pass:   true,
+								PackageDetails: []reportModel.PackageDetails{
+									{
+										Package: "my-package/pkg1",
+										Pass:    true,
+									},
+								},
+							},
+						},
+					},
+					FunctionsVerificationDetails: reportModel.Verification{
+						Total:  1,
+						Passed: 1,
+						Failed: 0,
+						Details: []reportModel.VerificationDetails{
+							{
+								Rule:   "foobar rule fn",
+								Total:  1,
+								Passed: 1,
+								Failed: 0,
+								Pass:   true,
+								PackageDetails: []reportModel.PackageDetails{
+									{
+										Package: "my-package/pkg1",
+										Pass:    true,
+									},
+								},
+							},
+						},
+					},
+					ContentsVerificationDetails: reportModel.Verification{
+						Total:  1,
+						Passed: 1,
+						Failed: 0,
+						Details: []reportModel.VerificationDetails{
+							{
+								Rule:   "foobar rule cn",
+								Total:  1,
+								Passed: 1,
+								Failed: 0,
+								Pass:   true,
+								PackageDetails: []reportModel.PackageDetails{
+									{
+										Package: "my-package/pkg1",
+										Pass:    true,
+									},
+								},
+							},
+						},
+					},
+					NamingVerificationDetails: reportModel.Verification{
+						Total:  1,
+						Passed: 0,
+						Failed: 1,
+						Details: []reportModel.VerificationDetails{
+							{
+								Rule:   "foobar rule nm",
+								Total:  1,
+								Passed: 0,
+								Failed: 1,
+								Pass:   false,
+								PackageDetails: []reportModel.PackageDetails{
+									{
+										Package: "my-package/pkg1",
+										Pass:    false,
+										Details: []string{"foobar message"},
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 			Coverage: reportModel.Coverage{
 				Rate:      50,
@@ -175,89 +258,6 @@ func TestGenerateReport(t *testing.T) {
 						FunctionsRules:    1,
 						NamingRules:       1,
 						Covered:           true,
-					},
-				},
-			},
-			Details: &reportModel.ReportDetails{
-				DependenciesVerificationDetails: reportModel.Verification{
-					Total:  1,
-					Passed: 1,
-					Failed: 0,
-					Details: []reportModel.VerificationDetails{
-						{
-							Rule:   "foobar rule dep",
-							Total:  1,
-							Passed: 1,
-							Failed: 0,
-							Pass:   true,
-							PackageDetails: []reportModel.PackageDetails{
-								{
-									Package: "my-package/pkg1",
-									Pass:    true,
-								},
-							},
-						},
-					},
-				},
-				FunctionsVerificationDetails: reportModel.Verification{
-					Total:  1,
-					Passed: 1,
-					Failed: 0,
-					Details: []reportModel.VerificationDetails{
-						{
-							Rule:   "foobar rule fn",
-							Total:  1,
-							Passed: 1,
-							Failed: 0,
-							Pass:   true,
-							PackageDetails: []reportModel.PackageDetails{
-								{
-									Package: "my-package/pkg1",
-									Pass:    true,
-								},
-							},
-						},
-					},
-				},
-				ContentsVerificationDetails: reportModel.Verification{
-					Total:  1,
-					Passed: 1,
-					Failed: 0,
-					Details: []reportModel.VerificationDetails{
-						{
-							Rule:   "foobar rule cn",
-							Total:  1,
-							Passed: 1,
-							Failed: 0,
-							Pass:   true,
-							PackageDetails: []reportModel.PackageDetails{
-								{
-									Package: "my-package/pkg1",
-									Pass:    true,
-								},
-							},
-						},
-					},
-				},
-				NamingVerificationDetails: reportModel.Verification{
-					Total:  1,
-					Passed: 0,
-					Failed: 1,
-					Details: []reportModel.VerificationDetails{
-						{
-							Rule:   "foobar rule nm",
-							Total:  1,
-							Passed: 0,
-							Failed: 1,
-							Pass:   false,
-							PackageDetails: []reportModel.PackageDetails{
-								{
-									Package: "my-package/pkg1",
-									Pass:    false,
-									Details: []string{"foobar message"},
-								},
-							},
-						},
 					},
 				},
 			},

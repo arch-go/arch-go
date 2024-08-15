@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-sm-6">
         <h3>Rules Summary</h3>
-        {{template "rules-summary" . -}}
+        {{template "rules-summary" .Compliance -}}
     </div>
     {{template "compliance-rate" .Compliance -}}
     {{template "coverage-rate" .Coverage -}}

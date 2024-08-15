@@ -5,11 +5,10 @@ import (
 )
 
 type Report struct {
-	ArchGoVersion string         `json:"version"`
-	Summary       *Summary       `json:"summary"`
-	Compliance    Compliance     `json:"compliance"`
-	Coverage      Coverage       `json:"coverage"`
-	Details       *ReportDetails `json:"details-old"`
+	ArchGoVersion string     `json:"version"`
+	Summary       *Summary   `json:"summary"`
+	Compliance    Compliance `json:"compliance"`
+	Coverage      Coverage   `json:"coverage"`
 }
 
 type Summary struct {
@@ -19,14 +18,14 @@ type Summary struct {
 }
 
 type Compliance struct {
-	Pass      bool        `json:"pass"`
-	Rate      int         `json:"rate"`
-	Threshold *int        `json:"threshold"`
-	Total     int         `json:"total"`
-	Passed    int         `json:"passed"`
-	Failed    int         `json:"failed"`
-	Summary   []string    `json:"summary"`
-	Details   interface{} `json:"details"`
+	Pass      bool           `json:"pass"`
+	Rate      int            `json:"rate"`
+	Threshold *int           `json:"threshold"`
+	Total     int            `json:"total"`
+	Passed    int            `json:"passed"`
+	Failed    int            `json:"failed"`
+	Summary   []string       `json:"summary"`
+	Details   *ReportDetails `json:"details"`
 }
 
 type Coverage struct {
@@ -44,24 +43,6 @@ type CoverageDetails struct {
 	FunctionsRules    int    `json:"functions_rules"`
 	NamingRules       int    `json:"naming_rules"`
 	Covered           bool   `json:"covered"`
-}
-
-type ReportSummary struct {
-	Pass                bool
-	Time                time.Time
-	Duration            time.Duration
-	Total               int
-	Passed              int
-	Failed              int
-	ComplianceThreshold *ThresholdSummary
-	CoverageThreshold   *ThresholdSummary
-}
-
-type ThresholdSummary struct {
-	Rate       int
-	Threshold  *int
-	Pass       bool
-	Violations []string
 }
 
 type ReportDetails struct {
@@ -91,4 +72,11 @@ type PackageDetails struct {
 	Package string   `json:"package"`
 	Pass    bool     `json:"pass"`
 	Details []string `json:"details"`
+}
+
+type ThresholdSummary struct {
+	Rate       int
+	Threshold  *int
+	Pass       bool
+	Violations []string
 }

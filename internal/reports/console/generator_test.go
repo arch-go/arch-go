@@ -28,13 +28,13 @@ func TestConsoleReportGenerator(t *testing.T) {
 				Rate:      87,
 				Threshold: values.GetIntRef(100),
 				Pass:      false,
+				Details:   &model.ReportDetails{},
 			},
 			Coverage: model.Coverage{
 				Rate:      87,
 				Threshold: values.GetIntRef(60),
 				Pass:      true,
 			},
-			Details: &model.ReportDetails{},
 		}
 
 		expectedOutput := `+---+--------------------+-------------+-------------+-------------+

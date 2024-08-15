@@ -11,11 +11,11 @@ import (
 func displayRules(report *model.Report, output io.Writer) {
 	color.Output = output
 
-	if report.Details != nil {
-		displayDetails(report.Details.ContentsVerificationDetails)
-		displayDetails(report.Details.DependenciesVerificationDetails)
-		displayDetails(report.Details.FunctionsVerificationDetails)
-		displayDetails(report.Details.NamingVerificationDetails)
+	if report.Compliance.Details != nil {
+		displayDetails(report.Compliance.Details.ContentsVerificationDetails)
+		displayDetails(report.Compliance.Details.DependenciesVerificationDetails)
+		displayDetails(report.Compliance.Details.FunctionsVerificationDetails)
+		displayDetails(report.Compliance.Details.NamingVerificationDetails)
 	}
 }
 

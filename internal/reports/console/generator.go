@@ -40,12 +40,12 @@ func appendFooter(tw table.Writer, title string, rate int, pass bool) {
 }
 
 func appendSummary(tw table.Writer, report *model.Report) {
-	if report.Details != nil {
+	if report.Compliance.Details != nil {
 		tw.AppendHeader(table.Row{"#", "Rule Type", "Total", "Passed", "Failed"})
-		appendSummaryRow(tw, 1, "Dependencies Rules", report.Details.DependenciesVerificationDetails)
-		appendSummaryRow(tw, 2, "Functions Rules", report.Details.FunctionsVerificationDetails)
-		appendSummaryRow(tw, 3, "Contents Rules", report.Details.ContentsVerificationDetails)
-		appendSummaryRow(tw, 4, "Naming Rules", report.Details.NamingVerificationDetails)
+		appendSummaryRow(tw, 1, "Dependencies Rules", report.Compliance.Details.DependenciesVerificationDetails)
+		appendSummaryRow(tw, 2, "Functions Rules", report.Compliance.Details.FunctionsVerificationDetails)
+		appendSummaryRow(tw, 3, "Contents Rules", report.Compliance.Details.ContentsVerificationDetails)
+		appendSummaryRow(tw, 4, "Naming Rules", report.Compliance.Details.NamingVerificationDetails)
 	}
 }
 

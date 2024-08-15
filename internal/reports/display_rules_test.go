@@ -15,91 +15,92 @@ func TestDisplayRules(t *testing.T) {
 		report := &model.Report{
 			ArchGoVersion: "vfoobar",
 			Summary:       &model.Summary{},
-			Compliance:    model.Compliance{},
-			Coverage:      model.Coverage{},
-			Details: &model.ReportDetails{
-				DependenciesVerificationDetails: model.Verification{
-					Total:  1,
-					Passed: 1,
-					Failed: 0,
-					Details: []model.VerificationDetails{
-						{
-							Rule:   "foobar rule dep",
-							Pass:   true,
-							Total:  1,
-							Passed: 1,
-							Failed: 0,
-							PackageDetails: []model.PackageDetails{
-								{
-									Package: "my-package",
-									Pass:    true,
+			Compliance: model.Compliance{
+				Details: &model.ReportDetails{
+					DependenciesVerificationDetails: model.Verification{
+						Total:  1,
+						Passed: 1,
+						Failed: 0,
+						Details: []model.VerificationDetails{
+							{
+								Rule:   "foobar rule dep",
+								Pass:   true,
+								Total:  1,
+								Passed: 1,
+								Failed: 0,
+								PackageDetails: []model.PackageDetails{
+									{
+										Package: "my-package",
+										Pass:    true,
+									},
 								},
 							},
 						},
 					},
-				},
-				FunctionsVerificationDetails: model.Verification{
-					Total:  1,
-					Passed: 1,
-					Failed: 0,
-					Details: []model.VerificationDetails{
-						{
-							Rule:   "foobar rule fn",
-							Pass:   true,
-							Total:  1,
-							Passed: 1,
-							Failed: 0,
-							PackageDetails: []model.PackageDetails{
-								{
-									Package: "my-package",
-									Pass:    true,
+					FunctionsVerificationDetails: model.Verification{
+						Total:  1,
+						Passed: 1,
+						Failed: 0,
+						Details: []model.VerificationDetails{
+							{
+								Rule:   "foobar rule fn",
+								Pass:   true,
+								Total:  1,
+								Passed: 1,
+								Failed: 0,
+								PackageDetails: []model.PackageDetails{
+									{
+										Package: "my-package",
+										Pass:    true,
+									},
 								},
 							},
 						},
 					},
-				},
-				ContentsVerificationDetails: model.Verification{
-					Total:  1,
-					Passed: 1,
-					Failed: 0,
-					Details: []model.VerificationDetails{
-						{
-							Rule:   "foobar rule cn",
-							Pass:   true,
-							Total:  1,
-							Passed: 1,
-							Failed: 0,
-							PackageDetails: []model.PackageDetails{
-								{
-									Package: "my-package",
-									Pass:    true,
+					ContentsVerificationDetails: model.Verification{
+						Total:  1,
+						Passed: 1,
+						Failed: 0,
+						Details: []model.VerificationDetails{
+							{
+								Rule:   "foobar rule cn",
+								Pass:   true,
+								Total:  1,
+								Passed: 1,
+								Failed: 0,
+								PackageDetails: []model.PackageDetails{
+									{
+										Package: "my-package",
+										Pass:    true,
+									},
 								},
 							},
 						},
 					},
-				},
-				NamingVerificationDetails: model.Verification{
-					Total:  1,
-					Passed: 0,
-					Failed: 1,
-					Details: []model.VerificationDetails{
-						{
-							Rule:   "foobar rule nm",
-							Pass:   false,
-							Total:  1,
-							Passed: 0,
-							Failed: 1,
-							PackageDetails: []model.PackageDetails{
-								{
-									Package: "my-package",
-									Pass:    false,
-									Details: []string{"foobar message"},
+					NamingVerificationDetails: model.Verification{
+						Total:  1,
+						Passed: 0,
+						Failed: 1,
+						Details: []model.VerificationDetails{
+							{
+								Rule:   "foobar rule nm",
+								Pass:   false,
+								Total:  1,
+								Passed: 0,
+								Failed: 1,
+								PackageDetails: []model.PackageDetails{
+									{
+										Package: "my-package",
+										Pass:    false,
+										Details: []string{"foobar message"},
+									},
 								},
 							},
 						},
 					},
 				},
 			},
+			Coverage: model.Coverage{},
 		}
 		expectedOutput := `[PASS] - foobar rule cn
 	Package 'my-package' passes

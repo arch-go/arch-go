@@ -30,6 +30,7 @@ func GenerateReport(result *api.Result, moduleInfo model.ModuleInfo, config conf
 			Passed:    passed,
 			Failed:    failed,
 			Summary:   compliance.Violations,
+			Details:   details,
 		},
 		Coverage: reportModel.Coverage{
 			Pass:      coverage.Pass,
@@ -38,7 +39,6 @@ func GenerateReport(result *api.Result, moduleInfo model.ModuleInfo, config conf
 			Uncovered: coverage.Violations,
 			Details:   generateCoverageDetails(moduleInfo, result),
 		},
-		Details: details,
 	}
 }
 
