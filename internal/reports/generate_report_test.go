@@ -2,9 +2,10 @@ package reports
 
 import (
 	"encoding/json"
-	"github.com/arch-go/arch-go/internal/utils/values"
 	"testing"
 	"time"
+
+	"github.com/arch-go/arch-go/internal/utils/values"
 
 	"github.com/stretchr/testify/assert"
 

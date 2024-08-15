@@ -2,8 +2,9 @@ package console
 
 import (
 	"bytes"
-	"github.com/arch-go/arch-go/internal/utils/values"
 	"testing"
+
+	"github.com/arch-go/arch-go/internal/utils/values"
 
 	"github.com/stretchr/testify/assert"
 
