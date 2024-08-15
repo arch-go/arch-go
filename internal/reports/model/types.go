@@ -24,16 +24,16 @@ type Compliance struct {
 	Total     int            `json:"total"`
 	Passed    int            `json:"passed"`
 	Failed    int            `json:"failed"`
-	Summary   []string       `json:"summary"`
-	Details   *ReportDetails `json:"details"`
+	Summary   []string       `json:"summary,omitempty"`
+	Details   *ReportDetails `json:"details,omitempty"`
 }
 
 type Coverage struct {
 	Pass      bool              `json:"pass"`
 	Rate      int               `json:"rate"`
 	Threshold *int              `json:"threshold"`
-	Uncovered []string          `json:"uncovered_packages"`
-	Details   []CoverageDetails `json:"details"`
+	Uncovered []string          `json:"uncovered_packages,omitempty"`
+	Details   []CoverageDetails `json:"details,omitempty"`
 }
 
 type CoverageDetails struct {
@@ -56,7 +56,7 @@ type Verification struct {
 	Total   int                   `json:"total"`
 	Passed  int                   `json:"passed"`
 	Failed  int                   `json:"failed"`
-	Details []VerificationDetails `json:"details"`
+	Details []VerificationDetails `json:"details,omitempty"`
 }
 
 type VerificationDetails struct {
@@ -65,13 +65,13 @@ type VerificationDetails struct {
 	Total          int              `json:"total"`
 	Passed         int              `json:"passed"`
 	Failed         int              `json:"failed"`
-	PackageDetails []PackageDetails `json:"package_details"`
+	PackageDetails []PackageDetails `json:"package_details,omitempty"`
 }
 
 type PackageDetails struct {
 	Package string   `json:"package"`
 	Pass    bool     `json:"pass"`
-	Details []string `json:"details"`
+	Details []string `json:"details,omitempty"`
 }
 
 type ThresholdSummary struct {
