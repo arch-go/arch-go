@@ -4,6 +4,7 @@ import (
 	"github.com/arch-go/arch-go/api"
 	"github.com/arch-go/arch-go/api/configuration"
 	"github.com/arch-go/arch-go/internal/reports/model"
+	"github.com/arch-go/arch-go/internal/utils/values"
 )
 
 func resolveCompliance(result *api.Result, conf configuration.Config) *model.ThresholdSummary {
@@ -12,17 +13,17 @@ func resolveCompliance(result *api.Result, conf configuration.Config) *model.Thr
 	passesVerifications, totalVerifications := resolveTotals(result)
 	rate := 0
 	pass := true
-	threshold := 0
 
+	threshold := values.GetIntRef(0)
 	if totalVerifications > 0 {
 		rate = (100 * passesVerifications) / totalVerifications
 	}
 
 	if conf.Threshold != nil && conf.Threshold.Compliance != nil {
-		threshold = *conf.Threshold.Compliance
+		threshold = conf.Threshold.Compliance
 	}
 
-	if rate < threshold {
+	if threshold != nil && rate < *threshold {
 		pass = false
 
 		violations = append(violations, "")

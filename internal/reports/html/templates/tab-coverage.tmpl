@@ -15,7 +15,7 @@
 </tr>
 </thead>
 <tbody>
-{{ range $item := .CoverageInfo }}
+{{ range $item := .Coverage.Details }}
 <tr style="color:{{if $item.Covered}}green{{else}}red{{end}}">
     <td class="package-details">{{ $item.Package }}</td>
     <td class="package-details" style="text-align:center">{{ $item.ContentsRules }}</td>

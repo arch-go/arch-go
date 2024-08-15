@@ -14,7 +14,9 @@ func TestDisplayRules(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
 		report := &model.Report{
 			ArchGoVersion: "vfoobar",
-			SummaryOld:    &model.ReportSummary{},
+			Summary:       &model.Summary{},
+			Compliance:    model.Compliance{},
+			Coverage:      model.Coverage{},
 			Details: &model.ReportDetails{
 				DependenciesVerificationDetails: model.Verification{
 					Total:  1,
@@ -98,7 +100,6 @@ func TestDisplayRules(t *testing.T) {
 					},
 				},
 			},
-			CoverageInfo: []model.CoverageInfo{},
 		}
 		expectedOutput := `[PASS] - foobar rule cn
 	Package 'my-package' passes
@@ -120,9 +121,9 @@ func TestDisplayRules(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
 		report := &model.Report{
 			ArchGoVersion: "vfoobar",
-			SummaryOld:    &model.ReportSummary{},
-			Details:       &model.ReportDetails{},
-			CoverageInfo:  []model.CoverageInfo{},
+			Summary:       &model.Summary{},
+			Compliance:    model.Compliance{},
+			Coverage:      model.Coverage{},
 		}
 		expectedOutput := ``
 

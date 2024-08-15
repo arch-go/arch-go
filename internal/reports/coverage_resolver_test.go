@@ -244,7 +244,7 @@ func TestCoverageResolver(t *testing.T) {
 
 		expectedResult := &model2.ThresholdSummary{
 			Rate:       0,
-			Threshold:  0,
+			Threshold:  values.GetIntRef(0),
 			Pass:       true,
 			Violations: []string{"foo/bar1", "foo/bar2", "foo/bar3", "foo/bar4", "foo/bar5"},
 		}
@@ -267,7 +267,7 @@ func TestCoverageResolver(t *testing.T) {
 
 		expectedResult := &model2.ThresholdSummary{
 			Rate:       0,
-			Threshold:  100,
+			Threshold:  values.GetIntRef(100),
 			Pass:       false,
 			Violations: []string{"foo/bar1", "foo/bar2", "foo/bar3", "foo/bar4", "foo/bar5"},
 		}
@@ -304,7 +304,7 @@ func TestCoverageResolver(t *testing.T) {
 
 		expectedResult := &model2.ThresholdSummary{
 			Rate:       100,
-			Threshold:  100,
+			Threshold:  values.GetIntRef(100),
 			Pass:       true,
 			Violations: nil,
 		}
@@ -340,7 +340,7 @@ func TestCoverageResolver(t *testing.T) {
 
 		expectedResult := &model2.ThresholdSummary{
 			Rate:       80,
-			Threshold:  78,
+			Threshold:  values.GetIntRef(78),
 			Pass:       true,
 			Violations: []string{"foo/bar3"},
 		}

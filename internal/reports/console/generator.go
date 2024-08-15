@@ -18,23 +18,23 @@ func GenerateConsoleReport(report *model.Report, outputMirror io.Writer) {
 
 	appendSummary(tw, report)
 
-	if report.SummaryOld != nil && report.SummaryOld.ComplianceThreshold != nil {
-		appendFooter(tw, "Compliance Rate", report.SummaryOld.ComplianceThreshold)
+	if report.Compliance.Threshold != nil {
+		appendFooter(tw, "Compliance Rate", report.Compliance.Rate, report.Compliance.Pass)
 	}
 
-	if report.SummaryOld != nil && report.SummaryOld.CoverageThreshold != nil {
-		appendFooter(tw, "Coverage Rate", report.SummaryOld.CoverageThreshold)
+	if report.Coverage.Threshold != nil {
+		appendFooter(tw, "Coverage Rate", report.Coverage.Rate, report.Coverage.Pass)
 	}
 
 	tw.Render()
 }
 
-func appendFooter(tw table.Writer, title string, threshold *model.ThresholdSummary) {
+func appendFooter(tw table.Writer, title string, rate int, pass bool) {
 	rowConfig := table.RowConfig{
 		AutoMerge:      true,
 		AutoMergeAlign: text.AlignLeft,
 	}
-	complianceDetails := fmt.Sprintf("%3v%% [%s]", threshold.Rate, utils.ResolveStatus(threshold.Pass))
+	complianceDetails := fmt.Sprintf("%3v%% [%s]", rate, utils.ResolveStatus(pass))
 
 	tw.AppendFooter(table.Row{"", title, complianceDetails, complianceDetails, complianceDetails}, rowConfig)
 }

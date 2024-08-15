@@ -2,6 +2,7 @@ package reports
 
 import (
 	"encoding/json"
+	"github.com/arch-go/arch-go/internal/utils/values"
 	"testing"
 	"time"
 
@@ -31,20 +32,18 @@ func TestGenerateReport(t *testing.T) {
 				Duration: time.Duration(0),
 				Pass:     true,
 			},
-			SummaryOld: &reportModel.ReportSummary{
-				Total:  0,
-				Passed: 0,
-				Failed: 0,
-				ComplianceThreshold: &reportModel.ThresholdSummary{
-					Rate:      0,
-					Threshold: 0,
-					Pass:      true,
-				},
-				CoverageThreshold: &reportModel.ThresholdSummary{
-					Rate:      0,
-					Threshold: 0,
-					Pass:      true,
-				},
+			Compliance: reportModel.Compliance{
+				Total:     0,
+				Passed:    0,
+				Failed:    0,
+				Rate:      0,
+				Threshold: values.GetIntRef(0),
+				Pass:      true,
+			},
+			Coverage: reportModel.Coverage{
+				Rate:      0,
+				Threshold: values.GetIntRef(0),
+				Pass:      true,
 			},
 			Details: &reportModel.ReportDetails{},
 		}
@@ -147,20 +146,36 @@ func TestGenerateReport(t *testing.T) {
 				Duration: time.Duration(123456789),
 				Pass:     true,
 			},
-			SummaryOld: &reportModel.ReportSummary{
-				Total:  4,
-				Passed: 3,
-				Failed: 1,
-				ComplianceThreshold: &reportModel.ThresholdSummary{
-					Rate:      75,
-					Threshold: 0,
-					Pass:      true,
-				},
-				CoverageThreshold: &reportModel.ThresholdSummary{
-					Rate:       50,
-					Threshold:  0,
-					Pass:       true,
-					Violations: []string{"foobar/pkg1"},
+			Compliance: reportModel.Compliance{
+				Total:     4,
+				Passed:    3,
+				Failed:    1,
+				Rate:      75,
+				Threshold: values.GetIntRef(0),
+				Pass:      true,
+			},
+			Coverage: reportModel.Coverage{
+				Rate:      50,
+				Threshold: values.GetIntRef(0),
+				Pass:      true,
+				Uncovered: []string{"foobar/pkg1"},
+				Details: []reportModel.CoverageDetails{
+					{
+						Package:           "foobar/pkg1",
+						ContentsRules:     0,
+						DependenciesRules: 0,
+						FunctionsRules:    0,
+						NamingRules:       0,
+						Covered:           false,
+					},
+					{
+						Package:           "my-package/pkg1",
+						ContentsRules:     1,
+						DependenciesRules: 1,
+						FunctionsRules:    1,
+						NamingRules:       1,
+						Covered:           true,
+					},
 				},
 			},
 			Details: &reportModel.ReportDetails{
@@ -244,24 +259,6 @@ func TestGenerateReport(t *testing.T) {
 							},
 						},
 					},
-				},
-			},
-			CoverageInfo: []reportModel.CoverageInfo{
-				{
-					Package:           "foobar/pkg1",
-					ContentsRules:     0,
-					DependenciesRules: 0,
-					FunctionsRules:    0,
-					NamingRules:       0,
-					Covered:           false,
-				},
-				{
-					Package:           "my-package/pkg1",
-					ContentsRules:     1,
-					DependenciesRules: 1,
-					FunctionsRules:    1,
-					NamingRules:       1,
-					Covered:           true,
 				},
 			},
 		}

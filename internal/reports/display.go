@@ -22,10 +22,10 @@ func DisplayResult(report *model.Report, output io.Writer) {
 		console.GenerateConsoleReport(report, output)
 	}
 
-	displaySummary(report.SummaryOld, output)
+	displaySummary(report, output)
 }
 
-func displaySummary(summary *model.ReportSummary, output io.Writer) {
+func displaySummary(report *model.Report, output io.Writer) {
 	const lineSeparator = "--------------------------------------\n"
 
 	color.Output = output
@@ -33,30 +33,30 @@ func displaySummary(summary *model.ReportSummary, output io.Writer) {
 	fmt.Fprint(output, lineSeparator)
 	fmt.Fprint(output, "\tExecution Summary\n")
 	fmt.Fprint(output, lineSeparator)
-	fmt.Fprintf(output, "Total Rules: \t%d\n", summary.Total)
-	fmt.Fprintf(output, "Succeeded: \t%d\n", summary.Passed)
-	fmt.Fprintf(output, "Failed: \t%d\n", summary.Failed)
+	fmt.Fprintf(output, "Total Rules: \t%d\n", report.Compliance.Total)
+	fmt.Fprintf(output, "Succeeded: \t%d\n", report.Compliance.Passed)
+	fmt.Fprintf(output, "Failed: \t%d\n", report.Compliance.Failed)
 	fmt.Fprint(output, lineSeparator)
 
-	if summary.ComplianceThreshold != nil {
+	if report.Compliance.Threshold != nil {
 		complianceSummary := fmt.Sprintf("Compliance: %8d%% (%s)\n",
-			summary.ComplianceThreshold.Rate,
-			utils.ResolveStatus(summary.ComplianceThreshold.Pass))
-		if summary.ComplianceThreshold.Pass {
+			report.Compliance.Rate,
+			utils.ResolveStatus(report.Compliance.Pass))
+		if report.Compliance.Pass {
 			color.Green(complianceSummary)
 		} else {
 			color.Red(complianceSummary)
 		}
 	}
 
-	if summary.CoverageThreshold != nil {
-		complianceSummary := fmt.Sprintf("Coverage: %10d%% (%s)\n",
-			summary.CoverageThreshold.Rate,
-			utils.ResolveStatus(summary.CoverageThreshold.Pass))
-		if summary.CoverageThreshold.Pass {
-			color.Green(complianceSummary)
+	if report.Coverage.Threshold != nil {
+		coverageSummary := fmt.Sprintf("Coverage: %10d%% (%s)\n",
+			report.Coverage.Rate,
+			utils.ResolveStatus(report.Coverage.Pass))
+		if report.Coverage.Pass {
+			color.Green(coverageSummary)
 		} else {
-			color.Red(complianceSummary)
+			color.Red(coverageSummary)
 		}
 	}
 }

@@ -22,23 +22,31 @@ func GenerateReport(result *api.Result, moduleInfo model.ModuleInfo, config conf
 			Time:     result.Time,
 			Duration: result.Duration,
 		},
-		SummaryOld: &reportModel.ReportSummary{
-			Total:               total,
-			Passed:              passed,
-			Failed:              failed,
-			ComplianceThreshold: compliance,
-			CoverageThreshold:   coverage,
+		Compliance: reportModel.Compliance{
+			Pass:      compliance.Pass,
+			Rate:      compliance.Rate,
+			Threshold: compliance.Threshold,
+			Total:     total,
+			Passed:    passed,
+			Failed:    failed,
+			Summary:   compliance.Violations,
 		},
-		Details:      details,
-		CoverageInfo: generateCoverageInfo(moduleInfo, result),
+		Coverage: reportModel.Coverage{
+			Pass:      coverage.Pass,
+			Rate:      coverage.Rate,
+			Threshold: coverage.Threshold,
+			Uncovered: coverage.Violations,
+			Details:   generateCoverageDetails(moduleInfo, result),
+		},
+		Details: details,
 	}
 }
 
-func generateCoverageInfo(moduleInfo model.ModuleInfo, result *api.Result) []reportModel.CoverageInfo {
-	var coverageInfo []reportModel.CoverageInfo
+func generateCoverageDetails(moduleInfo model.ModuleInfo, result *api.Result) []reportModel.CoverageDetails {
+	var coverageInfo []reportModel.CoverageDetails
 
 	if len(moduleInfo.Packages) != 0 {
-		coverageInfo = make([]reportModel.CoverageInfo, len(moduleInfo.Packages))
+		coverageInfo = make([]reportModel.CoverageDetails, len(moduleInfo.Packages))
 	}
 
 	for i, pkg := range moduleInfo.Packages {
@@ -47,7 +55,7 @@ func generateCoverageInfo(moduleInfo model.ModuleInfo, result *api.Result) []rep
 		fr := countFunctionsRulesVerifications(pkg.Path, result)
 		nr := countNamingRulesVerifications(pkg.Path, result)
 
-		coverageInfo[i] = reportModel.CoverageInfo{
+		coverageInfo[i] = reportModel.CoverageDetails{
 			Package:           pkg.Path,
 			ContentsRules:     cr,
 			DependenciesRules: dr,

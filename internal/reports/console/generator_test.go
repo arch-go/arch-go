@@ -2,6 +2,7 @@ package console
 
 import (
 	"bytes"
+	"github.com/arch-go/arch-go/internal/utils/values"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -23,17 +24,15 @@ func TestConsoleReportGenerator(t *testing.T) {
 	t.Run("Full Report", func(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
 		report := &model.Report{
-			SummaryOld: &model.ReportSummary{
-				ComplianceThreshold: &model.ThresholdSummary{
-					Rate:      87,
-					Threshold: 100,
-					Pass:      false,
-				},
-				CoverageThreshold: &model.ThresholdSummary{
-					Rate:      87,
-					Threshold: 60,
-					Pass:      true,
-				},
+			Compliance: model.Compliance{
+				Rate:      87,
+				Threshold: values.GetIntRef(100),
+				Pass:      false,
+			},
+			Coverage: model.Coverage{
+				Rate:      87,
+				Threshold: values.GetIntRef(60),
+				Pass:      true,
 			},
 			Details: &model.ReportDetails{},
 		}

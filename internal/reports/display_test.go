@@ -2,6 +2,7 @@ package reports
 
 import (
 	"bytes"
+	"github.com/arch-go/arch-go/internal/utils/values"
 	"testing"
 	"time"
 
@@ -13,7 +14,7 @@ import (
 func TestDisplay(t *testing.T) {
 	t.Run("empty report summary", func(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
-		summary := &model.ReportSummary{}
+		summary := &model.Report{}
 
 		expectedOutput := `--------------------------------------
 	Execution Summary
@@ -31,12 +32,16 @@ Failed: 	0
 
 	t.Run("minimal report summary", func(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
-		summary := &model.ReportSummary{
-			Pass:   true,
-			Time:   time.Now(),
-			Total:  10,
-			Passed: 8,
-			Failed: 2,
+		report := &model.Report{
+			Summary: &model.Summary{
+				Pass: true,
+				Time: time.Now(),
+			},
+			Compliance: model.Compliance{
+				Total:  10,
+				Passed: 8,
+				Failed: 2,
+			},
 		}
 
 		expectedOutput := `--------------------------------------
@@ -48,27 +53,29 @@ Failed: 	2
 --------------------------------------
 `
 
-		displaySummary(summary, outputBuffer)
+		displaySummary(report, outputBuffer)
 
 		assert.Equal(t, expectedOutput, outputBuffer.String())
 	})
 
 	t.Run("full report summary failing compliance and coverage", func(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
-		summary := &model.ReportSummary{
-			Pass:   true,
-			Time:   time.Now(),
-			Total:  10,
-			Passed: 8,
-			Failed: 2,
-			ComplianceThreshold: &model.ThresholdSummary{
+		report := &model.Report{
+			Summary: &model.Summary{
+				Pass: true,
+				Time: time.Now(),
+			},
+			Compliance: model.Compliance{
+				Total:     10,
+				Passed:    8,
+				Failed:    2,
 				Rate:      80,
-				Threshold: 100,
+				Threshold: values.GetIntRef(100),
 				Pass:      false,
 			},
-			CoverageThreshold: &model.ThresholdSummary{
+			Coverage: model.Coverage{
 				Rate:      85,
-				Threshold: 90,
+				Threshold: values.GetIntRef(90),
 				Pass:      false,
 			},
 		}
@@ -84,27 +91,29 @@ Compliance:       80% (FAIL)
 Coverage:         85% (FAIL)
 `
 
-		displaySummary(summary, outputBuffer)
+		displaySummary(report, outputBuffer)
 
 		assert.Equal(t, expectedOutput, outputBuffer.String())
 	})
 
 	t.Run("full report summary passing compliance and coverage", func(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
-		summary := &model.ReportSummary{
-			Pass:   true,
-			Time:   time.Now(),
-			Total:  10,
-			Passed: 8,
-			Failed: 2,
-			ComplianceThreshold: &model.ThresholdSummary{
+		report := &model.Report{
+			Summary: &model.Summary{
+				Pass: true,
+				Time: time.Now(),
+			},
+			Compliance: model.Compliance{
+				Total:     10,
+				Passed:    8,
+				Failed:    2,
 				Rate:      100,
-				Threshold: 100,
+				Threshold: values.GetIntRef(100),
 				Pass:      true,
 			},
-			CoverageThreshold: &model.ThresholdSummary{
+			Coverage: model.Coverage{
 				Rate:      90,
-				Threshold: 90,
+				Threshold: values.GetIntRef(90),
 				Pass:      true,
 			},
 		}
@@ -120,7 +129,7 @@ Compliance:      100% (PASS)
 Coverage:         90% (PASS)
 `
 
-		displaySummary(summary, outputBuffer)
+		displaySummary(report, outputBuffer)
 
 		assert.Equal(t, expectedOutput, outputBuffer.String())
 	})
