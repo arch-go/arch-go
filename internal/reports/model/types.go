@@ -65,30 +65,30 @@ type ThresholdSummary struct {
 }
 
 type ReportDetails struct {
-	DependenciesVerificationDetails Verification
-	FunctionsVerificationDetails    Verification
-	ContentsVerificationDetails     Verification
-	NamingVerificationDetails       Verification
+	DependenciesVerificationDetails Verification `json:"dependencies_rules"`
+	FunctionsVerificationDetails    Verification `json:"functions_rules"`
+	ContentsVerificationDetails     Verification `json:"contents_rules"`
+	NamingVerificationDetails       Verification `json:"naming_rules"`
 }
 
 type Verification struct {
-	Total   int
-	Passed  int
-	Failed  int
-	Details []VerificationDetails
+	Total   int                   `json:"total"`
+	Passed  int                   `json:"passed"`
+	Failed  int                   `json:"failed"`
+	Details []VerificationDetails `json:"details"`
 }
 
 type VerificationDetails struct {
-	Rule           string
-	Pass           bool
-	Total          int
-	Passed         int
-	Failed         int
-	PackageDetails []PackageDetails
+	Rule           string           `json:"rule"`
+	Pass           bool             `json:"pass"`
+	Total          int              `json:"total"`
+	Passed         int              `json:"passed"`
+	Failed         int              `json:"failed"`
+	PackageDetails []PackageDetails `json:"package_details"`
 }
 
 type PackageDetails struct {
-	Package string
-	Pass    bool
-	Details []string
+	Package string   `json:"package"`
+	Pass    bool     `json:"pass"`
+	Details []string `json:"details"`
 }
