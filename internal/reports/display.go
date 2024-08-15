@@ -9,6 +9,7 @@ import (
 	"github.com/arch-go/arch-go/internal/common"
 	"github.com/arch-go/arch-go/internal/reports/console"
 	"github.com/arch-go/arch-go/internal/reports/html"
+	"github.com/arch-go/arch-go/internal/reports/json"
 	"github.com/arch-go/arch-go/internal/reports/model"
 	"github.com/arch-go/arch-go/internal/reports/utils"
 )
@@ -18,9 +19,11 @@ func DisplayResult(report *model.Report, output io.Writer) {
 
 	if common.HTML {
 		html.GenerateHTMLReport(report, output)
-	} else {
-		console.GenerateConsoleReport(report, output)
 	}
+	if common.JSON {
+		json.GenerateJsonReport(report, output)
+	}
+	console.GenerateConsoleReport(report, output)
 
 	displaySummary(report, output)
 }
