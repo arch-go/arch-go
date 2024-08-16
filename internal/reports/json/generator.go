@@ -9,15 +9,15 @@ import (
 	"github.com/arch-go/arch-go/internal/reports/model"
 )
 
-func GenerateJsonReport(report *model.Report, output io.Writer) {
-	bytes, err := generateJson(report)
+func GenerateReport(report *model.Report, output io.Writer) {
+	bytes, err := generateJSON(report)
 	if err != nil {
 		panic(err)
 	}
 	writeReport(bytes, output)
 }
 
-func generateJson(report *model.Report) ([]byte, error) {
+func generateJSON(report *model.Report) ([]byte, error) {
 	return json.Marshal(report)
 }
 

@@ -50,6 +50,7 @@ func toYesNo() func(pass bool) string {
 		if pass {
 			return "YES"
 		}
+
 		return "NO"
 	}
 }
@@ -59,6 +60,7 @@ func toPassFail() func(pass bool) string {
 		if pass {
 			return "PASS"
 		}
+
 		return "FAIL"
 	}
 }

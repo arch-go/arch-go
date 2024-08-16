@@ -11,30 +11,30 @@ import (
 func TestReportsUtilStatus(t *testing.T) {
 	t.Run("ResolveGlobalStatus", func(t *testing.T) {
 		status := ResolveGlobalStatus(nil, nil)
-		assert.Equal(t, true, status)
+		assert.True(t, status)
 
 		status = ResolveGlobalStatus(&model.ThresholdSummary{Pass: true}, nil)
-		assert.Equal(t, true, status)
+		assert.True(t, status)
 
 		status = ResolveGlobalStatus(&model.ThresholdSummary{Pass: false}, nil)
-		assert.Equal(t, false, status)
+		assert.False(t, status)
 
 		status = ResolveGlobalStatus(nil, &model.ThresholdSummary{Pass: true})
-		assert.Equal(t, true, status)
+		assert.True(t, status)
 
 		status = ResolveGlobalStatus(nil, &model.ThresholdSummary{Pass: false})
-		assert.Equal(t, false, status)
+		assert.False(t, status)
 
 		status = ResolveGlobalStatus(&model.ThresholdSummary{Pass: true}, &model.ThresholdSummary{Pass: true})
-		assert.Equal(t, true, status)
+		assert.True(t, status)
 
 		status = ResolveGlobalStatus(&model.ThresholdSummary{Pass: true}, &model.ThresholdSummary{Pass: false})
-		assert.Equal(t, false, status)
+		assert.False(t, status)
 
 		status = ResolveGlobalStatus(&model.ThresholdSummary{Pass: false}, &model.ThresholdSummary{Pass: true})
-		assert.Equal(t, false, status)
+		assert.False(t, status)
 
 		status = ResolveGlobalStatus(&model.ThresholdSummary{Pass: false}, &model.ThresholdSummary{Pass: false})
-		assert.Equal(t, false, status)
+		assert.False(t, status)
 	})
 }
