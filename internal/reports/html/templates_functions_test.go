@@ -47,4 +47,20 @@ func TestReportHtmlTemplatesFunctions(t *testing.T) {
 		result = toHumanTime()(time.Hour * 40)
 		assert.Equal(t, "144000 [s]", result)
 	})
+
+	t.Run("test toYesNo function", func(t *testing.T) {
+		result := toYesNo()(true)
+		assert.Equal(t, "YES", result)
+
+		result = toYesNo()(false)
+		assert.Equal(t, "NO", result)
+	})
+
+	t.Run("test toPassFail function", func(t *testing.T) {
+		result := toPassFail()(true)
+		assert.Equal(t, "PASS", result)
+
+		result = toPassFail()(false)
+		assert.Equal(t, "FAIL", result)
+	})
 }
