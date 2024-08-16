@@ -15,7 +15,7 @@ func TestGenerateJsonReport(t *testing.T) {
 		report := &model.Report{}
 		expected := `{"version":"","summary":null,"compliance":{"pass":false,"rate":0,"threshold":null,"total":0,"passed":0,"failed":0},"coverage":{"pass":false,"rate":0,"threshold":null}}`
 
-		bytes, err := generateJson(report)
+		bytes, err := generateJSON(report)
 		assert.Nil(t, err)
 		assert.Equal(t, expected, string(bytes))
 	})
@@ -169,7 +169,7 @@ func TestGenerateJsonReport(t *testing.T) {
 		}
 		expected := `{"version":"","summary":{"pass":true,"timestamp":"0001-01-01T00:00:00Z","duration":12345678},"compliance":{"pass":false,"rate":87,"threshold":100,"total":100,"passed":87,"failed":13,"details":{"dependencies_rules":{"total":1,"passed":1,"failed":0,"details":[{"rule":"foobar rule dep","pass":true,"total":1,"passed":1,"failed":0,"package_details":[{"package":"my-package","pass":true}]}]},"functions_rules":{"total":1,"passed":1,"failed":0,"details":[{"rule":"foobar rule fn","pass":true,"total":1,"passed":1,"failed":0,"package_details":[{"package":"my-package","pass":true}]}]},"contents_rules":{"total":1,"passed":1,"failed":0,"details":[{"rule":"foobar rule cn","pass":true,"total":1,"passed":1,"failed":0,"package_details":[{"package":"my-package","pass":true}]}]},"naming_rules":{"total":1,"passed":0,"failed":1,"details":[{"rule":"foobar rule nm","pass":false,"total":1,"passed":0,"failed":1,"package_details":[{"package":"my-package","pass":false,"details":["foobar message"]}]}]}}},"coverage":{"pass":true,"rate":80,"threshold":60,"uncovered_packages":["foobar"],"details":[{"package":"foobar","contents_rules":0,"dependencies_rules":0,"functions_rules":0,"naming_rules":0,"covered":false},{"package":"my-package1","contents_rules":1,"dependencies_rules":1,"functions_rules":1,"naming_rules":1,"covered":true},{"package":"my-package2","contents_rules":1,"dependencies_rules":1,"functions_rules":1,"naming_rules":1,"covered":true},{"package":"my-package3","contents_rules":1,"dependencies_rules":1,"functions_rules":1,"naming_rules":1,"covered":true},{"package":"my-package4","contents_rules":1,"dependencies_rules":1,"functions_rules":1,"naming_rules":1,"covered":true}]}}`
 
-		bytes, err := generateJson(report)
+		bytes, err := generateJSON(report)
 		assert.Nil(t, err)
 		assert.Equal(t, expected, string(bytes))
 	})
