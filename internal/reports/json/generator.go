@@ -10,16 +10,12 @@ import (
 )
 
 func GenerateReport(report *model.Report, output io.Writer) {
-	bytes, err := generateJSON(report)
+	bytes, err := json.Marshal(report)
 	if err != nil {
 		panic(err)
 	}
 
 	writeReport(bytes, output)
-}
-
-func generateJSON(report *model.Report) ([]byte, error) {
-	return json.Marshal(report)
 }
 
 func writeReport(content []byte, output io.Writer) {

@@ -1,11 +1,13 @@
 package json
 
 import (
+	"bytes"
+	"os"
 	"testing"
 	"time"
 
+	"github.com/agiledragon/gomonkey/v2"
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 
 	"github.com/arch-go/arch-go/internal/reports/model"
 	"github.com/arch-go/arch-go/internal/utils/values"
@@ -13,15 +15,45 @@ import (
 
 func TestGenerateJsonReport(t *testing.T) {
 	t.Run("generateJson with empty report", func(t *testing.T) {
-		report := &model.Report{}
-		expected := `{"version":"","summary":null,"compliance":{"pass":false,"rate":0,"threshold":null,"total":0,"passed":0,"failed":0},"coverage":{"pass":false,"rate":0,"threshold":null}}`
+		var filename, fileContent string
 
-		bytes, err := generateJSON(report)
-		require.NoError(t, err)
-		assert.Equal(t, expected, string(bytes))
+		output := bytes.NewBufferString("")
+
+		mock := gomonkey.ApplyFunc(
+			os.WriteFile,
+			func(name string, data []byte, _ os.FileMode) error {
+				filename = name
+				fileContent = string(data)
+
+				return nil
+			})
+		defer mock.Reset()
+
+		report := &model.Report{}
+		expectedFilename := ".arch-go/report.json"
+		expectedFileContent := `{"version":"","summary":null,"compliance":{"pass":false,"rate":0,"threshold":null,"total":0,"passed":0,"failed":0},"coverage":{"pass":false,"rate":0,"threshold":null}}`
+
+		GenerateReport(report, output)
+
+		assert.Equal(t, expectedFilename, filename)
+		assert.Equal(t, expectedFileContent, fileContent)
 	})
 
 	t.Run("generateJson with full report", func(t *testing.T) {
+		var filename, fileContent string
+
+		output := bytes.NewBufferString("")
+
+		mock := gomonkey.ApplyFunc(
+			os.WriteFile,
+			func(name string, data []byte, _ os.FileMode) error {
+				filename = name
+				fileContent = string(data)
+
+				return nil
+			})
+		defer mock.Reset()
+
 		report := &model.Report{
 			Summary: &model.Summary{
 				Pass:     true,
@@ -168,10 +200,13 @@ func TestGenerateJsonReport(t *testing.T) {
 				},
 			},
 		}
-		expected := `{"version":"","summary":{"pass":true,"timestamp":"0001-01-01T00:00:00Z","duration":12345678},"compliance":{"pass":false,"rate":87,"threshold":100,"total":100,"passed":87,"failed":13,"details":{"dependenciesRules":{"total":1,"passed":1,"failed":0,"details":[{"rule":"foobar rule dep","pass":true,"total":1,"passed":1,"failed":0,"packageDetails":[{"package":"my-package","pass":true}]}]},"functionsRules":{"total":1,"passed":1,"failed":0,"details":[{"rule":"foobar rule fn","pass":true,"total":1,"passed":1,"failed":0,"packageDetails":[{"package":"my-package","pass":true}]}]},"contentsRules":{"total":1,"passed":1,"failed":0,"details":[{"rule":"foobar rule cn","pass":true,"total":1,"passed":1,"failed":0,"packageDetails":[{"package":"my-package","pass":true}]}]},"namingRules":{"total":1,"passed":0,"failed":1,"details":[{"rule":"foobar rule nm","pass":false,"total":1,"passed":0,"failed":1,"packageDetails":[{"package":"my-package","pass":false,"details":["foobar message"]}]}]}}},"coverage":{"pass":true,"rate":80,"threshold":60,"uncoveredPackages":["foobar"],"details":[{"package":"foobar","contentsRules":0,"dependenciesRules":0,"functionsRules":0,"namingRules":0,"covered":false},{"package":"my-package1","contentsRules":1,"dependenciesRules":1,"functionsRules":1,"namingRules":1,"covered":true},{"package":"my-package2","contentsRules":1,"dependenciesRules":1,"functionsRules":1,"namingRules":1,"covered":true},{"package":"my-package3","contentsRules":1,"dependenciesRules":1,"functionsRules":1,"namingRules":1,"covered":true},{"package":"my-package4","contentsRules":1,"dependenciesRules":1,"functionsRules":1,"namingRules":1,"covered":true}]}}`
 
-		bytes, err := generateJSON(report)
-		require.NoError(t, err)
-		assert.Equal(t, expected, string(bytes))
+		expectedFilename := ".arch-go/report.json"
+		expectedFileContent := `{"version":"","summary":{"pass":true,"timestamp":"0001-01-01T00:00:00Z","duration":12345678},"compliance":{"pass":false,"rate":87,"threshold":100,"total":100,"passed":87,"failed":13,"details":{"dependenciesRules":{"total":1,"passed":1,"failed":0,"details":[{"rule":"foobar rule dep","pass":true,"total":1,"passed":1,"failed":0,"packageDetails":[{"package":"my-package","pass":true}]}]},"functionsRules":{"total":1,"passed":1,"failed":0,"details":[{"rule":"foobar rule fn","pass":true,"total":1,"passed":1,"failed":0,"packageDetails":[{"package":"my-package","pass":true}]}]},"contentsRules":{"total":1,"passed":1,"failed":0,"details":[{"rule":"foobar rule cn","pass":true,"total":1,"passed":1,"failed":0,"packageDetails":[{"package":"my-package","pass":true}]}]},"namingRules":{"total":1,"passed":0,"failed":1,"details":[{"rule":"foobar rule nm","pass":false,"total":1,"passed":0,"failed":1,"packageDetails":[{"package":"my-package","pass":false,"details":["foobar message"]}]}]}}},"coverage":{"pass":true,"rate":80,"threshold":60,"uncoveredPackages":["foobar"],"details":[{"package":"foobar","contentsRules":0,"dependenciesRules":0,"functionsRules":0,"namingRules":0,"covered":false},{"package":"my-package1","contentsRules":1,"dependenciesRules":1,"functionsRules":1,"namingRules":1,"covered":true},{"package":"my-package2","contentsRules":1,"dependenciesRules":1,"functionsRules":1,"namingRules":1,"covered":true},{"package":"my-package3","contentsRules":1,"dependenciesRules":1,"functionsRules":1,"namingRules":1,"covered":true},{"package":"my-package4","contentsRules":1,"dependenciesRules":1,"functionsRules":1,"namingRules":1,"covered":true}]}}`
+
+		GenerateReport(report, output)
+
+		assert.Equal(t, expectedFilename, filename)
+		assert.Equal(t, expectedFileContent, fileContent)
 	})
 }
