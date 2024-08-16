@@ -27,11 +27,15 @@ func TestResolveReportDetails(t *testing.T) {
 					{
 						Rule:        configuration.DependenciesRule{},
 						Description: "foobar rule dep",
-						Passes:      true,
+						Passes:      false,
 						Verifications: []dependencies.Verification{
 							{
 								Package: "my-package",
 								Passes:  true,
+							},
+							{
+								Package: "my-package-2",
+								Passes:  false,
 							},
 						},
 					},
@@ -43,11 +47,15 @@ func TestResolveReportDetails(t *testing.T) {
 					{
 						Rule:        configuration.FunctionsRule{},
 						Description: "foobar rule fn",
-						Passes:      true,
+						Passes:      false,
 						Verifications: []functions.Verification{
 							{
 								Package: "my-package",
 								Passes:  true,
+							},
+							{
+								Package: "my-package-2",
+								Passes:  false,
 							},
 						},
 					},
@@ -59,11 +67,15 @@ func TestResolveReportDetails(t *testing.T) {
 					{
 						Rule:        configuration.ContentsRule{},
 						Description: "foobar rule cn",
-						Passes:      true,
+						Passes:      false,
 						Verifications: []contents.Verification{
 							{
 								Package: "my-package",
 								Passes:  true,
+							},
+							{
+								Package: "my-package-2",
+								Passes:  false,
 							},
 						},
 					},
@@ -82,6 +94,10 @@ func TestResolveReportDetails(t *testing.T) {
 								Passes:  false,
 								Details: []string{"foobar message"},
 							},
+							{
+								Package: "my-package-2",
+								Passes:  true,
+							},
 						},
 					},
 				},
@@ -91,19 +107,23 @@ func TestResolveReportDetails(t *testing.T) {
 		expectedResult := &model.ReportDetails{
 			DependenciesVerificationDetails: model.Verification{
 				Total:  1,
-				Passed: 1,
-				Failed: 0,
+				Passed: 0,
+				Failed: 1,
 				Details: []model.VerificationDetails{
 					{
 						Rule:   "foobar rule dep",
-						Pass:   true,
-						Total:  1,
+						Pass:   false,
+						Total:  2,
 						Passed: 1,
-						Failed: 0,
+						Failed: 1,
 						PackageDetails: []model.PackageDetails{
 							{
 								Package: "my-package",
 								Pass:    true,
+							},
+							{
+								Package: "my-package-2",
+								Pass:    false,
 							},
 						},
 					},
@@ -111,19 +131,23 @@ func TestResolveReportDetails(t *testing.T) {
 			},
 			FunctionsVerificationDetails: model.Verification{
 				Total:  1,
-				Passed: 1,
-				Failed: 0,
+				Passed: 0,
+				Failed: 1,
 				Details: []model.VerificationDetails{
 					{
 						Rule:   "foobar rule fn",
-						Pass:   true,
-						Total:  1,
+						Pass:   false,
+						Total:  2,
 						Passed: 1,
-						Failed: 0,
+						Failed: 1,
 						PackageDetails: []model.PackageDetails{
 							{
 								Package: "my-package",
 								Pass:    true,
+							},
+							{
+								Package: "my-package-2",
+								Pass:    false,
 							},
 						},
 					},
@@ -131,19 +155,23 @@ func TestResolveReportDetails(t *testing.T) {
 			},
 			ContentsVerificationDetails: model.Verification{
 				Total:  1,
-				Passed: 1,
-				Failed: 0,
+				Passed: 0,
+				Failed: 1,
 				Details: []model.VerificationDetails{
 					{
 						Rule:   "foobar rule cn",
-						Pass:   true,
-						Total:  1,
+						Pass:   false,
+						Total:  2,
 						Passed: 1,
-						Failed: 0,
+						Failed: 1,
 						PackageDetails: []model.PackageDetails{
 							{
 								Package: "my-package",
 								Pass:    true,
+							},
+							{
+								Package: "my-package-2",
+								Pass:    false,
 							},
 						},
 					},
@@ -157,14 +185,18 @@ func TestResolveReportDetails(t *testing.T) {
 					{
 						Rule:   "foobar rule nm",
 						Pass:   false,
-						Total:  1,
-						Passed: 0,
+						Total:  2,
+						Passed: 1,
 						Failed: 1,
 						PackageDetails: []model.PackageDetails{
 							{
 								Package: "my-package",
 								Pass:    false,
 								Details: []string{"foobar message"},
+							},
+							{
+								Package: "my-package-2",
+								Pass:    true,
 							},
 						},
 					},
