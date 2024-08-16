@@ -17,12 +17,16 @@ import (
 func DisplayResult(report *model.Report, output io.Writer) {
 	displayRules(report, output)
 
-	if common.HTML == true {
+	generateHTMLReport := common.HTML
+	if generateHTMLReport {
 		html.GenerateHTMLReport(report, output)
 	}
-	if common.JSON == true {
+
+	generateJSONReport := common.HTML
+	if generateJSONReport {
 		json.GenerateReport(report, output)
 	}
+
 	console.GenerateConsoleReport(report, output)
 
 	displaySummary(report, output)

@@ -157,6 +157,7 @@ func TestCheckFunctionRules(t *testing.T) {
 			func(_ *model.PackageInfo, _ string) ([]*functions.FunctionDetails, error) {
 				if index == 1 {
 					index++
+
 					return functionDetails1, nil
 				}
 

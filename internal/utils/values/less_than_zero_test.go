@@ -1,7 +1,6 @@
 package values
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -25,7 +24,12 @@ func TestLessThanZero(t *testing.T) {
 				t,
 				tt.expected,
 				result,
-				fmt.Sprintf("Case:%d, input:%+v, expectedOutput:%v", idx+1, tt.input, tt.expected),
+				"Case:",
+				idx+1,
+				"input:",
+				tt.input,
+				"expectedOutput:",
+				tt.expected,
 			)
 		}
 	})

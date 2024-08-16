@@ -4,11 +4,10 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/arch-go/arch-go/internal/utils/values"
-
 	"github.com/stretchr/testify/assert"
 
 	"github.com/arch-go/arch-go/internal/reports/model"
+	"github.com/arch-go/arch-go/internal/utils/values"
 )
 
 func TestConsoleReportGenerator(t *testing.T) {

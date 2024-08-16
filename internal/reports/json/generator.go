@@ -14,6 +14,7 @@ func GenerateReport(report *model.Report, output io.Writer) {
 	if err != nil {
 		panic(err)
 	}
+
 	writeReport(bytes, output)
 }
 

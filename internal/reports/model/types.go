@@ -32,24 +32,24 @@ type Coverage struct {
 	Pass      bool              `json:"pass"`
 	Rate      int               `json:"rate"`
 	Threshold *int              `json:"threshold"`
-	Uncovered []string          `json:"uncovered_packages,omitempty"`
+	Uncovered []string          `json:"uncoveredPackages,omitempty"`
 	Details   []CoverageDetails `json:"details,omitempty"`
 }
 
 type CoverageDetails struct {
 	Package           string `json:"package"`
-	ContentsRules     int    `json:"contents_rules"`
-	DependenciesRules int    `json:"dependencies_rules"`
-	FunctionsRules    int    `json:"functions_rules"`
-	NamingRules       int    `json:"naming_rules"`
+	ContentsRules     int    `json:"contentsRules"`
+	DependenciesRules int    `json:"dependenciesRules"`
+	FunctionsRules    int    `json:"functionsRules"`
+	NamingRules       int    `json:"namingRules"`
 	Covered           bool   `json:"covered"`
 }
 
 type ReportDetails struct {
-	DependenciesVerificationDetails Verification `json:"dependencies_rules"`
-	FunctionsVerificationDetails    Verification `json:"functions_rules"`
-	ContentsVerificationDetails     Verification `json:"contents_rules"`
-	NamingVerificationDetails       Verification `json:"naming_rules"`
+	DependenciesVerificationDetails Verification `json:"dependenciesRules"`
+	FunctionsVerificationDetails    Verification `json:"functionsRules"`
+	ContentsVerificationDetails     Verification `json:"contentsRules"`
+	NamingVerificationDetails       Verification `json:"namingRules"`
 }
 
 type Verification struct {
@@ -65,7 +65,7 @@ type VerificationDetails struct {
 	Total          int              `json:"total"`
 	Passed         int              `json:"passed"`
 	Failed         int              `json:"failed"`
-	PackageDetails []PackageDetails `json:"package_details,omitempty"`
+	PackageDetails []PackageDetails `json:"packageDetails,omitempty"`
 }
 
 type PackageDetails struct {

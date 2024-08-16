@@ -5,8 +5,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/arch-go/arch-go/internal/utils/values"
-
 	"github.com/stretchr/testify/assert"
 
 	"github.com/arch-go/arch-go/api"
@@ -14,6 +12,7 @@ import (
 	"github.com/arch-go/arch-go/internal/common"
 	"github.com/arch-go/arch-go/internal/model"
 	reportModel "github.com/arch-go/arch-go/internal/reports/model"
+	"github.com/arch-go/arch-go/internal/utils/values"
 	"github.com/arch-go/arch-go/internal/verifications/contents"
 	"github.com/arch-go/arch-go/internal/verifications/dependencies"
 	"github.com/arch-go/arch-go/internal/verifications/functions"

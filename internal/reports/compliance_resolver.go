@@ -14,11 +14,11 @@ func resolveCompliance(result *api.Result, conf configuration.Config) *model.Thr
 	rate := 0
 	pass := true
 
-	threshold := values.GetIntRef(0)
 	if totalVerifications > 0 {
 		rate = (100 * passesVerifications) / totalVerifications
 	}
 
+	threshold := values.GetIntRef(0)
 	if conf.Threshold != nil && conf.Threshold.Compliance != nil {
 		threshold = conf.Threshold.Compliance
 	}
