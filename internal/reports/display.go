@@ -22,7 +22,7 @@ func DisplayResult(report *model.Report, output io.Writer) {
 		html.GenerateHTMLReport(report, output)
 	}
 
-	generateJSONReport := common.HTML
+	generateJSONReport := common.JSON
 	if generateJSONReport {
 		json.GenerateReport(report, output)
 	}
