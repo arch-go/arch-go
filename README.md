@@ -179,8 +179,8 @@ Time: 0.000 seconds
 |-----------|:-----------------------------------------------------------------------------------------------------------------------------------------|
 | --color   | If not set (default: auto) in a tty the colors are printed. If set to yes or no the default is overridden. This can be useful in the CI. |
 | --verbose | Includes detailed information while the command is running. The shorthand is _-v_                                                        |
-| --html    | Generates an HTML report with the evaluation result.                                                                                     |
-| --json    | Generates a JSON report with the evaluation result.                                                                                      |
+| --html    | Generates an HTML report with the evaluation result. The HTML report is generated in `.arch-go/report.html`                              |
+| --json    | Generates a JSON report with the evaluation result. The JSON report is generated in `.arch-go/report.json`                               |
 
 
 ## Examples
