@@ -5,6 +5,7 @@ import (
 	"github.com/arch-go/arch-go/api/configuration"
 	"github.com/arch-go/arch-go/internal/model"
 	model2 "github.com/arch-go/arch-go/internal/reports/model"
+	"github.com/arch-go/arch-go/internal/utils/values"
 )
 
 func resolveCoverage(
@@ -27,20 +28,15 @@ func resolveCoverage(
 		rate = (100 * coveredPackages) / totalPackages
 	}
 
-	threshold := 0
+	threshold := values.GetIntRef(0)
 	if conf.Threshold != nil && conf.Threshold.Coverage != nil {
-		threshold = *conf.Threshold.Coverage
-	}
-
-	status := passStatus
-	if rate < threshold {
-		status = failStatus
+		threshold = conf.Threshold.Coverage
 	}
 
 	return &model2.ThresholdSummary{
 		Rate:       rate,
 		Threshold:  threshold,
-		Status:     status,
+		Pass:       threshold == nil || rate >= *threshold,
 		Violations: uncoveredPackages,
 	}
 }

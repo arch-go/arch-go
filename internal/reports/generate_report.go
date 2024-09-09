@@ -6,6 +6,7 @@ import (
 	"github.com/arch-go/arch-go/internal/common"
 	"github.com/arch-go/arch-go/internal/model"
 	reportModel "github.com/arch-go/arch-go/internal/reports/model"
+	"github.com/arch-go/arch-go/internal/reports/utils"
 )
 
 func GenerateReport(result *api.Result, moduleInfo model.ModuleInfo, config configuration.Config) *reportModel.Report {
@@ -16,26 +17,36 @@ func GenerateReport(result *api.Result, moduleInfo model.ModuleInfo, config conf
 
 	return &reportModel.Report{
 		ArchGoVersion: common.Version,
-		Summary: &reportModel.ReportSummary{
-			Status:              resolveGlobalStatus(compliance, coverage),
-			Total:               total,
-			Passed:              passed,
-			Failed:              failed,
-			Time:                result.Time,
-			Duration:            result.Duration,
-			ComplianceThreshold: compliance,
-			CoverageThreshold:   coverage,
+		Summary: &reportModel.Summary{
+			Pass:     utils.ResolveGlobalStatus(compliance, coverage),
+			Time:     result.Time,
+			Duration: result.Duration,
 		},
-		Details:      details,
-		CoverageInfo: generateCoverageInfo(moduleInfo, result),
+		Compliance: reportModel.Compliance{
+			Pass:      compliance.Pass,
+			Rate:      compliance.Rate,
+			Threshold: compliance.Threshold,
+			Total:     total,
+			Passed:    passed,
+			Failed:    failed,
+			Summary:   compliance.Violations,
+			Details:   details,
+		},
+		Coverage: reportModel.Coverage{
+			Pass:      coverage.Pass,
+			Rate:      coverage.Rate,
+			Threshold: coverage.Threshold,
+			Uncovered: coverage.Violations,
+			Details:   generateCoverageDetails(moduleInfo, result),
+		},
 	}
 }
 
-func generateCoverageInfo(moduleInfo model.ModuleInfo, result *api.Result) []reportModel.CoverageInfo {
-	var coverageInfo []reportModel.CoverageInfo
+func generateCoverageDetails(moduleInfo model.ModuleInfo, result *api.Result) []reportModel.CoverageDetails {
+	var coverageInfo []reportModel.CoverageDetails
 
 	if len(moduleInfo.Packages) != 0 {
-		coverageInfo = make([]reportModel.CoverageInfo, len(moduleInfo.Packages))
+		coverageInfo = make([]reportModel.CoverageDetails, len(moduleInfo.Packages))
 	}
 
 	for i, pkg := range moduleInfo.Packages {
@@ -43,19 +54,14 @@ func generateCoverageInfo(moduleInfo model.ModuleInfo, result *api.Result) []rep
 		dr := countDependenciesRulesVerifications(pkg.Path, result)
 		fr := countFunctionsRulesVerifications(pkg.Path, result)
 		nr := countNamingRulesVerifications(pkg.Path, result)
-		status := "NO"
 
-		if cr+dr+fr+nr > 0 {
-			status = "YES"
-		}
-
-		coverageInfo[i] = reportModel.CoverageInfo{
+		coverageInfo[i] = reportModel.CoverageDetails{
 			Package:           pkg.Path,
-			ContensRules:      cr,
+			ContentsRules:     cr,
 			DependenciesRules: dr,
 			FunctionsRules:    fr,
 			NamingRules:       nr,
-			Status:            status,
+			Covered:           cr+dr+fr+nr > 0,
 		}
 	}
 

@@ -40,6 +40,7 @@ func init() {
 
 	rootCmd.PersistentFlags().BoolVarP(&common.Verbose, "verbose", "v", false, "Verbose Output")
 	rootCmd.PersistentFlags().BoolVar(&common.HTML, "html", false, "Generate HTML Report")
+	rootCmd.PersistentFlags().BoolVar(&common.JSON, "json", false, "Generate JSON Report")
 	rootCmd.PersistentFlags().StringVar(&common.Color, "color", "auto", "Print colors (auto, yes, no)")
 }
 
@@ -104,5 +105,5 @@ func runRootCommand(out io.Writer) bool {
 	report := reports.GenerateReport(result, moduleInfo, *conf)
 	reports.DisplayResult(report, out)
 
-	return result.Passes
+	return report.Summary.Pass
 }

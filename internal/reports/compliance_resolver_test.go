@@ -101,7 +101,8 @@ func TestComplianceResolver(t *testing.T) {
 		verificationResult := &api.Result{}
 		conf := configuration.Config{}
 		expectedResult := &model.ThresholdSummary{
-			Status: "PASS",
+			Threshold: values.GetIntRef(0),
+			Pass:      true,
 		}
 
 		threshold := resolveCompliance(verificationResult, conf)
@@ -118,8 +119,8 @@ func TestComplianceResolver(t *testing.T) {
 		}
 		expectedResult := &model.ThresholdSummary{
 			Rate:       0,
-			Threshold:  100,
-			Status:     "FAIL",
+			Threshold:  values.GetIntRef(100),
+			Pass:       false,
 			Violations: []string{""},
 		}
 
@@ -144,8 +145,8 @@ func TestComplianceResolver(t *testing.T) {
 		}
 		expectedResult := &model.ThresholdSummary{
 			Rate:       50,
-			Threshold:  51,
-			Status:     "FAIL",
+			Threshold:  values.GetIntRef(51),
+			Pass:       false,
 			Violations: []string{""},
 		}
 
@@ -170,8 +171,8 @@ func TestComplianceResolver(t *testing.T) {
 		}
 		expectedResult := &model.ThresholdSummary{
 			Rate:       50,
-			Threshold:  50,
-			Status:     "PASS",
+			Threshold:  values.GetIntRef(50),
+			Pass:       true,
 			Violations: nil,
 		}
 

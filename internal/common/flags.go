@@ -4,5 +4,6 @@ package common
 var (
 	Verbose bool
 	HTML    bool
+	JSON    bool
 	Color   string
 )

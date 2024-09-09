@@ -14,6 +14,7 @@ import (
 )
 
 func TestCheckFunctionRules(t *testing.T) {
+	t.Parallel()
 	t.Run("check passes", func(t *testing.T) {
 		functionDetails := []*functions.FunctionDetails{
 			{
@@ -215,7 +216,6 @@ func TestCheckFunctionRules(t *testing.T) {
 
 		jsonExpectedResult, _ := json.Marshal(expectedResult)
 		jsonResult, _ := json.Marshal(result)
-
 		assert.Equal(t, jsonExpectedResult, jsonResult)
 	})
 }

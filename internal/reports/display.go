@@ -9,22 +9,30 @@ import (
 	"github.com/arch-go/arch-go/internal/common"
 	"github.com/arch-go/arch-go/internal/reports/console"
 	"github.com/arch-go/arch-go/internal/reports/html"
+	"github.com/arch-go/arch-go/internal/reports/json"
 	"github.com/arch-go/arch-go/internal/reports/model"
+	"github.com/arch-go/arch-go/internal/reports/utils"
 )
 
 func DisplayResult(report *model.Report, output io.Writer) {
 	displayRules(report, output)
 
-	if common.HTML {
+	generateHTMLReport := common.HTML
+	if generateHTMLReport {
 		html.GenerateHTMLReport(report, output)
-	} else {
-		console.GenerateConsoleReport(report, output)
 	}
 
-	displaySummary(report.Summary, output)
+	generateJSONReport := common.JSON
+	if generateJSONReport {
+		json.GenerateReport(report, output)
+	}
+
+	console.GenerateConsoleReport(report, output)
+
+	displaySummary(report, output)
 }
 
-func displaySummary(summary *model.ReportSummary, output io.Writer) {
+func displaySummary(report *model.Report, output io.Writer) {
 	const lineSeparator = "--------------------------------------\n"
 
 	color.Output = output
@@ -32,30 +40,30 @@ func displaySummary(summary *model.ReportSummary, output io.Writer) {
 	fmt.Fprint(output, lineSeparator)
 	fmt.Fprint(output, "\tExecution Summary\n")
 	fmt.Fprint(output, lineSeparator)
-	fmt.Fprintf(output, "Total Rules: \t%d\n", summary.Total)
-	fmt.Fprintf(output, "Succeeded: \t%d\n", summary.Passed)
-	fmt.Fprintf(output, "Failed: \t%d\n", summary.Failed)
+	fmt.Fprintf(output, "Total Rules: \t%d\n", report.Compliance.Total)
+	fmt.Fprintf(output, "Succeeded: \t%d\n", report.Compliance.Passed)
+	fmt.Fprintf(output, "Failed: \t%d\n", report.Compliance.Failed)
 	fmt.Fprint(output, lineSeparator)
 
-	if summary.ComplianceThreshold != nil {
+	if report.Compliance.Threshold != nil {
 		complianceSummary := fmt.Sprintf("Compliance: %8d%% (%s)\n",
-			summary.ComplianceThreshold.Rate,
-			summary.ComplianceThreshold.Status)
-		if summary.ComplianceThreshold.Status == passStatus {
+			report.Compliance.Rate,
+			utils.ResolveStatus(report.Compliance.Pass))
+		if report.Compliance.Pass {
 			color.Green(complianceSummary)
 		} else {
 			color.Red(complianceSummary)
 		}
 	}
 
-	if summary.CoverageThreshold != nil {
-		complianceSummary := fmt.Sprintf("Coverage: %10d%% (%s)\n",
-			summary.CoverageThreshold.Rate,
-			summary.CoverageThreshold.Status)
-		if summary.CoverageThreshold.Status == passStatus {
-			color.Green(complianceSummary)
+	if report.Coverage.Threshold != nil {
+		coverageSummary := fmt.Sprintf("Coverage: %10d%% (%s)\n",
+			report.Coverage.Rate,
+			utils.ResolveStatus(report.Coverage.Pass))
+		if report.Coverage.Pass {
+			color.Green(coverageSummary)
 		} else {
-			color.Red(complianceSummary)
+			color.Red(coverageSummary)
 		}
 	}
 }
