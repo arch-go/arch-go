@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.2](https://github.com/arch-go/arch-go/compare/v1.6.1...v1.6.2) (2024-09-18)
+
+
+### Bug Fixes
+
+* Proper version for the built, respectively released binaries ([#113](https://github.com/arch-go/arch-go/issues/113)) ([bac7ba2](https://github.com/arch-go/arch-go/commit/bac7ba22ed3bdf82781f13aaeb1ab8be24672f6f))
+
 ## [1.6.1](https://github.com/arch-go/arch-go/compare/v1.6.0...v1.6.1) (2024-09-18)
 
 
