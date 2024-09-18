@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.1](https://github.com/arch-go/arch-go/compare/v1.6.0...v1.6.1) (2024-09-18)
+
+
+### Bug Fixes
+
+* SBOM generation for release ([#108](https://github.com/arch-go/arch-go/issues/108)) ([d10df65](https://github.com/arch-go/arch-go/commit/d10df65e0a650917f2689675e96239f59efdcb40))
+
 ## [1.6.0](https://github.com/arch-go/arch-go/compare/v1.5.4...v1.6.0) (2024-09-18)
 
 
