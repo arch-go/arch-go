@@ -15,6 +15,9 @@ main
 *.out
 coverage
 
+# Ingnore generated SBOM
+CycloneDX-SBOM.json
+
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
