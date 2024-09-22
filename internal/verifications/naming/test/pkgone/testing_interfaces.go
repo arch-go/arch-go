@@ -55,8 +55,6 @@ func (d DefaultService) Write(_ []byte) (int, error) {
 	return 0, nil
 }
 
-////////////////////
-
 type SomeInterface interface {
 	SomeMethod()
 }
