@@ -6,8 +6,12 @@ import (
 	"go/token"
 	"os"
 	"path/filepath"
+	"slices"
+	"strings"
 
 	"github.com/arch-go/arch-go/internal/model"
+	"github.com/arch-go/arch-go/internal/utils/output"
+	"github.com/arch-go/arch-go/internal/utils/packages"
 )
 
 func getInterfacesMatching(pkg *model.PackageInfo, pattern string) ([]InterfaceDescription, error) {
@@ -49,22 +53,11 @@ func retrieveMatchingInterfaces(
 
 				it, ok := ts.Type.(*ast.InterfaceType)
 				if ok && comparator(ts.Name.String(), patternValue) {
-					currentInterface := InterfaceDescription{
+					interfaceDescription := InterfaceDescription{
 						Name: ts.Name.String(),
 					}
-
-					for _, m := range it.Methods.List {
-						// ok if panics
-						method := m.Type.(*ast.FuncType) //nolint: forcetypeassert
-
-						currentInterface.Methods = append(currentInterface.Methods, MethodDescription{
-							Name:         m.Names[0].String(),
-							Parameters:   getParameters(string(data), method.Params),
-							ReturnValues: getReturnValues(string(data), method.Results),
-						})
-					}
-
-					interfaces = append(interfaces, currentInterface)
+					retrieveMethods(&interfaceDescription, it, data, node)
+					interfaces = append(interfaces, interfaceDescription)
 				}
 			}
 		}
@@ -73,6 +66,103 @@ func retrieveMatchingInterfaces(
 	})
 
 	return interfaces
+}
+
+func retrieveMethods(currentInterface *InterfaceDescription, it *ast.InterfaceType, data []byte, node *ast.File) {
+	for _, field := range it.Methods.List {
+		switch tp := field.Type.(type) {
+		case *ast.FuncType:
+			retrieveNormalMethods(currentInterface, field, tp, data)
+		case *ast.Ident:
+			retrieveMethodsFromEmbeddedInterface(currentInterface, tp, data, node)
+		case *ast.IndexExpr:
+			retrieveGenericsMethods(currentInterface, tp, data, node)
+		case *ast.SelectorExpr:
+			retrieveOtherPackageMethods(currentInterface, tp, node)
+		}
+	}
+}
+
+func retrieveNormalMethods(currentInterface *InterfaceDescription, field *ast.Field, ft *ast.FuncType, data []byte) {
+	addMethods(currentInterface, field.Names[0].String(), ft, data)
+}
+
+func addMethods(currentInterface *InterfaceDescription, name string, method *ast.FuncType, data []byte) {
+	currentInterface.Methods = append(currentInterface.Methods, MethodDescription{
+		Name:         name,
+		Parameters:   getParameters(string(data), method.Params),
+		ReturnValues: getReturnValues(string(data), method.Results),
+	})
+}
+
+func retrieveMethodsFromEmbeddedInterface(currentInterface *InterfaceDescription, ident *ast.Ident,
+	data []byte, node *ast.File,
+) {
+	it := ident.Obj.Decl.(*ast.TypeSpec).Type.(*ast.InterfaceType) //nolint: forcetypeassert
+	retrieveMethods(currentInterface, it, data, node)
+}
+
+func retrieveGenericsMethods(currentInterface *InterfaceDescription, ie *ast.IndexExpr, data []byte,
+	node *ast.File,
+) {
+	ident, ok := ie.X.(*ast.Ident)
+	if !ok {
+		se := ie.X.(*ast.SelectorExpr) //nolint: forcetypeassert
+		retrieveOtherPackageMethods(currentInterface, se, node)
+
+		return
+	}
+
+	it := ident.Obj.Decl.(*ast.TypeSpec).Type.(*ast.InterfaceType) //nolint: forcetypeassert
+	retrieveMethods(currentInterface, it, data, node)
+}
+
+func retrieveOtherPackageMethods(currentInterface *InterfaceDescription, se *ast.SelectorExpr, node *ast.File) {
+	ident := se.X.(*ast.Ident) //nolint: forcetypeassert
+
+	var importPath string
+
+	for _, imp := range node.Imports {
+		// checks if import has an alias name
+		if imp.Name != nil {
+			if ident.Name == imp.Name.Name {
+				importPath = strings.Trim(imp.Path.Value, "\"")
+
+				break
+			}
+		} else {
+			path := strings.Trim(imp.Path.Value, "\"")
+			if strings.HasSuffix(path, ident.Name) {
+				importPath = path
+
+				break
+			}
+		}
+	}
+
+	if importPath == "" {
+		panic("import path should not be empty")
+	}
+
+	pkgs, _ := packages.GetBasicPackagesInfo(importPath, output.CreateNilWriter(), false)
+	i := slices.IndexFunc(pkgs, func(pkg *model.PackageInfo) bool {
+		return pkg.Path == importPath
+	})
+
+	if i == -1 {
+		panic("import should have been found")
+	}
+
+	interfaces, _ := getInterfacesMatching(pkgs[i], se.Sel.Name)
+	for _, inf := range interfaces {
+		for _, met := range inf.Methods {
+			currentInterface.Methods = append(currentInterface.Methods, MethodDescription{
+				Name:         met.Name,
+				Parameters:   met.Parameters,
+				ReturnValues: met.ReturnValues,
+			})
+		}
+	}
 }
 
 func getStructsWithMethods(pkg *model.PackageInfo) ([]StructDescription, error) {
