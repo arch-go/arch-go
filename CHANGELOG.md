@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.3](https://github.com/arch-go/arch-go/compare/v1.6.2...v1.6.3) (2024-10-13)
+
+
+### Dependencies
+
+* update module github.com/jedib0t/go-pretty/v6 to v6.6.0 ([#121](https://github.com/arch-go/arch-go/issues/121)) ([21e5a7b](https://github.com/arch-go/arch-go/commit/21e5a7beb72cdf28f0e8aba0d47dbcd62cb0aa37))
+* update module golang.org/x/tools to v0.26.0 ([#123](https://github.com/arch-go/arch-go/issues/123)) ([c10511c](https://github.com/arch-go/arch-go/commit/c10511cdd395a0342db725474c6d09882cc17176))
+
 ## [1.6.2](https://github.com/arch-go/arch-go/compare/v1.6.1...v1.6.2) (2024-09-18)
 
 
