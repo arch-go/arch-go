@@ -1,9 +1,29 @@
 package text
 
-import "strings"
+import (
+	"regexp"
+	"strings"
+)
 
 func PreparePackageRegexp(p string) string {
 	str := p
+
+	re := regexp.MustCompile(`(\w)+\*`)
+	pkgs := re.FindAllString(str, -1)
+
+	for i, pkg := range pkgs {
+		pkg = strings.ReplaceAll(pkg, "*", `[\w-\.]*`)
+		str = strings.ReplaceAll(str, pkgs[i], pkg)
+	}
+
+	re = regexp.MustCompile(`\*(\w)+`)
+	pkgs = re.FindAllString(str, -1)
+
+	for i, pkg := range pkgs {
+		pkg = strings.ReplaceAll(pkg, "*", `[\w-\.]*`)
+		str = strings.ReplaceAll(str, pkgs[i], pkg)
+	}
+
 	if strings.HasPrefix(str, "**.") {
 		str = strings.Replace(str, "**.", "^([\\w-\\.]+/)+", 1)
 	}
