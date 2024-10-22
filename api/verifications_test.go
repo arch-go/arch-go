@@ -25,6 +25,6 @@ func TestCheckArchitecture(t *testing.T) {
 
 		result := api.CheckArchitecture(moduleInfo, config)
 
-		assert.True(t, result.Passes)
+		assert.True(t, result.Pass)
 	})
 }

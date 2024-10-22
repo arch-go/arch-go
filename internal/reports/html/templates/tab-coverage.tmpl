@@ -15,14 +15,14 @@
 </tr>
 </thead>
 <tbody>
-{{ range $item := .CoverageInfo }}
-<tr style="color:{{if passes $item.Status}}green{{else}}red{{end}}">
+{{ range $item := .Coverage.Details }}
+<tr style="color:{{if $item.Covered}}green{{else}}red{{end}}">
     <td class="package-details">{{ $item.Package }}</td>
-    <td class="package-details" style="text-align:center">{{ $item.ContensRules }}</td>
+    <td class="package-details" style="text-align:center">{{ $item.ContentsRules }}</td>
     <td class="package-details" style="text-align:center">{{ $item.DependenciesRules }}</td>
     <td class="package-details" style="text-align:center">{{ $item.FunctionsRules }}</td>
     <td class="package-details" style="text-align:center">{{ $item.NamingRules }}</td>
-    <td class="package-details" style="text-align:center">{{ $item.Status }}</td>
+    <td class="package-details" style="text-align:center">{{ toYesNo $item.Covered }}</td>
 </tr>
 {{ end }}
 </tbody>

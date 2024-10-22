@@ -19,7 +19,7 @@ func CheckRules(moduleInfo model.ModuleInfo, rules []*configuration.NamingRule) 
 		result.Results = append(result.Results, CheckRule(moduleInfo, *it))
 	}
 
-	// Update result.Passes based on each rule result
+	// Update result.Pass based on each rule result
 	for _, r := range result.Results {
 		result.Passes = result.Passes && r.Passes
 	}

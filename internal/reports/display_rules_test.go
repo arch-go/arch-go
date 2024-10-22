@@ -14,91 +14,93 @@ func TestDisplayRules(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
 		report := &model.Report{
 			ArchGoVersion: "vfoobar",
-			Summary:       &model.ReportSummary{},
-			Details: &model.ReportDetails{
-				DependenciesVerificationDetails: model.Verification{
-					Total:  1,
-					Passed: 1,
-					Failed: 0,
-					Details: []model.VerificationDetails{
-						{
-							Rule:   "foobar rule dep",
-							Status: "PASS",
-							Total:  1,
-							Passed: 1,
-							Failed: 0,
-							PackageDetails: []model.PackageDetails{
-								{
-									Package: "my-package",
-									Status:  "PASS",
+			Summary:       &model.Summary{},
+			Compliance: model.Compliance{
+				Details: &model.ReportDetails{
+					DependenciesVerificationDetails: model.Verification{
+						Total:  1,
+						Passed: 1,
+						Failed: 0,
+						Details: []model.VerificationDetails{
+							{
+								Rule:   "foobar rule dep",
+								Pass:   true,
+								Total:  1,
+								Passed: 1,
+								Failed: 0,
+								PackageDetails: []model.PackageDetails{
+									{
+										Package: "my-package",
+										Pass:    true,
+									},
 								},
 							},
 						},
 					},
-				},
-				FunctionsVerificationDetails: model.Verification{
-					Total:  1,
-					Passed: 1,
-					Failed: 0,
-					Details: []model.VerificationDetails{
-						{
-							Rule:   "foobar rule fn",
-							Status: "PASS",
-							Total:  1,
-							Passed: 1,
-							Failed: 0,
-							PackageDetails: []model.PackageDetails{
-								{
-									Package: "my-package",
-									Status:  "PASS",
+					FunctionsVerificationDetails: model.Verification{
+						Total:  1,
+						Passed: 1,
+						Failed: 0,
+						Details: []model.VerificationDetails{
+							{
+								Rule:   "foobar rule fn",
+								Pass:   true,
+								Total:  1,
+								Passed: 1,
+								Failed: 0,
+								PackageDetails: []model.PackageDetails{
+									{
+										Package: "my-package",
+										Pass:    true,
+									},
 								},
 							},
 						},
 					},
-				},
-				ContentsVerificationDetails: model.Verification{
-					Total:  1,
-					Passed: 1,
-					Failed: 0,
-					Details: []model.VerificationDetails{
-						{
-							Rule:   "foobar rule cn",
-							Status: "PASS",
-							Total:  1,
-							Passed: 1,
-							Failed: 0,
-							PackageDetails: []model.PackageDetails{
-								{
-									Package: "my-package",
-									Status:  "PASS",
+					ContentsVerificationDetails: model.Verification{
+						Total:  1,
+						Passed: 1,
+						Failed: 0,
+						Details: []model.VerificationDetails{
+							{
+								Rule:   "foobar rule cn",
+								Pass:   true,
+								Total:  1,
+								Passed: 1,
+								Failed: 0,
+								PackageDetails: []model.PackageDetails{
+									{
+										Package: "my-package",
+										Pass:    true,
+									},
 								},
 							},
 						},
 					},
-				},
-				NamingVerificationDetails: model.Verification{
-					Total:  1,
-					Passed: 0,
-					Failed: 1,
-					Details: []model.VerificationDetails{
-						{
-							Rule:   "foobar rule nm",
-							Status: "FAIL",
-							Total:  1,
-							Passed: 0,
-							Failed: 1,
-							PackageDetails: []model.PackageDetails{
-								{
-									Package: "my-package",
-									Status:  "FAIL",
-									Details: []string{"foobar message"},
+					NamingVerificationDetails: model.Verification{
+						Total:  1,
+						Passed: 0,
+						Failed: 1,
+						Details: []model.VerificationDetails{
+							{
+								Rule:   "foobar rule nm",
+								Pass:   false,
+								Total:  1,
+								Passed: 0,
+								Failed: 1,
+								PackageDetails: []model.PackageDetails{
+									{
+										Package: "my-package",
+										Pass:    false,
+										Details: []string{"foobar message"},
+									},
 								},
 							},
 						},
 					},
 				},
 			},
-			CoverageInfo: []model.CoverageInfo{},
+			Coverage: model.Coverage{},
 		}
 		expectedOutput := `[PASS] - foobar rule cn
 	Package 'my-package' passes
@@ -120,9 +122,9 @@ func TestDisplayRules(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
 		report := &model.Report{
 			ArchGoVersion: "vfoobar",
-			Summary:       &model.ReportSummary{},
-			Details:       &model.ReportDetails{},
-			CoverageInfo:  []model.CoverageInfo{},
+			Summary:       &model.Summary{},
+			Compliance:    model.Compliance{},
+			Coverage:      model.Coverage{},
 		}
 		expectedOutput := ``
 

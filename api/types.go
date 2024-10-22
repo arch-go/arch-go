@@ -13,7 +13,7 @@ import (
 type Result struct {
 	Time                   time.Time                 // the moment when the analysis was executed
 	Duration               time.Duration             // the duration of the analysis
-	Passes                 bool                      // if true, then the analysis was succeeded
+	Pass                   bool                      // if true, then the analysis was succeeded
 	DependenciesRuleResult *dependencies.RulesResult // contains all the verifications of dependencies rules
 	FunctionsRuleResult    *functions.RulesResult    // contains all the verifications of functions rules
 	ContentsRuleResult     *contents.RulesResult     // contains all the verifications of contents rules

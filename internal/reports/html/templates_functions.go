@@ -35,12 +35,6 @@ func formatDate() func(t time.Time) string {
 	}
 }
 
-func formatDateTime() func(t time.Time) string {
-	return func(t time.Time) string {
-		return t.Format("2006/01/02 15:04:05")
-	}
-}
-
 func calculateRatio() func(num int, den int) int {
 	return func(num int, den int) int {
 		if den == 0 {
@@ -51,14 +45,22 @@ func calculateRatio() func(num int, den int) int {
 	}
 }
 
-func checkStatus() func(status string) bool {
-	return func(status string) bool {
-		return status == "PASS" || status == "YES"
+func toYesNo() func(pass bool) string {
+	return func(pass bool) string {
+		if pass {
+			return "YES"
+		}
+
+		return "NO"
 	}
 }
 
-func increment() func(number int) int {
-	return func(number int) int {
-		return 1 + number
+func toPassFail() func(pass bool) string {
+	return func(pass bool) string {
+		if pass {
+			return "PASS"
+		}
+
+		return "FAIL"
 	}
 }

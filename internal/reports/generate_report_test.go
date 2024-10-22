@@ -12,6 +12,7 @@ import (
 	"github.com/arch-go/arch-go/internal/common"
 	"github.com/arch-go/arch-go/internal/model"
 	reportModel "github.com/arch-go/arch-go/internal/reports/model"
+	"github.com/arch-go/arch-go/internal/utils/values"
 	"github.com/arch-go/arch-go/internal/verifications/contents"
 	"github.com/arch-go/arch-go/internal/verifications/dependencies"
 	"github.com/arch-go/arch-go/internal/verifications/functions"
@@ -26,25 +27,25 @@ func TestGenerateReport(t *testing.T) {
 
 		expectedResult := &reportModel.Report{
 			ArchGoVersion: common.Version,
-			Summary: &reportModel.ReportSummary{
+			Summary: &reportModel.Summary{
 				Time:     time.Time{},
 				Duration: time.Duration(0),
-				Status:   "PASS",
-				Total:    0,
-				Passed:   0,
-				Failed:   0,
-				ComplianceThreshold: &reportModel.ThresholdSummary{
-					Rate:      0,
-					Threshold: 0,
-					Status:    "PASS",
-				},
-				CoverageThreshold: &reportModel.ThresholdSummary{
-					Rate:      0,
-					Threshold: 0,
-					Status:    "PASS",
-				},
+				Pass:     true,
 			},
-			Details: &reportModel.ReportDetails{},
+			Compliance: reportModel.Compliance{
+				Total:     0,
+				Passed:    0,
+				Failed:    0,
+				Rate:      0,
+				Threshold: values.GetIntRef(0),
+				Pass:      true,
+				Details:   &reportModel.ReportDetails{},
+			},
+			Coverage: reportModel.Coverage{
+				Rate:      0,
+				Threshold: values.GetIntRef(0),
+				Pass:      true,
+			},
 		}
 
 		result := GenerateReport(apiResult, module, config)
@@ -56,7 +57,7 @@ func TestGenerateReport(t *testing.T) {
 		apiResult := &api.Result{
 			Time:     time.Time{},
 			Duration: time.Duration(123456789),
-			Passes:   false,
+			Pass:     false,
 			DependenciesRuleResult: &dependencies.RulesResult{
 				Passes: true,
 				Results: []*dependencies.RuleResult{
@@ -140,124 +141,124 @@ func TestGenerateReport(t *testing.T) {
 
 		expectedResult := &reportModel.Report{
 			ArchGoVersion: common.Version,
-			Summary: &reportModel.ReportSummary{
+			Summary: &reportModel.Summary{
 				Time:     time.Time{},
 				Duration: time.Duration(123456789),
-				Status:   "PASS",
-				Total:    4,
-				Passed:   3,
-				Failed:   1,
-				ComplianceThreshold: &reportModel.ThresholdSummary{
-					Rate:      75,
-					Threshold: 0,
-					Status:    "PASS",
-				},
-				CoverageThreshold: &reportModel.ThresholdSummary{
-					Rate:       50,
-					Threshold:  0,
-					Status:     "PASS",
-					Violations: []string{"foobar/pkg1"},
-				},
+				Pass:     true,
 			},
-			Details: &reportModel.ReportDetails{
-				DependenciesVerificationDetails: reportModel.Verification{
-					Total:  1,
-					Passed: 1,
-					Failed: 0,
-					Details: []reportModel.VerificationDetails{
-						{
-							Rule:   "foobar rule dep",
-							Total:  1,
-							Passed: 1,
-							Failed: 0,
-							Status: "PASS",
-							PackageDetails: []reportModel.PackageDetails{
-								{
-									Package: "my-package/pkg1",
-									Status:  "PASS",
+			Compliance: reportModel.Compliance{
+				Total:     4,
+				Passed:    3,
+				Failed:    1,
+				Rate:      75,
+				Threshold: values.GetIntRef(0),
+				Pass:      true,
+				Details: &reportModel.ReportDetails{
+					DependenciesVerificationDetails: reportModel.Verification{
+						Total:  1,
+						Passed: 1,
+						Failed: 0,
+						Details: []reportModel.VerificationDetails{
+							{
+								Rule:   "foobar rule dep",
+								Total:  1,
+								Passed: 1,
+								Failed: 0,
+								Pass:   true,
+								PackageDetails: []reportModel.PackageDetails{
+									{
+										Package: "my-package/pkg1",
+										Pass:    true,
+									},
 								},
 							},
 						},
 					},
-				},
-				FunctionsVerificationDetails: reportModel.Verification{
-					Total:  1,
-					Passed: 1,
-					Failed: 0,
-					Details: []reportModel.VerificationDetails{
-						{
-							Rule:   "foobar rule fn",
-							Total:  1,
-							Passed: 1,
-							Failed: 0,
-							Status: "PASS",
-							PackageDetails: []reportModel.PackageDetails{
-								{
-									Package: "my-package/pkg1",
-									Status:  "PASS",
+					FunctionsVerificationDetails: reportModel.Verification{
+						Total:  1,
+						Passed: 1,
+						Failed: 0,
+						Details: []reportModel.VerificationDetails{
+							{
+								Rule:   "foobar rule fn",
+								Total:  1,
+								Passed: 1,
+								Failed: 0,
+								Pass:   true,
+								PackageDetails: []reportModel.PackageDetails{
+									{
+										Package: "my-package/pkg1",
+										Pass:    true,
+									},
 								},
 							},
 						},
 					},
-				},
-				ContentsVerificationDetails: reportModel.Verification{
-					Total:  1,
-					Passed: 1,
-					Failed: 0,
-					Details: []reportModel.VerificationDetails{
-						{
-							Rule:   "foobar rule cn",
-							Total:  1,
-							Passed: 1,
-							Failed: 0,
-							Status: "PASS",
-							PackageDetails: []reportModel.PackageDetails{
-								{
-									Package: "my-package/pkg1",
-									Status:  "PASS",
+					ContentsVerificationDetails: reportModel.Verification{
+						Total:  1,
+						Passed: 1,
+						Failed: 0,
+						Details: []reportModel.VerificationDetails{
+							{
+								Rule:   "foobar rule cn",
+								Total:  1,
+								Passed: 1,
+								Failed: 0,
+								Pass:   true,
+								PackageDetails: []reportModel.PackageDetails{
+									{
+										Package: "my-package/pkg1",
+										Pass:    true,
+									},
 								},
 							},
 						},
 					},
-				},
-				NamingVerificationDetails: reportModel.Verification{
-					Total:  1,
-					Passed: 0,
-					Failed: 1,
-					Details: []reportModel.VerificationDetails{
-						{
-							Rule:   "foobar rule nm",
-							Total:  1,
-							Passed: 0,
-							Failed: 1,
-							Status: "FAIL",
-							PackageDetails: []reportModel.PackageDetails{
-								{
-									Package: "my-package/pkg1",
-									Status:  "FAIL",
-									Details: []string{"foobar message"},
+					NamingVerificationDetails: reportModel.Verification{
+						Total:  1,
+						Passed: 0,
+						Failed: 1,
+						Details: []reportModel.VerificationDetails{
+							{
+								Rule:   "foobar rule nm",
+								Total:  1,
+								Passed: 0,
+								Failed: 1,
+								Pass:   false,
+								PackageDetails: []reportModel.PackageDetails{
+									{
+										Package: "my-package/pkg1",
+										Pass:    false,
+										Details: []string{"foobar message"},
+									},
 								},
 							},
 						},
 					},
 				},
 			},
-			CoverageInfo: []reportModel.CoverageInfo{
-				{
-					Package:           "foobar/pkg1",
-					ContensRules:      0,
-					DependenciesRules: 0,
-					FunctionsRules:    0,
-					NamingRules:       0,
-					Status:            "NO",
-				},
-				{
-					Package:           "my-package/pkg1",
-					ContensRules:      1,
-					DependenciesRules: 1,
-					FunctionsRules:    1,
-					NamingRules:       1,
-					Status:            "YES",
+			Coverage: reportModel.Coverage{
+				Rate:      50,
+				Threshold: values.GetIntRef(0),
+				Pass:      true,
+				Uncovered: []string{"foobar/pkg1"},
+				Details: []reportModel.CoverageDetails{
+					{
+						Package:           "foobar/pkg1",
+						ContentsRules:     0,
+						DependenciesRules: 0,
+						FunctionsRules:    0,
+						NamingRules:       0,
+						Covered:           false,
+					},
+					{
+						Package:           "my-package/pkg1",
+						ContentsRules:     1,
+						DependenciesRules: 1,
+						FunctionsRules:    1,
+						NamingRules:       1,
+						Covered:           true,
+					},
 				},
 			},
 		}

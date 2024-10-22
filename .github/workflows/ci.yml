@@ -32,7 +32,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4
         with:
           fetch-depth: 0
       - name: Review code
@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4
       - name: Set up Go
         uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.0.2
         with:
@@ -67,10 +67,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
+        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4
+        #with:
+        #  ref: ${{ github.head_ref }}
+        #  fetch-depth: 0
       - name: Set up Go
         uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5
         with:
@@ -79,7 +79,7 @@ jobs:
         run: |
           go test -v -gcflags=all=-l -cover ./... -coverprofile coverage.out -coverpkg ./...
       - name: Upload code coverage report
-        uses: codecov/codecov-action@e28ff129e5465c2c0dcc6f003fc735cb6ae0c673 # v4.5.0
+        uses: codecov/codecov-action@b9fd7d16f6d7d1b5d2bec1a2887e65ceed900238 # v4.6.0
         with:
           files: coverage.out
           verbose: true
@@ -106,14 +106,14 @@ jobs:
             goos: windows
     steps:
       - name: Checkout repository
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4
       - name: Set up Go
         uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.0.2
         with:
           go-version: 1.22.5
       - name: Build
-        run: CGO_ENABLED=0 GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -trimpath -ldflags="-buildid= -w -s -X github.com/arch-go/arch-go/internal.common.version.Version=${{ github.sha }}" -o ./build/
-      - uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a # v4.3.6
+        run: CGO_ENABLED=0 GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -trimpath -ldflags="-buildid= -w -s -X github.com/arch-go/arch-go/internal/common.Version=${{ github.sha }}" -o ./build/
+      - uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
         if: github.ref == 'refs/heads/main'
         with:
           name: build-result-${{ matrix.goos }}-${{ matrix.goarch }}
@@ -132,7 +132,7 @@ jobs:
       id-token: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4
         with:
           fetch-depth: 0
       - name: Set up Go
@@ -140,7 +140,7 @@ jobs:
         with:
           go-version: 1.22.5
       - name: Install Cosign
-        uses: sigstore/cosign-installer@4959ce089c160fddf62f7b42464195ba1a56d382 # v3.6.0
+        uses: sigstore/cosign-installer@dc72c7d5c4d10cd6bcb8cf6e3fd625a9e5e537da # v3.7.0
         with:
           cosign-release: v2.2.3
       - name: Install CycloneDX gomod
@@ -148,7 +148,7 @@ jobs:
       - name: Generate SBOM
         uses: CycloneDX/gh-gomod-generate-sbom@efc74245d6802c8cefd925620515442756c70d8f # v2.0.0
         with:
-          version: v1.4.1
+          version: v1.7.0
           args: app -licenses -assert-licenses -json -std -output CycloneDX-SBOM.json -main .
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@286f3b13b1b49da4ac219696163fb8c1c93e1200 # v6.0.0
@@ -163,7 +163,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4
       - name: Set up Go
         uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5
         with:
@@ -186,7 +186,15 @@ jobs:
           runTest "go run main.go -v --html --color no"
           runTest "go run main.go --verbose --html --color yes"
           runTest "go run main.go --html --color yes"
-      - uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a # v4.3.6
+          runTest "go run main.go -v --json"
+          runTest "go run main.go -v --json --color no"
+          runTest "go run main.go --verbose --json --color yes"
+          runTest "go run main.go --json --color yes"
+          runTest "go run main.go -v --json --html"
+          runTest "go run main.go -v --json --html --color no"
+          runTest "go run main.go --verbose --json --html --color yes"
+          runTest "go run main.go --json --html --color yes"
+      - uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
         with:
           name: Arch-Go Report
           path: .arch-go/

@@ -3,6 +3,7 @@ package reports
 import (
 	"github.com/arch-go/arch-go/api"
 	"github.com/arch-go/arch-go/internal/reports/model"
+	"github.com/arch-go/arch-go/internal/reports/utils"
 )
 
 func resolveReportDetails(result *api.Result) *model.ReportDetails {
@@ -23,30 +24,33 @@ func resolveDependenciesDetails(result *api.Result) model.Verification {
 		for _, dr := range result.DependenciesRuleResult.Results {
 			var packageDetails []model.PackageDetails
 
-			resolveVerificationStatus(dr.Passes, &verificationDetails)
+			utils.ResolveVerificationStatus(dr.Passes, &verificationDetails)
 
 			vTotal, vFailed := 0, 0
 
 			for _, dv := range dr.Verifications {
 				vTotal++
-				status := checkVerificationStatus(dv.Passes, &vFailed)
+
+				if !dv.Passes {
+					vFailed++
+				}
+
 				packageDetails = append(packageDetails, model.PackageDetails{
 					Package: dv.Package,
-					Status:  status,
+					Pass:    dv.Passes,
 					Details: dv.Details,
 				})
 			}
 
-			ruleStatus := resolveRuleStatus(vFailed)
-
 			vDetails = append(vDetails, model.VerificationDetails{
 				Rule:           dr.Description,
-				Status:         ruleStatus,
+				Pass:           vFailed == 0,
 				Passed:         vTotal - vFailed,
 				Failed:         vFailed,
 				Total:          vTotal,
 				PackageDetails: packageDetails,
 			})
+
 			verificationDetails.Details = vDetails
 		}
 	}
@@ -63,30 +67,33 @@ func resolveFunctionsDetails(result *api.Result) model.Verification {
 		for _, fr := range result.FunctionsRuleResult.Results {
 			var packageDetails []model.PackageDetails
 
-			resolveVerificationStatus(fr.Passes, &verificationDetails)
+			utils.ResolveVerificationStatus(fr.Passes, &verificationDetails)
 
 			vTotal, vFailed := 0, 0
 
 			for _, fv := range fr.Verifications {
 				vTotal++
-				status := checkVerificationStatus(fv.Passes, &vFailed)
+
+				if !fv.Passes {
+					vFailed++
+				}
+
 				packageDetails = append(packageDetails, model.PackageDetails{
 					Package: fv.Package,
-					Status:  status,
+					Pass:    fv.Passes,
 					Details: fv.Details,
 				})
 			}
 
-			ruleStatus := resolveRuleStatus(vFailed)
-
 			vDetails = append(vDetails, model.VerificationDetails{
 				Rule:           fr.Description,
-				Status:         ruleStatus,
+				Pass:           vFailed == 0,
 				Passed:         vTotal - vFailed,
 				Failed:         vFailed,
 				Total:          vTotal,
 				PackageDetails: packageDetails,
 			})
+
 			verificationDetails.Details = vDetails
 		}
 	}
@@ -103,30 +110,33 @@ func resolveContentsDetails(result *api.Result) model.Verification {
 		for _, cr := range result.ContentsRuleResult.Results {
 			var packageDetails []model.PackageDetails
 
-			resolveVerificationStatus(cr.Passes, &verificationDetails)
+			utils.ResolveVerificationStatus(cr.Passes, &verificationDetails)
 
 			vTotal, vFailed := 0, 0
 
 			for _, cv := range cr.Verifications {
 				vTotal++
-				status := checkVerificationStatus(cv.Passes, &vFailed)
+
+				if !cv.Passes {
+					vFailed++
+				}
+
 				packageDetails = append(packageDetails, model.PackageDetails{
 					Package: cv.Package,
-					Status:  status,
+					Pass:    cv.Passes,
 					Details: cv.Details,
 				})
 			}
 
-			ruleStatus := resolveRuleStatus(vFailed)
-
 			vDetails = append(vDetails, model.VerificationDetails{
 				Rule:           cr.Description,
-				Status:         ruleStatus,
+				Pass:           vFailed == 0,
 				Passed:         vTotal - vFailed,
 				Failed:         vFailed,
 				Total:          vTotal,
 				PackageDetails: packageDetails,
 			})
+
 			verificationDetails.Details = vDetails
 		}
 	}
@@ -143,30 +153,33 @@ func resolveNamingDetails(result *api.Result) model.Verification {
 		for _, nr := range result.NamingRuleResult.Results {
 			var packageDetails []model.PackageDetails
 
-			resolveVerificationStatus(nr.Passes, &verificationDetails)
+			utils.ResolveVerificationStatus(nr.Passes, &verificationDetails)
 
 			vTotal, vFailed := 0, 0
 
 			for _, nv := range nr.Verifications {
 				vTotal++
-				status := checkVerificationStatus(nv.Passes, &vFailed)
+
+				if !nv.Passes {
+					vFailed++
+				}
+
 				packageDetails = append(packageDetails, model.PackageDetails{
 					Package: nv.Package,
-					Status:  status,
+					Pass:    nv.Passes,
 					Details: nv.Details,
 				})
 			}
 
-			ruleStatus := resolveRuleStatus(vFailed)
-
 			vDetails = append(vDetails, model.VerificationDetails{
 				Rule:           nr.Description,
-				Status:         ruleStatus,
+				Pass:           vFailed == 0,
 				Passed:         vTotal - vFailed,
 				Failed:         vFailed,
 				Total:          vTotal,
 				PackageDetails: packageDetails,
 			})
+
 			verificationDetails.Details = vDetails
 		}
 	}

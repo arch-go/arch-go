@@ -2,7 +2,6 @@ package describe
 
 import (
 	"bytes"
-	"fmt"
 	"io"
 	"os"
 	"testing"
@@ -183,8 +182,6 @@ Threshold Rules
 	})
 
 	t.Run("invalid configuration", func(t *testing.T) {
-		fmt.Println("INvalid case")
-
 		outputBuffer := bytes.NewBufferString("")
 		patchExit := monkey.ApplyFunc(os.Exit, func(_ int) {})
 
@@ -193,9 +190,7 @@ Threshold Rules
 		expectedOutput := `Invalid Configuration: configuration file should have at least one rule
 `
 
-		fmt.Println("INvalid case2")
 		NewCommand(&configuration.Config{}, outputBuffer).Run()
-		fmt.Println("INvalid case3")
 
 		outputBytes, _ := io.ReadAll(outputBuffer)
 		assert.Equal(t, expectedOutput, string(outputBytes), "Output doesn't match expected values.")

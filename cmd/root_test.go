@@ -78,8 +78,8 @@ func TestRootCommand(t *testing.T) {
 	t.Run("checks if successful run returns zero exit code", func(t *testing.T) {
 		nonZeroExitCode := false
 		passingAPIResult := &api.Result{
-			Time:   time.Now(),
-			Passes: true,
+			Time: time.Now(),
+			Pass: true,
 		}
 		patchCheck := monkey.ApplyFuncReturn(api.CheckArchitecture, passingAPIResult)
 		patchExit := monkey.ApplyFunc(os.Exit, func(code int) {
@@ -107,8 +107,8 @@ func TestRootCommand(t *testing.T) {
 
 		nonZeroExitCode := false
 		nonPassingAPIResult := &api.Result{
-			Time:   time.Now(),
-			Passes: false,
+			Time: time.Now(),
+			Pass: false,
 		}
 		patchCheck := monkey.ApplyFuncReturn(api.CheckArchitecture, nonPassingAPIResult)
 		patchExit := monkey.ApplyFunc(os.Exit, func(code int) {
