@@ -7,7 +7,7 @@ builds:
       - -buildid=
       - -w
       - -s
-      - -X github.com/arch-go/arch-go/internal.common.version.Version={{ .Tag }}
+      - -X github.com/arch-go/arch-go/internal/common.Version={{ .Tag }}
     flags:
       - -trimpath
     goos:

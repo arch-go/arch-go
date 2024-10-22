@@ -38,8 +38,8 @@ func (a *architectureAnalysis) Execute() (*Result, error) {
 	var wg sync.WaitGroup
 
 	verificationResult := &Result{
-		Time:   time.Now(),
-		Passes: true,
+		Time: time.Now(),
+		Pass: true,
 	}
 
 	wg.Add(4)
@@ -47,7 +47,7 @@ func (a *architectureAnalysis) Execute() (*Result, error) {
 	go func() {
 		if len(a.configuration.DependenciesRules) > 0 {
 			verificationResult.DependenciesRuleResult = a.checkDependenciesRules(a.moduleInfo, a.configuration.DependenciesRules)
-			verificationResult.Passes = verificationResult.Passes && verificationResult.DependenciesRuleResult.Passes
+			verificationResult.Pass = verificationResult.Pass && verificationResult.DependenciesRuleResult.Passes
 		}
 
 		wg.Done()
@@ -56,7 +56,7 @@ func (a *architectureAnalysis) Execute() (*Result, error) {
 	go func() {
 		if len(a.configuration.FunctionsRules) > 0 {
 			verificationResult.FunctionsRuleResult = a.checkFunctionRules(a.moduleInfo, a.configuration.FunctionsRules)
-			verificationResult.Passes = verificationResult.Passes && verificationResult.FunctionsRuleResult.Passes
+			verificationResult.Pass = verificationResult.Pass && verificationResult.FunctionsRuleResult.Passes
 		}
 
 		wg.Done()
@@ -65,7 +65,7 @@ func (a *architectureAnalysis) Execute() (*Result, error) {
 	go func() {
 		if len(a.configuration.ContentRules) > 0 {
 			verificationResult.ContentsRuleResult = a.checkContentsRules(a.moduleInfo, a.configuration.ContentRules)
-			verificationResult.Passes = verificationResult.Passes && verificationResult.ContentsRuleResult.Passes
+			verificationResult.Pass = verificationResult.Pass && verificationResult.ContentsRuleResult.Passes
 		}
 
 		wg.Done()
@@ -74,7 +74,7 @@ func (a *architectureAnalysis) Execute() (*Result, error) {
 	go func() {
 		if len(a.configuration.NamingRules) > 0 {
 			verificationResult.NamingRuleResult = a.checkNamingRules(a.moduleInfo, a.configuration.NamingRules)
-			verificationResult.Passes = verificationResult.Passes && verificationResult.NamingRuleResult.Passes
+			verificationResult.Pass = verificationResult.Pass && verificationResult.NamingRuleResult.Passes
 		}
 
 		wg.Done()

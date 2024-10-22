@@ -1,7 +1,6 @@
 package dependencies
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -44,8 +43,8 @@ func TestCheckAllowedDependencies(t *testing.T) {
 
 		for idx, tc := range testCases {
 			ok, details := checkAllowedStandardImports(tc.inputPkg, tc.inputAllowedPkgs, moduleInfo)
-			assert.Equal(t, tc.expectedResult, ok, fmt.Sprintf("TestCase(%v) unexpected result.", idx+1))
-			assert.Equal(t, tc.expectedDetails, details, fmt.Sprintf("TestCase(%v) unexpected details.", idx+1))
+			assert.Equal(t, tc.expectedResult, ok, "Unexpected result", idx+1)
+			assert.Equal(t, tc.expectedDetails, details, "Unexpected details", idx+1)
 		}
 	})
 
@@ -78,8 +77,8 @@ func TestCheckAllowedDependencies(t *testing.T) {
 
 		for idx, tc := range testCases {
 			ok, details := checkAllowedExternalImports(tc.inputPkg, tc.inputAllowedPkgs, moduleInfo)
-			assert.Equal(t, tc.expectedResult, ok, fmt.Sprintf("TestCase(%v) unexpected result.", idx+1))
-			assert.Equal(t, tc.expectedDetails, details, fmt.Sprintf("TestCase(%v) unexpected details.", idx+1))
+			assert.Equal(t, tc.expectedResult, ok, "Unexpected result", idx+1)
+			assert.Equal(t, tc.expectedDetails, details, "Unexpected details", idx+1)
 		}
 	})
 
@@ -112,8 +111,8 @@ func TestCheckAllowedDependencies(t *testing.T) {
 
 		for idx, tc := range testCases {
 			ok, details := checkAllowedInternalImports(tc.inputPkg, tc.inputAllowedPkgs, moduleInfo)
-			assert.Equal(t, tc.expectedResult, ok, fmt.Sprintf("TestCase(%v) unexpected result.", idx+1))
-			assert.Equal(t, tc.expectedDetails, details, fmt.Sprintf("TestCase(%v) unexpected details.", idx+1))
+			assert.Equal(t, tc.expectedResult, ok, "Unexpected result", idx+1)
+			assert.Equal(t, tc.expectedDetails, details, "Unexpected details", idx+1)
 		}
 	})
 }

@@ -19,7 +19,7 @@
     <td style="text-align:center">{{ $item.Total }}</td>
     <td style="text-align:center">{{ $item.Passed }}</td>
     <td style="text-align:center">{{ $item.Failed }}</td>
-    <td class="status" style="color:{{if passes $item.Status}}green{{else}}red{{end}}">{{ $item.Status }}</td>
+    <td class="status" style="color:{{if $item.Pass}}green{{else}}red{{end}}">{{ toPassFail $item.Pass }}</td>
 </tr>
 {{ end }}
 {{ range $item := .DependenciesVerificationDetails.Details }}
@@ -29,7 +29,7 @@
     <td style="text-align:center">{{ $item.Total }}</td>
     <td style="text-align:center">{{ $item.Passed }}</td>
     <td style="text-align:center">{{ $item.Failed }}</td>
-    <td class="status" style="color:{{if passes $item.Status}}green{{else}}red{{end}}">{{ $item.Status }}</td>
+    <td class="status" style="color:{{if $item.Pass}}green{{else}}red{{end}}">{{ toPassFail $item.Pass }}</td>
 </tr>
 {{ end }}
 {{ range $item := .FunctionsVerificationDetails.Details }}
@@ -39,7 +39,7 @@
     <td style="text-align:center">{{ $item.Total }}</td>
     <td style="text-align:center">{{ $item.Passed }}</td>
     <td style="text-align:center">{{ $item.Failed }}</td>
-    <td class="status" style="color:{{if passes $item.Status}}green{{else}}red{{end}}">{{ $item.Status }}</td>
+    <td class="status" style="color:{{if $item.Pass}}green{{else}}red{{end}}">{{ toPassFail $item.Pass }}</td>
 </tr>
 {{ end }}
 {{ range $item := .NamingVerificationDetails.Details }}
@@ -49,7 +49,7 @@
     <td style="text-align:center">{{ $item.Total }}</td>
     <td style="text-align:center">{{ $item.Passed }}</td>
     <td style="text-align:center">{{ $item.Failed }}</td>
-    <td class="status" style="color:{{if passes $item.Status}}green{{else}}red{{end}}">{{ $item.Status }}</td>
+    <td class="status" style="color:{{if $item.Pass}}green{{else}}red{{end}}">{{ toPassFail $item.Pass }}</td>
 </tr>
 {{ end }}
 

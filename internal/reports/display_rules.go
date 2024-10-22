@@ -11,11 +11,11 @@ import (
 func displayRules(report *model.Report, output io.Writer) {
 	color.Output = output
 
-	if report.Details != nil {
-		displayDetails(report.Details.ContentsVerificationDetails)
-		displayDetails(report.Details.DependenciesVerificationDetails)
-		displayDetails(report.Details.FunctionsVerificationDetails)
-		displayDetails(report.Details.NamingVerificationDetails)
+	if report.Compliance.Details != nil {
+		displayDetails(report.Compliance.Details.ContentsVerificationDetails)
+		displayDetails(report.Compliance.Details.DependenciesVerificationDetails)
+		displayDetails(report.Compliance.Details.FunctionsVerificationDetails)
+		displayDetails(report.Compliance.Details.NamingVerificationDetails)
 	}
 }
 
@@ -28,7 +28,7 @@ func displayDetails(verification model.Verification) {
 
 func printPackagesDetails(d model.VerificationDetails) {
 	for _, pd := range d.PackageDetails {
-		if pd.Status == "PASS" {
+		if pd.Pass {
 			color.Green("\tPackage '%s' passes\n", pd.Package)
 		} else {
 			color.Red("\tPackage '%s' fails\n", pd.Package)
@@ -41,7 +41,7 @@ func printPackagesDetails(d model.VerificationDetails) {
 }
 
 func printRuleStatus(d model.VerificationDetails) {
-	if d.Status == "PASS" {
+	if d.Pass {
 		color.Green("[PASS] - %s\n", d.Rule)
 	} else {
 		color.Red("[FAIL] - %s\n", d.Rule)

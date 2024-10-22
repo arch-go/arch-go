@@ -21,27 +21,27 @@
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-compliance" role="tabpanel" aria-labelledby="nav-compliance-tab">
                         <div class="container">
-                            {{template "tab-compliance" .Details -}}
+                            {{template "tab-compliance" .Compliance.Details -}}
                         </div>
                     </div>
                     <div class="tab-pane fade" id="nav-content-rules" role="tabpanel" aria-labelledby="nav-content-rules-tab">
                         <div class="container">
-                            {{template "tab-content-rules" .Details -}}
+                            {{template "tab-content-rules" .Compliance.Details -}}
                         </div>
                     </div>
                     <div class="tab-pane fade" id="nav-dependencies-rules" role="tabpanel" aria-labelledby="nav-dependencies-rules-tab">
                         <div class="container">
-                            {{template "tab-dependencies-rules" .Details -}}
+                            {{template "tab-dependencies-rules" .Compliance.Details -}}
                         </div>
                     </div>
                     <div class="tab-pane fade" id="nav-function-rules" role="tabpanel" aria-labelledby="nav-function-rules-tab">
                         <div class="container">
-                            {{template "tab-functions-rules" .Details -}}
+                            {{template "tab-functions-rules" .Compliance.Details -}}
                         </div>
                     </div>
                     <div class="tab-pane fade" id="nav-naming-rules" role="tabpanel" aria-labelledby="nav-naming-rules-tab">
                         <div class="container">
-                            {{template "tab-naming-rules" .Details -}}
+                            {{template "tab-naming-rules" .Compliance.Details -}}
                         </div>
                     </div>
                     <div class="tab-pane fade" id="nav-coverage" role="tabpanel" aria-labelledby="nav-coverage-tab">
