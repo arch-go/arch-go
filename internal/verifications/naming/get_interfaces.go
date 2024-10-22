@@ -81,7 +81,7 @@ func retrieveMethods(currentInterface *InterfaceDescription, it *ast.InterfaceTy
 		case *ast.SelectorExpr:
 			retrieveOtherPackageMethods(currentInterface, tp, node)
 		default:
-			panic(fmt.Sprintf("unknown type: %T to retrieve method", tp))
+			panic(fmt.Sprintf("unknown type %T to retrieve method", tp))
 		}
 	}
 }
