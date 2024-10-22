@@ -1,6 +1,7 @@
 package naming
 
 import (
+	"fmt"
 	"go/ast"
 	"go/parser"
 	"go/token"
@@ -79,6 +80,8 @@ func retrieveMethods(currentInterface *InterfaceDescription, it *ast.InterfaceTy
 			retrieveGenericsMethods(currentInterface, tp, data, node)
 		case *ast.SelectorExpr:
 			retrieveOtherPackageMethods(currentInterface, tp, node)
+		default:
+			panic(fmt.Sprintf("unknown type: %T to retrieve method", tp))
 		}
 	}
 }
