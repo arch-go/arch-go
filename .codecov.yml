@@ -1,6 +1,7 @@
 ignore:
 - "**/mocks/**"
 - "**/*_test.go"
+- "internal/verifications/naming/test/**"
 coverage:
   status:
     # we've found this not to be useful
