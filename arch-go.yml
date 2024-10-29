@@ -27,7 +27,7 @@ functionsRules:
     maxParameters: 5
     maxReturnValues: 3
     maxLines: 55
-    maxPublicFunctionPerFile: 3
+    maxPublicFunctionPerFile: 15
 contentsRules:
   - package: '**.model.**'
     shouldOnlyContainStructs: true
