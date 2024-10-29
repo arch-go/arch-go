@@ -147,6 +147,27 @@ func TestNamingRuleUtils(t *testing.T) {
 
 		assert.Equal(t, "", returnValue)
 	})
+
+	t.Run("resolveStructName case 3", func(t *testing.T) {
+		fd := &ast.FuncDecl{
+			Recv: &ast.FieldList{
+				List: []*ast.Field{
+					{
+						Type: &ast.StarExpr{
+							X: &ast.IndexExpr{
+								X: &ast.Ident{
+									Name: "barfoo",
+								},
+							},
+						},
+					},
+				},
+			},
+		}
+		returnValue := resolveStructName(fd)
+
+		assert.Equal(t, "barfoo", returnValue)
+	})
 }
 
 type mockType struct {

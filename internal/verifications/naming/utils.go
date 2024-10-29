@@ -53,6 +53,12 @@ func getParameters(fileContent string, params *ast.FieldList) []string {
 func resolveStructName(ft *ast.FuncDecl) string {
 	se, ok := ft.Recv.List[0].Type.(*ast.StarExpr)
 	if ok {
+		if iexp, ok := se.X.(*ast.IndexExpr); ok {
+			if ident, ok := iexp.X.(*ast.Ident); ok {
+				return ident.Name
+			}
+		}
+
 		return fmt.Sprintf("*%v", se.X)
 	}
 
