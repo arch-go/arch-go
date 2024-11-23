@@ -8,7 +8,7 @@ require (
 	github.com/jedib0t/go-pretty/v6 v6.6.2
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.19.0
-	github.com/stretchr/testify v1.9.0
+	github.com/stretchr/testify v1.10.0
 	golang.org/x/mod v0.22.0
 	golang.org/x/tools v0.27.0
 	gopkg.in/yaml.v3 v3.0.1
