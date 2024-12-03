@@ -36,7 +36,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Review code
-        uses: reviewdog/action-golangci-lint@7708105983c614f7a2725e2172908b7709d1c3e4 # v2.6.2
+        uses: reviewdog/action-golangci-lint@dd3fda91790ca90e75049e5c767509dc0ec7d99b # v2.7.0
         with:
           go_version: 1.22.5
           golangci_lint_version: v1.59.1
