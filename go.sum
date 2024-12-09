@@ -30,6 +30,8 @@ github.com/jedib0t/go-pretty/v6 v6.6.2 h1:27bLj3nRODzaiA7tPIxy9UVWHoPspFfME9Xxgw
 github.com/jedib0t/go-pretty/v6 v6.6.2/go.mod h1:zbn98qrYlh95FIhwwsbIip0LYpwSG8SUOScs+v9/t0E=
 github.com/jedib0t/go-pretty/v6 v6.6.3 h1:nGqgS0tgIO1Hto47HSaaK4ac/I/Bu7usmdD3qvs0WvM=
 github.com/jedib0t/go-pretty/v6 v6.6.3/go.mod h1:zbn98qrYlh95FIhwwsbIip0LYpwSG8SUOScs+v9/t0E=
+github.com/jedib0t/go-pretty/v6 v6.6.4 h1:B51RjA+Sytv0C0Je7PHGDXZBF2JpS5dZEWWRueBLP6U=
+github.com/jedib0t/go-pretty/v6 v6.6.4/go.mod h1:zbn98qrYlh95FIhwwsbIip0LYpwSG8SUOScs+v9/t0E=
 github.com/jtolds/gls v4.20.0+incompatible/go.mod h1:QJZ7F/aHp+rZTRtaJ1ow/lLfFfVYBRgL+9YlvaHOwJU=
 github.com/kr/pretty v0.3.1 h1:flRD4NNwYAUpkphVc1HcthR4KEIFJ65n8Mw5qdRn3LE=
 github.com/kr/pretty v0.3.1/go.mod h1:hoEshYVHaxMs3cyo3Yncou5ZscifuDolrwPKZanG3xk=
