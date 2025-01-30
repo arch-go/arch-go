@@ -47,7 +47,7 @@ func (a *architectureAnalysis) Execute() (*Result, error) {
 	go func() {
 		if len(a.configuration.DependenciesRules) > 0 {
 			verificationResult.DependenciesRuleResult = a.checkDependenciesRules(a.moduleInfo, a.configuration.DependenciesRules)
-			verificationResult.Pass = verificationResult.Pass && verificationResult.DependenciesRuleResult.Passes
+			verificationResult.setPass(verificationResult.DependenciesRuleResult.Passes)
 		}
 
 		wg.Done()
@@ -56,7 +56,7 @@ func (a *architectureAnalysis) Execute() (*Result, error) {
 	go func() {
 		if len(a.configuration.FunctionsRules) > 0 {
 			verificationResult.FunctionsRuleResult = a.checkFunctionRules(a.moduleInfo, a.configuration.FunctionsRules)
-			verificationResult.Pass = verificationResult.Pass && verificationResult.FunctionsRuleResult.Passes
+			verificationResult.setPass(verificationResult.FunctionsRuleResult.Passes)
 		}
 
 		wg.Done()
@@ -65,7 +65,7 @@ func (a *architectureAnalysis) Execute() (*Result, error) {
 	go func() {
 		if len(a.configuration.ContentRules) > 0 {
 			verificationResult.ContentsRuleResult = a.checkContentsRules(a.moduleInfo, a.configuration.ContentRules)
-			verificationResult.Pass = verificationResult.Pass && verificationResult.ContentsRuleResult.Passes
+			verificationResult.setPass(verificationResult.ContentsRuleResult.Passes)
 		}
 
 		wg.Done()
@@ -74,7 +74,7 @@ func (a *architectureAnalysis) Execute() (*Result, error) {
 	go func() {
 		if len(a.configuration.NamingRules) > 0 {
 			verificationResult.NamingRuleResult = a.checkNamingRules(a.moduleInfo, a.configuration.NamingRules)
-			verificationResult.Pass = verificationResult.Pass && verificationResult.NamingRuleResult.Passes
+			verificationResult.setPass(verificationResult.NamingRuleResult.Passes)
 		}
 
 		wg.Done()
