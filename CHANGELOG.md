@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.7.0](https://github.com/arch-go/arch-go/compare/v1.6.2...v1.7.0) (2024-12-13)
+
+
+### Features
+
+* check embedded interfaces ([#116](https://github.com/arch-go/arch-go/issues/116)) ([756f312](https://github.com/arch-go/arch-go/commit/756f312519b88570aabe9dbc6350dcf78740af22))
+* Support for wildcard regex pattern in pkg names ([#131](https://github.com/arch-go/arch-go/issues/131)) ([e11d025](https://github.com/arch-go/arch-go/commit/e11d025d797f362c0d12e808154d0ae71a754639))
+
+
+### Dependencies
+
+* update module github.com/fatih/color to v1.18.0 ([#134](https://github.com/arch-go/arch-go/issues/134)) ([b707827](https://github.com/arch-go/arch-go/commit/b707827f8607ef866435de27f31c51c7e60f66ac))
+* update module github.com/jedib0t/go-pretty/v6 to v6.6.1 ([#132](https://github.com/arch-go/arch-go/issues/132)) ([22e2447](https://github.com/arch-go/arch-go/commit/22e24475db362ee6b1ec6641c0faea22f5fe6c08))
+* update module github.com/jedib0t/go-pretty/v6 to v6.6.2 ([#148](https://github.com/arch-go/arch-go/issues/148)) ([4afc91e](https://github.com/arch-go/arch-go/commit/4afc91e6d4c1c91f569d429647bc53ac649db676))
+* update module github.com/jedib0t/go-pretty/v6 to v6.6.3 ([#154](https://github.com/arch-go/arch-go/issues/154)) ([71e0ce7](https://github.com/arch-go/arch-go/commit/71e0ce70e6b21af169075765a0d614d43ba0d842))
+* update module github.com/jedib0t/go-pretty/v6 to v6.6.4 ([#161](https://github.com/arch-go/arch-go/issues/161)) ([f8282b4](https://github.com/arch-go/arch-go/commit/f8282b4b0c5421e7b6f381e88f27e914eaf46f9b))
+* update module golang.org/x/mod to v0.22.0 ([#143](https://github.com/arch-go/arch-go/issues/143)) ([1b9a51d](https://github.com/arch-go/arch-go/commit/1b9a51d8e3eeb8907f64b2fc039d6a40ca9f326a))
+* update module golang.org/x/tools to v0.26.0 ([#123](https://github.com/arch-go/arch-go/issues/123)) ([c10511c](https://github.com/arch-go/arch-go/commit/c10511cdd395a0342db725474c6d09882cc17176))
+* update module golang.org/x/tools to v0.27.0 ([#145](https://github.com/arch-go/arch-go/issues/145)) ([1b40a7d](https://github.com/arch-go/arch-go/commit/1b40a7d27b40c8b82e3fbdb898a4faca4e539d1d))
+* update module golang.org/x/tools to v0.28.0 ([#157](https://github.com/arch-go/arch-go/issues/157)) ([2b1f2a1](https://github.com/arch-go/arch-go/commit/2b1f2a13ed83d02b7ca52311e07fedff73e3800a))
+
 ## [1.6.2](https://github.com/arch-go/arch-go/compare/v1.6.1...v1.6.2) (2024-09-18)
 
 
