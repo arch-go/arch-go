@@ -3,6 +3,7 @@
 [![Codecov](https://codecov.io/gh/arch-go/arch-go/branch/main/graph/badge.svg)](https://codecov.io/gh/arch-go/arch-go)
 [![Go Reference](https://pkg.go.dev/badge/github.com/arch-go/arch-go.svg)](https://pkg.go.dev/github.com/arch-go/arch-go)
 [![Go Report Card](https://goreportcard.com/badge/github.com/arch-go/arch-go)](https://goreportcard.com/report/github.com/arch-go/arch-go)
+[![libs.tech recommends](https://libs.tech/project/351282380/badge.svg)](https://libs.tech/project/351282380/arch-go)
 <img align="center" src="logo.png" alt="Arch-Go" title="Arch-Go" width="600px"/>
 
 # Arch-Go
