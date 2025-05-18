@@ -20,6 +20,7 @@ func TestDeprecationCheck(t *testing.T) {
 	})
 
 	t.Run("configuration with cycles rules", func(t *testing.T) {
+		interfaceName := "*Command"
 		configurationRules := Config{
 			FunctionsRules: []*FunctionsRule{
 				{
@@ -37,7 +38,7 @@ func TestDeprecationCheck(t *testing.T) {
 				{
 					Package: "**.foobar.**",
 					InterfaceImplementationNamingRule: &InterfaceImplementationRule{
-						StructsThatImplement:           "*Command",
+						StructsThatImplement:           StructsThatImplement{Internal: &interfaceName},
 						ShouldHaveSimpleNameEndingWith: values.GetStringRef("Foobar"),
 					},
 				},
@@ -59,6 +60,7 @@ func TestDeprecationCheck(t *testing.T) {
 	})
 
 	t.Run("configuration without cycles rules", func(t *testing.T) {
+		interfaceName := "*Command"
 		configurationRules := Config{
 			FunctionsRules: []*FunctionsRule{
 				{
@@ -76,7 +78,7 @@ func TestDeprecationCheck(t *testing.T) {
 				{
 					Package: "**.foobar.**",
 					InterfaceImplementationNamingRule: &InterfaceImplementationRule{
-						StructsThatImplement:           "*Command",
+						StructsThatImplement:           StructsThatImplement{Internal: &interfaceName},
 						ShouldHaveSimpleNameEndingWith: values.GetStringRef("Foobar"),
 					},
 				},
