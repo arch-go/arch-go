@@ -21,6 +21,8 @@ func TestArchitecture(t *testing.T) {
 
 	defer mockTimeNow.Reset()
 
+	interfaceName := "*Command"
+
 	moduleInfo := model.ModuleInfo{
 		MainPackage: "mymodule",
 		Packages: []*model.PackageInfo{
@@ -51,7 +53,7 @@ func TestArchitecture(t *testing.T) {
 			{
 				Package: "**.foobar.**",
 				InterfaceImplementationNamingRule: &configuration.InterfaceImplementationRule{
-					StructsThatImplement:           "*Command",
+					StructsThatImplement:           configuration.StructsThatImplement{Internal: &interfaceName},
 					ShouldHaveSimpleNameEndingWith: values.GetStringRef("Foobar"),
 				},
 			},
