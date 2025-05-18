@@ -126,6 +126,7 @@ Threshold Rules
 }
 
 func configLoaderMockWithRules() *configuration.Config {
+	interfaceName := "foo"
 	return &configuration.Config{
 		Threshold: &configuration.Threshold{
 			Compliance: values.GetIntRef(98),
@@ -196,14 +197,18 @@ func configLoaderMockWithRules() *configuration.Config {
 			{
 				Package: "foobar",
 				InterfaceImplementationNamingRule: &configuration.InterfaceImplementationRule{
-					StructsThatImplement:             "foo",
+					StructsThatImplement: configuration.StructsThatImplement{
+						Internal: &interfaceName,
+					},
 					ShouldHaveSimpleNameStartingWith: values.GetStringRef("bla"),
 				},
 			},
 			{
 				Package: "barfoo",
 				InterfaceImplementationNamingRule: &configuration.InterfaceImplementationRule{
-					StructsThatImplement:           "foo",
+					StructsThatImplement: configuration.StructsThatImplement{
+						Internal: &interfaceName,
+					},
 					ShouldHaveSimpleNameEndingWith: values.GetStringRef("anything"),
 				},
 			},

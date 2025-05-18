@@ -124,6 +124,7 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("valid configuration - only naming rules", func(t *testing.T) {
+		interfaceName := "bla"
 		conf := &configuration.Config{
 			Version:   1,
 			Threshold: nil,
@@ -131,7 +132,7 @@ func TestValidateConfiguration(t *testing.T) {
 				{
 					Package: "foobar",
 					InterfaceImplementationNamingRule: &configuration.InterfaceImplementationRule{
-						StructsThatImplement:           "bla",
+						StructsThatImplement:           configuration.StructsThatImplement{Internal: &interfaceName},
 						ShouldHaveSimpleNameEndingWith: values.GetStringRef("foo"),
 					},
 				},
@@ -496,6 +497,7 @@ func TestValidateConfiguration(t *testing.T) {
 	})
 
 	t.Run("test count rules", func(t *testing.T) {
+		interfaceName := "bla"
 		conf := &configuration.Config{
 			Version:   1,
 			Threshold: nil,
@@ -523,7 +525,7 @@ func TestValidateConfiguration(t *testing.T) {
 				{
 					Package: "foobar",
 					InterfaceImplementationNamingRule: &configuration.InterfaceImplementationRule{
-						StructsThatImplement:           "bla",
+						StructsThatImplement:           configuration.StructsThatImplement{Internal: &interfaceName},
 						ShouldHaveSimpleNameEndingWith: values.GetStringRef("foo"),
 					},
 				},

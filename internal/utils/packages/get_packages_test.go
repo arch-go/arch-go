@@ -98,4 +98,16 @@ Loading package (3/3): github.com/arch-go/arch-go/internal/reports/console
 		assert.Empty(t, pkgs)
 		assert.Equal(t, expectedOutput, outputBuffer.String())
 	})
+
+	t.Run("Get builtin package", func(t *testing.T) {
+		outputBuffer := bytes.NewBufferString("")
+
+		pkgs, err := packages.GetBasicPackagesInfo("builtin", outputBuffer, false)
+
+		assert.NoError(t, err)
+		assert.Len(t, pkgs, 1)
+		assert.Equal(t, "builtin", pkgs[0].Name)
+		assert.Equal(t, "builtin", pkgs[0].Path)
+		assert.Equal(t, "", outputBuffer.String())
+	})
 }

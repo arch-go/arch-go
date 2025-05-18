@@ -43,7 +43,12 @@ func getPackages(mainPackage string, out io.Writer, printInfo bool) ([]string, e
 		fmt.Fprint(out, "Looking for packages.\n")
 	}
 
-	pkgs, err := packages.Load(&packages.Config{Tests: false}, mainPackage+"/...")
+	pattern := mainPackage + "/..."
+	if mainPackage == "builtin" {
+		pattern = mainPackage
+	}
+
+	pkgs, err := packages.Load(&packages.Config{Tests: false}, pattern)
 	if err != nil {
 		return nil, fmt.Errorf("cannot load module packages: %w", err)
 	}
