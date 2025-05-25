@@ -5,7 +5,6 @@ import (
 	"io"
 
 	"github.com/arch-go/arch-go/internal/verifications/naming/test/pkgtwo"
-	"github.com/stretchr/testify/require"
 )
 
 type Service interface {
@@ -99,27 +98,3 @@ func (d *DefaultServiceWithGenerics[T]) Write(_ []byte) (int, error) {
 func (d *DefaultServiceWithGenerics[T]) MarshalJSON() ([]byte, error) {
 	return nil, nil
 }
-
-type SomeErr struct{}
-
-var _ error = new(SomeErr)
-
-func (e *SomeErr) Error() string {
-	return ""
-}
-
-type SomeReader struct{}
-
-var _ io.Reader = new(SomeReader)
-
-func (s SomeReader) Read(p []byte) (n int, err error) {
-	return 0, nil
-}
-
-type ImplementExternalInterface struct{}
-
-var _ require.TestingT = new(ImplementExternalInterface)
-
-func (t *ImplementExternalInterface) Errorf(format string, args ...interface{}) {}
-
-func (t *ImplementExternalInterface) FailNow() {}
