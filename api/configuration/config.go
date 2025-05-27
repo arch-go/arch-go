@@ -128,11 +128,29 @@ type Dependencies struct {
 // InterfaceImplementationRule represents a naming rule related to interface implementation.
 type InterfaceImplementationRule struct {
 	// StructsThatImplement the implemented interface.
-	StructsThatImplement string `yaml:"structsThatImplement"`
+	StructsThatImplement StructsThatImplement `yaml:"structsThatImplement"`
 
 	// ShouldHaveSimpleNameStartingWith the struct that implements the interface should have this prefix.
 	ShouldHaveSimpleNameStartingWith *string `yaml:"shouldHaveSimpleNameStartingWith"`
 
 	// ShouldHaveSimpleNameEndingWith the struct that implements the interface should have this suffix.
 	ShouldHaveSimpleNameEndingWith *string `yaml:"shouldHaveSimpleNameEndingWith"`
+}
+
+// StructsThatImplement tells where the interface to be implemented is defined and its name.
+type StructsThatImplement struct {
+	// Internal contains the interface definition in the project.
+	Internal *string `yaml:"internal,omitempty"`
+
+	// External contains the interface definition in an external package.
+	External *PackageAndInterface `yaml:"external,omitempty"`
+
+	// Standard contains the interface definition in a standard Go package.
+	Standard *PackageAndInterface `yaml:"standard,omitempty"`
+}
+
+// PackageAndInterface contains the package and interface name to be implemented.
+type PackageAndInterface struct {
+	Package   string `yaml:"package"`
+	Interface string `yaml:"interface"`
 }

@@ -34,5 +34,6 @@ contentsRules:
 namingRules:
   - package: '**.arch-go.**'
     interfaceImplementationNamingRule:
-      structsThatImplement: 'Command'
+      structsThatImplement:
+        internal: 'Command'
       shouldHaveSimpleNameEndingWith: 'Command'

@@ -25,6 +25,7 @@ func TestMigrationCommand(t *testing.T) {
 	})
 
 	t.Run("test migrate configuration with cycles rules", func(t *testing.T) {
+		interfaceName := "blabla"
 		originalConfig := &configuration.DeprecatedConfig{
 			DependenciesRules: []*configuration.DeprecatedDependenciesRule{
 				{
@@ -51,7 +52,9 @@ func TestMigrationCommand(t *testing.T) {
 				{
 					Package: "foobar",
 					InterfaceImplementationNamingRule: &configuration.InterfaceImplementationRule{
-						StructsThatImplement:           "blabla",
+						StructsThatImplement: configuration.StructsThatImplement{
+							Internal: &interfaceName,
+						},
 						ShouldHaveSimpleNameEndingWith: values.GetStringRef("jojo"),
 					},
 				},
@@ -93,7 +96,9 @@ func TestMigrationCommand(t *testing.T) {
 				{
 					Package: "foobar",
 					InterfaceImplementationNamingRule: &configuration.InterfaceImplementationRule{
-						StructsThatImplement:           "blabla",
+						StructsThatImplement: configuration.StructsThatImplement{
+							Internal: &interfaceName,
+						},
 						ShouldHaveSimpleNameEndingWith: values.GetStringRef("jojo"),
 					},
 				},
@@ -105,6 +110,7 @@ func TestMigrationCommand(t *testing.T) {
 	})
 
 	t.Run("test migrate configuration without cycles rules", func(t *testing.T) {
+		interfaceName := "blabla"
 		originalConfig := &configuration.DeprecatedConfig{
 			DependenciesRules: []*configuration.DeprecatedDependenciesRule{
 				{
@@ -131,7 +137,9 @@ func TestMigrationCommand(t *testing.T) {
 				{
 					Package: "foobar",
 					InterfaceImplementationNamingRule: &configuration.InterfaceImplementationRule{
-						StructsThatImplement:           "blabla",
+						StructsThatImplement: configuration.StructsThatImplement{
+							Internal: &interfaceName,
+						},
 						ShouldHaveSimpleNameEndingWith: values.GetStringRef("jojo"),
 					},
 				},
@@ -167,7 +175,9 @@ func TestMigrationCommand(t *testing.T) {
 				{
 					Package: "foobar",
 					InterfaceImplementationNamingRule: &configuration.InterfaceImplementationRule{
-						StructsThatImplement:           "blabla",
+						StructsThatImplement: configuration.StructsThatImplement{
+							Internal: &interfaceName,
+						},
 						ShouldHaveSimpleNameEndingWith: values.GetStringRef("jojo"),
 					},
 				},
