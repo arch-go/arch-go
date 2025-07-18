@@ -52,7 +52,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@3041bf56c941b39c61721a86cd11f3bb1338122a # v5.2.0
         with:
-          go-version: 1.22.5
+          go-version: 1.24.5
       - name: Get google/go-licenses package
         run: go install github.com/google/go-licenses@v1.6.0
       - name: Check the licenses
@@ -74,7 +74,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@3041bf56c941b39c61721a86cd11f3bb1338122a # v5
         with:
-          go-version: 1.22.5
+          go-version: 1.24.5
       - name: Execute tests
         run: |
           go test -v -gcflags=all=-l -cover ./... -coverprofile coverage.out -coverpkg ./...
@@ -110,7 +110,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@3041bf56c941b39c61721a86cd11f3bb1338122a # v5.2.0
         with:
-          go-version: 1.22.5
+          go-version: 1.24.5
       - name: Build
         run: CGO_ENABLED=0 GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -trimpath -ldflags="-buildid= -w -s -X github.com/arch-go/arch-go/internal/common.Version=${{ github.sha }}" -o ./build/
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
@@ -138,7 +138,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@3041bf56c941b39c61721a86cd11f3bb1338122a # v5.2.0
         with:
-          go-version: 1.22.5
+          go-version: 1.24.5
       - name: Install Cosign
         uses: sigstore/cosign-installer@dc72c7d5c4d10cd6bcb8cf6e3fd625a9e5e537da # v3.7.0
         with:
@@ -167,7 +167,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@3041bf56c941b39c61721a86cd11f3bb1338122a # v5
         with:
-          go-version: 1.22.5
+          go-version: 1.24.5
       - name: Arch-Go
         run: |
           # Smoke E2E: Run program with different flag options
