@@ -37,17 +37,17 @@ func TestConsoleReportGenerator(t *testing.T) {
 			},
 		}
 
-		expectedOutput := `+---+--------------------+-------------+-------------+-------------+
-| # | RULE TYPE          |       TOTAL |      PASSED |      FAILED |
-+---+--------------------+-------------+-------------+-------------+
-| 1 | Dependencies Rules |           0 |           0 |           0 |
-| 2 | Functions Rules    |           0 |           0 |           0 |
-| 3 | Contents Rules     |           0 |           0 |           0 |
-| 4 | Naming Rules       |           0 |           0 |           0 |
-+---+--------------------+-------------+-------------+-------------+
-|   | COMPLIANCE RATE    |  87% [FAIL]                             |
-|   | COVERAGE RATE      |  87% [PASS]                             |
-+---+--------------------+-----------------------------------------+
+		expectedOutput := `+---+--------------------+-------+--------+--------+
+| # | RULE TYPE          | TOTAL | PASSED | FAILED |
++---+--------------------+-------+--------+--------+
+| 1 | Dependencies Rules |     0 |      0 |      0 |
+| 2 | Functions Rules    |     0 |      0 |      0 |
+| 3 | Contents Rules     |     0 |      0 |      0 |
+| 4 | Naming Rules       |     0 |      0 |      0 |
++---+--------------------+-------+--------+--------+
+|   | COMPLIANCE RATE    |  87% [FAIL]             |
+|   | COVERAGE RATE      |  87% [PASS]             |
++---+--------------------+-------------------------+
 `
 
 		GenerateConsoleReport(report, outputBuffer)
