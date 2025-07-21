@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.7.1](https://github.com/arch-go/arch-go/compare/v1.7.0...v1.7.1) (2025-07-21)
+
+
+### Bug Fixes
+
+* Fixes broken test on concole report ([#189](https://github.com/arch-go/arch-go/issues/189)) ([9d959a7](https://github.com/arch-go/arch-go/commit/9d959a7dc7ece9ccec19b16723bf6444584a767f))
+
+
+### Dependencies
+
+* update module github.com/agiledragon/gomonkey/v2 to v2.13.0 ([#184](https://github.com/arch-go/arch-go/issues/184)) ([a61d975](https://github.com/arch-go/arch-go/commit/a61d9758b21cb48a06398dacdd934b5fc4562ef0))
+* update module github.com/jedib0t/go-pretty/v6 to v6.6.7 ([#166](https://github.com/arch-go/arch-go/issues/166)) ([66e6a71](https://github.com/arch-go/arch-go/commit/66e6a717323f2f5223da994771720066a748771b))
+* update module github.com/spf13/cobra to v1.9.1 ([#185](https://github.com/arch-go/arch-go/issues/185)) ([4f9be6f](https://github.com/arch-go/arch-go/commit/4f9be6f2a62b8545efbba72a380cb9b4f43a735a))
+* update module github.com/spf13/viper to v1.20.1 ([#186](https://github.com/arch-go/arch-go/issues/186)) ([881b754](https://github.com/arch-go/arch-go/commit/881b754a7bea4f0359795eeaf89f626ae72011ee))
+
 ## [1.7.0](https://github.com/arch-go/arch-go/compare/v1.6.2...v1.7.0) (2024-12-13)
 
 
