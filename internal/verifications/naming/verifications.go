@@ -5,9 +5,12 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/arch-go/arch-go/internal/utils/output"
+	"github.com/arch-go/arch-go/internal/utils/packages"
+	"github.com/arch-go/arch-go/internal/utils/text"
+
 	"github.com/arch-go/arch-go/api/configuration"
 	"github.com/arch-go/arch-go/internal/model"
-	"github.com/arch-go/arch-go/internal/utils/text"
 )
 
 func CheckRules(moduleInfo model.ModuleInfo, rules []*configuration.NamingRule) *RulesResult {
@@ -54,13 +57,78 @@ func CheckRule(moduleInfo model.ModuleInfo, rule configuration.NamingRule) *Rule
 }
 
 func checkNamingRule(pkg *model.PackageInfo, rule configuration.NamingRule, module model.ModuleInfo) (bool, []string) {
-	if rule.InterfaceImplementationNamingRule != nil {
-		interfaces, _ := getInterfacesMatching(pkg, rule.InterfaceImplementationNamingRule.StructsThatImplement)
+	result := true
+	var details []string
 
-		return checkInterfaceImplementationNamingRule(interfaces, rule, module.Packages)
+	if rule.InterfaceImplementationNamingRule != nil {
+		pass1, details1 := checkInternalInterfaces(pkg, rule, module)
+		pass2, details2 := checkExternalInterfaces(pkg, rule, module)
+		pass3, details3 := checkStandardInterfaces(pkg, rule, module)
+
+		result = result && pass1 && pass2 && pass3
+		details = append(details, details1...)
+		details = append(details, details2...)
+		details = append(details, details3...)
 	}
 
-	return true, []string{}
+	return result, details
+}
+
+func checkInternalInterfaces(pkg *model.PackageInfo, rule configuration.NamingRule, module model.ModuleInfo) (bool, []string) {
+	if rule.InterfaceImplementationNamingRule.StructsThatImplement.Internal == nil {
+		return true, nil
+	}
+
+	interfaces, err := getInterfacesMatching(pkg, *rule.InterfaceImplementationNamingRule.StructsThatImplement.Internal)
+	if err != nil {
+		return false, []string{err.Error()}
+	}
+
+	return checkInterfaceImplementationNamingRule(interfaces, rule, module.Packages)
+}
+
+func checkExternalInterfaces(_ *model.PackageInfo, rule configuration.NamingRule, module model.ModuleInfo) (bool, []string) {
+	if rule.InterfaceImplementationNamingRule.StructsThatImplement.External == nil {
+		return true, nil
+	}
+
+	pkgs, err := packages.GetBasicPackagesInfo(rule.InterfaceImplementationNamingRule.StructsThatImplement.External.Package, output.CreateNilWriter(), false)
+	if err != nil {
+		return false, []string{err.Error()}
+	}
+
+	var interfaces []InterfaceDescription
+	for _, pkg := range pkgs {
+		pkgInterfaces, err := getInterfacesMatching(pkg, rule.InterfaceImplementationNamingRule.StructsThatImplement.External.Interface)
+		if err != nil {
+			return false, []string{err.Error()}
+		}
+		interfaces = append(interfaces, pkgInterfaces...)
+	}
+
+	return checkInterfaceImplementationNamingRule(interfaces, rule, module.Packages)
+}
+
+func checkStandardInterfaces(_ *model.PackageInfo, rule configuration.NamingRule, module model.ModuleInfo) (bool, []string) {
+	if rule.InterfaceImplementationNamingRule.StructsThatImplement.Standard == nil {
+		return true, nil
+	}
+
+	pkgs, err := packages.GetBasicPackagesInfo(rule.InterfaceImplementationNamingRule.StructsThatImplement.Standard.Package, output.CreateNilWriter(), false)
+	if err != nil {
+		return false, []string{err.Error()}
+	}
+
+	var interfaces []InterfaceDescription
+	for _, pkg := range pkgs {
+		pkgInterfaces, err := getInterfacesMatching(pkg, rule.InterfaceImplementationNamingRule.StructsThatImplement.Standard.Interface)
+		if err != nil {
+			return false, []string{err.Error()}
+		}
+		interfaces = append(interfaces, pkgInterfaces...)
+	}
+
+	return checkInterfaceImplementationNamingRule(interfaces, rule, module.Packages)
 }
 
 func checkInterfaceImplementationNamingRule(
