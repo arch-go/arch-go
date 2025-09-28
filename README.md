@@ -90,8 +90,30 @@ functionsRules:
 namingRules:
   - package: "**.arch-go.**"
     interfaceImplementationNamingRule:
-      structsThatImplement: "*Connection"
+      structsThatImplement: 
+        internal: "*Connection"
       shouldHaveSimpleNameEndingWith: "Connection"
+  - package: "**.impl.**"
+    interfaceImplementationNamingRule:
+      structsThatImplement:
+        external:
+          package: "github.com/some/package"
+          interface: "SomeInterface"
+      shouldHaveSimpleNameEndingWith: "SomeName"
+  - package: "**.impl.**"
+    interfaceImplementationNamingRule:
+      structsThatImplement:
+        standard:
+          package: "builtin"
+          interface: "error"
+      shouldHaveSimpleNameEndingWith: "Err"
+  - package: "**.impl.**"
+    interfaceImplementationNamingRule:
+      structsThatImplement:
+        standard:
+          package: "io"
+          interface: "Writer"
+      shouldHaveSimpleNameEndingWith: "Writer"
 ```
 
 ## Package name patterns

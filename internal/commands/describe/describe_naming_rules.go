@@ -28,16 +28,85 @@ func describeInterfaceImplementationNamingRule(rule *configuration.NamingRule, o
 		namingRule := ""
 
 		if rule.InterfaceImplementationNamingRule.ShouldHaveSimpleNameEndingWith != nil {
-			namingRule = fmt.Sprintf("should have simple name ending with '%s'",
-				*rule.InterfaceImplementationNamingRule.ShouldHaveSimpleNameEndingWith)
+			if rule.InterfaceImplementationNamingRule.StructsThatImplement.Internal != nil {
+				namingRule = internalEndingWith(rule)
+			}
+
+			if rule.InterfaceImplementationNamingRule.StructsThatImplement.Standard != nil {
+				namingRule = standardEndingWith(rule)
+			}
+
+			if rule.InterfaceImplementationNamingRule.StructsThatImplement.External != nil {
+				namingRule = externalEndingWith(rule)
+			}
 		}
 
 		if rule.InterfaceImplementationNamingRule.ShouldHaveSimpleNameStartingWith != nil {
-			namingRule = fmt.Sprintf("should have simple name starting with '%s'",
-				*rule.InterfaceImplementationNamingRule.ShouldHaveSimpleNameStartingWith)
+			if rule.InterfaceImplementationNamingRule.StructsThatImplement.Internal != nil {
+				namingRule = internalStartingWith(rule)
+			}
+
+			if rule.InterfaceImplementationNamingRule.StructsThatImplement.Standard != nil {
+				namingRule = standardStartingWith(rule)
+			}
+
+			if rule.InterfaceImplementationNamingRule.StructsThatImplement.External != nil {
+				namingRule = externalStartingWith(rule)
+			}
 		}
 
-		fmt.Fprintf(out, "\t\t* Structs that implement interfaces matching name '%s' %s\n",
-			rule.InterfaceImplementationNamingRule.StructsThatImplement, namingRule)
+		fmt.Fprintf(out, "\t\t* Structs that implement interfaces matching name %s\n", namingRule)
 	}
+}
+
+func internalEndingWith(rule *configuration.NamingRule) string {
+	return fmt.Sprintf(
+		"'%s' should have simple name ending with '%s'",
+		*rule.InterfaceImplementationNamingRule.StructsThatImplement.Internal,
+		*rule.InterfaceImplementationNamingRule.ShouldHaveSimpleNameEndingWith,
+	)
+}
+
+func standardEndingWith(rule *configuration.NamingRule) string {
+	return fmt.Sprintf(
+		"'%s' from standard package '%s' should have simple name ending with '%s'",
+		rule.InterfaceImplementationNamingRule.StructsThatImplement.Standard.Interface,
+		rule.InterfaceImplementationNamingRule.StructsThatImplement.Standard.Package,
+		*rule.InterfaceImplementationNamingRule.ShouldHaveSimpleNameEndingWith,
+	)
+}
+
+func externalEndingWith(rule *configuration.NamingRule) string {
+	return fmt.Sprintf(
+		"'%s' from external package '%s' should have simple name ending with '%s'",
+		rule.InterfaceImplementationNamingRule.StructsThatImplement.External.Interface,
+		rule.InterfaceImplementationNamingRule.StructsThatImplement.External.Package,
+		*rule.InterfaceImplementationNamingRule.ShouldHaveSimpleNameEndingWith,
+	)
+}
+
+func internalStartingWith(rule *configuration.NamingRule) string {
+	return fmt.Sprintf(
+		"'%s' should have simple name starting with '%s'",
+		*rule.InterfaceImplementationNamingRule.StructsThatImplement.Internal,
+		*rule.InterfaceImplementationNamingRule.ShouldHaveSimpleNameStartingWith,
+	)
+}
+
+func standardStartingWith(rule *configuration.NamingRule) string {
+	return fmt.Sprintf(
+		"'%s' from standard package '%s' should have simple name starting with '%s'",
+		rule.InterfaceImplementationNamingRule.StructsThatImplement.Standard.Interface,
+		rule.InterfaceImplementationNamingRule.StructsThatImplement.Standard.Package,
+		*rule.InterfaceImplementationNamingRule.ShouldHaveSimpleNameStartingWith,
+	)
+}
+
+func externalStartingWith(rule *configuration.NamingRule) string {
+	return fmt.Sprintf(
+		"'%s' from external package '%s' should have simple name starting with '%s'",
+		rule.InterfaceImplementationNamingRule.StructsThatImplement.External.Interface,
+		rule.InterfaceImplementationNamingRule.StructsThatImplement.External.Package,
+		*rule.InterfaceImplementationNamingRule.ShouldHaveSimpleNameStartingWith,
+	)
 }

@@ -16,6 +16,7 @@ import (
 func TestDescribeCommand(t *testing.T) {
 	t.Run("describe rules", func(t *testing.T) {
 		outputBuffer := bytes.NewBufferString("")
+		interfaceName := "foo"
 		configuration := &configuration.Config{
 			Threshold: &configuration.Threshold{
 				Compliance: values.GetIntRef(87),
@@ -86,14 +87,66 @@ func TestDescribeCommand(t *testing.T) {
 				{
 					Package: "foobar",
 					InterfaceImplementationNamingRule: &configuration.InterfaceImplementationRule{
-						StructsThatImplement:             "foo",
+						StructsThatImplement: configuration.StructsThatImplement{
+							Internal: &interfaceName,
+						},
 						ShouldHaveSimpleNameStartingWith: values.GetStringRef("bla"),
 					},
 				},
 				{
 					Package: "barfoo",
 					InterfaceImplementationNamingRule: &configuration.InterfaceImplementationRule{
-						StructsThatImplement:           "foo",
+						StructsThatImplement: configuration.StructsThatImplement{
+							Internal: &interfaceName,
+						},
+						ShouldHaveSimpleNameEndingWith: values.GetStringRef("anything"),
+					},
+				},
+				{
+					Package: "foobar",
+					InterfaceImplementationNamingRule: &configuration.InterfaceImplementationRule{
+						StructsThatImplement: configuration.StructsThatImplement{
+							External: &configuration.PackageAndInterface{
+								Package:   "github.com/some/package1",
+								Interface: "InterfaceName1",
+							},
+						},
+						ShouldHaveSimpleNameStartingWith: values.GetStringRef("bla"),
+					},
+				},
+				{
+					Package: "barfoo",
+					InterfaceImplementationNamingRule: &configuration.InterfaceImplementationRule{
+						StructsThatImplement: configuration.StructsThatImplement{
+							External: &configuration.PackageAndInterface{
+								Package:   "github.com/some/package2",
+								Interface: "InterfaceName2",
+							},
+						},
+						ShouldHaveSimpleNameEndingWith: values.GetStringRef("anything"),
+					},
+				},
+				{
+					Package: "foobar",
+					InterfaceImplementationNamingRule: &configuration.InterfaceImplementationRule{
+						StructsThatImplement: configuration.StructsThatImplement{
+							Standard: &configuration.PackageAndInterface{
+								Package:   "github.com/some/package3",
+								Interface: "InterfaceName3",
+							},
+						},
+						ShouldHaveSimpleNameStartingWith: values.GetStringRef("bla"),
+					},
+				},
+				{
+					Package: "barfoo",
+					InterfaceImplementationNamingRule: &configuration.InterfaceImplementationRule{
+						StructsThatImplement: configuration.StructsThatImplement{
+							Standard: &configuration.PackageAndInterface{
+								Package:   "github.com/some/package4",
+								Interface: "InterfaceName4",
+							},
+						},
 						ShouldHaveSimpleNameEndingWith: values.GetStringRef("anything"),
 					},
 				},
@@ -137,6 +190,14 @@ Naming Rules
 		* Structs that implement interfaces matching name 'foo' should have simple name starting with 'bla'
 	* Packages that match pattern 'barfoo' should comply with:
 		* Structs that implement interfaces matching name 'foo' should have simple name ending with 'anything'
+	* Packages that match pattern 'foobar' should comply with:
+		* Structs that implement interfaces matching name 'InterfaceName1' from external package 'github.com/some/package1' should have simple name starting with 'bla'
+	* Packages that match pattern 'barfoo' should comply with:
+		* Structs that implement interfaces matching name 'InterfaceName2' from external package 'github.com/some/package2' should have simple name ending with 'anything'
+	* Packages that match pattern 'foobar' should comply with:
+		* Structs that implement interfaces matching name 'InterfaceName3' from standard package 'github.com/some/package3' should have simple name starting with 'bla'
+	* Packages that match pattern 'barfoo' should comply with:
+		* Structs that implement interfaces matching name 'InterfaceName4' from standard package 'github.com/some/package4' should have simple name ending with 'anything'
 Threshold Rules
 	* The module must comply with at least 87% of the rules described above.
 	* The rules described above must cover at least 34% of the packages in this module.
