@@ -1,4 +1,4 @@
-module github.com/arch-go/arch-go
+module github.com/arch-go/arch-go/v2
 
 go 1.22.5
 
