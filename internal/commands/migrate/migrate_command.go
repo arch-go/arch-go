@@ -8,10 +8,10 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"github.com/arch-go/arch-go/api/configuration"
-	"github.com/arch-go/arch-go/internal/commands"
-	"github.com/arch-go/arch-go/internal/utils/timer"
-	"github.com/arch-go/arch-go/internal/validators"
+	"github.com/arch-go/arch-go/v2/api/configuration"
+	"github.com/arch-go/arch-go/v2/internal/commands"
+	"github.com/arch-go/arch-go/v2/internal/utils/timer"
+	"github.com/arch-go/arch-go/v2/internal/validators"
 )
 
 type migrateConfigCommand struct {

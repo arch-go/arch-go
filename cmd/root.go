@@ -10,12 +10,12 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/arch-go/arch-go/api"
-	"github.com/arch-go/arch-go/api/configuration"
-	"github.com/arch-go/arch-go/internal/common"
-	"github.com/arch-go/arch-go/internal/model"
-	"github.com/arch-go/arch-go/internal/reports"
-	"github.com/arch-go/arch-go/internal/utils/packages"
+	"github.com/arch-go/arch-go/v2/api"
+	"github.com/arch-go/arch-go/v2/api/configuration"
+	"github.com/arch-go/arch-go/v2/internal/common"
+	"github.com/arch-go/arch-go/v2/internal/model"
+	"github.com/arch-go/arch-go/v2/internal/reports"
+	"github.com/arch-go/arch-go/v2/internal/utils/packages"
 )
 
 //nolint:gochecknoglobals

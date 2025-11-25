@@ -3,7 +3,7 @@ package naming
 import (
 	"fmt"
 
-	"github.com/arch-go/arch-go/api/configuration"
+	"github.com/arch-go/arch-go/v2/api/configuration"
 )
 
 func resolveDescription(rule configuration.NamingRule) string {

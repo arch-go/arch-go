@@ -4,7 +4,7 @@ import (
 	jsonAlias "encoding/json"
 	"io"
 
-	"github.com/arch-go/arch-go/internal/verifications/naming/test/pkgtwo"
+	"github.com/arch-go/arch-go/v2/internal/verifications/naming/test/pkgtwo"
 )
 
 type Service interface {

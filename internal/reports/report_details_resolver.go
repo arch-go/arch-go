@@ -1,9 +1,9 @@
 package reports
 
 import (
-	"github.com/arch-go/arch-go/api"
-	"github.com/arch-go/arch-go/internal/reports/model"
-	"github.com/arch-go/arch-go/internal/reports/utils"
+	"github.com/arch-go/arch-go/v2/api"
+	"github.com/arch-go/arch-go/v2/internal/reports/model"
+	"github.com/arch-go/arch-go/v2/internal/reports/utils"
 )
 
 func resolveReportDetails(result *api.Result) *model.ReportDetails {

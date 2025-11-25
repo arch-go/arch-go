@@ -1,12 +1,12 @@
 package reports
 
 import (
-	"github.com/arch-go/arch-go/api"
-	"github.com/arch-go/arch-go/api/configuration"
-	"github.com/arch-go/arch-go/internal/common"
-	"github.com/arch-go/arch-go/internal/model"
-	reportModel "github.com/arch-go/arch-go/internal/reports/model"
-	"github.com/arch-go/arch-go/internal/reports/utils"
+	"github.com/arch-go/arch-go/v2/api"
+	"github.com/arch-go/arch-go/v2/api/configuration"
+	"github.com/arch-go/arch-go/v2/internal/common"
+	"github.com/arch-go/arch-go/v2/internal/model"
+	reportModel "github.com/arch-go/arch-go/v2/internal/reports/model"
+	"github.com/arch-go/arch-go/v2/internal/reports/utils"
 )
 
 func GenerateReport(result *api.Result, moduleInfo model.ModuleInfo, config configuration.Config) *reportModel.Report {

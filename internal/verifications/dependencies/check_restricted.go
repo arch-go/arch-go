@@ -5,9 +5,9 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/arch-go/arch-go/internal/model"
-	"github.com/arch-go/arch-go/internal/utils/packages"
-	"github.com/arch-go/arch-go/internal/utils/text"
+	"github.com/arch-go/arch-go/v2/internal/model"
+	"github.com/arch-go/arch-go/v2/internal/utils/packages"
+	"github.com/arch-go/arch-go/v2/internal/utils/text"
 )
 
 func checkRestrictedStandardImports(pkg string, restricted []string, moduleInfo model.ModuleInfo) (bool, []string) {

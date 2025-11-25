@@ -3,10 +3,10 @@ package api
 import (
 	"time"
 
-	"github.com/arch-go/arch-go/internal/verifications/contents"
-	"github.com/arch-go/arch-go/internal/verifications/dependencies"
-	"github.com/arch-go/arch-go/internal/verifications/functions"
-	"github.com/arch-go/arch-go/internal/verifications/naming"
+	"github.com/arch-go/arch-go/v2/internal/verifications/contents"
+	"github.com/arch-go/arch-go/v2/internal/verifications/dependencies"
+	"github.com/arch-go/arch-go/v2/internal/verifications/functions"
+	"github.com/arch-go/arch-go/v2/internal/verifications/naming"
 )
 
 // Result contains the result of an architecture analysis.

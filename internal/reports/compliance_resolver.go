@@ -1,10 +1,10 @@
 package reports
 
 import (
-	"github.com/arch-go/arch-go/api"
-	"github.com/arch-go/arch-go/api/configuration"
-	"github.com/arch-go/arch-go/internal/reports/model"
-	"github.com/arch-go/arch-go/internal/utils/values"
+	"github.com/arch-go/arch-go/v2/api"
+	"github.com/arch-go/arch-go/v2/api/configuration"
+	"github.com/arch-go/arch-go/v2/internal/reports/model"
+	"github.com/arch-go/arch-go/v2/internal/utils/values"
 )
 
 func resolveCompliance(result *api.Result, conf configuration.Config) *model.ThresholdSummary {

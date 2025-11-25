@@ -7,9 +7,9 @@ import (
 	"github.com/agiledragon/gomonkey/v2"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/arch-go/arch-go/api"
-	"github.com/arch-go/arch-go/api/configuration"
-	"github.com/arch-go/arch-go/internal/model"
+	"github.com/arch-go/arch-go/v2/api"
+	"github.com/arch-go/arch-go/v2/api/configuration"
+	"github.com/arch-go/arch-go/v2/internal/model"
 )
 
 func TestCheckArchitecture(t *testing.T) {

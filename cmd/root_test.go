@@ -13,7 +13,7 @@ import (
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/arch-go/arch-go/api"
+	"github.com/arch-go/arch-go/v2/api"
 )
 
 func TestRootCommand(t *testing.T) {

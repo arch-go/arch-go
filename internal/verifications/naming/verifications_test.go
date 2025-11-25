@@ -3,13 +3,13 @@ package naming
 import (
 	"testing"
 
-	"github.com/arch-go/arch-go/internal/common"
-	"github.com/arch-go/arch-go/internal/utils/packages"
+	"github.com/arch-go/arch-go/v2/internal/common"
+	"github.com/arch-go/arch-go/v2/internal/utils/packages"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/arch-go/arch-go/api/configuration"
-	"github.com/arch-go/arch-go/internal/model"
-	"github.com/arch-go/arch-go/internal/utils/values"
+	"github.com/arch-go/arch-go/v2/api/configuration"
+	"github.com/arch-go/arch-go/v2/internal/model"
+	"github.com/arch-go/arch-go/v2/internal/utils/values"
 )
 
 func TestNamingVerifications(t *testing.T) {

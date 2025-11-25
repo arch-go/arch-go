@@ -10,11 +10,11 @@ import (
 	"github.com/agiledragon/gomonkey/v2"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/arch-go/arch-go/internal/common"
-	"github.com/arch-go/arch-go/internal/reports/html"
-	"github.com/arch-go/arch-go/internal/reports/json"
-	"github.com/arch-go/arch-go/internal/reports/model"
-	"github.com/arch-go/arch-go/internal/utils/values"
+	"github.com/arch-go/arch-go/v2/internal/common"
+	"github.com/arch-go/arch-go/v2/internal/reports/html"
+	"github.com/arch-go/arch-go/v2/internal/reports/json"
+	"github.com/arch-go/arch-go/v2/internal/reports/model"
+	"github.com/arch-go/arch-go/v2/internal/utils/values"
 )
 
 func TestDisplay(t *testing.T) {

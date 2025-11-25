@@ -1,9 +1,9 @@
 package configuration
 
 import (
-	"github.com/arch-go/arch-go/internal/model"
-	"github.com/arch-go/arch-go/internal/utils/output"
-	"github.com/arch-go/arch-go/internal/utils/packages"
+	"github.com/arch-go/arch-go/v2/internal/model"
+	"github.com/arch-go/arch-go/v2/internal/utils/output"
+	"github.com/arch-go/arch-go/v2/internal/utils/packages"
 )
 
 // Load takes the passed package as the main package and loads module information.

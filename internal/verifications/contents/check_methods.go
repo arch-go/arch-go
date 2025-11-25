@@ -1,7 +1,7 @@
 package contents
 
 import (
-	"github.com/arch-go/arch-go/api/configuration"
+	"github.com/arch-go/arch-go/v2/api/configuration"
 )
 
 func checkMethods(pkg *PackageContents, rule *configuration.ContentsRule) (bool, []string) {

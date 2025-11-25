@@ -1,6 +1,6 @@
 package utils
 
-import "github.com/arch-go/arch-go/internal/reports/model"
+import "github.com/arch-go/arch-go/v2/internal/reports/model"
 
 func ResolveStatus(result bool) string {
 	if result {

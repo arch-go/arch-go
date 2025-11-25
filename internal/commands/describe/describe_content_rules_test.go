@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/arch-go/arch-go/api/configuration"
+	"github.com/arch-go/arch-go/v2/api/configuration"
 )
 
 func TestDescribeContentRules(t *testing.T) {

@@ -6,12 +6,12 @@ import (
 
 	"github.com/fatih/color"
 
-	"github.com/arch-go/arch-go/internal/common"
-	"github.com/arch-go/arch-go/internal/reports/console"
-	"github.com/arch-go/arch-go/internal/reports/html"
-	"github.com/arch-go/arch-go/internal/reports/json"
-	"github.com/arch-go/arch-go/internal/reports/model"
-	"github.com/arch-go/arch-go/internal/reports/utils"
+	"github.com/arch-go/arch-go/v2/internal/common"
+	"github.com/arch-go/arch-go/v2/internal/reports/console"
+	"github.com/arch-go/arch-go/v2/internal/reports/html"
+	"github.com/arch-go/arch-go/v2/internal/reports/json"
+	"github.com/arch-go/arch-go/v2/internal/reports/model"
+	"github.com/arch-go/arch-go/v2/internal/reports/utils"
 )
 
 func DisplayResult(report *model.Report, output io.Writer) {

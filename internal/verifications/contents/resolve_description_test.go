@@ -3,9 +3,8 @@ package contents
 import (
 	"testing"
 
+	"github.com/arch-go/arch-go/v2/api/configuration"
 	"github.com/stretchr/testify/assert"
-
-	"github.com/arch-go/arch-go/api/configuration"
 )
 
 func TestResolveContentsRuleDescription(t *testing.T) {
