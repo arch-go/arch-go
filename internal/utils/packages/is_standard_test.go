@@ -3,7 +3,7 @@ package packages_test
 import (
 	"testing"
 
-	"github.com/arch-go/arch-go/internal/utils/packages"
+	"github.com/arch-go/arch-go/v2/internal/utils/packages"
 )
 
 func TestIsStandard(t *testing.T) {

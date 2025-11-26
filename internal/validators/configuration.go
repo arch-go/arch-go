@@ -3,7 +3,7 @@ package validators
 import (
 	"errors"
 
-	"github.com/arch-go/arch-go/api/configuration"
+	"github.com/arch-go/arch-go/v2/api/configuration"
 )
 
 func ValidateConfiguration(configuration *configuration.Config) error {

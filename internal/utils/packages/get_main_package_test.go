@@ -8,7 +8,7 @@ import (
 	"github.com/agiledragon/gomonkey/v2"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/arch-go/arch-go/internal/utils/packages"
+	"github.com/arch-go/arch-go/v2/internal/utils/packages"
 )
 
 func TestGetMainPackage(t *testing.T) {

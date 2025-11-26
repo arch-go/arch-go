@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/require"
 	gopkg "golang.org/x/tools/go/packages"
 
-	"github.com/arch-go/arch-go/internal/utils/packages"
+	"github.com/arch-go/arch-go/v2/internal/utils/packages"
 )
 
 func TestGetPackages(t *testing.T) {
@@ -26,7 +26,7 @@ func TestGetPackages(t *testing.T) {
 						PkgPath: "io",
 					},
 					{
-						PkgPath: "github.com/arch-go/arch-go/internal/reports/console",
+						PkgPath: "github.com/arch-go/arch-go/v2/internal/reports/console",
 					},
 				}, nil
 			},
@@ -38,7 +38,7 @@ func TestGetPackages(t *testing.T) {
 3 packages found...
 Loading package (1/3): fmt
 Loading package (2/3): io
-Loading package (3/3): github.com/arch-go/arch-go/internal/reports/console
+Loading package (3/3): github.com/arch-go/arch-go/v2/internal/reports/console
 `
 
 		pkgs, _ := packages.GetBasicPackagesInfo("foo", outputBuffer, true)
@@ -47,7 +47,7 @@ Loading package (3/3): github.com/arch-go/arch-go/internal/reports/console
 		assert.Equal(t, "fmt", pkgs[0].Name)
 		assert.Equal(t, "io", pkgs[1].Name)
 		assert.Equal(t, "console", pkgs[2].Name)
-		assert.Equal(t, "github.com/arch-go/arch-go/internal/reports/console", pkgs[2].Path)
+		assert.Equal(t, "github.com/arch-go/arch-go/v2/internal/reports/console", pkgs[2].Path)
 		assert.Equal(t, expectedOutput, outputBuffer.String())
 	})
 
@@ -63,7 +63,7 @@ Loading package (3/3): github.com/arch-go/arch-go/internal/reports/console
 						PkgPath: "io",
 					},
 					{
-						PkgPath: "github.com/arch-go/arch-go/internal/reports/console",
+						PkgPath: "github.com/arch-go/arch-go/v2/internal/reports/console",
 					},
 				}, nil
 			},
@@ -79,7 +79,7 @@ Loading package (3/3): github.com/arch-go/arch-go/internal/reports/console
 		assert.Equal(t, "fmt", pkgs[0].Name)
 		assert.Equal(t, "io", pkgs[1].Name)
 		assert.Equal(t, "console", pkgs[2].Name)
-		assert.Equal(t, "github.com/arch-go/arch-go/internal/reports/console", pkgs[2].Path)
+		assert.Equal(t, "github.com/arch-go/arch-go/v2/internal/reports/console", pkgs[2].Path)
 		assert.Equal(t, expectedOutput, outputBuffer.String())
 	})
 

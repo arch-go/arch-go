@@ -5,14 +5,14 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/arch-go/arch-go/api"
-	"github.com/arch-go/arch-go/api/configuration"
-	"github.com/arch-go/arch-go/internal/reports/model"
-	"github.com/arch-go/arch-go/internal/utils/values"
-	"github.com/arch-go/arch-go/internal/verifications/contents"
-	"github.com/arch-go/arch-go/internal/verifications/dependencies"
-	"github.com/arch-go/arch-go/internal/verifications/functions"
-	"github.com/arch-go/arch-go/internal/verifications/naming"
+	"github.com/arch-go/arch-go/v2/api"
+	"github.com/arch-go/arch-go/v2/api/configuration"
+	"github.com/arch-go/arch-go/v2/internal/reports/model"
+	"github.com/arch-go/arch-go/v2/internal/utils/values"
+	"github.com/arch-go/arch-go/v2/internal/verifications/contents"
+	"github.com/arch-go/arch-go/v2/internal/verifications/dependencies"
+	"github.com/arch-go/arch-go/v2/internal/verifications/functions"
+	"github.com/arch-go/arch-go/v2/internal/verifications/naming"
 )
 
 func TestComplianceResolver(t *testing.T) {

@@ -9,9 +9,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/arch-go/arch-go/internal/model"
-	"github.com/arch-go/arch-go/internal/utils/output"
-	"github.com/arch-go/arch-go/internal/utils/packages"
+	"github.com/arch-go/arch-go/v2/internal/model"
+	"github.com/arch-go/arch-go/v2/internal/utils/output"
+	"github.com/arch-go/arch-go/v2/internal/utils/packages"
 )
 
 func TestResolveStructsDescription(t *testing.T) {
@@ -103,7 +103,7 @@ func TestResolveStructsDescription(t *testing.T) {
 }
 
 func TestGetInterfacesMatching(t *testing.T) {
-	pkgPath := "github.com/arch-go/arch-go/internal/verifications/naming/test/pkgone"
+	pkgPath := "github.com/arch-go/arch-go/v2/internal/verifications/naming/test/pkgone"
 	pkgs, err := packages.GetBasicPackagesInfo(pkgPath, output.CreateNilWriter(), false)
 	require.NoError(t, err)
 

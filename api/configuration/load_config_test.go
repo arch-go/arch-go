@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/arch-go/arch-go/internal/utils/values"
+	"github.com/arch-go/arch-go/v2/internal/utils/values"
 )
 
 func TestCheckThreshold(t *testing.T) {

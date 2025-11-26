@@ -7,7 +7,7 @@ import (
 
 	"golang.org/x/tools/go/packages"
 
-	"github.com/arch-go/arch-go/internal/model"
+	"github.com/arch-go/arch-go/v2/internal/model"
 )
 
 func GetBasicPackagesInfo(mainPackage string, out io.Writer, printInfo bool) ([]*model.PackageInfo, error) {

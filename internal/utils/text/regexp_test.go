@@ -3,7 +3,7 @@ package text_test
 import (
 	"testing"
 
-	"github.com/arch-go/arch-go/internal/utils/text"
+	"github.com/arch-go/arch-go/v2/internal/utils/text"
 )
 
 func TestPreparePackageRegexp(t *testing.T) {

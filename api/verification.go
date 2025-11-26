@@ -1,8 +1,8 @@
 package api
 
 import (
-	"github.com/arch-go/arch-go/api/configuration"
-	"github.com/arch-go/arch-go/internal/model"
+	"github.com/arch-go/arch-go/v2/api/configuration"
+	"github.com/arch-go/arch-go/v2/internal/model"
 )
 
 // CheckArchitecture runs the architecture analysis and return the Result.

@@ -5,7 +5,7 @@ import (
 
 	"github.com/fatih/color"
 
-	"github.com/arch-go/arch-go/internal/reports/model"
+	"github.com/arch-go/arch-go/v2/internal/reports/model"
 )
 
 func displayRules(report *model.Report, output io.Writer) {

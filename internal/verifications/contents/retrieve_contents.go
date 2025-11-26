@@ -7,7 +7,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/arch-go/arch-go/internal/model"
+	"github.com/arch-go/arch-go/v2/internal/model"
 )
 
 func retrieveContents(pkg *model.PackageInfo) (*PackageContents, error) {

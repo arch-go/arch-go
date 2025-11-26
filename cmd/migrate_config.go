@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/arch-go/arch-go/internal/commands/migrate"
+	"github.com/arch-go/arch-go/v2/internal/commands/migrate"
 )
 
 func NewMigrateConfigCommand() *cobra.Command {

@@ -5,12 +5,12 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/arch-go/arch-go/internal/utils/output"
-	"github.com/arch-go/arch-go/internal/utils/packages"
-	"github.com/arch-go/arch-go/internal/utils/text"
+	"github.com/arch-go/arch-go/v2/internal/utils/output"
+	"github.com/arch-go/arch-go/v2/internal/utils/packages"
+	"github.com/arch-go/arch-go/v2/internal/utils/text"
 
-	"github.com/arch-go/arch-go/api/configuration"
-	"github.com/arch-go/arch-go/internal/model"
+	"github.com/arch-go/arch-go/v2/api/configuration"
+	"github.com/arch-go/arch-go/v2/internal/model"
 )
 
 func CheckRules(moduleInfo model.ModuleInfo, rules []*configuration.NamingRule) *RulesResult {

@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/arch-go/arch-go/internal/model"
+	"github.com/arch-go/arch-go/v2/internal/model"
 )
 
 func TestCheckRestrictedDependencies(t *testing.T) {

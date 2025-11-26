@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/arch-go/arch-go/internal/utils/output"
+	"github.com/arch-go/arch-go/v2/internal/utils/output"
 )
 
 func TestNilWriter(t *testing.T) {

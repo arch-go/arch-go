@@ -152,7 +152,7 @@ Arch-Go will check that the coverage level of your module must be equals or grea
 
 To install Arch-Go, run
 ```bash
-$ go install -v github.com/arch-go/arch-go@latest
+$ go install -v github.com/arch-go/arch-go/v2@latest
 ```
 
 To execute this tool you have to be in the module path

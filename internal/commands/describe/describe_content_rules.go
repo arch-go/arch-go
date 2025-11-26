@@ -5,8 +5,8 @@ import (
 	"io"
 	"strings"
 
-	"github.com/arch-go/arch-go/api/configuration"
-	"github.com/arch-go/arch-go/internal/common"
+	"github.com/arch-go/arch-go/v2/api/configuration"
+	"github.com/arch-go/arch-go/v2/internal/common"
 )
 
 func describeContentRules(rules []*configuration.ContentsRule, out io.Writer) {

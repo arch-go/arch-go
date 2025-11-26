@@ -3,8 +3,8 @@ package validators
 import (
 	"errors"
 
-	"github.com/arch-go/arch-go/api/configuration"
-	"github.com/arch-go/arch-go/internal/utils/values"
+	"github.com/arch-go/arch-go/v2/api/configuration"
+	"github.com/arch-go/arch-go/v2/internal/utils/values"
 )
 
 func validateFunctionRules(rules []*configuration.FunctionsRule) error {

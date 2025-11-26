@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/arch-go/arch-go/internal/reports/model"
+	"github.com/arch-go/arch-go/v2/internal/reports/model"
 )
 
 func TestReportsUtilStatus(t *testing.T) {
