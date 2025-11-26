@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/arch-go/arch-go/compare/v2.0.0...v2.0.1) (2025-11-26)
+
+
+### Bug Fixes
+
+* module name does not have major version ([#219](https://github.com/arch-go/arch-go/issues/219)) ([dc2b8fa](https://github.com/arch-go/arch-go/commit/dc2b8faf4ab0642f618a8fb28f3b236a3eee9dd8))
+
 ## [2.0.0](https://github.com/arch-go/arch-go/compare/v1.7.0...v2.0.0) (2025-09-28)
 
 
