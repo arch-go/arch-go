@@ -12,14 +12,14 @@ func TestPreparePackageRegexp(t *testing.T) {
 		want  string
 	}{
 		{"foobar", "foobar"},
-		{"*.foobar", "^[\\w-\\.]+/foobar"},
-		{"**.foobar", "^([\\w-\\.]+/)+foobar"},
+		{"*.foobar", "^[\\w-\\.]+/foobar$"},
+		{"**.foobar", "^([\\w-\\.]+/)+foobar$"},
 		{"foobar.*", "foobar(/[\\w-\\.]+){0,1}$"},
 		{"foobar.**", "foobar(/[\\w-\\.]+)*$"},
 		{"*.foobar.*", "^[\\w-\\.]+/foobar(/[\\w-\\.]+){0,1}$"},
 		{"**.foobar.**", "^([\\w-\\.]+/)+foobar(/[\\w-\\.]+)*$"},
-		{"foo.*.bar", "foo/[\\w-\\.]+/bar"},
-		{"foo.**.bar", "foo(/[\\w-\\.]+/)+bar"},
+		{"foo.*.bar", "foo/[\\w-\\.]+/bar$"},
+		{"foo.**.bar", "foo(/[\\w-\\.]+/)+bar$"},
 		{"*.foo.**.bar.**", "^[\\w-\\.]+/foo(/[\\w-\\.]+/)+bar(/[\\w-\\.]+)*$"},
 		{"*.foo.**.bar.**.xxx.**", "^[\\w-\\.]+/foo(/[\\w-\\.]+/)+bar(/[\\w-\\.]+/)+xxx(/[\\w-\\.]+)*$"},
 		{"**.foo*.**", `^([\w-\.]+/)+foo[\w-\.]*(/[\w-\.]+)*$`},
