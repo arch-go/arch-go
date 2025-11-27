@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.1.0](https://github.com/arch-go/arch-go/compare/v2.0.1...v2.1.0) (2025-11-27)
+
+
+### Features
+
+* correct matching packages without suffix ([#218](https://github.com/arch-go/arch-go/issues/218)) ([8b91574](https://github.com/arch-go/arch-go/commit/8b915744ab18c4f75cb115abf8a9ef7eb40875d0))
+
+
+### Dependencies
+
+* update module github.com/jedib0t/go-pretty/v6 to v6.7.5 ([#225](https://github.com/arch-go/arch-go/issues/225)) ([ee77d3e](https://github.com/arch-go/arch-go/commit/ee77d3eee5dd792c8b16d395ed82c90c973ba4c6))
+* update module github.com/stretchr/testify to v1.11.1 ([#204](https://github.com/arch-go/arch-go/issues/204)) ([1aab669](https://github.com/arch-go/arch-go/commit/1aab66973825202da729d52575e99ba3384a963d))
+
 ## [2.0.1](https://github.com/arch-go/arch-go/compare/v2.0.0...v2.0.1) (2025-11-26)
 
 
