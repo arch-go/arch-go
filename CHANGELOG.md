@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/arch-go/arch-go/compare/v2.1.0...v2.1.1) (2025-11-29)
+
+
+### Bug Fixes
+
+* check for race condition in test and use mutex for verification result ([#174](https://github.com/arch-go/arch-go/issues/174)) ([a954f5a](https://github.com/arch-go/arch-go/commit/a954f5a40e6d292e4f3b76bd0a3dbaa7e10dcd31))
+
 ## [2.1.0](https://github.com/arch-go/arch-go/compare/v2.0.1...v2.1.0) (2025-11-27)
 
 
