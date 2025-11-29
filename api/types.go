@@ -1,6 +1,7 @@
 package api
 
 import (
+	"sync"
 	"time"
 
 	"github.com/arch-go/arch-go/v2/internal/verifications/contents"
@@ -18,4 +19,12 @@ type Result struct {
 	FunctionsRuleResult    *functions.RulesResult    // contains all the verifications of functions rules
 	ContentsRuleResult     *contents.RulesResult     // contains all the verifications of contents rules
 	NamingRuleResult       *naming.RulesResult       // contains all the verifications of naming rules
+	mu                     sync.Mutex                // mutex to protect the result
+}
+
+func (r *Result) setPass(passes bool) {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	r.Pass = r.Pass && passes
 }
