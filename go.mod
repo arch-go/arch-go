@@ -3,7 +3,7 @@ module github.com/arch-go/arch-go/v2
 go 1.22.5
 
 require (
-	github.com/agiledragon/gomonkey/v2 v2.13.0
+	github.com/agiledragon/gomonkey/v2 v2.14.0
 	github.com/fatih/color v1.18.0
 	github.com/jedib0t/go-pretty/v6 v6.7.7
 	github.com/spf13/cobra v1.10.2
