@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.1.2](https://github.com/arch-go/arch-go/compare/v2.1.1...v2.1.2) (2025-12-29)
+
+
+### Dependencies
+
+* update module github.com/agiledragon/gomonkey/v2 to v2.14.0 ([#241](https://github.com/arch-go/arch-go/issues/241)) ([206c3be](https://github.com/arch-go/arch-go/commit/206c3be540a21c5538abee7d4fc379801eb413bf))
+* update module github.com/jedib0t/go-pretty/v6 to v6.7.7 ([#237](https://github.com/arch-go/arch-go/issues/237)) ([47ec243](https://github.com/arch-go/arch-go/commit/47ec243608c7fc58185b425e4ea09f77e3b849ce))
+* update module github.com/jedib0t/go-pretty/v6 to v6.7.8 ([#240](https://github.com/arch-go/arch-go/issues/240)) ([827cda8](https://github.com/arch-go/arch-go/commit/827cda8bef7ff906280e12c4940e8d3cb6368938))
+* update module github.com/spf13/cobra to v1.10.2 ([#232](https://github.com/arch-go/arch-go/issues/232)) ([fb6c2f5](https://github.com/arch-go/arch-go/commit/fb6c2f5227a5b667b04ccdbfa5d57ec6dadb2222))
+
 ## [2.1.1](https://github.com/arch-go/arch-go/compare/v2.1.0...v2.1.1) (2025-11-29)
 
 
