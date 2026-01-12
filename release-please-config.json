@@ -11,7 +11,11 @@
     { "type": "deps", "section": "Dependencies", "hidden": false }
   ],
   "packages": {
-    ".": {}
+    ".": {
+      "extra-files": [
+        "internal/common/version.go"
+      ]
+    }
   },
   "bootstrap-sha": "c26afd38c72476a0124e0828bffc6bf8b9ef68b5"
 }
