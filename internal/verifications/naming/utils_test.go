@@ -168,6 +168,26 @@ func TestNamingRuleUtils(t *testing.T) {
 
 		assert.Equal(t, "barfoo", returnValue)
 	})
+
+	t.Run("resolveStructName case 4 - generic struct", func(t *testing.T) {
+		// Simulates: func (w someService[T]) Whatever()
+		fd := &ast.FuncDecl{
+			Recv: &ast.FieldList{
+				List: []*ast.Field{
+					{
+						Type: &ast.IndexExpr{
+							X: &ast.Ident{
+								Name: "someService",
+							},
+						},
+					},
+				},
+			},
+		}
+		returnValue := resolveStructName(fd)
+
+		assert.Equal(t, "someService", returnValue)
+	})
 }
 
 type mockType struct {

@@ -62,6 +62,13 @@ func resolveStructName(ft *ast.FuncDecl) string {
 		return fmt.Sprintf("*%v", se.X)
 	}
 
+	// Handle generic structs (e.g., func (w someService[T]) Method())
+	if iexp, ok := ft.Recv.List[0].Type.(*ast.IndexExpr); ok {
+		if ident, ok := iexp.X.(*ast.Ident); ok {
+			return ident.Name
+		}
+	}
+
 	ie, ok := ft.Recv.List[0].Type.(*ast.Ident)
 	if ok {
 		return ie.Name
