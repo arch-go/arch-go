@@ -2,7 +2,7 @@ module github.com/arch-go/arch-go/v2
 
 go 1.24.0
 
-toolchain go1.24.12
+toolchain go1.25.6
 
 require (
 	github.com/agiledragon/gomonkey/v2 v2.14.0
