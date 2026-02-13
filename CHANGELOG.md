@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.3](https://github.com/arch-go/arch-go/compare/v2.1.2...v2.1.3) (2026-02-13)
+
+
+### Dependencies
+
+* update module golang.org/x/mod to v0.33.0 ([#251](https://github.com/arch-go/arch-go/issues/251)) ([255616e](https://github.com/arch-go/arch-go/commit/255616eab13bb856ef77df56225a1c7836bb47fa))
+* update module golang.org/x/tools to v0.42.0 ([#252](https://github.com/arch-go/arch-go/issues/252)) ([a390350](https://github.com/arch-go/arch-go/commit/a39035079967f0e516410a0be2b3848404a9f9fe))
+
 ## [2.1.2](https://github.com/arch-go/arch-go/compare/v2.1.1...v2.1.2) (2026-02-03)
 
 
