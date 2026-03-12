@@ -7,7 +7,7 @@ import (
 
 func PreparePackageRegexp(p string) string {
 	if !strings.Contains(p, "*") {
-		return p
+		return lineDelimiters(p)
 	}
 	str := p
 
@@ -48,5 +48,15 @@ func PreparePackageRegexp(p string) string {
 	str = strings.ReplaceAll(str, ".**.", "(/[\\w-\\.]+/)+")
 	str = strings.ReplaceAll(str, ".*.", "/[\\w-\\.]+/")
 
-	return str + "$"
+	return lineDelimiters(str)
+}
+
+func lineDelimiters(str string) string {
+	if !strings.HasPrefix(str, "^") {
+		str = "^" + str
+	}
+	if !strings.HasSuffix(str, "$") {
+		str = str + "$"
+	}
+	return str
 }

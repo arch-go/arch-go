@@ -97,21 +97,21 @@ func TestNamingRuleUtils(t *testing.T) {
 	})
 
 	t.Run("packageMustBeAnalyzed case 1", func(t *testing.T) {
-		returnValue := packageMustBeAnalyzed(nil, "foo.**")
+		returnValue := packageMustBeAnalyzed(nil, "foo.**", "")
 
 		assert.False(t, returnValue)
 	})
 
 	t.Run("packageMustBeAnalyzed case 2", func(t *testing.T) {
 		pkg := &model.PackageInfo{Path: "foo/bar/blablabla/dummy"}
-		returnValue := packageMustBeAnalyzed(pkg, "**.bar.**")
+		returnValue := packageMustBeAnalyzed(pkg, "**.bar.**", "")
 
 		assert.True(t, returnValue)
 	})
 
 	t.Run("packageMustBeAnalyzed case 3", func(t *testing.T) {
 		pkg := &model.PackageInfo{Path: "foo/bar/blablabla/dummy"}
-		returnValue := packageMustBeAnalyzed(pkg, "unknown.**")
+		returnValue := packageMustBeAnalyzed(pkg, "unknown.**", "")
 
 		assert.False(t, returnValue)
 	})
