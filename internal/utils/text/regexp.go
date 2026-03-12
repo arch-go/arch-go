@@ -7,12 +7,7 @@ import (
 
 func PreparePackageRegexp(p string) string {
 	if !strings.Contains(p, "*") {
-		// Convert dots to slashes for package path matching
-		str := strings.ReplaceAll(p, ".", "/")
-		if !strings.HasPrefix(str, "^") {
-			str = "^" + str
-		}
-		return str + "$"
+		return lineDelimiters(p)
 	}
 	str := p
 
@@ -53,12 +48,15 @@ func PreparePackageRegexp(p string) string {
 	str = strings.ReplaceAll(str, ".**.", "(/[\\w-\\.]+/)+")
 	str = strings.ReplaceAll(str, ".*.", "/[\\w-\\.]+/")
 
+	return lineDelimiters(str)
+}
+
+func lineDelimiters(str string) string {
 	if !strings.HasPrefix(str, "^") {
 		str = "^" + str
 	}
 	if !strings.HasSuffix(str, "$") {
 		str = str + "$"
 	}
-
 	return str
 }
