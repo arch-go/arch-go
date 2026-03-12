@@ -12,7 +12,7 @@ func TestPreparePackageRegexp(t *testing.T) {
 		want  string
 	}{
 		{"foobar", `^foobar$`},
-		{"foo.bar", `^foo/bar$`},
+		{"foo.bar", `^foo.bar$`},
 		{"*.foobar", `^[\w-\.]+/foobar$`},
 		{"**.foobar", `^([\w-\.]+/)+foobar$`},
 		{"foobar.*", `^foobar(/[\w-\.]+){0,1}$`},
