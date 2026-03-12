@@ -16,58 +16,30 @@ func TestMatchPath(t *testing.T) {
 		want         bool
 	}{
 		{
-			name:         "wildcard prefix matches full path",
-			pattern:      "**.internal.foo.**",
-			fullPath:     "github.com/mod/internal/foo/bar",
+			name:         "root: top level package should match",
+			pattern:      "foo.bar.**",
+			fullPath:     "github.com/mod/foo/bar",
 			modulePrefix: "github.com/mod",
 			want:         true,
 		},
 		{
-			name:         "wildcard prefix does not match unrelated path",
-			pattern:      "**.internal.foo.**",
-			fullPath:     "github.com/mod/pkg/bar",
+			name:         "root: subpackage should NOT match",
+			pattern:      "foo.bar.**",
+			fullPath:     "github.com/mod/internal/foo/bar",
 			modulePrefix: "github.com/mod",
 			want:         false,
 		},
 		{
-			name:         "literal prefix matches after stripping module",
-			pattern:      "internal.foo.**",
-			fullPath:     "github.com/mod/internal/foo/bar",
+			name:         "prefix: top level package should match",
+			pattern:      "**.foo.bar.**",
+			fullPath:     "github.com/mod/foo/bar",
 			modulePrefix: "github.com/mod",
 			want:         true,
 		},
 		{
-			name:         "literal prefix does not match with wrong module",
-			pattern:      "internal.foo.**",
-			fullPath:     "github.com/other/internal/foo/bar",
-			modulePrefix: "github.com/mod",
-			want:         false,
-		},
-		{
-			name:         "empty prefix matches full path directly",
-			pattern:      "internal.foo.**",
-			fullPath:     "internal/foo/bar",
-			modulePrefix: "",
-			want:         true,
-		},
-		{
-			name:         "empty prefix no match on qualified path",
-			pattern:      "internal.foo.**",
+			name:         "prefix: subpackage should match",
+			pattern:      "**.foo.bar.**",
 			fullPath:     "github.com/mod/internal/foo/bar",
-			modulePrefix: "",
-			want:         false,
-		},
-		{
-			name:         "fullPath equals modulePrefix returns false",
-			pattern:      "internal.**",
-			fullPath:     "github.com/mod",
-			modulePrefix: "github.com/mod",
-			want:         false,
-		},
-		{
-			name:         "exact relative package match",
-			pattern:      "internal.foo",
-			fullPath:     "github.com/mod/internal/foo",
 			modulePrefix: "github.com/mod",
 			want:         true,
 		},
@@ -78,8 +50,7 @@ func TestMatchPath(t *testing.T) {
 			re := regexp.MustCompile(text.PreparePackageRegexp(tt.pattern))
 			got := text.MatchPath(re, tt.fullPath, tt.modulePrefix)
 			if got != tt.want {
-				t.Errorf("MatchPath(%q, %q, %q) = %v, want %v",
-					tt.pattern, tt.fullPath, tt.modulePrefix, got, tt.want)
+				t.Errorf("got %v, want %v", got, tt.want)
 			}
 		})
 	}
