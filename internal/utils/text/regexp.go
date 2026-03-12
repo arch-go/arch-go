@@ -7,7 +7,12 @@ import (
 
 func PreparePackageRegexp(p string) string {
 	if !strings.Contains(p, "*") {
-		return p
+		// Convert dots to slashes for package path matching
+		str := strings.ReplaceAll(p, ".", "/")
+		if !strings.HasPrefix(str, "^") {
+			str = "^" + str
+		}
+		return str + "$"
 	}
 	str := p
 
