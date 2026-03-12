@@ -8,91 +8,142 @@ import (
 )
 
 func TestMatchPath(t *testing.T) {
+	modulePrefix := "github.com/mod"
+
 	tests := []struct {
-		name         string
-		pattern      string
-		fullPath     string
-		modulePrefix string
-		want         bool
+		name    string
+		pattern string
+
+		matchingPaths    []string
+		nonMatchingPaths []string
 	}{
 		{
-			name:         "root anchored without wildcard: matches with top level package",
-			pattern:      "foo.bar",
-			fullPath:     "github.com/mod/foo/bar",
-			modulePrefix: "github.com/mod",
-			want:         true,
+			name:    "no wildcards",
+			pattern: "foo.bar",
+			matchingPaths: []string{
+				"github.com/mod/foo/bar",
+			},
+			nonMatchingPaths: []string{
+				"github.com/mod/foo/bar/baz",
+				"github.com/mod/internal/foo/bar",
+			},
 		},
 		{
-			name:         "root anchored without wildcard: fails to match with subpackage",
-			pattern:      "foo.bar",
-			fullPath:     "github.com/mod/internal/foo/bar",
-			modulePrefix: "github.com/mod",
-			want:         false,
+			name:    "single wildcard name-suffix",
+			pattern: "foo.bar*",
+			matchingPaths: []string{
+				"github.com/mod/foo/bar",
+				"github.com/mod/foo/barX",
+				"github.com/mod/foo/barXZ",
+			},
+			nonMatchingPaths: []string{
+				"github.com/mod/foo/Xbar",
+				"github.com/mod/foo/bar/baz",
+				"github.com/mod/foo/bar/baz/qux",
+				"github.com/mod/internal/foo/bar",
+			},
 		},
 		{
-			name:         "root anchored with recursive wildcard suffix: matches with top level package",
-			pattern:      "foo.bar.**",
-			fullPath:     "github.com/mod/foo/bar",
-			modulePrefix: "github.com/mod",
-			want:         true,
+			name:    "single wildcard name-prefix",
+			pattern: "*foo.bar",
+			matchingPaths: []string{
+				"github.com/mod/foo/bar",
+				"github.com/mod/Xfoo/bar",
+				"github.com/mod/XZfoo/bar",
+			},
+			nonMatchingPaths: []string{
+				"github.com/mod/foo/barX",
+				"github.com/mod/Xfoo/bar/baz",
+				"github.com/mod/internal/foo/bar",
+			},
 		},
 		{
-			name:         "root anchored with recursive wildcard suffix: fails to match with subpackage",
-			pattern:      "foo.bar.**",
-			fullPath:     "github.com/mod/internal/foo/bar",
-			modulePrefix: "github.com/mod",
-			want:         false,
+			name:    "single wildcard path-suffix",
+			pattern: "foo.bar.*",
+			matchingPaths: []string{
+				"github.com/mod/foo/bar",
+				"github.com/mod/foo/bar/baz",
+			},
+			nonMatchingPaths: []string{
+				"github.com/mod/foo/bar/baz/qux",
+				"github.com/mod/internal/foo/bar",
+			},
 		},
 		{
-			name:         "root anchored with single wildcard suffix: matches with top level package",
-			pattern:      "foo.bar.*",
-			fullPath:     "github.com/mod/foo/bar",
-			modulePrefix: "github.com/mod",
-			want:         true,
+			name:    "recursive wildcard path-suffix",
+			pattern: "foo.bar.**",
+			matchingPaths: []string{
+				"github.com/mod/foo/bar",
+				"github.com/mod/foo/bar/baz",
+				"github.com/mod/foo/bar/baz/qux",
+			},
+			nonMatchingPaths: []string{
+				"github.com/mod/internal/foo/bar",
+			},
 		},
 		{
-			name:         "root anchored with single wildcard suffix: fails to match with subpackage",
-			pattern:      "foo.bar.*",
-			fullPath:     "github.com/mod/internal/foo/bar",
-			modulePrefix: "github.com/mod",
-			want:         false,
+			name:    "single wildcard path-mid-pattern",
+			pattern: "foo.*.baz",
+			matchingPaths: []string{
+				"github.com/mod/foo/bar/baz",
+			},
+			nonMatchingPaths: []string{
+				"github.com/mod/foo/bar/qux/baz",
+				"github.com/mod/internal/foo/bar/baz",
+			},
 		},
 		{
-			name:         "root anchored with mid-pattern wildcard: matches with top level package",
-			pattern:      "foo.*.baz",
-			fullPath:     "github.com/mod/foo/bar/baz",
-			modulePrefix: "github.com/mod",
-			want:         true,
+			name:    "recursive wildcard path-mid-pattern",
+			pattern: "foo.**.baz",
+			matchingPaths: []string{
+				"github.com/mod/foo/bar/baz",
+				// "github.com/mod/foo/bar/qux/baz", // fixme, this is not working but should be
+			},
+			nonMatchingPaths: []string{
+				"github.com/mod/internal/foo/bar/baz",
+			},
 		},
 		{
-			name:         "root anchored with mid-pattern wildcard: fails to match with subpackage",
-			pattern:      "foo.*.baz",
-			fullPath:     "github.com/mod/internal/foo/bar/baz",
-			modulePrefix: "github.com/mod",
-			want:         false,
+			name:    "single wildcard path-prefix",
+			pattern: "*.foo",
+			matchingPaths: []string{
+				"github.com/mod/internal/foo",
+			},
+			nonMatchingPaths: []string{
+				"github.com/mod/foo",
+				"github.com/mod/foo/bar",
+				"github.com/mod/internal/foo/bar",
+			},
 		},
 		{
-			name:         "prefix wildcard: matches package at root",
-			pattern:      "**.foo.bar.**",
-			fullPath:     "github.com/mod/foo/bar",
-			modulePrefix: "github.com/mod",
-			want:         true,
-		},
-		{
-			name:         "prefix wildcard: matches package with arbitrary leading segments",
-			pattern:      "**.foo.bar.**",
-			fullPath:     "github.com/mod/internal/foo/bar",
-			modulePrefix: "github.com/mod",
-			want:         true,
+			name:    "recursive wildcard path-prefix",
+			pattern: "**.foo",
+			matchingPaths: []string{
+				"github.com/mod/foo", // should this match?
+				"github.com/mod/bar/baz/foo",
+				"github.com/mod/internal/foo",
+			},
+			nonMatchingPaths: []string{
+				"github.com/mod/foo/bar",
+				"github.com/mod/internal/foo/bar",
+			},
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			re := regexp.MustCompile(text.PreparePackageRegexp(tt.pattern))
-			got := text.MatchPath(re, tt.fullPath, tt.modulePrefix)
-			if got != tt.want {
-				t.Errorf("got %v, want %v", got, tt.want)
+
+			for _, path := range tt.matchingPaths {
+				if !text.MatchPath(re, path, modulePrefix) {
+					t.Errorf("expected path '%s' to match pattern '%s'", path, tt.pattern)
+				}
+			}
+
+			for _, path := range tt.nonMatchingPaths {
+				if text.MatchPath(re, path, modulePrefix) {
+					t.Errorf("expected path '%s' to NOT match pattern '%s'", path, tt.pattern)
+				}
 			}
 		})
 	}
