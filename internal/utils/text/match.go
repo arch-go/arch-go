@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func MatchPackage(compiledRegex *regexp.Regexp, fullPath, modulePrefix string) bool {
+func MatchPath(compiledRegex *regexp.Regexp, fullPath, modulePrefix string) bool {
 	if compiledRegex.MatchString(fullPath) {
 		return true
 	}

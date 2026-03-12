@@ -72,7 +72,7 @@ func checkRestrictedInternalImports(pkg string, restricted []string, moduleInfo 
 	if strings.HasPrefix(pkg, moduleInfo.MainPackage) {
 		for _, restrictedImport := range restricted {
 			restrictedImportRegexp, _ := regexp.Compile(text.PreparePackageRegexp(restrictedImport))
-			failure = failure || text.MatchPackage(restrictedImportRegexp, pkg, moduleInfo.MainPackage)
+			failure = failure || text.MatchPath(restrictedImportRegexp, pkg, moduleInfo.MainPackage)
 		}
 
 		if failure {

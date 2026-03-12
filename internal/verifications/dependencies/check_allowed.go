@@ -78,7 +78,7 @@ func checkAllowedInternalImports(pkg string, allowed []string, moduleInfo model.
 
 		for _, allowedImport := range allowed {
 			allowedImportRegexp, _ := regexp.Compile(text.PreparePackageRegexp(allowedImport))
-			success = success || text.MatchPackage(allowedImportRegexp, pkg, moduleInfo.MainPackage)
+			success = success || text.MatchPath(allowedImportRegexp, pkg, moduleInfo.MainPackage)
 		}
 
 		if !success {

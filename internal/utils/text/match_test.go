@@ -76,7 +76,7 @@ func TestMatchPackage(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			re := regexp.MustCompile(text.PreparePackageRegexp(tt.pattern))
-			got := text.MatchPackage(re, tt.fullPath, tt.modulePrefix)
+			got := text.MatchPath(re, tt.fullPath, tt.modulePrefix)
 			if got != tt.want {
 				t.Errorf("MatchPackage(%q, %q, %q) = %v, want %v",
 					tt.pattern, tt.fullPath, tt.modulePrefix, got, tt.want)

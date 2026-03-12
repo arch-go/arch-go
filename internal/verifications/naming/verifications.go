@@ -39,7 +39,7 @@ func CheckRule(moduleInfo model.ModuleInfo, rule configuration.NamingRule) *Rule
 
 	packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(rule.Package))
 	for _, it := range moduleInfo.Packages {
-		if it != nil && text.MatchPackage(packageRegExp, it.Path, moduleInfo.MainPackage) {
+		if it != nil && text.MatchPath(packageRegExp, it.Path, moduleInfo.MainPackage) {
 			pass, details := checkNamingRule(it, rule, moduleInfo)
 			result.Passes = result.Passes && pass
 			result.Verifications = append(
