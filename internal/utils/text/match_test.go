@@ -7,7 +7,7 @@ import (
 	"github.com/arch-go/arch-go/v2/internal/utils/text"
 )
 
-func TestMatchPackage(t *testing.T) {
+func TestMatchPath(t *testing.T) {
 	tests := []struct {
 		name         string
 		pattern      string
@@ -78,7 +78,7 @@ func TestMatchPackage(t *testing.T) {
 			re := regexp.MustCompile(text.PreparePackageRegexp(tt.pattern))
 			got := text.MatchPath(re, tt.fullPath, tt.modulePrefix)
 			if got != tt.want {
-				t.Errorf("MatchPackage(%q, %q, %q) = %v, want %v",
+				t.Errorf("MatchPath(%q, %q, %q) = %v, want %v",
 					tt.pattern, tt.fullPath, tt.modulePrefix, got, tt.want)
 			}
 		})
