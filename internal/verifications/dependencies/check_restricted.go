@@ -47,7 +47,7 @@ func checkRestrictedExternalImports(pkg string, restricted []string, moduleInfo 
 	if !strings.HasPrefix(pkg, moduleInfo.MainPackage) && packages.IsExternalPackage(pkg) {
 		for _, restrictedImport := range restricted {
 			restrictedImportRegexp, _ := regexp.Compile(text.PreparePackageRegexp(restrictedImport))
-			// TODO confirm: External imports are not module-prefixed, so direct matching suffices.
+			// External imports are not module-prefixed, so direct matching suffices.
 			failure = failure || restrictedImportRegexp.MatchString(pkg)
 		}
 

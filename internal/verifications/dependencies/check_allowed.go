@@ -51,7 +51,7 @@ func checkAllowedExternalImports(pkg string, allowed []string, moduleInfo model.
 
 		for _, allowedImport := range allowed {
 			allowedImportRegexp, _ := regexp.Compile(text.PreparePackageRegexp(allowedImport))
-			// TODO confirm: External imports are not module-prefixed, so direct matching suffices.
+			// External imports are not module-prefixed, so direct matching suffices.
 			success = success || allowedImportRegexp.MatchString(pkg)
 		}
 
