@@ -56,6 +56,9 @@ func PreparePackageRegexp(p string) string {
 	if !strings.HasPrefix(str, "^") {
 		str = "^" + str
 	}
+	if !strings.HasSuffix(str, "$") {
+		str = str + "$"
+	}
 
-	return str + "$"
+	return str
 }
