@@ -22,6 +22,8 @@ func TestMatchPath(t *testing.T) {
 			pattern: "foo.bar",
 			matchingPaths: []string{
 				"github.com/mod/foo/bar",
+				"github.com/mod/foo.bar",
+				"github.com/mod/fooXbar", // fixme this matches, but should it?
 			},
 			nonMatchingPaths: []string{
 				"github.com/mod/foo/bar/baz",
@@ -33,6 +35,7 @@ func TestMatchPath(t *testing.T) {
 			pattern: "foo.bar*",
 			matchingPaths: []string{
 				"github.com/mod/foo/bar",
+				"github.com/mod/fooXbar", // fixme this matches, but should it?
 				"github.com/mod/foo/barX",
 				"github.com/mod/foo/barXZ",
 			},
@@ -119,7 +122,7 @@ func TestMatchPath(t *testing.T) {
 			name:    "recursive wildcard path-prefix",
 			pattern: "**.foo",
 			matchingPaths: []string{
-				"github.com/mod/foo", // should this match?
+				"github.com/mod/foo",
 				"github.com/mod/bar/baz/foo",
 				"github.com/mod/internal/foo",
 			},
