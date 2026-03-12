@@ -39,7 +39,7 @@ func CheckRule(moduleInfo model.ModuleInfo, rule configuration.NamingRule) *Rule
 
 	packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(rule.Package))
 	for _, it := range moduleInfo.Packages {
-		if it != nil && packageRegExp.MatchString(it.Path) {
+		if it != nil && text.MatchPackage(packageRegExp, it.Path, moduleInfo.MainPackage) {
 			pass, details := checkNamingRule(it, rule, moduleInfo)
 			result.Passes = result.Passes && pass
 			result.Verifications = append(
@@ -84,7 +84,7 @@ func checkInternalInterfaces(pkg *model.PackageInfo, rule configuration.NamingRu
 		return false, []string{err.Error()}
 	}
 
-	return checkInterfaceImplementationNamingRule(interfaces, rule, module.Packages)
+	return checkInterfaceImplementationNamingRule(interfaces, rule, module.Packages, module.MainPackage)
 }
 
 func checkExternalInterfaces(_ *model.PackageInfo, rule configuration.NamingRule, module model.ModuleInfo) (bool, []string) {
@@ -106,7 +106,7 @@ func checkExternalInterfaces(_ *model.PackageInfo, rule configuration.NamingRule
 		interfaces = append(interfaces, pkgInterfaces...)
 	}
 
-	return checkInterfaceImplementationNamingRule(interfaces, rule, module.Packages)
+	return checkInterfaceImplementationNamingRule(interfaces, rule, module.Packages, module.MainPackage)
 }
 
 func checkStandardInterfaces(_ *model.PackageInfo, rule configuration.NamingRule, module model.ModuleInfo) (bool, []string) {
@@ -128,11 +128,11 @@ func checkStandardInterfaces(_ *model.PackageInfo, rule configuration.NamingRule
 		interfaces = append(interfaces, pkgInterfaces...)
 	}
 
-	return checkInterfaceImplementationNamingRule(interfaces, rule, module.Packages)
+	return checkInterfaceImplementationNamingRule(interfaces, rule, module.Packages, module.MainPackage)
 }
 
 func checkInterfaceImplementationNamingRule(
-	interfaces []InterfaceDescription, rule configuration.NamingRule, pkgs []*model.PackageInfo,
+	interfaces []InterfaceDescription, rule configuration.NamingRule, pkgs []*model.PackageInfo, mainPackage string,
 ) (bool, []string) {
 	var (
 		details []string
@@ -142,7 +142,7 @@ func checkInterfaceImplementationNamingRule(
 	ruleResult := true
 
 	for _, pkg := range pkgs {
-		if packageMustBeAnalyzed(pkg, rule.Package) {
+		if packageMustBeAnalyzed(pkg, rule.Package, mainPackage) {
 			passes, details = analyzePackage(interfaces, pkg, details, rule)
 			ruleResult = ruleResult && passes
 		}

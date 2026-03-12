@@ -48,5 +48,9 @@ func PreparePackageRegexp(p string) string {
 	str = strings.ReplaceAll(str, ".**.", "(/[\\w-\\.]+/)+")
 	str = strings.ReplaceAll(str, ".*.", "/[\\w-\\.]+/")
 
+	if !strings.HasPrefix(str, "^") {
+		str = "^" + str
+	}
+
 	return str + "$"
 }

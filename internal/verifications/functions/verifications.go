@@ -34,7 +34,7 @@ func CheckRule(moduleInfo model.ModuleInfo, functionRule configuration.Functions
 
 	packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(functionRule.Package))
 	for _, it := range moduleInfo.Packages {
-		if it != nil && packageRegExp.MatchString(it.Path) {
+		if it != nil && text.MatchPackage(packageRegExp, it.Path, moduleInfo.MainPackage) {
 			functions, _ := RetrieveFunctions(it, moduleInfo.MainPackage)
 			pass, details := checkFunctionRule(functions, functionRule)
 			result.Passes = result.Passes && pass

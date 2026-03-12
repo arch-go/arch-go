@@ -34,7 +34,7 @@ func CheckRule(moduleInfo model.ModuleInfo, rule configuration.DependenciesRule)
 
 	packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(rule.Package))
 	for _, it := range moduleInfo.Packages {
-		if it != nil && packageRegExp.MatchString(it.Path) {
+		if it != nil && text.MatchPackage(packageRegExp, it.Path, moduleInfo.MainPackage) {
 			pass, details := checkDependencies(it, rule, moduleInfo)
 			result.Passes = result.Passes && pass
 			result.Verifications = append(
