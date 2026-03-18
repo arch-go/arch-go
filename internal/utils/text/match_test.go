@@ -100,7 +100,7 @@ func TestMatchPath(t *testing.T) {
 			pattern: "foo.**.baz",
 			matchingPaths: []string{
 				"github.com/mod/foo/bar/baz",
-				// "github.com/mod/foo/bar/qux/baz", // fixme, this is not working but should be
+				"github.com/mod/foo/bar/qux/baz",
 			},
 			nonMatchingPaths: []string{
 				"github.com/mod/internal/foo/bar/baz",
