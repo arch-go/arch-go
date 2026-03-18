@@ -33,6 +33,12 @@ func TestCheckAllowedDependencies(t *testing.T) {
 				true,
 				nil,
 			},
+			{ // fixme
+				"abc/subpkg",
+				[]string{"foo", "abc"},
+				true,
+				nil,
+			},
 			{
 				"abc",
 				[]string{},
@@ -62,6 +68,18 @@ func TestCheckAllowedDependencies(t *testing.T) {
 				[]string{"ShouldOnlyDependsOn.External rule doesn't contains imported package 'foo.bar/blablabla'"},
 			},
 			{
+				"foo.bar/blablabla",
+				[]string{"foo.bar/blablabla"},
+				true,
+				nil,
+			},
+			{ // fixme
+				"foo.bar/blablabla/subpackage",
+				[]string{"foo.bar/blablabla"},
+				true,
+				nil,
+			},
+			{ // fixme
 				"foo.bar/blablabla",
 				[]string{"foo", "abc"},
 				true,
@@ -98,6 +116,18 @@ func TestCheckAllowedDependencies(t *testing.T) {
 			{
 				"mymodule/blablabla/pkg",
 				[]string{"mymodule/blablabla/internal", "mymodule/blablabla/pkg"},
+				true,
+				nil,
+			},
+			{
+				"mymodule/blablabla",
+				[]string{"blablabla"},
+				true,
+				nil,
+			},
+			{ // fixme
+				"mymodule/blablabla/pkg",
+				[]string{"blablabla"},
 				true,
 				nil,
 			},

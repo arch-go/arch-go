@@ -18,6 +18,9 @@ coverage
 # Ingnore generated SBOM
 CycloneDX-SBOM.json
 
+# OS generated files
+.DS_Store
+
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
