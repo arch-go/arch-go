@@ -121,6 +121,18 @@ func TestCheckRestrictedDependencies(t *testing.T) {
 			},
 			{
 				"mymodule/blablabla",
+				[]string{"blablabla"},
+				false,
+				[]string{"ShouldNotDependsOn.Internal rule contains imported package 'mymodule/blablabla'"},
+			},
+			{ // fixme
+				"mymodule/blablabla/pkg",
+				[]string{"blablabla"},
+				false,
+				[]string{"ShouldNotDependsOn.Internal rule contains imported package 'mymodule/blablabla/pkg'"},
+			},
+			{
+				"mymodule/blablabla",
 				[]string{},
 				true,
 				nil,

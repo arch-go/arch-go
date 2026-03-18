@@ -121,6 +121,18 @@ func TestCheckAllowedDependencies(t *testing.T) {
 			},
 			{
 				"mymodule/blablabla",
+				[]string{"blablabla"},
+				true,
+				nil,
+			},
+			{ // fixme
+				"mymodule/blablabla/pkg",
+				[]string{"blablabla"},
+				true,
+				nil,
+			},
+			{
+				"mymodule/blablabla",
 				[]string{},
 				true,
 				nil,
