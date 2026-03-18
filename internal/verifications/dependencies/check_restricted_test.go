@@ -33,6 +33,12 @@ func TestCheckRestrictedDependencies(t *testing.T) {
 				false,
 				[]string{"ShouldNotDependsOn.Standard rule contains imported package 'abc'"},
 			},
+			{ // fixme
+				"abc/subpackage",
+				[]string{"foo", "abc"},
+				false,
+				[]string{"ShouldNotDependsOn.Standard rule contains imported package 'abc'"},
+			},
 			{
 				"abc",
 				[]string{},
@@ -62,6 +68,18 @@ func TestCheckRestrictedDependencies(t *testing.T) {
 				nil,
 			},
 			{
+				"foo.bar/blablabla",
+				[]string{"foo.bar/blablabla"},
+				false,
+				[]string{"ShouldNotDependsOn.External rule contains imported package 'foo.bar/blablabla'"},
+			},
+			{ // fixme
+				"foo.bar/blablabla/subpackage",
+				[]string{"foo.bar/blablabla"},
+				false,
+				[]string{"ShouldNotDependsOn.External rule contains imported package 'foo.bar/blablabla'"},
+			},
+			{ // fixme
 				"foo.bar/blablabla",
 				[]string{"foo", "abc"},
 				false,
