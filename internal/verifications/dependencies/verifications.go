@@ -32,7 +32,11 @@ func CheckRule(moduleInfo model.ModuleInfo, rule configuration.DependenciesRule)
 		Passes:      true,
 	}
 
-	packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(rule.Package))
+	packageRegExp, err := regexp.Compile(text.PreparePackageRegexp(rule.Package))
+	if err != nil {
+		return result
+	}
+
 	for _, it := range moduleInfo.Packages {
 		if it != nil && packageRegExp.MatchString(it.Path) {
 			pass, details := checkDependencies(it, rule, moduleInfo)
