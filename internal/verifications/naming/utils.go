@@ -78,7 +78,10 @@ func resolveStructName(ft *ast.FuncDecl) string {
 }
 
 func packageMustBeAnalyzed(pkg *model.PackageInfo, packagePattern string) bool {
-	packageRegExp, _ := regexp.Compile(text.PreparePackageRegexp(packagePattern))
+	packageRegExp, err := regexp.Compile(text.PreparePackageRegexp(packagePattern))
+	if err != nil {
+		return false
+	}
 
 	return pkg != nil && packageRegExp.MatchString(pkg.Path)
 }
